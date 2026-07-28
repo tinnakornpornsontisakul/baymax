@@ -332,6 +332,107 @@
   .pbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .brow2{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 
+  /* โหมดเอียงเครื่อง — ซ่อนปุ่มซ้ายขวา เหลือปุ่มยิงใหญ่อันเดียว */
+  .pad.tilt-on{grid-template-columns:1fr;max-width:340px}
+  .pad.tilt-on .pbtn:not(.fire){display:none}
+  .pad.tilt-on .pbtn.fire{padding:17px 0;font-size:16.5px}
+  .tilt-pill{position:absolute;left:50%;bottom:13%;transform:translateX(-50%);z-index:6;display:none;
+    background:rgba(43,58,71,.85);color:#fff;border-radius:999px;padding:8px 16px;font-size:12.5px;
+    align-items:center;gap:8px;pointer-events:none;white-space:nowrap}
+  .tilt-pill.show{display:inline-flex;animation:pillIn .4s ease}
+  @keyframes pillIn{from{opacity:0;transform:translate(-50%,8px)}}
+  .tilt-pill i{font-style:normal;display:inline-block;animation:pillRock 1.6s ease-in-out infinite}
+  @keyframes pillRock{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
+
+  /* ============ วิดีโอคอล ============ */
+  .callsec{padding:26px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .callface{width:120px;height:74px;flex:none;border-radius:20px;background:#FDEEEF;display:grid;place-items:center}
+  .callsec h3{font-family:var(--display);font-weight:700;font-size:20px;margin:0 0 6px}
+  .callsec p{margin:0;font-size:14.5px;color:var(--ink-soft);max-width:52ch}
+  .btn-call{display:inline-flex;align-items:center;gap:9px;background:var(--mint);color:#123B31;font-size:15px;padding:13px 24px}
+  .btn-call:hover{filter:brightness(1.04)}
+
+  .vcall{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;
+    background:radial-gradient(120% 70% at 50% 0%,#33475A 0%,#22303D 55%,#182430 100%);color:#fff;
+    padding:calc(14px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom))}
+  .vcall[hidden]{display:none}
+  .vc-top{display:flex;align-items:center;justify-content:center;min-height:38px;text-align:center}
+  .vc-top b{font-family:var(--display);font-weight:700;font-size:18px;display:block;line-height:1.2}
+  .vc-top span{font-family:var(--mono);font-size:11px;color:#9FB4C6;letter-spacing:.12em}
+  .vc-stage{position:relative;flex:1;display:grid;place-items:center;min-height:0}
+  .vc-glow{position:absolute;width:min(74vw,380px);aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,rgba(99,205,180,.16),transparent 65%);pointer-events:none}
+  .vc-stage .vbot{width:min(64vw,310px,44vh);height:auto}
+  .vc-bubble{position:absolute;top:4%;left:50%;transform:translateX(-50%) translateY(6px);max-width:min(86%,420px);
+    background:#fff;color:var(--ink);border-radius:20px;padding:12px 18px;font-size:14.5px;line-height:1.6;
+    opacity:0;transition:opacity .25s ease,transform .25s ease;pointer-events:none;text-align:center;
+    box-shadow:0 14px 30px -18px rgba(0,0,0,.6);z-index:4}
+  .vc-bubble::after{content:'';position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) rotate(45deg);
+    width:13px;height:13px;background:#fff;border-radius:3px}
+  .vc-bubble.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .vc-self{position:absolute;top:0;right:0;width:min(27vw,120px);aspect-ratio:3/4;border-radius:18px;overflow:hidden;
+    background:#0E161E;border:2px solid rgba(255,255,255,.28);box-shadow:0 12px 26px -14px rgba(0,0,0,.7);z-index:5}
+  .vc-self video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1);display:block}
+  .vc-self .noselfcam{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:4px;
+    font-size:10.5px;color:#8CA2B5;padding:8px}
+  .vc-self .noselfcam b{font-family:var(--display);font-size:19px;color:#fff}
+  .vc-chips{display:flex;gap:9px;overflow-x:auto;padding:10px 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .vc-chips::-webkit-scrollbar{display:none}
+  @media (min-width:821px){.vc-chips{justify-content:center}}
+  .vc-chip{flex:none;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:999px;padding:10px 16px;font-family:var(--body);
+    font-size:13.5px;font-weight:600;cursor:pointer;transition:transform .12s ease,background .12s ease}
+  .vc-chip:active{transform:scale(.94);background:rgba(255,255,255,.22)}
+  .vc-ctrl{display:flex;justify-content:center;gap:16px;padding-top:4px}
+  .vc-btn{width:54px;height:54px;border-radius:50%;border:0;cursor:pointer;font-size:21px;display:grid;place-items:center;
+    background:rgba(255,255,255,.14);color:#fff;transition:transform .12s ease,background .2s ease,opacity .2s ease}
+  .vc-btn:active{transform:scale(.92)}
+  .vc-btn.off{background:rgba(255,255,255,.06);opacity:.55}
+  .vc-btn.end{background:var(--red);width:72px;border-radius:999px}
+  .vc-ring{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+    background:radial-gradient(120% 70% at 50% 0%,#33475A 0%,#22303D 55%,#182430 100%);z-index:8;padding:20px;text-align:center}
+  .vc-ring[hidden]{display:none}
+  .vc-ava{position:relative;width:150px;height:96px;display:grid;place-items:center}
+  .vc-ava svg{width:118px;position:relative;z-index:1}
+  .vc-ava::before,.vc-ava::after{content:'';position:absolute;left:50%;top:50%;width:130px;height:130px;margin:-65px 0 0 -65px;
+    border-radius:50%;border:2px solid rgba(99,205,180,.5);animation:ringPulse 1.6s ease-out infinite}
+  .vc-ava::after{animation-delay:.8s}
+  @keyframes ringPulse{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.4);opacity:0}}
+
+  /* ท่าทางของ Baymax ในสาย */
+  .vbot .arm-l{transform-origin:30px 56px}
+  .vbot .arm-r{transform-origin:70px 56px}
+  .vbot .head{transform-origin:50px 33px}
+  .vbot .all{transform-origin:50px 118px}
+  .vbot .torso{transform-origin:50px 108px;animation:breathe 3.6s ease-in-out infinite}
+  .vbot .eye{transform-box:fill-box;transform-origin:center}
+  .vbot.blink .eye{animation:vcBlink .16s ease-in-out}
+  @keyframes vcBlink{50%{transform:scaleY(.1)}}
+  .vbot.g-wave .arm-r{animation:vcWave 1.1s ease-in-out}
+  @keyframes vcWave{0%,100%{transform:rotate(0)}20%{transform:rotate(-74deg)}40%{transform:rotate(-36deg)}60%{transform:rotate(-74deg)}80%{transform:rotate(-36deg)}}
+  .vbot.g-wave .head{animation:vcTiltHead 1.1s ease-in-out}
+  @keyframes vcTiltHead{30%,70%{transform:rotate(6deg)}}
+  .vbot.g-hug .arm-l{animation:vcHugL 1.7s ease-in-out}
+  .vbot.g-hug .arm-r{animation:vcHugR 1.7s ease-in-out}
+  .vbot.g-hug .torso{animation:vcSquish 1.7s ease-in-out}
+  @keyframes vcHugL{20%,70%{transform:rotate(46deg)}}
+  @keyframes vcHugR{20%,70%{transform:rotate(-46deg)}}
+  @keyframes vcSquish{20%,70%{transform:scale(1.05,.95)}}
+  .vbot.g-bump .arm-r{animation:vcBump 1.2s cubic-bezier(.5,0,.25,1)}
+  @keyframes vcBump{30%{transform:rotate(-52deg)}45%{transform:rotate(-42deg)}60%{transform:rotate(-50deg)}}
+  .vbot .spark{fill:none;stroke:#8FD0F5;stroke-width:2.4;stroke-linecap:round;opacity:0;transform-origin:101px 80px}
+  .vbot.g-bump .spark{animation:vcSpark 1.2s ease-out}
+  @keyframes vcSpark{0%,25%{opacity:0;transform:scale(.35)}45%{opacity:.95;transform:scale(.95)}70%{opacity:0;transform:scale(1)}}
+  .vbot.g-love .head{animation:vcLoveTilt 1.9s ease-in-out}
+  @keyframes vcLoveTilt{25%,75%{transform:rotate(-7deg)}50%{transform:rotate(5deg)}}
+  .vbot.g-scan .beam{animation:vcScan 1.9s ease-in-out}
+  @keyframes vcScan{0%{transform:translateY(0);opacity:0}15%{opacity:.55}60%{transform:translateY(62px);opacity:.55}75%{opacity:0}100%{transform:translateY(0);opacity:0}}
+  .vbot.g-sleep .eye{animation:vcDroop 2.5s ease-in-out}
+  @keyframes vcDroop{25%,75%{opacity:.25;transform:translateY(1.5px) scaleY(.5)}}
+  .vbot.g-sleep .all{animation:vcSway 2.5s ease-in-out}
+  @keyframes vcSway{25%{transform:rotate(-4deg)}60%{transform:rotate(3deg)}}
+  .vheart{position:absolute;font-size:20px;pointer-events:none;z-index:3}
+
   /* ============ ตาราง ============ */
   .tbl{overflow:hidden}
   table{width:100%;border-collapse:collapse;font-size:14.5px}
@@ -376,6 +477,24 @@
     .wrap{padding:0 18px 60px}
     .gcard{padding:28px 22px 24px}
     .grow{grid-template-columns:1fr}
+
+    /* Combat simulation บนจอเล็ก — สนามสูงขึ้น ปุ่มใหญ่ขึ้น สกอร์ไม่ล้น */
+    .game2{padding:12px 12px 16px}
+    .bfield{aspect-ratio:auto;height:min(58vh,470px)}
+    .fighter{width:17%}
+    .foe{width:10%}
+    .foe.big{width:15%}
+    .shot{width:5.5%}
+    .pad{max-width:none;margin-top:12px}
+    .pbtn{padding:16px 0}
+    .brow2{flex-direction:column;align-items:stretch;gap:12px}
+    .brow2 .scores{max-width:none!important}
+    .brow2 .hint{min-width:0!important}
+
+    /* วิดีโอคอลบนจอเล็ก */
+    .callsec{padding:20px;flex-direction:column;align-items:flex-start}
+    .btn-call{width:100%;justify-content:center}
+    .vc-stage .vbot{width:min(58vw,290px,40vh)}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -668,6 +787,7 @@
         <div class="layer" id="foes"></div>
         <div class="layer" id="shots"></div>
         <div class="layer" id="bits"></div>
+        <div class="tilt-pill" id="tiltPill"><i>📱</i> เอียงเครื่องซ้าย–ขวาเพื่อเดิน</div>
 
         <div class="fighter" id="fighter">
           <svg class="bot fbot" viewBox="-10 0 120 126" aria-hidden="true">
@@ -702,15 +822,38 @@
           <div class="kpi"><b id="bKills">0</b><span>Kills</span></div>
           <div class="kpi"><b id="bWave">1</b><span>Wave</span></div>
         </div>
-        <p class="hint" style="flex:1;min-width:220px">คีย์บอร์ด: ← → เดิน · Space ยิง · เชื้อโรคตัวแดงต้องยิงสามครั้ง · ทุก 12 ตัวขึ้นเวฟใหม่ ตกลงพื้นเสียหนึ่งหัวใจ</p>
+        <p class="hint" id="bHint" style="flex:1;min-width:220px">คีย์บอร์ด: ← → เดิน · Space ยิง · เชื้อโรคตัวแดงต้องยิงสามครั้ง · ทุก 12 ตัวขึ้นเวฟใหม่ ตกลงพื้นเสียหนึ่งหัวใจ</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ 05 ============ -->
+  <!-- ============ 05 · วิดีโอคอล ============ -->
+  <section id="vcallSec">
+    <div class="sec-head">
+      <div class="eyebrow">05 — Video call</div>
+      <h2>โทรหา Baymax</h2>
+      <p>คิดถึงเมื่อไหร่ก็โทรได้ เขารับสายเสมอ ไม่เคยติดประชุม</p>
+    </div>
+    <div class="callsec card">
+      <div class="callface">
+        <svg width="86" height="48" viewBox="0 0 100 56" aria-hidden="true">
+          <rect x="4" y="6" width="92" height="44" rx="22" fill="#FDFEFF" stroke="#2B3A47" stroke-width="3"/>
+          <circle cx="35" cy="28" r="6" fill="#2B3A47"/><circle cx="65" cy="28" r="6" fill="#2B3A47"/>
+          <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
+        </svg>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <h3>สายวิดีโอส่วนตัว</h3>
+        <p>คุยกับเขาแบบเห็นหน้า ขอกอด ขอฟิสต์บัมพ์ หรือให้เขาสแกนความน่ารักของคุณ ทุกอย่างเกิดขึ้นในเครื่องคุณเท่านั้น ไม่มีภาพหรือเสียงถูกส่งออกไปไหน</p>
+      </div>
+      <button class="btn btn-call" id="vcOpen">📹 โทรหา Baymax</button>
+    </div>
+  </section>
+
+  <!-- ============ 06 ============ -->
   <section id="fix">
     <div class="sec-head">
-      <div class="eyebrow">05 — Troubleshooting</div>
+      <div class="eyebrow">06 — Troubleshooting</div>
       <h2>แก้ปัญหาเบื้องต้น</h2>
       <p>อาการที่เจอบ่อยที่สุด เรียงตามที่ศูนย์บริการได้รับแจ้ง</p>
     </div>
@@ -754,6 +897,52 @@
     </div>
   </footer>
 
+</div>
+
+<!-- ===================== วิดีโอคอลกับ Baymax ===================== -->
+<div class="vcall" id="vcall" hidden role="dialog" aria-modal="true" aria-label="วิดีโอคอลกับ Baymax">
+  <div class="vc-top"><div><b>Baymax</b><span id="vcStatus">00:00</span></div></div>
+
+  <div class="vc-stage">
+    <div class="vc-glow"></div>
+    <div class="vc-bubble" id="vcBubble"></div>
+    <svg class="vbot" id="vcBot" viewBox="-10 0 120 126" aria-hidden="true">
+      <defs><clipPath id="clipVc"><path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/></clipPath></defs>
+      <g class="all">
+        <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
+        <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+        <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
+        <g clip-path="url(#clipVc)"><rect class="beam" x="20" y="30" width="60" height="9"/></g>
+        <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+        <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+        <g class="spark"><path d="M100 69v-7"/><path d="M92 73l-5-4"/><path d="M106 72l4-4"/></g>
+      </g>
+    </svg>
+    <div class="vc-self" id="vcSelf" hidden>
+      <video id="vcVideo" autoplay playsinline muted></video>
+      <div class="noselfcam" id="vcNoCam" hidden><b>คุณ</b>ไม่ได้เปิดกล้อง</div>
+    </div>
+  </div>
+
+  <div class="vc-chips" id="vcChips"></div>
+  <div class="vc-ctrl">
+    <button class="vc-btn" id="vcMute" aria-label="ปิดหรือเปิดเสียงพูด">🔊</button>
+    <button class="vc-btn" id="vcCam" aria-label="เปิดหรือปิดกล้อง">🎥</button>
+    <button class="vc-btn end" id="vcEnd" aria-label="วางสาย">📞</button>
+  </div>
+
+  <div class="vc-ring" id="vcRing" hidden>
+    <div class="vc-ava">
+      <svg viewBox="0 0 100 56" aria-hidden="true">
+        <rect x="4" y="6" width="92" height="44" rx="22" fill="#FDFEFF" stroke="#2B3A47" stroke-width="3"/>
+        <circle cx="35" cy="28" r="6" fill="#2B3A47"/><circle cx="65" cy="28" r="6" fill="#2B3A47"/>
+        <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
+      </svg>
+    </div>
+    <div><b style="font-family:var(--display);font-size:22px">Baymax</b><br>
+      <span style="font-family:var(--mono);font-size:12px;color:#9FB4C6">กำลังโทรวิดีโอ…</span></div>
+    <button class="btn" id="vcCancel" style="background:var(--red);color:#fff">ยกเลิก</button>
+  </div>
 </div>
 
 <div class="toast" id="toast" role="status">
@@ -1137,12 +1326,16 @@ if (owner) { closeGate(); } else { openGate('register'); }
     if (!G || G.over || G.paused) return;
     const dt = Math.min(0.05, (now - G.last)/1000); G.last = now;
 
-    // เดิน
-    const dir = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
-    if (dir !== 0){
-      G.x = Math.max(9, Math.min(W - 9, G.x + dir * 66 * dt));
+    // เดิน — ปุ่ม/คีย์บอร์ด หรือเอียงเครื่อง
+    let vx = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+    if (!vx && tilt.state === 'on'){
+      const dead = 3, full = 15, d = tilt.g;
+      if (Math.abs(d) > dead) vx = Math.max(-1, Math.min(1, (d - Math.sign(d)*dead)/(full - dead)));
+    }
+    if (vx){
+      G.x = Math.max(9, Math.min(W - 9, G.x + vx * 66 * dt));
       fighter.classList.add('walk');
-      fighter.classList.toggle('left', dir < 0);
+      fighter.classList.toggle('left', vx < 0);
     } else {
       fighter.classList.remove('walk');
     }
@@ -1250,7 +1443,75 @@ if (owner) { closeGate(); } else { openGate('register'); }
     raf = requestAnimationFrame(loop);
   }
 
-  bPlay.addEventListener('click', start);
+  /* เอียงเครื่องเพื่อเดิน — แทนปุ่มซ้ายขวาบนมือถือ */
+  const pad = document.querySelector('.pad');
+  const tiltPill = document.getElementById('tiltPill');
+  const bHint = document.getElementById('bHint');
+  const coarse = matchMedia('(pointer:coarse)').matches;
+  const tilt = { state:'unknown', g:0, zero:null, got:false };
+
+  function tiltAngle(){
+    const a = (screen.orientation && typeof screen.orientation.angle === 'number')
+      ? screen.orientation.angle : (window.orientation || 0);
+    return ((a % 360) + 360) % 360;
+  }
+  function onTilt(e){
+    if (e.gamma == null || e.beta == null) return;
+    const a = tiltAngle();
+    const raw = a === 90 ? e.beta : a === 270 ? -e.beta : a === 180 ? -e.gamma : e.gamma;
+    tilt.got = true;
+    if (tilt.zero === null) tilt.zero = raw;
+    tilt.g += ((raw - tilt.zero) - tilt.g) * 0.3;
+  }
+  window.addEventListener('orientationchange', () => { tilt.zero = null; tilt.g = 0; });
+
+  function tiltUI(on){
+    pad.classList.toggle('tilt-on', on);
+    if (on){
+      bHint.textContent = 'เอียงมาก เดินเร็ว · แตะที่สนามเพื่อยิงก็ได้ · เชื้อโรคตัวแดงต้องยิงสามครั้ง · ตกถึงพื้นเสียหนึ่งหัวใจ';
+    }
+  }
+
+  async function tiltEnable(){
+    if (tilt.state === 'on'){ tilt.zero = null; tilt.g = 0; return true; }
+    if (tilt.state === 'off') return false;
+    if (!coarse || !('DeviceOrientationEvent' in window)){ tilt.state = 'off'; return false; }
+    try {
+      if (typeof DeviceOrientationEvent.requestPermission === 'function'){
+        const r = await DeviceOrientationEvent.requestPermission();
+        if (r !== 'granted'){ tilt.state = 'off'; return false; }
+      }
+    } catch(err){ tilt.state = 'off'; return false; }
+    window.addEventListener('deviceorientation', onTilt);
+    const ok = await new Promise((res) => {
+      let n = 0;
+      const iv = setInterval(() => {
+        if (tilt.got){ clearInterval(iv); res(true); }
+        else if (++n > 12){ clearInterval(iv); res(false); }
+      }, 100);
+    });
+    tilt.state = ok ? 'on' : 'off';
+    if (ok){ tilt.zero = null; tilt.g = 0; }
+    else window.removeEventListener('deviceorientation', onTilt);
+    return ok;
+  }
+
+  if (coarse && 'DeviceOrientationEvent' in window){
+    bText.textContent = 'กด "เริ่มซ้อมรบ" แล้วเอียงเครื่องซ้าย–ขวาเพื่อเดิน แตะที่สนามหรือปุ่มแดงเพื่อยิงหมัดจรวด อย่าให้เชื้อโรคลงถึงพื้น';
+  }
+
+  bPlay.addEventListener('click', async () => {
+    const on = await tiltEnable();
+    tiltUI(on);
+    start();
+    if (on){
+      tiltPill.classList.add('show');
+      setTimeout(() => tiltPill.classList.remove('show'), 3600);
+    }
+  });
+
+  /* แตะที่สนามเพื่อยิง — เล่นสองมือถนัดกว่าบนมือถือ */
+  field.addEventListener('pointerdown', () => { if (G && !G.over && !G.paused) shoot(); });
 
   /* คีย์บอร์ด */
   const codeMap = { ArrowLeft:'left', KeyA:'left', ArrowRight:'right', KeyD:'right', Space:'fire', ArrowUp:'fire', KeyW:'fire' };
@@ -1289,7 +1550,204 @@ if (owner) { closeGate(); } else { openGate('register'); }
 })();
 
 /* =========================================================
-   5 · PWA — service worker, ติดตั้ง, สถานะเน็ต
+   5 · วิดีโอคอลกับ Baymax — ทุกอย่างเกิดในเครื่อง ไม่ส่งออกไปไหน
+   ========================================================= */
+(function(){
+  const openBtn = document.getElementById('vcOpen');
+  if (!openBtn) return;
+  const overlay = document.getElementById('vcall');
+  const ring    = document.getElementById('vcRing');
+  const statusEl= document.getElementById('vcStatus');
+  const bubble  = document.getElementById('vcBubble');
+  const bot     = document.getElementById('vcBot');
+  const chipsEl = document.getElementById('vcChips');
+  const selfBox = document.getElementById('vcSelf');
+  const video   = document.getElementById('vcVideo');
+  const noCam   = document.getElementById('vcNoCam');
+  const muteBtn = document.getElementById('vcMute');
+  const camBtn  = document.getElementById('vcCam');
+
+  const callName = () => owner ? 'คุณ' + owner : 'คุณ';
+
+  const GESTURES = [
+    { ic:'👋', label:'ทักทาย', anim:'g-wave', dur:1150,
+      lines:['สวัสดีครับ{name} เห็นหน้ากันชัดเลยครับ','หวัดดีครับ ผมโบกมือให้อยู่นะครับ'] },
+    { ic:'🤗', label:'ขอกอด', anim:'g-hug', dur:1750, hearts:4,
+      lines:['มา ๆ กอดผ่านจอก็อุ่นได้นะครับ','กอดหนึ่งที แรงกดอยู่ในระดับปลอดภัยเสมอครับ'] },
+    { ic:'👊', label:'ฟิสต์บัมพ์', anim:'g-bump', dur:1250,
+      lines:['บา-ลา-ลา-ลา','ฟิสต์บัมพ์ผ่านจอ ก็นับนะครับ'] },
+    { ic:'💖', label:'ให้กำลังใจ', anim:'g-love', dur:1950, hearts:7,
+      lines:['{name}เก่งมากแล้ววันนี้ ผมภูมิใจในตัวคุณครับ','เหนื่อยก็พักได้นะครับ สุขภาพใจสำคัญที่สุด'] },
+    { ic:'🩺', label:'สแกน', anim:'g-scan', dur:1950,
+      lines:['กำลังสแกน ระดับความน่ารักของ{name} สูงกว่าค่าเฉลี่ยครับ','ผลสแกนผ่านจอ ทุกอย่างเรียบร้อยดีครับ'] },
+    { ic:'😴', label:'ก่อนนอน', anim:'g-sleep', dur:2550,
+      lines:['อย่านอนดึกนะครับ{name} ฝันดีครับ','ผมจะอยู่ตรงนี้จนกว่าคุณจะหลับครับ'] }
+  ];
+
+  let open = false, muted = false, camOn = false, stream = null;
+  let timer = 0, sec0 = 0, bubbleTO = 0, blinkIV = 0, animTO = 0, ringTO = 0, ac = null;
+
+  /* เสียงพูดไทยจากเครื่อง */
+  function speak(txt){
+    if (muted || !('speechSynthesis' in window)) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(txt);
+      const th = speechSynthesis.getVoices().find((v) => (v.lang || '').toLowerCase().startsWith('th'));
+      if (th) u.voice = th;
+      u.lang = 'th-TH'; u.rate = .95; u.pitch = 1.1;
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+  if ('speechSynthesis' in window){ try { speechSynthesis.getVoices(); } catch(e){} }
+
+  function say(txt){
+    const t = txt.split('{name}').join(callName());
+    bubble.textContent = t;
+    bubble.classList.add('show');
+    clearTimeout(bubbleTO);
+    bubbleTO = setTimeout(() => bubble.classList.remove('show'), 4600);
+    speak(t);
+  }
+
+  function hearts(n){
+    const stage = bot.parentElement;
+    const r = bot.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+    for (let i = 0; i < n; i++){
+      const h = document.createElement('div');
+      h.className = 'vheart';
+      h.textContent = ['💗','💖','💕'][i % 3];
+      h.style.left = (r.left - sr.left + r.width * (0.25 + Math.random()*0.5)) + 'px';
+      h.style.top  = (r.top - sr.top + r.height * 0.45) + 'px';
+      stage.appendChild(h);
+      h.animate(
+        [{ transform:'translate(0,0) scale(.6)', opacity:0 },
+         { transform:'translate(' + (Math.random()*60 - 30) + 'px,-46px) scale(1)', opacity:1, offset:.35 },
+         { transform:'translate(' + (Math.random()*90 - 45) + 'px,-120px) scale(.8)', opacity:0 }],
+        { duration: 1500 + Math.random()*600, easing:'ease-out', delay: i*130 }
+      );
+      setTimeout(() => h.remove(), 2400 + i*130);
+    }
+  }
+
+  function gesture(g){
+    GESTURES.forEach((x) => bot.classList.remove(x.anim));
+    void bot.getBoundingClientRect();
+    bot.classList.add(g.anim);
+    clearTimeout(animTO);
+    animTO = setTimeout(() => bot.classList.remove(g.anim), g.dur);
+    say(g.lines[Math.floor(Math.random()*g.lines.length)]);
+    if (g.hearts) hearts(g.hearts);
+    if (navigator.vibrate) { try { navigator.vibrate(14); } catch(e){} }
+  }
+
+  /* กล้องหน้า — แสดงแค่ในเครื่อง */
+  async function camStart(){
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ camFail(); return; }
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'user' }, audio:false });
+      video.srcObject = stream;
+      selfBox.hidden = false; video.hidden = false; noCam.hidden = true;
+      camOn = true; camBtn.classList.remove('off');
+    } catch(e){ camFail(); }
+  }
+  function camFail(){
+    selfBox.hidden = false; video.hidden = true; noCam.hidden = false;
+    camOn = false; camBtn.classList.add('off');
+  }
+  function camStop(){
+    if (stream){ stream.getTracks().forEach((t) => t.stop()); stream = null; }
+    video.srcObject = null;
+    camFail();
+  }
+
+  /* เสียงเรียกสายสั้น ๆ */
+  function ringTone(){
+    try {
+      ac = new (window.AudioContext || window.webkitAudioContext)();
+      const beep = (t, f) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.frequency.value = f; o.type = 'sine';
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.05, t + 0.04);
+        g.gain.linearRampToValueAtTime(0.0001, t + 0.34);
+        o.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + 0.4);
+      };
+      const t0 = ac.currentTime + 0.05;
+      [0, 0.45, 1.5, 1.95].forEach((d, i) => beep(t0 + d, i % 2 ? 554 : 440));
+    } catch(e){}
+  }
+  function ringStop(){ if (ac){ try { ac.close(); } catch(e){} ac = null; } }
+
+  function tick(){
+    const s = Math.floor((performance.now() - sec0)/1000);
+    statusEl.textContent = String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s % 60).padStart(2,'0');
+  }
+
+  function connect(){
+    ring.hidden = true;
+    ringStop();
+    sec0 = performance.now(); tick();
+    timer = setInterval(tick, 1000);
+    blinkIV = setInterval(() => {
+      bot.classList.add('blink');
+      setTimeout(() => bot.classList.remove('blink'), 200);
+    }, 3800);
+    if (navigator.vibrate) { try { navigator.vibrate(24); } catch(e){} }
+    camStart();
+    setTimeout(() => say('สวัสดีครับ{name} ผมเบย์แม็กซ์ ผู้ช่วยดูแลสุขภาพประจำตัวของคุณ วันนี้รู้สึกยังไงบ้างครับ'), 500);
+  }
+
+  function openCall(){
+    if (open) return;
+    open = true;
+    overlay.hidden = false;
+    ring.hidden = false;
+    document.body.classList.add('locked');
+    statusEl.textContent = '00:00';
+    bubble.classList.remove('show');
+    // ปลดล็อกเสียงพูดบน iOS — ต้องเรียกครั้งแรกภายใน gesture ของผู้ใช้
+    if ('speechSynthesis' in window){ try { speechSynthesis.speak(new SpeechSynthesisUtterance('')); } catch(e){} }
+    ringTone();
+    ringTO = setTimeout(connect, 2600);
+  }
+
+  function endCall(){
+    if (!open) return;
+    open = false;
+    clearTimeout(ringTO); clearInterval(timer); clearInterval(blinkIV);
+    clearTimeout(bubbleTO); clearTimeout(animTO);
+    ringStop(); camStop();
+    GESTURES.forEach((x) => bot.classList.remove(x.anim));
+    if ('speechSynthesis' in window){ try { speechSynthesis.cancel(); } catch(e){} }
+    overlay.hidden = true;
+    if (gate.hidden) document.body.classList.remove('locked');
+  }
+
+  GESTURES.forEach((g) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'vc-chip';
+    b.innerHTML = '<span>' + g.ic + '</span>' + g.label;
+    b.addEventListener('click', () => gesture(g));
+    chipsEl.appendChild(b);
+  });
+
+  muteBtn.addEventListener('click', () => {
+    muted = !muted;
+    muteBtn.textContent = muted ? '🔇' : '🔊';
+    muteBtn.classList.toggle('off', muted);
+    if (muted && 'speechSynthesis' in window){ try { speechSynthesis.cancel(); } catch(e){} }
+  });
+  camBtn.addEventListener('click', () => { camOn ? camStop() : camStart(); });
+  openBtn.addEventListener('click', openCall);
+  document.getElementById('vcEnd').addEventListener('click', endCall);
+  document.getElementById('vcCancel').addEventListener('click', endCall);
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) endCall(); });
+})();
+
+/* =========================================================
+   6 · PWA — service worker, ติดตั้ง, สถานะเน็ต
    ========================================================= */
 (function(){
   const toast   = document.getElementById('toast');
