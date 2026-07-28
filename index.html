@@ -4,163 +4,173 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>คู่มือผู้ใช้ Baymax · Personal Healthcare Companion</title>
-<meta name="description" content="คู่มือผู้ใช้หุ่นยนต์ดูแลสุขภาพประจำตัว รุ่น PHC-01 — เปิดใช้งาน ระดับความเจ็บปวด โหมดการทำงาน และการดูแลรักษา">
+<meta name="description" content="คู่มือผู้ใช้หุ่นยนต์ดูแลสุขภาพประจำตัว รุ่น PHC-01 — เปิดใช้งาน โหมดการทำงาน แบบฝึกหัด และการแก้ปัญหา">
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.webmanifest">
+<!-- PWA — ไอคอนกับ manifest ฝังอยู่ในไฟล์นี้ ไม่ต้องมีไฟล์แยก -->
 <meta name="theme-color" content="#F0575F">
 <meta name="color-scheme" content="light">
-<link rel="icon" href="icons/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Baymax">
 <meta name="application-name" content="Baymax">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAYFBMVEX////+///+/v/9///9/v/9/v79/f79/P39+/z7/P36+/z47e7azND3rbHKn6TzfoSmZm/wWmLwWWHwWGBNWWTwV19LV2PwUlrvTlbvS1TvSVIuPUosO0grOkcjM0AdLTuIrzroAAAEoklEQVR42u3b63akKBAAYIg2oKAM0I446cv7v+WU2juz6U0AbyQ5W/Uzx2N/VgpEKUn3DYMgGtGIRjSiEY1oRCMa0YhGNKIRjWhEIxrRiEY0ohGNaEQjGtGIRjSiEY1oRCMa0YhGNKLzoZ2zq8O5T0BbY13X+9XR9/Mp8qGt7fzge2P06jBmPAWcyWVBu/HnnG4aKUVB14aQUjXaeN8ZdzjamX7odCNHblEwvjaK6Xql0mboF2d7Idp0g2kkeEv4YcbK1cHgegUDuWz00JsD0c7OZMY3cN/QIeVUALuzR6FN77WkhdhJ/HCLEtidN8egjTcKRtCu5Ckg21IPC2Zukn4nGSDNfH/ylG3KG59eIqlo1/mGFrw8KDijje3tvujJfEyaHyGoNKmzCEk3i/LQmNR2T/Tx5ofa7YY2vzKYR7Xyu6HNoF8ymEd1M5h90LY3krEyj1qnqFMy3cP8nMUMK5KkwUgSiiNLQf8t6x3QLl9xTHcZquNq8qUSDegXub2mXa9FvjxPqY7PIORrJXpc8smtmR4r+pQ101Ag0aommxPN6rqqqrqKc6rpwJptvsNEMx2bo2vyCBZhV+yfI+twEk4itgQhseoQZSgzrCSy/XE+n1tFSFBdEaJaOPBHK0nwlAmzHomtOoLVUZGqfb1PcTurUApros63+cjXtgpeX7w+yJaSrog836+vc9xv7cfqmrS3++PA6/0sQ2oWnT8i5dGFSpqdwPx6uc4BmPYjS0VauLjHgZdXUAemJChqHS5qEpvwChYYWmC+/onL9a7eV1dE3a+Xv0eCOjRso0UdRFuvA8+F8C//txkst5/1NP89Bfzx5+3tkfdAKcWLOoYOVUd9fkuZLO/G09XB5Z0D0/U2dHAcwv/8drk+W9S78Xx118tNfTwWeWx9uh79n+qYLB/E09WF64NTmRMNM8O78WyOoRWiM5XHYeivOhC/5ZQH6Bf+3W4u48r0293GgS0py71gKscF0wa08Sr04HLY0tR07rD19DEPAdHJI4K2vRanMvPj1tYnFwhZZH6wLU9cb3qw/YxXCFAdsf2A6CuEzG/Fpglv43sPuL+oXC+n/8yjkbkjBR26KX7SFkZ0IFovc6Z62gtw29Ga85wv1RP2ir7Y9gU8afV7bBSNLz/KXKlOeM+btrtl8o3FxI3EpM3PX5kKJHXLNmmb2cFkLbIUdNrmeBoayvp4NS+ETusKSutCsBnUAsxDWsNHYpOKOVwtaLI5uR0I1OrI1hpBpU7uGEtuvLL92MR0ULL5iSqT3uWW3uI2t4uVB8zYjFPR+AVtkIuaCb1pOGU7szmnVGm/pKF6Udum7QetKC32q23GGR2reVm36bIGWWe810rQotjWHjsvQqcO2UI2nbeLWk0XtyJbB+xGirkRWawOzsZmZBDr3i/rju3WNH1bO3VQqy0t33Pb99z17exiwpr2eme6fvDOaN2sjrHBfu6vXwFY+SGDM3b8jGFYHd5PXzKs+/UNn4w4a83qsHbDNyP4RRGiEY1oRCMa0YhGNKIRjWhEIxrRiEY0ohGNaEQjGtGIRjSiEY1oRCMa0YhGNKIRjWhE/x/QvwHvmtdhiuGQgQAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAAYFBMVEX////+///+/v/9///9/v/9/v79/f79/P39+/z7/P36+/z47e7azND3rbHKn6TzfoSmZm/wWmLwWWHwWGBNWWTwV19LV2PwUlrvTlbvS1TvSVIuPUosO0grOkcjM0AdLTuIrzroAAAEoklEQVR42u3b63akKBAAYIg2oKAM0I446cv7v+WU2juz6U0AbyQ5W/Uzx2N/VgpEKUn3DYMgGtGIRjSiEY1oRCMa0YhGNKIRjWhEIxrRiEY0ohGNaEQjGtGIRjSiEY1oRCMa0YhGNKLzoZ2zq8O5T0BbY13X+9XR9/Mp8qGt7fzge2P06jBmPAWcyWVBu/HnnG4aKUVB14aQUjXaeN8ZdzjamX7odCNHblEwvjaK6Xql0mboF2d7Idp0g2kkeEv4YcbK1cHgegUDuWz00JsD0c7OZMY3cN/QIeVUALuzR6FN77WkhdhJ/HCLEtidN8egjTcKRtCu5Ckg21IPC2Zukn4nGSDNfH/ylG3KG59eIqlo1/mGFrw8KDijje3tvujJfEyaHyGoNKmzCEk3i/LQmNR2T/Tx5ofa7YY2vzKYR7Xyu6HNoF8ymEd1M5h90LY3krEyj1qnqFMy3cP8nMUMK5KkwUgSiiNLQf8t6x3QLl9xTHcZquNq8qUSDegXub2mXa9FvjxPqY7PIORrJXpc8smtmR4r+pQ101Ag0aommxPN6rqqqrqKc6rpwJptvsNEMx2bo2vyCBZhV+yfI+twEk4itgQhseoQZSgzrCSy/XE+n1tFSFBdEaJaOPBHK0nwlAmzHomtOoLVUZGqfb1PcTurUApros63+cjXtgpeX7w+yJaSrog836+vc9xv7cfqmrS3++PA6/0sQ2oWnT8i5dGFSpqdwPx6uc4BmPYjS0VauLjHgZdXUAemJChqHS5qEpvwChYYWmC+/onL9a7eV1dE3a+Xv0eCOjRso0UdRFuvA8+F8C//txkst5/1NP89Bfzx5+3tkfdAKcWLOoYOVUd9fkuZLO/G09XB5Z0D0/U2dHAcwv/8drk+W9S78Xx118tNfTwWeWx9uh79n+qYLB/E09WF64NTmRMNM8O78WyOoRWiM5XHYeivOhC/5ZQH6Bf+3W4u48r0293GgS0py71gKscF0wa08Sr04HLY0tR07rD19DEPAdHJI4K2vRanMvPj1tYnFwhZZH6wLU9cb3qw/YxXCFAdsf2A6CuEzG/Fpglv43sPuL+oXC+n/8yjkbkjBR26KX7SFkZ0IFovc6Z62gtw29Ga85wv1RP2ir7Y9gU8afV7bBSNLz/KXKlOeM+btrtl8o3FxI3EpM3PX5kKJHXLNmmb2cFkLbIUdNrmeBoayvp4NS+ETusKSutCsBnUAsxDWsNHYpOKOVwtaLI5uR0I1OrI1hpBpU7uGEtuvLL92MR0ULL5iSqT3uWW3uI2t4uVB8zYjFPR+AVtkIuaCb1pOGU7szmnVGm/pKF6Udum7QetKC32q23GGR2reVm36bIGWWe810rQotjWHjsvQqcO2UI2nbeLWk0XtyJbB+xGirkRWawOzsZmZBDr3i/rju3WNH1bO3VQqy0t33Pb99z17exiwpr2eme6fvDOaN2sjrHBfu6vXwFY+SGDM3b8jGFYHd5PXzKs+/UNn4w4a83qsHbDNyP4RRGiEY1oRCMa0YhGNKIRjWhEIxrRiEY0ohGNaEQjGtGIRjSiEY1oRCMa0YhGNKIRjWhE/x/QvwHvmtdhiuGQgQAAAABJRU5ErkJggg==">
+<script>
+/* สร้าง manifest ขึ้นมาสด ๆ แล้วผูกเข้าหน้าเว็บ — เลยไม่ต้องมีไฟล์ manifest.webmanifest */
+(function(){
+  var PNG = 'data:image/png;base64,';
+  var I192 = 'iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAMAAABlApw1AAAAYFBMVEX////+///+//7+/v79///9/v/9/v78/v/9/f79/P39+/z6/P337/D01NfOzdDotLnXmZ/ybXTwWmJrdn/wWWHwWGBMWWTwV1/wV17vUVnvTlbvS1QxP0wsO0grOkchMT6Gj0ZaAAAFAElEQVR42u2b6XbjKBCFpWnJDdrBYG1e3v8tp5Az0+kkFsgInJ659S8n6Ph+qipAUJX0f7glAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP8AQCulpI8ppV8GQOL7YZxmL5umYVBSxQfQUo/zPEghutbHhBB6msf+aYbnAJQa55Gk11WWelpWVXUn9DxqGQ1A0TsTbc3Nz+ecFx7GOcsyQ9GKce5lFACtplG0Bf0qp5/PvY0xznOCqDs99yo8gBwnUZP6guc7GiuYQRgmqcMCaDUb+WxX9XfjPEtrMQ8qJIAcxq5IeQD5dzekaStHGQ5ATrKm0M+DGefGCTIUgJxFlRYsD2lFWnTzltU52aK/I/15YKNMaMdeBwAg/UHD599M4Gk7uRMk7vHfpZzlMawgH6i9ASj+Y+lfCJwzOXFdvkTFYuk3BJ0rgRuAHnSd8mj6aXtRCMcocgNQUxt+/vltLkprNejdAMwEFFX/hjRInAJIxkyAN4IfYlI7Aci5je2AJYiGnTygRsGjO8B5Jkq+qQPIBYdK7+IBPYoi/vtfgsjFBcl3dcCSBaP2BzBTUGb1ACsX++ki7Od9rN2rLHWYiBL7GtZZ12BWJndLS7v+Mn0bbEVwWguSHSKI5JdNdzw2TZnkFoQyp7HN8dg15inLe8kq/xByiKAyqY6n643seiJZ5frYsvln7LGyEjgsZol9EWA2/c35dr1czucLKTutqiLWE2k3Y2nwubEQuMRQ4rsNIv23K2lf7HJeVbWw/hp7vVkIaB7aAWA9BRb9b5KMkcDq8EBVeajo37/GXmwELLUngT2EVj8EGKOYeKffEBwfiSqT43v9REARtxagLKPPAu0FYMvhT5qMquZtVfhorPmddZX2HkP2LPYEOJSnr0Q9sC9gT+VhNQl8AZad6GoGXD/op7/PzQM7fzF4NQscpiEbwCTWUsCk8EdNZLcH9nnk5fZqgE9RYVQ9tE9DLUkAgP9ECP3gf3IS60H82dPoqxcybwAieOVW4uC9lejltH4oGnYzl1Vy0GF3o6G30/4fNOvT0Pf/oHnpJ6VDDrucSlhvBgJ+1FtTwOVUwn60HupY5a89jlXMyeLhNQdbPO12ONiKfzvz7nRX2U/YXQBEzOuxrZc0TvcD9SsI2KESg94F4DUucLwlc7lieokLaJclXe4p3QBEwaNf8jnedTtes0afiNxuN1wBdD9EDiIKIMereseb+rilEluKJVyLPeLe1W8oV3Evt4mYBoXDd8Dmgicdb0dB+uWgdwfoiSDKZGr071+xZQjGNj0En4sYN/rdKy83VC1qNXcsdBjxPG2nLdW72wpfTeFoyDBipmx00lvqpzeWHpvS3XC1r/fq6W1NKRuLv+UwdVWahfACo+gp2mFj6fTm8ntKBNkahJ0ZeJGRfLG9g2B7A4QcFoSFge307il20orkj9t7OJ5oQdGEoLva9HBkjBfcy4qCmx4UXreS5D/RkvVUE5BBmETXVkW6g3HTBTTOg3yqo+zZNizTxzT3QrRtW/uYacSSk+lherIh7vlGONMHZ9rgptHDlucHJZ9v5/NrRdTKNBP6GD3v14uIblYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAghv0Nd7oTPfj17IkAAAAASUVORK5CYII=', I512 = 'iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAYFBMVEX////+///+/v79///9/v/9/v78/v/9/f7+/P39/P37/f78+/z79PXx6uz10tXXr7TycXd0fofwW2PwWWHwWGBSXmnwV1/wV17wVFzvUFjvTFU2RFAsO0grOkcnN0QeLjzWfZZ8AAAOWklEQVR42u2d22KjuBIAwXaGwx2DjMGOk///y23hZHZ29yTxhQYJqp5mnkToUndLwhC0sGoCbgECAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACIAC3AAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAWCBAhjTNE1d143bDFdoDAKMG/q6MV3X9yehd5rhCk9d1zbWAwR4PvhNbTp7W/u6rqpSKJzGXmFVVbW95r5ra+clCFwPvg29RL4osmwb+kKaWRVEA7n61u1MELgb/UZuX2djn8X2pm63URynaRo7jb3AKN4Orm4za0Erf4WpDQLcFX079WXmS/CH0McS9ijaeUNkXY13VoM0L8pK/pjWUQdcFMDO/f4z+HIjPYr8vzyQi7fJQDKBJILeuFgLAvcm/1GiX9noex38PyyIxYE4t3mgcy8NBO5N/uYj+gsI/j8dKMrapgEE+Cb8/akq82VF/7cEQy2oelkWIMBX4e/t5F9g9K/YPBAX1fHU1gjwRfgjCf8yo/+RBnZhmJftyZ0s4IgAprbhD8PdksN/TQPRVYGmQYC/qbuTDb9MkBVgu4FcegE3VgQuCNC0Ev44jFcR/qsCYVhUsihEgGv2b8tMkv9uRYgC26I+ObAmnF0AWfhXubR+u5UhvUBWSh1YuQCmPtVl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oHwKMJ0A9lPi9IHOnQJMJgBLwUc7QNMuQwDTdhSB+wvABB3gRALYPnCDAC4WgIkEoAi4WgCmEsCwGXBfAYgnKgBTCWBXAhnPB7pXACYTgCJwX/yLU9MuS4BhOwgDbmwAcnM0SxNA/iTagBtXgGnV1+3SBGhraQPYEHSrAZhUgOFUKMUAt+I/pQA0gjc2gH3TLlMAGsGbdoBMZ5YqgDEY8GP8627KBDCtALIU6DDgu/hvswkXADMI0DZdjQEuxX9qAdqmx4Dv4n+aOP6TC9DW5ACX4j+9ABjwZf83R/xnEAADXIr/HAJIJ8ha4P/s/9T9DPGfRYC2Odp3x7Ar7ED85xHA7giV4Zazwc/zP/tC+Gn3f2YWoDXNqcooA5/tf1j2x3niP5cAw9kgZeAj/Uv7Z0y7MgHaum+KcBeT/sNilvZ/dgGkFTyVqy8DNv13/Xzxn1OAoREowmjFSSAa0n/btOsUwJaBrgzX+6SgTP+injH9zy+AuG+TwDo7Aan+Wdl388Z/bgHsaqAr0xUuByT8dvo3pl25AB9JYG0KSPbPq9Pc098JAWwn0Fd5uF2RAvFOsn87//R3RIC2aU5HWRGuRQEJf1rW8zb/bgkw1IF6HQpEkvzTwons75IA9oz4Q4F4DeHvXcj+bgnQmtoqkIeyKIyWGv0olNov4a+NM7fdHQGuCjRVEdk0sDwHYpn8YS61v2uMQzfdJQGsAu2pr2waWJYD0RD9rKiOUvuNU7fcLQFsL2D6U10VmTgQLUOCa/TTwub+tjGO3W/nBLhWAuuA5AGbCHyWQGIfb4e5L9GX3N+4d7cdFMAeE14dKG0iGDJB7NubBaLhoiX2YZoXVdXb6BsX77WTAgwOyLrw1FVWAnsbt6JBmsaDCi5jr1CuM7Lz3s58CX57cjb6DgtwzQNGJOglE5RFPmgQDiq4zMdFhqnEvqwqe/2tu9F3W4CPRGC63lpQV9YDIXMae4WlRL6q7VV3xungeyDAhwRSD6wGckt7UcFlOrlCe52dxL52PfieCHC1QDSo68YmBKeRfD9cpzGe3FhfBPhTBZfx7nb6JwAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAAnALEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAABuAUIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA8/EXnJ+9rKFD4xMAAAAASUVORK5CYII=', IMASK = 'iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAAYFBMVEX////+///+/v79///9/v/9/v79/f79/P39+/z8/f77/P36+/z08vP119rrt7vXkZfxanHwWmJcZ3LwWWHwWGDwV1/wU1vvT1jvTlbvS1Q1Q08sO0grO0grOkcoN0QfLz0hy5AmAAAK40lEQVR42u3d21LbyBqAURkTyRBZltCZPcD7v+VuGTKHqpkABptusb673ChV/MvdLWHsrNe3LvMjAEAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQAAIAAEgAASAABAAAkAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQAAIAAEgAASAABAAAkAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQAAIAAEgAASAABAAAkAACAABIAAEgAAQAAJAAAgAASAAAPAjAEAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQAAIAAEgAASAABAAAkAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQAAIAAEgAASAABAAAkAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQAAIAAEgAASAABAAAkAACAABIAAEgAAQAAJAAAgAASAAAPAjAEAACAABIAAEgAAQAAJAAAgAASAABIAAEAACQADEVte1bdtcrPCfdR0Akcy+DfMYhnGa5os1TdMwLP9xB8BXD78bxnkem6au6+piHcL/1ozTPA1d6giylKffDtM81vWh2pfldnPRtrtyv0AYAoKgEICL1zbDPDd1mP0y+u32ush3F6so8u1R3G4fEEzz0Ca7DqQJoGv6cQ6v/HKZfRh8kefXFy7Pi2JXbI8IgoFpSHQZyJIc/zD39TL9MPzi4qP/B4NnBMFAM49JrgLpAejaYQ4rf5h+8bXD/xuCYKCs6kCgBeD8r/7p+OLP45j+S0VYB3ZVPY7JbQSJAQiLf1Ptwhk8puk/rwNhGcjDKjA0AJxx9Q/jL8PaH934n5eB62UVmPsWgHO9/KdDvOP/k0A/NgCc5+VfV+HAHe/4jwS2m31Si0AyANrjy7+Ie/zHs0A4CgzpLAKpAGjGtgqr/3UCFfmyCDQAfOr853qfwMv/pd2mPMyJ/L44CQBh+z/sNrvrZAongWocWgA+af79mMry/9fTwc2+SeKRQAIA2n6q0ln+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';
+  try {
+    var here = location.href.split('#')[0].split('?')[0];
+    var dir  = here.replace(/[^\/]*$/, '');
+    var manifest = {
+      name: 'คู่มือผู้ใช้ Baymax',
+      short_name: 'Baymax',
+      description: 'คู่มือผู้ใช้หุ่นยนต์ดูแลสุขภาพประจำตัว รุ่น PHC-01',
+      lang: 'th',
+      start_url: dir,
+      scope: dir,
+      display: 'standalone',
+      orientation: 'portrait-primary',
+      background_color: '#EAF1F6',
+      theme_color: '#F0575F',
+      icons: [
+        { src: PNG + I192,  sizes: '192x192', type: 'image/png', purpose: 'any' },
+        { src: PNG + I512,  sizes: '512x512', type: 'image/png', purpose: 'any' },
+        { src: PNG + IMASK, sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+      ]
+    };
+    var link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' }));
+    document.head.appendChild(link);
+  } catch (e) { /* เบราว์เซอร์เก่าก็ปล่อยผ่าน หน้าเว็บยังใช้ได้ปกติ */ }
+})();
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=IBM+Plex+Sans+Thai+Looped:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EAF1F6;
-    --vinyl:#FDFEFF;
-    --ink:#2B3A47;
-    --ink-soft:#6C8194;
-    --red:#F0575F;
-    --mint:#63CDB4;
-    --sky:#A9CCEA;
-    --butter:#FFDE8A;
-    --line:#D3E1EC;
-    --display:'Mali',cursive;
-    --body:'IBM Plex Sans Thai Looped',sans-serif;
-    --mono:'IBM Plex Mono',monospace;
+    --bg:#EAF1F6; --vinyl:#FDFEFF; --ink:#2B3A47; --ink-soft:#6C8194;
+    --red:#F0575F; --mint:#63CDB4; --sky:#A9CCEA; --butter:#FFDE8A; --line:#D3E1EC;
+    --display:'Mali',cursive; --body:'IBM Plex Sans Thai Looped',sans-serif; --mono:'IBM Plex Mono',monospace;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    margin:0;
-    background:
-      radial-gradient(900px 500px at 80% -10%, #FFFFFF 0%, transparent 60%),
-      var(--bg);
-    color:var(--ink);
-    font-family:var(--body);
-    font-weight:300;
-    line-height:1.75;
-    -webkit-font-smoothing:antialiased;
+    margin:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+    background:radial-gradient(900px 500px at 80% -10%, #FFFFFF 0%, transparent 60%), var(--bg);
+    color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.75;-webkit-font-smoothing:antialiased;
   }
+  body.locked{overflow:hidden}
   .wrap{max-width:1000px;margin:0 auto;padding:0 24px 80px}
 
-  /* ---------- shared bits ---------- */
-  .eyebrow{
-    font-family:var(--mono);
-    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--ink-soft);
-  }
-  .card{
-    background:var(--vinyl);
-    border:1px solid var(--line);
-    border-radius:26px;
-    box-shadow:0 12px 28px -22px rgba(43,58,71,.55);
-  }
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  .card{background:var(--vinyl);border:1px solid var(--line);border-radius:26px;box-shadow:0 12px 28px -22px rgba(43,58,71,.55)}
   section{margin-top:64px}
-  h2{
-    font-family:var(--display);font-weight:700;
-    font-size:clamp(24px,3.4vw,32px);
-    margin:6px 0 4px;letter-spacing:-.01em;
-  }
+  h2{font-family:var(--display);font-weight:700;font-size:clamp(24px,3.4vw,32px);margin:6px 0 4px;letter-spacing:-.01em}
   .sec-head{margin-bottom:26px}
-  .sec-head p{margin:2px 0 0;color:var(--ink-soft);font-size:15px}
+  .sec-head p{margin:2px 0 0;color:var(--ink-soft);font-size:15px;max-width:62ch}
 
-  /* ---------- hero ---------- */
+  .btn{font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;border-radius:999px;
+    padding:10px 20px;border:1px solid transparent;transition:transform .15s ease,filter .15s ease}
+  .btn:active{transform:scale(.97)}
+  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .btn-go{background:var(--red);color:#fff}
+  .btn-go:hover{filter:brightness(1.05)}
+  .btn-ghost{background:transparent;color:var(--ink-soft);border-color:var(--line)}
+
+  /* ============ หน้าลงทะเบียน (gate) ============ */
+  .gate{position:fixed;inset:0;z-index:100;overflow:auto;display:grid;place-items:center;padding:24px;
+    background:radial-gradient(120% 80% at 50% -20%,#FFF 0%,#E3EDF5 55%,#D9E6F0 100%)}
+  .gate[hidden]{display:none}
+  .gcard{width:100%;max-width:540px;background:var(--vinyl);border:1px solid var(--line);border-radius:30px;
+    padding:34px 32px 30px;box-shadow:0 40px 70px -40px rgba(43,58,71,.6);position:relative;
+    animation:gateIn .5s cubic-bezier(.2,.9,.3,1)}
+  @keyframes gateIn{from{opacity:0;transform:translateY(16px) scale(.98)}}
+  .gclose{position:absolute;top:16px;right:18px;background:none;border:0;font-size:19px;color:var(--ink-soft);
+    cursor:pointer;padding:4px 7px;border-radius:9px;line-height:1}
+  .gclose:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .gface{width:78px;height:44px;margin-bottom:14px}
+  .gcard h1{font-family:var(--display);font-weight:700;font-size:26px;margin:8px 0 4px;letter-spacing:-.01em}
+  .gcard .sub{margin:0 0 22px;font-size:14.5px;color:var(--ink-soft);max-width:40ch}
+  .gfield{margin-bottom:16px}
+  .gfield label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
+  .gfield input{width:100%;font-family:var(--display);font-weight:600;font-size:19px;color:var(--ink);
+    background:#F6FAFC;border:1.5px solid var(--line);border-radius:16px;padding:13px 16px;outline:none;
+    transition:border-color .2s ease,background .2s ease}
+  .gfield input::placeholder{font-family:var(--body);font-weight:300;color:#A9BCCB;font-size:16px}
+  .gfield input:focus{border-color:var(--red);background:#fff}
+  .grow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+  .gmeta{background:#F4F9FC;border:1px dashed var(--line);border-radius:14px;padding:11px 14px}
+  .gmeta span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .gmeta b{font-family:var(--mono);font-size:13px;font-weight:500}
+  .gerr{color:var(--red);font-size:13px;margin:-8px 0 14px;display:none}
+  .gerr.show{display:block}
+  .gsubmit{width:100%;padding:14px;font-size:15.5px}
+
+  .gsplit{height:1px;background:var(--line);margin:26px 0 22px}
+  .gi-head{display:flex;gap:14px;align-items:center}
+  .gi-head .ic{width:42px;height:42px;flex:none;border-radius:13px;background:#FDEEEF;display:grid;place-items:center}
+  .gi-head h4{font-family:var(--display);font-weight:600;font-size:15.5px;margin:0 0 2px}
+  .gi-head p{margin:0;font-size:13px;color:var(--ink-soft)}
+  .gi-head .btn{flex:none;padding:9px 16px;font-size:13.5px}
+  .how{margin-top:14px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#F9FCFD}
+  .how summary{cursor:pointer;padding:12px 16px;font-size:13.5px;font-weight:600;list-style:none}
+  .how summary::-webkit-details-marker{display:none}
+  .how summary::after{content:'＋';float:right;color:var(--ink-soft);font-family:var(--mono)}
+  .how[open] summary::after{content:'－'}
+  .how-body{padding:2px 18px 16px;font-size:13px;color:var(--ink-soft)}
+  .how-body b{display:block;color:var(--ink);font-family:var(--display);font-weight:600;font-size:13.5px;margin:12px 0 4px}
+  .how-body ol{margin:0;padding-left:18px}
+  .how-body li{padding:1px 0}
+  .installed-note{background:#EAF9F4;border:1px solid #B7E5D8;border-radius:16px;padding:13px 16px;font-size:13.5px}
+
+  /* ============ hero ============ */
   header{padding-top:44px}
-  .tag{
-    display:inline-flex;align-items:center;gap:8px;
-    background:var(--vinyl);border:1px solid var(--line);
-    border-radius:999px;padding:7px 16px;
-  }
-  .dot{width:8px;height:8px;border-radius:50%;background:var(--mint);
-    box-shadow:0 0 0 0 rgba(99,205,180,.7);animation:pulse 2.4s infinite}
+  .tag{display:inline-flex;align-items:center;gap:8px;background:var(--vinyl);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(99,205,180,.7);animation:pulse 2.4s infinite}
   @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(99,205,180,0)}100%{box-shadow:0 0 0 0 rgba(99,205,180,0)}}
+  .netchip{display:none;align-items:center;gap:7px;margin-left:8px;background:#FFF1D6;border:1px solid #EAD4A0;border-radius:999px;padding:6px 14px}
+  .netchip .eyebrow{color:#9A7726}
+  body.is-offline .netchip{display:inline-flex}
 
   .hero{display:grid;grid-template-columns:1fr .85fr;gap:40px;align-items:center;margin-top:26px}
-  .hero h1{
-    font-family:var(--display);font-weight:700;
-    font-size:clamp(52px,9vw,88px);
-    line-height:.95;margin:14px 0 0;letter-spacing:-.03em;
-  }
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(52px,9vw,88px);line-height:.95;margin:14px 0 0;letter-spacing:-.03em}
   .hero h1 em{font-style:normal;color:var(--red)}
-  .hero .thai-name{
-    font-family:var(--display);font-weight:600;
-    font-size:clamp(19px,2.6vw,24px);margin:10px 0 0;color:var(--ink);
-  }
+  .hero .thai-name{font-family:var(--display);font-weight:600;font-size:clamp(19px,2.6vw,24px);margin:10px 0 0}
   .hero p.lead{font-size:16.5px;color:var(--ink-soft);margin:14px 0 0;max-width:42ch}
-  .stamp{
-    margin-top:24px;display:inline-block;
-    font-family:var(--mono);font-size:11px;letter-spacing:.14em;
-    color:var(--red);border:1.5px dashed var(--red);
-    border-radius:10px;padding:6px 12px;transform:rotate(-1.5deg);
-  }
+  .hero p.lead b{color:var(--ink);font-family:var(--display);font-weight:600}
+  .stamp{margin-top:24px;display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    color:var(--red);border:1.5px dashed var(--red);border-radius:10px;padding:6px 12px;transform:rotate(-1.5deg)}
 
-  /* ---------- diagram ---------- */
   .diagram{position:relative}
   .diagram svg{width:100%;height:auto;display:block;overflow:visible}
   .lbl{font-family:var(--mono);font-size:9.5px;fill:var(--ink-soft);letter-spacing:.08em}
   .leader{stroke:var(--sky);stroke-width:1;stroke-dasharray:3 3}
   .scanline{animation:scan 4.6s cubic-bezier(.6,0,.4,1) infinite}
-  @keyframes scan{
-    0%{transform:translateY(0);opacity:0}
-    8%{opacity:1}
-    50%{transform:translateY(230px);opacity:1}
-    58%{opacity:0}
-    100%{transform:translateY(0);opacity:0}
-  }
+  @keyframes scan{0%{transform:translateY(0);opacity:0}8%{opacity:1}50%{transform:translateY(230px);opacity:1}58%{opacity:0}100%{transform:translateY(0);opacity:0}}
 
-  /* ---------- spec strip ---------- */
-  .specs{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    margin-top:44px;overflow:hidden;
-  }
+  .specs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:44px;overflow:hidden}
   .spec{padding:22px 20px;border-right:1px solid var(--line)}
   .spec:last-child{border-right:0}
   .spec b{display:block;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.2}
   .spec span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;color:var(--ink-soft);text-transform:uppercase}
 
-  /* ---------- steps ---------- */
+  /* ============ steps ============ */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-  .step{padding:22px 20px 24px;position:relative}
-  .step .num{
-    font-family:var(--mono);font-size:12px;color:var(--red);
-    display:block;margin-bottom:10px;letter-spacing:.1em;
-  }
+  .step{padding:22px 20px 24px}
+  .step .num{font-family:var(--mono);font-size:12px;color:var(--red);display:block;margin-bottom:10px;letter-spacing:.1em}
   .step h3{font-family:var(--display);font-weight:600;font-size:18px;margin:0 0 6px}
   .step p{margin:0;font-size:14.5px;color:var(--ink-soft)}
 
-  /* ---------- pain scale ---------- */
-  .scale-box{padding:28px 26px 30px}
-  .scale{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-  .pain{
-    flex:1;min-width:52px;aspect-ratio:1;border:1px solid var(--line);
-    background:#fff;border-radius:18px;cursor:pointer;padding:0;
-    font-family:var(--mono);font-size:13px;color:var(--ink-soft);
-    transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
-  }
-  .pain:hover,.pain:focus-visible{transform:translateY(-5px);border-color:transparent;color:#fff}
-  .pain:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-  .pain.on{color:#fff;border-color:transparent;transform:translateY(-5px)}
-  .readout{
-    margin-top:20px;background:#F4F9FC;border:1px dashed var(--line);
-    border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:center;
-  }
-  .readout .num{font-family:var(--display);font-weight:700;font-size:34px;line-height:1;min-width:46px}
-  .readout p{margin:0;font-size:15px}
-  .readout small{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase;display:block}
-
-  /* ---------- modes ---------- */
+  /* ============ หุ่นตัวเล็กในโหมดต่าง ๆ ============ */
   .modes{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
   .mode{padding:22px 24px 24px;display:flex;gap:20px;align-items:center}
-
-  /* --- animated companion, one per mode --- */
   .stage{width:96px;height:114px;flex:none;border-radius:22px;display:grid;place-items:center;overflow:hidden}
   .bot{width:94px;height:auto;display:block}
   .bot g,.bot path,.bot rect,.bot circle,.bot line{transform-box:view-box}
@@ -173,52 +183,6 @@
   .brow{stroke:#2B3A47;stroke-width:2.4;stroke-linecap:round}
   .belly{fill:#EAF1F6;stroke:#2B3A47;stroke-width:1.5}
   .beam{fill:#63CDB4;opacity:0}
-
-  /* นางพยาบาล: ลำแสงสแกนไล่ลงมา จอหน้าท้องติด แล้วพยักหน้า */
-  .nurse .beam{animation:mScan 3s ease-in-out infinite}
-  @keyframes mScan{
-    0%{transform:translateY(0);opacity:0}
-    12%{opacity:.55}
-    52%{transform:translateY(62px);opacity:.55}
-    62%{opacity:0}
-    100%{transform:translateY(0);opacity:0}
-  }
-  .nurse .belly{animation:mDiag 3s ease-in-out infinite}
-  @keyframes mDiag{0%,55%{fill:#EAF1F6}68%,92%{fill:#BFEADE}100%{fill:#EAF1F6}}
-  .nurse .head{animation:mNod 3s ease-in-out infinite;transform-origin:50px 33px}
-  @keyframes mNod{0%,62%,100%{transform:rotate(0)}74%{transform:rotate(-5deg)}86%{transform:rotate(3deg)}}
-
-  /* กอด: กางแขนแล้วโอบเข้าหากัน ตัวยุบนิดหน่อย */
-  .hug .arm-l{animation:mHugL 3.2s ease-in-out infinite;transform-origin:30px 56px}
-  .hug .arm-r{animation:mHugR 3.2s ease-in-out infinite;transform-origin:70px 56px}
-  @keyframes mHugL{0%,12%{transform:rotate(-10deg)}45%,72%{transform:rotate(48deg)}100%{transform:rotate(-10deg)}}
-  @keyframes mHugR{0%,12%{transform:rotate(10deg)}45%,72%{transform:rotate(-48deg)}100%{transform:rotate(10deg)}}
-  .hug .torso{animation:mSquish 3.2s ease-in-out infinite;transform-origin:50px 108px}
-  @keyframes mSquish{0%,12%{transform:scale(1,1)}45%,72%{transform:scale(1.04,.96)}100%{transform:scale(1,1)}}
-
-  /* แบตต่ำ: เอียงซ้ายขวา ตาหรี่ ไฟแบตกะพริบ */
-  .low .all{animation:mWobble 3.6s ease-in-out infinite;transform-origin:50px 118px}
-  @keyframes mWobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
-  .low .eye{animation:mDroop 3.6s ease-in-out infinite}
-  @keyframes mDroop{0%,100%{opacity:.3;transform:translateY(1.5px)}45%,60%{opacity:1;transform:translateY(0)}}
-  .low .batt{animation:mBatt 1.2s steps(1) infinite}
-  @keyframes mBatt{0%,50%{opacity:1}51%,100%{opacity:.15}}
-
-  /* ฟิสต์บัมพ์: ชกออกไปแล้วมีประกาย */
-  .fist .arm-r{animation:mBump 2.2s cubic-bezier(.5,0,.25,1) infinite;transform-origin:70px 56px}
-  @keyframes mBump{
-    0%,22%{transform:rotate(0)}
-    42%{transform:rotate(-48deg)}
-    52%{transform:rotate(-40deg)}
-    68%{transform:rotate(-46deg)}
-    100%{transform:rotate(0)}
-  }
-  .fist .spark{fill:none;stroke:#5B8FC7;stroke-width:2.4;stroke-linecap:round;opacity:0;
-    animation:mSpark 2.2s ease-out infinite;transform-origin:101px 80px}
-  @keyframes mSpark{0%,40%{opacity:0;transform:scale(.35)}52%{opacity:.95;transform:scale(.9)}72%{opacity:0;transform:scale(1)}100%{opacity:0}}
-  .fist .head{animation:mTilt 2.2s ease-in-out infinite;transform-origin:50px 33px}
-  @keyframes mTilt{0%,30%,100%{transform:rotate(0)}50%,66%{transform:rotate(6deg)}}
-
   .mode h3{font-family:var(--display);font-weight:600;font-size:19px;margin:0 0 4px}
   .mode p{margin:0;font-size:14.5px;color:var(--ink-soft)}
   .mode code{font-family:var(--mono);font-size:12px;background:#F0F6FA;padding:2px 7px;border-radius:6px;color:var(--ink)}
@@ -227,71 +191,36 @@
   #bumpline.show{opacity:1;animation:wiggle .5s ease}
   @keyframes wiggle{25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
 
-  /* ---------- care ---------- */
-  .care{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .care ul{list-style:none;margin:0;padding:0}
-  .care li{padding:9px 0 9px 30px;position:relative;font-size:15px;border-bottom:1px solid var(--line)}
-  .care li:last-child{border-bottom:0}
-  .care li::before{position:absolute;left:0;top:9px;font-family:var(--mono);font-size:13px}
-  .do li::before{content:'✓';color:var(--mint)}
-  .dont li::before{content:'✕';color:var(--red)}
-  .care .head{padding:22px 24px 6px}
-  .care .body{padding:0 24px 20px}
-  .care h3{font-family:var(--display);font-weight:600;font-size:18px;margin:0}
+  .nurse .beam{animation:mScan 3s ease-in-out infinite}
+  @keyframes mScan{0%{transform:translateY(0);opacity:0}12%{opacity:.55}52%{transform:translateY(62px);opacity:.55}62%{opacity:0}100%{transform:translateY(0);opacity:0}}
+  .nurse .belly{animation:mDiag 3s ease-in-out infinite}
+  @keyframes mDiag{0%,55%{fill:#EAF1F6}68%,92%{fill:#BFEADE}100%{fill:#EAF1F6}}
+  .nurse .head{animation:mNod 3s ease-in-out infinite;transform-origin:50px 33px}
+  @keyframes mNod{0%,62%,100%{transform:rotate(0)}74%{transform:rotate(-5deg)}86%{transform:rotate(3deg)}}
+  .hug .arm-l{animation:mHugL 3.2s ease-in-out infinite;transform-origin:30px 56px}
+  .hug .arm-r{animation:mHugR 3.2s ease-in-out infinite;transform-origin:70px 56px}
+  @keyframes mHugL{0%,12%{transform:rotate(-10deg)}45%,72%{transform:rotate(48deg)}100%{transform:rotate(-10deg)}}
+  @keyframes mHugR{0%,12%{transform:rotate(10deg)}45%,72%{transform:rotate(-48deg)}100%{transform:rotate(10deg)}}
+  .hug .torso{animation:mSquish 3.2s ease-in-out infinite;transform-origin:50px 108px}
+  @keyframes mSquish{0%,12%{transform:scale(1,1)}45%,72%{transform:scale(1.04,.96)}100%{transform:scale(1,1)}}
+  .low .all{animation:mWobble 3.6s ease-in-out infinite;transform-origin:50px 118px}
+  @keyframes mWobble{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+  .low .eye{animation:mDroop 3.6s ease-in-out infinite}
+  @keyframes mDroop{0%,100%{opacity:.3;transform:translateY(1.5px)}45%,60%{opacity:1;transform:translateY(0)}}
+  .low .batt{animation:mBatt 1.2s steps(1) infinite}
+  @keyframes mBatt{0%,50%{opacity:1}51%,100%{opacity:.15}}
+  .fist .arm-r{animation:mBump 2.2s cubic-bezier(.5,0,.25,1) infinite;transform-origin:70px 56px}
+  @keyframes mBump{0%,22%{transform:rotate(0)}42%{transform:rotate(-48deg)}52%{transform:rotate(-40deg)}68%{transform:rotate(-46deg)}100%{transform:rotate(0)}}
+  .fist .spark{fill:none;stroke:#5B8FC7;stroke-width:2.4;stroke-linecap:round;opacity:0;
+    animation:mSpark 2.2s ease-out infinite;transform-origin:101px 80px}
+  @keyframes mSpark{0%,40%{opacity:0;transform:scale(.35)}52%{opacity:.95;transform:scale(.9)}72%{opacity:0;transform:scale(1)}100%{opacity:0}}
+  .fist .head{animation:mTilt 2.2s ease-in-out infinite;transform-origin:50px 33px}
+  @keyframes mTilt{0%,30%,100%{transform:rotate(0)}50%,66%{transform:rotate(6deg)}}
 
-  /* ---------- table ---------- */
-  .tbl{overflow:hidden}
-  table{width:100%;border-collapse:collapse;font-size:14.5px}
-  th{
-    font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--ink-soft);text-align:left;
-    padding:16px 20px;background:#F4F9FC;border-bottom:1px solid var(--line);
-  }
-  td{padding:15px 20px;border-bottom:1px solid var(--line);vertical-align:top}
-  tr:last-child td{border-bottom:0}
-  td:first-child{font-weight:400;color:var(--ink)}
-  td:last-child{color:var(--ink-soft)}
-
-  /* ---------- shutdown ---------- */
-  .shutdown{
-    background:var(--red);color:#fff;border:0;
-    padding:44px 40px;text-align:center;border-radius:30px;
-  }
-  .shutdown .eyebrow{color:rgba(255,255,255,.72)}
-  .shutdown blockquote{
-    font-family:var(--display);font-weight:700;
-    font-size:clamp(23px,4vw,36px);line-height:1.35;
-    margin:14px auto 12px;max-width:20ch;
-  }
-  .shutdown p{margin:0 auto;max-width:44ch;font-size:15px;color:rgba(255,255,255,.85)}
-
-  /* ---------- footer ---------- */
-  footer{margin-top:64px;display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
-  .warranty{padding:26px 26px 28px}
-  .warranty h3{font-family:var(--display);font-weight:700;font-size:20px;margin:6px 0 12px}
-  .fields{display:grid;gap:14px;margin-top:16px}
-  .field{border-bottom:1.5px dotted var(--line);padding-bottom:5px}
-  .field span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase}
-  .fine{padding:26px;font-size:13px;color:var(--ink-soft)}
-  .fine p{margin:0 0 10px}
-  .fine p:last-child{margin:0}
-
-  @media (max-width:820px){
-    .hero{grid-template-columns:1fr;gap:26px}
-    .diagram{order:-1;max-width:320px;margin:0 auto}
-    .specs{grid-template-columns:1fr 1fr}
-    .spec:nth-child(2){border-right:0}
-    .spec:nth-child(1),.spec:nth-child(2){border-bottom:1px solid var(--line)}
-    .steps,.modes,.care,footer{grid-template-columns:1fr}
-    .wrap{padding:0 18px 60px}
-  }
-  /* ============ เกมซ้อมปะรอยรั่ว ============ */
+  /* ============ เกม 1 · ปะรอยรั่ว ============ */
   .game{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;padding:24px}
-  .arena{
-    position:relative;aspect-ratio:120/126;border-radius:20px;overflow:hidden;
-    background:radial-gradient(120% 90% at 50% 0%,#FFFFFF,#E4EDF4);
-    touch-action:manipulation;-webkit-user-select:none;user-select:none;
-  }
+  .arena{position:relative;aspect-ratio:120/126;border-radius:20px;overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 0%,#FFFFFF,#E4EDF4);touch-action:manipulation;-webkit-user-select:none;user-select:none}
   .arena .gbot{position:absolute;inset:0;width:100%;height:100%}
   .gbot .torso{animation:breathe 3.6s ease-in-out infinite;transform-origin:50px 108px}
   @keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.015,.988)}}
@@ -299,46 +228,25 @@
   .arena.low .gbot .eye{opacity:.4}
   .layer{position:absolute;inset:0;pointer-events:none}
   .layer.hot{pointer-events:auto}
-
-  .leak{
-    position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;
-    border:0;background:none;padding:0;cursor:pointer;border-radius:50%;
-  }
-  .leak i{
-    position:absolute;inset:13px;border-radius:50%;background:var(--red);
-    box-shadow:0 0 0 5px rgba(240,87,95,.22);animation:leakBeat .55s ease-in-out infinite alternate;
-  }
+  .leak{position:absolute;width:40px;height:40px;margin:-20px 0 0 -20px;border:0;background:none;padding:0;cursor:pointer;border-radius:50%}
+  .leak i{position:absolute;inset:13px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px rgba(240,87,95,.22);animation:leakBeat .55s ease-in-out infinite alternate}
   @keyframes leakBeat{to{transform:scale(1.25)}}
-  .leak::after{
-    content:'';position:absolute;inset:2px;border-radius:50%;
-    border:2px solid rgba(240,87,95,.5);animation:leakRing 1.1s ease-out infinite;
-  }
+  .leak::after{content:'';position:absolute;inset:2px;border-radius:50%;border:2px solid rgba(240,87,95,.5);animation:leakRing 1.1s ease-out infinite}
   @keyframes leakRing{0%{transform:scale(.35);opacity:.9}100%{transform:scale(1);opacity:0}}
   .leak:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-  .leak:active i{transform:scale(.8)}
-
-  .patch{
-    position:absolute;width:30px;height:15px;margin:-7px 0 0 -15px;border-radius:4px;
-    background:var(--butter);border:1px solid #E7BF64;opacity:.95;
-    animation:patchOn .28s cubic-bezier(.2,1.4,.4,1);
-  }
+  .patch{position:absolute;width:30px;height:15px;margin:-7px 0 0 -15px;border-radius:4px;background:var(--butter);
+    border:1px solid #E7BF64;opacity:.95;animation:patchOn .28s cubic-bezier(.2,1.4,.4,1)}
   .patch::before{content:'';position:absolute;inset:4px 3px;border-top:1px dashed rgba(0,0,0,.16)}
   @keyframes patchOn{from{transform:scale(.4) rotate(var(--rot))}to{transform:scale(1) rotate(var(--rot))}}
-
-  .pop{
-    position:absolute;font-family:var(--mono);font-size:12px;color:var(--mint);
-    font-weight:500;transform:translate(-50%,-50%);animation:popUp .75s ease-out forwards;
-  }
+  .pop{position:absolute;font-family:var(--mono);font-size:12px;color:var(--mint);font-weight:500;
+    transform:translate(-50%,-50%);animation:popUp .75s ease-out forwards}
   @keyframes popUp{to{transform:translate(-50%,-190%);opacity:0}}
-
-  .overlay{
-    position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:2px;
-    background:rgba(240,245,249,.82);backdrop-filter:blur(3px);padding:24px;z-index:5;
-  }
+  .overlay{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:2px;
+    background:rgba(240,245,249,.84);backdrop-filter:blur(3px);padding:24px;z-index:5}
   .overlay[hidden]{display:none}
   .overlay h3{font-family:var(--display);font-weight:700;font-size:22px;margin:0}
-  .overlay p{margin:6px auto 14px;font-size:14px;color:var(--ink-soft);max-width:26ch}
-  .overlay .btn{justify-self:center}
+  .overlay p{margin:6px auto 8px;font-size:14px;color:var(--ink-soft);max-width:28ch}
+  .overlay .btn{justify-self:center;margin-top:12px}
   .overlay .final{font-family:var(--display);font-weight:700;font-size:44px;line-height:1;color:var(--red);margin:2px 0 0}
   .overlay .finlab{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 
@@ -347,24 +255,17 @@
   .kpi{flex:1;background:#F4F9FC;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
   .kpi b{display:block;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.2}
   .kpi span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
-  .rank{
-    display:inline-flex;align-self:flex-start;align-items:center;gap:8px;
-    background:#FFF6E0;border:1px solid #EAD4A0;border-radius:999px;padding:7px 15px;
-    font-size:13.5px;font-weight:600;
-  }
+  .rank{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;background:#FFF6E0;
+    border:1px solid #EAD4A0;border-radius:999px;padding:7px 15px;font-size:13.5px;font-weight:600}
   .meter-lab{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
   .meter-lab span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
   .meter-lab b{font-family:var(--mono);font-size:13px;font-weight:500}
   .meter{height:14px;border-radius:999px;background:#E1EAF1;overflow:hidden}
   .meter i{display:block;height:100%;width:100%;border-radius:999px;background:var(--mint);transition:width .12s linear,background .3s ease}
-
   .chips h4{font-family:var(--display);font-weight:600;font-size:15px;margin:0 0 3px}
   .chips>p{margin:0 0 10px;font-size:12.5px;color:var(--ink-soft)}
   .chipgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .chip{
-    border:1px dashed var(--line);border-radius:14px;padding:10px 8px;text-align:center;
-    background:#FBFDFE;transition:transform .25s ease;
-  }
+  .chip{border:1px dashed var(--line);border-radius:14px;padding:10px 8px;text-align:center;background:#FBFDFE;transition:transform .25s ease}
   .chip .ic{font-size:17px;line-height:1;filter:grayscale(1);opacity:.3}
   .chip small{display:block;margin-top:5px;font-size:10.5px;color:var(--ink-soft);line-height:1.35}
   .chip.got{border-style:solid;border-color:#B7E5D8;background:#EAF9F4}
@@ -374,87 +275,174 @@
   @keyframes chipPop{0%{transform:scale(.7) rotate(-6deg)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
   .hint{font-size:12.5px;color:var(--ink-soft);margin:0}
 
-  @media (max-width:820px){
-    .game{grid-template-columns:1fr;gap:20px;padding:18px}
-    .arena{max-width:330px;margin:0 auto;width:100%}
-  }
+  /* ============ เกม 2 · ต่อสู้ ============ */
+  .game2{padding:20px}
+  .bfield{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;touch-action:none;
+    -webkit-user-select:none;user-select:none;
+    background:linear-gradient(180deg,#F7FBFD 0%,#E6F0F7 62%,#DCE9F2 100%)}
+  .bfield.shake{animation:shake .3s}
+  @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .ground{position:absolute;left:0;right:0;bottom:0;height:9%;background:#D3E1EC;border-top:2px solid #BFD3E2}
+  .grid-lines{position:absolute;inset:0;opacity:.5;
+    background-image:linear-gradient(90deg,rgba(169,204,234,.35) 1px,transparent 1px);background-size:8.33% 100%}
+  .fighter{position:absolute;bottom:7%;width:13.5%;transform:translateX(-50%);z-index:3}
+  .fighter .fbot{width:100%;height:auto;display:block}
+  .fighter.left .fbot{transform:scaleX(-1)}
+  .fighter.walk .all{animation:fBob .42s ease-in-out infinite}
+  @keyframes fBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+  .fighter.walk .leg-l{animation:fLegA .42s ease-in-out infinite;transform-origin:41px 100px}
+  .fighter.walk .leg-r{animation:fLegB .42s ease-in-out infinite;transform-origin:59px 100px}
+  @keyframes fLegA{0%,100%{transform:rotate(15deg)}50%{transform:rotate(-15deg)}}
+  @keyframes fLegB{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(15deg)}}
+  .fighter .arm-r{transform-origin:70px 56px}
+  .fighter.punch .arm-r{animation:fPunch .3s cubic-bezier(.3,1.4,.4,1)}
+  @keyframes fPunch{0%{transform:rotate(0)}40%{transform:rotate(-88deg)}100%{transform:rotate(0)}}
+  .fighter.hurt .body-sh{fill:#FFDDDF}
+  .fighter.hurt{animation:fHurt .42s steps(2) 2}
+  @keyframes fHurt{50%{opacity:.35}}
+  .foe{position:absolute;width:8%;transform:translate(-50%,-50%);z-index:2}
+  .foe.big{width:12.5%}
+  .foe svg{width:100%;height:auto;display:block;animation:foeSpin 3s linear infinite}
+  .foe.big svg{animation-duration:2s}
+  @keyframes foeSpin{to{transform:rotate(360deg)}}
+  .foe.ouch svg{animation:foeOuch .18s}
+  @keyframes foeOuch{50%{transform:scale(1.3)}}
+  .shot{position:absolute;width:4.4%;transform:translate(-50%,-50%);z-index:2}
+  .shot svg{width:100%;height:auto;display:block}
+  .bit{position:absolute;width:8px;height:8px;border-radius:50%;transform:translate(-50%,-50%);z-index:4}
+  .hearts{position:absolute;top:12px;left:14px;display:flex;gap:5px;z-index:6}
+  .heart{width:17px;height:17px;transition:opacity .2s ease,transform .2s ease}
+  .heart.gone{opacity:.2;transform:scale(.75)}
+  .btop{position:absolute;top:11px;right:15px;z-index:6;text-align:right}
+  .btop b{display:block;font-family:var(--display);font-weight:700;font-size:22px;line-height:1;color:var(--ink)}
+  .btop span{font-family:var(--mono);font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
+  .wavetag{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+  .wavebig{position:absolute;inset:0;display:grid;place-content:center;z-index:5;pointer-events:none;
+    font-family:var(--display);font-weight:700;font-size:34px;color:var(--red);opacity:0}
+  .wavebig.show{animation:waveIn 1.2s ease-out}
+  @keyframes waveIn{0%{opacity:0;transform:scale(.7)}25%{opacity:1;transform:scale(1)}75%{opacity:1}100%{opacity:0;transform:scale(1.1)}}
 
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none!important;transition:none!important}
-  }
+  .pad{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;margin-top:14px;max-width:420px;margin-inline:auto}
+  .pbtn{font-family:var(--body);font-weight:600;font-size:17px;color:var(--ink);background:var(--vinyl);
+    border:1px solid var(--line);border-radius:18px;padding:15px 0;cursor:pointer;-webkit-user-select:none;user-select:none;
+    touch-action:manipulation;transition:transform .1s ease,background .1s ease}
+  .pbtn:active,.pbtn.on{background:#E6F0F7;transform:scale(.96)}
+  .pbtn.fire{background:var(--red);color:#fff;border-color:transparent;font-size:15.5px}
+  .pbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .brow2{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 
-  /* ============ PWA UI ============ */
-  /* เผื่อขอบจอตอนรันแบบแอปเต็มจอ */
-  body{padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+  /* ============ ตาราง ============ */
+  .tbl{overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th{font-family:var(--mono);font-weight:500;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);text-align:left;padding:16px 20px;background:#F4F9FC;border-bottom:1px solid var(--line)}
+  td{padding:15px 20px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td:last-child{color:var(--ink-soft)}
 
-  /* ป้ายสถานะบนหัวเรื่อง */
-  .netchip{
-    display:none;align-items:center;gap:7px;margin-left:8px;
-    background:#FFF1D6;border:1px solid #EAD4A0;border-radius:999px;padding:6px 14px;
-  }
-  .netchip .eyebrow{color:#9A7726}
-  body.is-offline .netchip{display:inline-flex}
+  /* ============ footer ============ */
+  footer{margin-top:64px;display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+  .warranty{padding:26px 26px 28px}
+  .warranty h3{font-family:var(--display);font-weight:700;font-size:20px;margin:6px 0 12px}
+  .fields{display:grid;gap:12px;margin-top:14px}
+  .field{border-bottom:1.5px dotted var(--line);padding-bottom:6px}
+  .field span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .field b{font-family:var(--display);font-weight:600;font-size:17px}
+  .fine{padding:26px;font-size:13px;color:var(--ink-soft)}
+  .fine p{margin:0 0 10px}
+  .fine p:last-child{margin:0}
+  .offline-note{margin-top:18px;padding:18px 20px;display:flex;gap:14px;align-items:center;
+    background:#F4F9FC;border:1px dashed var(--line);border-radius:20px}
+  .offline-note p{margin:0;font-size:14px;color:var(--ink-soft)}
+  .offline-note b{color:var(--ink);font-family:var(--display);font-weight:600}
+  body.is-installed .offline-note{background:#E8F7F3;border-color:#B7E5D8;border-style:solid}
 
-  /* คำชวนติดตั้ง */
-  .install{
-    position:fixed;left:20px;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));
-    z-index:60;max-width:420px;margin-left:auto;
-    background:var(--vinyl);border:1px solid var(--line);border-radius:24px;
-    box-shadow:0 22px 44px -20px rgba(43,58,71,.45);
-    padding:18px 18px 18px 16px;display:none;gap:14px;align-items:flex-start;
-    transform:translateY(16px);opacity:0;transition:transform .35s cubic-bezier(.2,.8,.3,1),opacity .35s ease;
-  }
-  .install.up{display:flex;transform:translateY(0);opacity:1}
-  .install .mini{
-    width:52px;height:52px;flex:none;border-radius:16px;background:var(--red);
-    display:grid;place-items:center;
-  }
-  .install h4{font-family:var(--display);font-weight:700;font-size:16px;margin:0 0 3px}
-  .install p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.6}
-  .install .row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-  .btn{
-    font-family:var(--body);font-size:13.5px;font-weight:600;cursor:pointer;
-    border-radius:999px;padding:9px 18px;border:1px solid transparent;transition:transform .15s ease,filter .15s ease;
-  }
-  .btn:active{transform:scale(.97)}
-  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-  .btn-go{background:var(--red);color:#fff}
-  .btn-go:hover{filter:brightness(1.05)}
-  .btn-ghost{background:transparent;color:var(--ink-soft);border-color:var(--line)}
-  .install .close{
-    position:absolute;top:12px;right:14px;background:none;border:0;cursor:pointer;
-    font-size:18px;line-height:1;color:var(--ink-soft);padding:4px 6px;border-radius:8px;
-  }
-  .install .close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-  .ios-steps{margin:10px 0 0;padding:0;list-style:none;font-size:13px;color:var(--ink-soft)}
-  .ios-steps li{padding:3px 0 3px 22px;position:relative}
-  .ios-steps li::before{content:'→';position:absolute;left:0;color:var(--red);font-family:var(--mono)}
-
-  /* แจ้งเตือนเวอร์ชันใหม่ */
-  .toast{
-    position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
-    z-index:70;background:var(--ink);color:#fff;border-radius:18px;
-    padding:13px 16px 13px 20px;display:none;gap:14px;align-items:center;
-    box-shadow:0 18px 36px -18px rgba(43,58,71,.7);opacity:0;transition:transform .3s ease,opacity .3s ease;
-    font-size:14px;max-width:92vw;
-  }
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
+    z-index:70;background:var(--ink);color:#fff;border-radius:18px;padding:13px 16px 13px 20px;display:none;gap:14px;
+    align-items:center;box-shadow:0 18px 36px -18px rgba(43,58,71,.7);opacity:0;transition:transform .3s ease,opacity .3s ease;font-size:14px;max-width:92vw}
   .toast.up{display:flex;transform:translate(-50%,0);opacity:1}
   .toast .btn-go{background:#fff;color:var(--ink);padding:7px 15px;font-size:13px}
 
-  /* กล่องแนะนำในเนื้อคู่มือ */
-  .offline-note{
-    margin-top:16px;padding:20px 22px;display:flex;gap:16px;align-items:center;
-    background:#F4F9FC;border:1px dashed var(--line);border-radius:22px;
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr;gap:26px}
+    .diagram{order:-1;max-width:320px;margin:0 auto}
+    .specs{grid-template-columns:1fr 1fr}
+    .spec:nth-child(2){border-right:0}
+    .spec:nth-child(1),.spec:nth-child(2){border-bottom:1px solid var(--line)}
+    .steps,.modes,footer{grid-template-columns:1fr}
+    .game{grid-template-columns:1fr;gap:20px;padding:18px}
+    .arena{max-width:330px;margin:0 auto;width:100%}
+    .wrap{padding:0 18px 60px}
+    .gcard{padding:28px 22px 24px}
+    .grow{grid-template-columns:1fr}
   }
-  .offline-note p{margin:0;font-size:14.5px;color:var(--ink-soft)}
-  .offline-note b{color:var(--ink);font-family:var(--display);font-weight:600}
-  body.is-installed .offline-note{background:#E8F7F3;border-color:#B7E5D8;border-style:solid}
-  @media (display-mode:standalone){
-    .install{display:none!important}
-  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- ===================== หน้าลงทะเบียน ===================== -->
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="gcard">
+    <button class="gclose" id="gateClose" aria-label="ปิด" hidden>✕</button>
+
+    <svg class="gface" viewBox="0 0 100 56" aria-hidden="true">
+      <rect x="4" y="6" width="92" height="44" rx="22" fill="#FDFEFF" stroke="#2B3A47" stroke-width="3"/>
+      <circle class="gEye" cx="35" cy="28" r="6" fill="#2B3A47"/>
+      <circle class="gEye" cx="65" cy="28" r="6" fill="#2B3A47"/>
+      <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
+    </svg>
+
+    <div class="eyebrow">Registration card · Model PHC-01</div>
+    <h1 id="gateTitle">ลงทะเบียนผู้ดูแล</h1>
+    <p class="sub">พิมพ์ชื่อของคุณเพื่อเปิดใช้งานคู่มือ เขาจะเรียกคุณด้วยชื่อนี้ตลอดทั้งเล่ม</p>
+
+    <div class="gfield">
+      <label for="nameInput">ชื่อผู้ดูแล · Owner name</label>
+      <input id="nameInput" type="text" maxlength="24" autocomplete="name" enterkeyhint="go"
+             placeholder="เช่น ฮิโระ" spellcheck="false">
+    </div>
+    <p class="gerr" id="gateErr">ใส่ชื่อก่อนนะ เขาจะได้รู้ว่าต้องดูแลใคร</p>
+
+    <div class="grow">
+      <div class="gmeta"><span>Serial no.</span><b id="serialOut">—</b></div>
+      <div class="gmeta"><span>Activated on</span><b id="dateOut">—</b></div>
+    </div>
+
+    <button class="btn btn-go gsubmit" id="gateGo">เปิดใช้งาน</button>
+
+    <div class="gsplit"></div>
+
+    <div id="installBlock">
+      <div class="gi-head">
+        <div class="ic">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#F0575F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="3"/><path d="M10 18h4"/>
+          </svg>
+        </div>
+        <div style="flex:1">
+          <h4>ติดตั้งเป็นแอปบนเครื่อง</h4>
+          <p id="giSub">เปิดเต็มจอ ไม่มีแถบเบราว์เซอร์ และอ่านได้แม้ไม่มีเน็ต</p>
+        </div>
+        <button class="btn btn-go" id="giBtn" hidden>ติดตั้ง</button>
+      </div>
+      <details class="how">
+        <summary>วิธีติดตั้งแต่ละอุปกรณ์</summary>
+        <div class="how-body">
+          <b>iPhone / iPad — Safari</b>
+          <ol><li>แตะปุ่มแชร์ที่แถบล่าง</li><li>เลือก “เพิ่มไปยังหน้าจอโฮม”</li><li>แตะ “เพิ่ม” มุมขวาบน</li></ol>
+          <b>Android — Chrome</b>
+          <ol><li>แตะเมนูจุดสามจุดมุมขวาบน</li><li>เลือก “ติดตั้งแอป” หรือ “เพิ่มไปยังหน้าจอหลัก”</li><li>ยืนยัน “ติดตั้ง”</li></ol>
+          <b>คอมพิวเตอร์ — Chrome / Edge</b>
+          <ol><li>ดูไอคอนติดตั้งท้ายช่องที่อยู่เว็บ</li><li>คลิกแล้วกด “ติดตั้ง”</li><li>แอปจะเปิดเป็นหน้าต่างของตัวเอง</li></ol>
+          <p style="margin:12px 0 0">ติดตั้งได้เฉพาะเมื่อเปิดผ่าน https หรือ localhost</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
   <header>
@@ -466,14 +454,14 @@
         <div class="eyebrow">คู่มือผู้ใช้ฉบับย่อ · Model PHC-01</div>
         <h1>Bay<em>max</em></h1>
         <p class="thai-name">หุ่นยนต์ดูแลสุขภาพประจำตัว</p>
-        <p class="lead">สวัสดี ฉันคือ Baymax ผู้ช่วยดูแลสุขภาพประจำตัวของคุณ คู่มือเล่มนี้จะพาคุณตั้งแต่แกะกล่อง เปิดเครื่อง ไปจนถึงวิธีบอกให้ฉันหยุดทำงาน (ซึ่งมีอยู่ทางเดียวเท่านั้น)</p>
+        <p class="lead">สวัสดี <b id="heroName">ผู้ดูแล</b> ฉันคือ Baymax ผู้ช่วยดูแลสุขภาพประจำตัวของคุณ คู่มือเล่มนี้จะพาคุณตั้งแต่แกะกล่อง เปิดเครื่อง ไปจนถึงการซ้อมรับมือเวลามีอะไรผิดปกติ</p>
         <span class="stamp">อ่านให้จบก่อนกอด</span>
       </div>
 
       <div class="diagram">
         <svg viewBox="0 0 340 360" role="img" aria-label="แผนภาพส่วนประกอบของหุ่นยนต์ดูแลสุขภาพ">
           <defs>
-            <linearGradient id="beam" x1="0" x2="1" y1="0" y2="0">
+            <linearGradient id="beamGrad" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0%" stop-color="#63CDB4" stop-opacity="0"/>
               <stop offset="50%" stop-color="#63CDB4" stop-opacity=".55"/>
               <stop offset="100%" stop-color="#63CDB4" stop-opacity="0"/>
@@ -482,51 +470,28 @@
               <path d="M170 96c46 0 74 34 74 88 0 62-30 96-74 96s-74-34-74-96c0-54 28-88 74-88z"/>
             </clipPath>
           </defs>
-
-          <!-- construction lines -->
           <line x1="170" y1="24" x2="170" y2="336" stroke="#D3E1EC" stroke-width="1" stroke-dasharray="2 5"/>
-
-          <!-- body -->
-          <path d="M170 96c46 0 74 34 74 88 0 62-30 96-74 96s-74-34-74-96c0-54 28-88 74-88z"
-                fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
-          <!-- belly seam -->
+          <path d="M170 96c46 0 74 34 74 88 0 62-30 96-74 96s-74-34-74-96c0-54 28-88 74-88z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
           <path d="M124 210c14 10 32 15 46 15s32-5 46-15" fill="none" stroke="#D3E1EC" stroke-width="1.6"/>
-          <!-- care chip port -->
           <rect x="152" y="150" width="36" height="26" rx="7" fill="#EAF1F6" stroke="#2B3A47" stroke-width="1.6"/>
           <rect x="160" y="157" width="20" height="4" rx="2" fill="#F0575F"/>
           <rect x="160" y="165" width="12" height="4" rx="2" fill="#A9CCEA"/>
-
-          <!-- arms -->
           <path d="M104 152c-20 8-30 26-28 46 2 18 10 28 20 30" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round"/>
           <path d="M236 152c20 8 30 26 28 46-2 18-10 28-20 30" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round"/>
           <circle cx="92" cy="230" r="15" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
           <circle cx="248" cy="230" r="15" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
-
-          <!-- legs -->
           <path d="M140 276c-4 22-6 36-4 46h30c-2-14-2-30 0-44" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linejoin="round"/>
           <path d="M200 276c4 22 6 36 4 46h-30c2-14 2-30 0-44" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linejoin="round"/>
-
-          <!-- head -->
           <rect x="126" y="58" width="88" height="46" rx="23" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
           <circle cx="150" cy="81" r="5.5" fill="#2B3A47"/>
           <circle cx="190" cy="81" r="5.5" fill="#2B3A47"/>
           <line x1="155.5" y1="81" x2="184.5" y2="81" stroke="#2B3A47" stroke-width="2.2"/>
-
-          <!-- scan sweep -->
-          <g clip-path="url(#bodyclip)">
-            <rect class="scanline" x="90" y="96" width="160" height="16" fill="url(#beam)"/>
-          </g>
-
-          <!-- callouts -->
+          <g clip-path="url(#bodyclip)"><rect class="scanline" x="90" y="96" width="160" height="16" fill="url(#beamGrad)"/></g>
           <g class="lbl">
-            <line class="leader" x1="216" y1="70" x2="286" y2="52"/>
-            <text x="290" y="50">OPTICAL SENSOR</text>
-            <line class="leader" x1="188" y1="163" x2="284" y2="140"/>
-            <text x="288" y="138">CARE CHIP SLOT</text>
-            <line class="leader" x1="120" y1="196" x2="42" y2="176"/>
-            <text x="6" y="174">VINYL SHELL</text>
-            <line class="leader" x1="140" y1="300" x2="46" y2="316"/>
-            <text x="0" y="314">LITHIUM-ION CORE</text>
+            <line class="leader" x1="216" y1="70" x2="286" y2="52"/><text x="290" y="50">OPTICAL SENSOR</text>
+            <line class="leader" x1="188" y1="163" x2="284" y2="140"/><text x="288" y="138">CARE CHIP SLOT</text>
+            <line class="leader" x1="120" y1="196" x2="42" y2="176"/><text x="6" y="174">VINYL SHELL</text>
+            <line class="leader" x1="140" y1="300" x2="46" y2="316"/><text x="0" y="314">LITHIUM-ION CORE</text>
           </g>
         </svg>
       </div>
@@ -540,6 +505,7 @@
     </div>
   </header>
 
+  <!-- ============ 01 ============ -->
   <section>
     <div class="sec-head">
       <div class="eyebrow">01 — Getting started</div>
@@ -547,55 +513,22 @@
       <p>ทำตามลำดับ อย่าข้ามขั้น โดยเฉพาะขั้นที่ 3</p>
     </div>
     <div class="steps">
-      <div class="step card">
-        <span class="num">STEP 01</span>
-        <h3>วางกล่องแดง</h3>
-        <p>เลือกมุมห้องที่โล่ง เว้นพื้นที่รอบกล่องอย่างน้อย 1 เมตร เพราะเขาจะพองตัว</p>
-      </div>
-      <div class="step card">
-        <span class="num">STEP 02</span>
-        <h3>ส่งเสียงร้อง</h3>
-        <p>เขาตื่นด้วยเสียงเจ็บปวด แค่ "โอ๊ย" เบา ๆ ก็พอ ไม่ต้องเจ็บจริงก็ได้</p>
-      </div>
-      <div class="step card">
-        <span class="num">STEP 03</span>
-        <h3>รอให้พองเต็ม</h3>
-        <p>ใช้เวลาราว 20 วินาที ห้ามกอดระหว่างนี้เด็ดขาด ตัวยังไม่เต็มลม</p>
-      </div>
-      <div class="step card">
-        <span class="num">STEP 04</span>
-        <h3>ยืนให้สแกน</h3>
-        <p>ยืนนิ่งห่าง 1 เมตร มองกล้อง เขาจะรายงานผลภายในไม่กี่วินาที</p>
-      </div>
+      <div class="step card"><span class="num">STEP 01</span><h3>วางกล่องแดง</h3><p>เลือกมุมห้องที่โล่ง เว้นพื้นที่รอบกล่องอย่างน้อย 1 เมตร เพราะเขาจะพองตัว</p></div>
+      <div class="step card"><span class="num">STEP 02</span><h3>ส่งเสียงร้อง</h3><p>เขาตื่นด้วยเสียงเจ็บปวด แค่ “โอ๊ย” เบา ๆ ก็พอ ไม่ต้องเจ็บจริงก็ได้</p></div>
+      <div class="step card"><span class="num">STEP 03</span><h3>รอให้พองเต็ม</h3><p>ใช้เวลาราว 20 วินาที ห้ามกอดระหว่างนี้เด็ดขาด ตัวยังไม่เต็มลม</p></div>
+      <div class="step card"><span class="num">STEP 04</span><h3>ยืนให้สแกน</h3><p>ยืนนิ่งห่าง 1 เมตร มองกล้อง เขาจะรายงานผลภายในไม่กี่วินาที</p></div>
     </div>
   </section>
 
-  <section id="pain">
+  <!-- ============ 02 ============ -->
+  <section id="modes">
     <div class="sec-head">
-      <div class="eyebrow">02 — Assessment</div>
-      <h2>บอกระดับความเจ็บปวด</h2>
-      <p>แตะตัวเลข 1 ถึง 10 เพื่อดูว่าเขาจะตอบสนองยังไง</p>
-    </div>
-    <div class="scale-box card">
-      <div class="eyebrow">Pain scale · 1 = แทบไม่รู้สึก · 10 = แย่มาก</div>
-      <div class="scale" id="scale"></div>
-      <div class="readout">
-        <div class="num" id="rNum">—</div>
-        <div>
-          <small id="rLabel">รอรับข้อมูล</small>
-          <p id="rText">แตะตัวเลขสักอันสิ ฉันจะได้เริ่มดูแลคุณ</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">03 — Operating modes</div>
+      <div class="eyebrow">02 — Operating modes</div>
       <h2>โหมดการทำงาน</h2>
       <p>สลับได้อัตโนมัติตามสถานการณ์ ยกเว้นโหมดสุดท้ายที่ต้องขอเอง</p>
     </div>
     <div class="modes">
+
       <div class="mode card">
         <div class="stage nurse" style="background:#E8F7F3">
           <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
@@ -604,40 +537,30 @@
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
               <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
               <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
-              <g class="torso">
-                <path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
-                <rect class="belly" x="41" y="58" width="18" height="13" rx="4"/>
-              </g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
               <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
               <g clip-path="url(#clipScan)"><rect class="beam" x="20" y="30" width="60" height="9"/></g>
             </g>
           </svg>
         </div>
-        <div>
-          <h3>โหมดพยาบาล</h3>
-          <p>สแกน วินิจฉัย และรักษาตามฐานข้อมูล ผลตรวจจะขึ้นบนหน้าท้อง ถามซ้ำได้เรื่อย ๆ ไม่มีเบื่อ</p>
-        </div>
+        <div><h3>โหมดพยาบาล</h3><p>สแกน วินิจฉัย และรักษาตามฐานข้อมูล ผลตรวจจะขึ้นบนหน้าท้อง ถามซ้ำได้เรื่อย ๆ ไม่มีเบื่อ</p></div>
       </div>
+
       <div class="mode card">
         <div class="stage hug" style="background:#FDEEEF">
           <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
             <g class="all">
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
-              <g class="torso">
-                <path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
-                <rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/>
-              </g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/></g>
               <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
               <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
               <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
             </g>
           </svg>
         </div>
-        <div>
-          <h3>โหมดกอด</h3>
-          <p>ขอได้ตรง ๆ ไม่ต้องมีเหตุผล แรงกดถูกจำกัดไว้ระดับปลอดภัย กอดนานแค่ไหนก็ได้</p>
-        </div>
+        <div><h3>โหมดกอด</h3><p>ขอได้ตรง ๆ ไม่ต้องมีเหตุผล แรงกดถูกจำกัดไว้ระดับปลอดภัย กอดนานแค่ไหนก็ได้</p></div>
       </div>
+
       <div class="mode card">
         <div class="stage low" style="background:#FFF6E0">
           <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
@@ -655,70 +578,35 @@
             </g>
           </svg>
         </div>
-        <div>
-          <h3>โหมดแบตต่ำ</h3>
-          <p>เดินเซ พูดไม่ชัด ตัดสินใจแปลก ๆ ไม่ใช่ความผิดปกติ พาไปเสียบชาร์จแล้วรอ</p>
-        </div>
+        <div><h3>โหมดแบตต่ำ</h3><p>เดินเซ พูดไม่ชัด ตัดสินใจแปลก ๆ ไม่ใช่ความผิดปกติ พาไปเสียบชาร์จแล้วรอ</p></div>
       </div>
+
       <div class="mode card" id="bump">
         <div class="stage fist" style="background:#EAF2FA">
           <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
             <g class="all">
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
               <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
-              <g class="torso">
-                <path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
-                <rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#E3EEF9"/>
-              </g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#E3EEF9"/></g>
               <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
               <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
               <g class="spark"><path d="M101 69v-7"/><path d="M93 73l-5-4"/><path d="M107 72l4-4"/></g>
             </g>
           </svg>
         </div>
-        <div>
-          <h3>โหมดฟิสต์บัมพ์ <code>ต้องสอน</code></h3>
-          <p>ไม่ได้ติดตั้งมาให้ ต้องสอนเอง กดการ์ดนี้เพื่อลอง <span id="bumpline">บา-ลา-ลา-ลา</span></p>
-        </div>
+        <div><h3>โหมดฟิสต์บัมพ์ <code>ต้องสอน</code></h3><p>ไม่ได้ติดตั้งมาให้ ต้องสอนเอง กดการ์ดนี้เพื่อลอง <span id="bumpline">บา-ลา-ลา-ลา</span></p></div>
       </div>
+
     </div>
   </section>
 
-  <section>
-    <div class="sec-head">
-      <div class="eyebrow">04 — Maintenance</div>
-      <h2>การดูแลรักษา</h2>
-      <p>เขาดูแลคุณแล้ว ทีนี้ถึงตาคุณบ้าง</p>
-    </div>
-    <div class="care">
-      <div class="card do">
-        <div class="head"><h3>ควรทำ</h3></div>
-        <div class="body"><ul>
-          <li>ปะรอยรั่วด้วยเทปกาวทันทีที่ได้ยินเสียงลมออก</li>
-          <li>ชาร์จให้เต็มก่อนออกจากบ้านทุกครั้ง</li>
-          <li>เก็บชิปการดูแลสำรองไว้ในที่ปลอดภัย</li>
-          <li>พูดกับเขาให้ชัด เขาตีความตามตัวอักษรเสมอ</li>
-        </ul></div>
-      </div>
-      <div class="card dont">
-        <div class="head"><h3>ห้ามทำ</h3></div>
-        <div class="body"><ul>
-          <li>วางใกล้ของมีคม กระบองเพชร หรือแมวที่กำลังเบื่อ</li>
-          <li>ถอดชิปการดูแลออกไม่ว่ากรณีใด</li>
-          <li>ติดตั้งชิปต่อสู้โดยไม่มีชิปการดูแลเสียบคู่กัน</li>
-          <li>สั่งให้เขาทำร้ายใครตอนที่คุณกำลังโกรธ</li>
-        </ul></div>
-      </div>
-    </div>
-  </section>
-
+  <!-- ============ 03 · เกมปะรอยรั่ว ============ -->
   <section id="drill">
     <div class="sec-head">
-      <div class="eyebrow">05 — Practice drill</div>
+      <div class="eyebrow">03 — Practice drill</div>
       <h2>ซ้อมปะรอยรั่ว</h2>
       <p>วันจริงคุณจะไม่มีเวลาอ่านคู่มือ ซ้อมไว้ก่อน — แตะรูที่โผล่บนตัวเขาให้ทันก่อนลมจะหมด</p>
     </div>
-
     <div class="game card">
       <div class="arena" id="arena">
         <svg class="bot gbot" viewBox="-10 0 120 126" aria-hidden="true">
@@ -726,10 +614,7 @@
             <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
             <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
             <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
-            <g class="torso">
-              <path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
-              <rect class="belly" x="41" y="58" width="18" height="13" rx="4"/>
-            </g>
+            <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
             <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
           </g>
         </svg>
@@ -738,42 +623,94 @@
         <div class="overlay" id="ovl">
           <h3 id="ovlTitle">พร้อมซ้อมหรือยัง</h3>
           <p id="ovlText">รูจะโผล่ขึ้นมาเรื่อย ๆ แตะให้ทันก่อนลมในตัวเขาจะหมด ยิ่งปะเร็ว ยิ่งได้คะแนน</p>
-          <div id="ovlScore" hidden>
-            <div class="finlab">คะแนนรอบนี้</div>
-            <div class="final" id="finalScore">0</div>
-          </div>
-          <button class="btn btn-go" id="playBtn" style="margin-top:12px">เริ่มซ้อม</button>
+          <div id="ovlScore" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="finalScore">0</div></div>
+          <button class="btn btn-go" id="playBtn">เริ่มซ้อม</button>
         </div>
       </div>
-
       <div class="hud">
         <div class="scores">
           <div class="kpi"><b id="curScore">0</b><span>Score</span></div>
           <div class="kpi"><b id="bestScore">0</b><span>Best</span></div>
           <div class="kpi"><b id="patchCount">0</b><span>Patches</span></div>
         </div>
-
         <span class="rank">🩹 <span id="rankName">ผู้ช่วยฝึกหัด</span></span>
-
         <div>
           <div class="meter-lab"><span>ลมในตัว · Air pressure</span><b id="airPct">100%</b></div>
           <div class="meter"><i id="airBar"></i></div>
         </div>
-
         <div class="chips">
           <h4>ชิปการดูแลที่สะสมได้</h4>
           <p>ทำคะแนนถึงเกณฑ์เพื่อปลดล็อก เก็บไว้ในเครื่องแล้ว</p>
           <div class="chipgrid" id="chipGrid"></div>
         </div>
-
-        <p class="hint">เล่นด้วยเมาส์ นิ้ว หรือกด Tab แล้ว Enter ก็ได้ · แตะรูเดียวกันช้าเกินไป ลมจะรั่วเร็วขึ้นเรื่อย ๆ</p>
+        <p class="hint">เล่นด้วยเมาส์ นิ้ว หรือกด Tab แล้ว Enter ก็ได้</p>
       </div>
     </div>
   </section>
 
+  <!-- ============ 04 · เกมต่อสู้ ============ -->
+  <section id="battle">
+    <div class="sec-head">
+      <div class="eyebrow">04 — Combat simulation</div>
+      <h2>ซ้อมรบกับเชื้อโรค</h2>
+      <p>ชิปต่อสู้ห้ามใช้เดี่ยว ๆ ต้องเสียบคู่กับชิปการดูแลเสมอ นี่คือสนามจำลอง ไม่มีใครเจ็บจริง — เดินหลบแล้วยิงหมัดจรวดใส่เชื้อโรคก่อนมันลงถึงพื้น</p>
+    </div>
+    <div class="game2 card">
+      <div class="bfield" id="bfield" tabindex="0" aria-label="สนามซ้อมรบ">
+        <div class="grid-lines"></div>
+        <div class="ground"></div>
+
+        <div class="hearts" id="hearts"></div>
+        <div class="wavetag" id="waveTag">WAVE 1</div>
+        <div class="btop"><b id="bScore">0</b><span>Score</span></div>
+        <div class="wavebig" id="waveBig">WAVE 2</div>
+
+        <div class="layer" id="foes"></div>
+        <div class="layer" id="shots"></div>
+        <div class="layer" id="bits"></div>
+
+        <div class="fighter" id="fighter">
+          <svg class="bot fbot" viewBox="-10 0 120 126" aria-hidden="true">
+            <g class="all">
+              <g class="leg-l"><path class="leg-out" d="M41 100v15"/><path class="leg-in" d="M41 100v15"/></g>
+              <g class="leg-r"><path class="leg-out" d="M59 100v15"/><path class="leg-in" d="M59 100v15"/></g>
+              <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/></g>
+              <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+              <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+            </g>
+          </svg>
+        </div>
+
+        <div class="overlay" id="bOvl">
+          <h3 id="bTitle">สนามซ้อมรบ</h3>
+          <p id="bText">ใช้ ← → หรือปุ่มด้านล่างเพื่อเดิน กด Space หรือปุ่มยิงเพื่อปล่อยหมัดจรวด อย่าให้เชื้อโรคลงถึงพื้น</p>
+          <div id="bResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="bFinal">0</div></div>
+          <button class="btn btn-go" id="bPlay">เริ่มซ้อมรบ</button>
+        </div>
+      </div>
+
+      <div class="pad">
+        <button class="pbtn" id="padL" aria-label="เดินซ้าย">◀</button>
+        <button class="pbtn fire" id="padF" aria-label="ยิง">ยิงหมัด</button>
+        <button class="pbtn" id="padR" aria-label="เดินขวา">▶</button>
+      </div>
+
+      <div class="brow2">
+        <div class="scores" style="flex:1;max-width:420px">
+          <div class="kpi"><b id="bBest">0</b><span>Best</span></div>
+          <div class="kpi"><b id="bKills">0</b><span>Kills</span></div>
+          <div class="kpi"><b id="bWave">1</b><span>Wave</span></div>
+        </div>
+        <p class="hint" style="flex:1;min-width:220px">คีย์บอร์ด: ← → เดิน · Space ยิง · เชื้อโรคตัวแดงต้องยิงสามครั้ง · ทุก 12 ตัวขึ้นเวฟใหม่ ตกลงพื้นเสียหนึ่งหัวใจ</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 ============ -->
   <section id="fix">
     <div class="sec-head">
-      <div class="eyebrow">06 — Troubleshooting</div>
+      <div class="eyebrow">05 — Troubleshooting</div>
       <h2>แก้ปัญหาเบื้องต้น</h2>
       <p>อาการที่เจอบ่อยที่สุด เรียงตามที่ศูนย์บริการได้รับแจ้ง</p>
     </div>
@@ -784,18 +721,10 @@
           <tr><td>เดินช้าลง พูดยืดยาด</td><td>แบตเตอรี่ใกล้หมด</td><td>เสียบชาร์จ แล้วปล่อยให้เขาพูดจบเอง อย่าเพิ่งถกเถียงด้วย</td></tr>
           <tr><td>ตัวแฟบลงเรื่อย ๆ</td><td>เปลือกไวนิลรั่ว</td><td>หาตำแหน่งรูจากเสียงลม แล้วปิดด้วยเทปกาว</td></tr>
           <tr><td>ตัวติดช่องประตู</td><td>รอบตัวใหญ่เกินช่องทาง</td><td>ปล่อยลมออกบางส่วน ผ่านไปแล้วค่อยเติมกลับ</td></tr>
-          <tr><td>ไม่ยอมหยุดทำงาน</td><td>ยังประเมินว่าคุณไม่โอเค</td><td>พูดประโยคปิดงานให้ครบทั้งประโยค (ดูหัวข้อถัดไป)</td></tr>
+          <tr><td>ก้าวร้าวผิดปกติ</td><td>เสียบชิปต่อสู้โดยไม่มีชิปการดูแลคู่กัน</td><td>ปิดเครื่อง ใส่ชิปการดูแลกลับเข้าไป แล้วเปิดใหม่</td></tr>
           <tr><td>เอามือกดตัวคุณเบา ๆ</td><td>ตรวจพบว่าคุณเศร้า</td><td>ไม่ใช่ข้อผิดพลาด ปล่อยให้เขาทำ</td></tr>
         </tbody>
       </table>
-    </div>
-  </section>
-
-  <section>
-    <div class="shutdown">
-      <div class="eyebrow">07 — Deactivation</div>
-      <blockquote>“ฉันพอใจกับการดูแลของฉันแล้ว”</blockquote>
-      <p>นี่คือวิธีเดียวที่จะปิดเขาได้ พูดให้ครบประโยค เขาจะไม่หยุดจนกว่าจะแน่ใจว่าคุณโอเคจริง ๆ — และถ้าคุณยังไม่โอเค อย่าเพิ่งพูด</p>
     </div>
   </section>
 
@@ -803,12 +732,13 @@
     <div class="warranty card">
       <div class="eyebrow">Registration card</div>
       <h3>บัตรรับประกัน</h3>
-      <p style="margin:0;font-size:14.5px;color:var(--ink-soft)">กรอกแล้วเก็บไว้ในกล่องแดง ห้ามทิ้งกล่อง</p>
+      <p style="margin:0;font-size:14.5px;color:var(--ink-soft)">ข้อมูลนี้บันทึกไว้ในเครื่องคุณเท่านั้น</p>
       <div class="fields">
-        <div class="field"><span>Owner name / ชื่อผู้ดูแล</span></div>
-        <div class="field"><span>Serial no. / หมายเลขเครื่อง</span></div>
-        <div class="field"><span>Activated on / วันที่เปิดใช้งาน</span></div>
+        <div class="field"><span>Owner name / ชื่อผู้ดูแล</span><b id="cardName">—</b></div>
+        <div class="field"><span>Serial no. / หมายเลขเครื่อง</span><b id="cardSerial">—</b></div>
+        <div class="field"><span>Activated on / วันที่เปิดใช้งาน</span><b id="cardDate">—</b></div>
       </div>
+      <button class="btn btn-ghost" id="editCard" style="margin-top:16px">แก้ไขข้อมูล / ติดตั้งแอป</button>
       <div class="offline-note">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F0575F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none">
           <rect x="5" y="2" width="14" height="20" rx="3"/><path d="M10 18h4"/>
@@ -820,324 +750,569 @@
       <p><b>ข้อความตัวเล็ก</b></p>
       <p>การรับประกันครอบคลุมเปลือกไวนิลและระบบสแกน แต่ไม่ครอบคลุมความผูกพันทางใจที่เกิดขึ้นระหว่างใช้งาน</p>
       <p>ชิปการดูแลคือหัวใจของเครื่อง ถ้าเหลืออยู่ชิ้นเดียวและถอดออกมาได้ ก็ยังสร้างเขากลับมาใหม่ได้เสมอ</p>
-      <p style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)">PHC-01 · Rev. 6 · แฟนเมด ทำเล่นเพื่อความสนุก</p>
+      <p style="font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)">PHC-01 · Rev. 7 · แฟนเมด ทำเล่นเพื่อความสนุก</p>
     </div>
   </footer>
 
 </div>
 
-<!-- คำชวนติดตั้ง (โผล่เมื่อเบราว์เซอร์พร้อมติดตั้ง หรือเมื่ออยู่บน iOS) -->
-<aside class="install" id="install" role="dialog" aria-live="polite" aria-label="ติดตั้งคู่มือเป็นแอป">
-  <button class="close" id="installClose" aria-label="ปิดคำแนะนำ">✕</button>
-  <div class="mini">
-    <svg width="30" height="30" viewBox="0 0 100 60" aria-hidden="true">
-      <rect x="8" y="8" width="84" height="44" rx="22" fill="#FDFEFF"/>
-      <circle cx="35" cy="30" r="6" fill="#2B3A47"/><circle cx="65" cy="30" r="6" fill="#2B3A47"/>
-      <line x1="41" y1="30" x2="59" y2="30" stroke="#2B3A47" stroke-width="5"/>
-    </svg>
-  </div>
-  <div style="flex:1">
-    <h4 id="installTitle">ติดตั้งคู่มือไว้ในเครื่อง</h4>
-    <p id="installBody">เพิ่มเป็นแอปบนหน้าจอโฮม เปิดเต็มจอ ไม่มีแถบเบราว์เซอร์ และอ่านได้แม้ตอนไม่มีเน็ต</p>
-    <ol class="ios-steps" id="iosSteps" hidden>
-      <li>แตะปุ่ม <b>แชร์</b> ที่แถบล่างของ Safari</li>
-      <li>เลื่อนหาแล้วเลือก <b>เพิ่มไปยังหน้าจอโฮม</b></li>
-      <li>แตะ <b>เพิ่ม</b> มุมขวาบน เป็นอันเสร็จ</li>
-    </ol>
-    <div class="row" id="installRow">
-      <button class="btn btn-go" id="installGo">ติดตั้งเลย</button>
-      <button class="btn btn-ghost" id="installLater">ไว้ก่อน</button>
-    </div>
-  </div>
-</aside>
-
-<!-- แจ้งเตือนเมื่อมีคู่มือเวอร์ชันใหม่ -->
 <div class="toast" id="toast" role="status">
   <span>มีคู่มือเวอร์ชันใหม่แล้ว</span>
   <button class="btn btn-go" id="toastGo">โหลดใหม่</button>
 </div>
 
 <script>
-  const pain = [
-    ['#7FD8C4','แทบไม่รู้สึก','สแกนไม่พบอะไรผิดปกติ แต่ฉันจะอยู่ตรงนี้ต่ออีกหน่อยนะ'],
-    ['#8FD9BE','เล็กน้อยมาก','พักสายตาสักครู่ ดื่มน้ำสักแก้วก็พอแล้ว'],
-    ['#A5DCB2','เล็กน้อย','ลองยืดตัวช้า ๆ แล้วหายใจเข้าลึก ๆ สามครั้ง'],
-    ['#C2DFA6','พอทน','ฉันแนะนำให้หยุดสิ่งที่ทำอยู่ประมาณสิบนาที'],
-    ['#DCDD9B','ปานกลาง','เริ่มมีนัยสำคัญแล้ว นั่งลงก่อน ฉันจะสแกนซ้ำอีกครั้ง'],
-    ['#EFD495','ค่อนข้างเจ็บ','ประคบเย็นบริเวณนั้น แล้วอย่าเพิ่งฝืนใช้งาน'],
-    ['#F7C48F','เจ็บมาก','ฉันกำลังเตรียมพลาสเตอร์ กรุณาอย่าขยับส่วนนั้น'],
-    ['#F8AE89','เจ็บมากจริง ๆ','ระดับนี้ควรมีคนอยู่ด้วย บอกใครสักคนเดี๋ยวนี้'],
-    ['#F58184','ทรมาน','เกินขอบเขตที่ฉันดูแลได้ตามลำพัง ไปพบแพทย์'],
-    ['#F0575F','แย่มาก','ฉันขอแนะนำให้ติดต่อความช่วยเหลือทันที และฉันจะไม่ไปไหน']
-  ];
-  const scale = document.getElementById('scale');
-  const rNum = document.getElementById('rNum'), rLabel = document.getElementById('rLabel'), rText = document.getElementById('rText');
+/* =========================================================
+   0 · ที่เก็บข้อมูลในเครื่อง
+   ========================================================= */
+const LS = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
+  set(k, v){ try { localStorage.setItem(k, v); } catch(e){} },
+  del(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
 
-  pain.forEach((p,i)=>{
-    const b = document.createElement('button');
-    b.className = 'pain'; b.textContent = i+1;
-    b.setAttribute('aria-label','ระดับความเจ็บปวด '+(i+1));
-    const set = ()=>{
-      document.querySelectorAll('.pain').forEach(x=>{x.classList.remove('on');x.style.background='#fff'});
-      b.classList.add('on'); b.style.background = p[0];
-      rNum.textContent = i+1; rNum.style.color = p[0];
-      rLabel.textContent = p[1]; rText.textContent = p[2];
-    };
-    b.addEventListener('mouseenter',()=>{b.style.background=p[0]});
-    b.addEventListener('mouseleave',()=>{if(!b.classList.contains('on'))b.style.background='#fff'});
-    b.addEventListener('click',set);
-    b.addEventListener('focus',()=>{b.style.background=p[0]});
-    scale.appendChild(b);
-  });
+/* =========================================================
+   1 · หน้าลงทะเบียน + ที่รวมเรื่องติดตั้งแอป
+   ========================================================= */
+const gate      = document.getElementById('gate');
+const gateClose = document.getElementById('gateClose');
+const gateGo    = document.getElementById('gateGo');
+const gateErr   = document.getElementById('gateErr');
+const nameInput = document.getElementById('nameInput');
+const serialOut = document.getElementById('serialOut');
+const dateOut   = document.getElementById('dateOut');
+const heroName  = document.getElementById('heroName');
+const cardName  = document.getElementById('cardName');
+const cardSerial= document.getElementById('cardSerial');
+const cardDate  = document.getElementById('cardDate');
+const noteText  = document.getElementById('noteText');
 
-  const bump = document.getElementById('bump'), line = document.getElementById('bumpline');
+const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+function thaiDate(d){
+  try { return d.toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'numeric' }); }
+  catch(e){ return d.toISOString().slice(0,10); }
+}
+
+let owner  = LS.get('baymax.owner', '');
+let serial = LS.get('baymax.serial', '');
+let actDate= LS.get('baymax.date', '');
+if (!serial){ serial = 'PHC-01-' + Math.random().toString(16).slice(2,6).toUpperCase(); LS.set('baymax.serial', serial); }
+
+function syncIdentity(){
+  serialOut.textContent = serial;
+  dateOut.textContent   = actDate || thaiDate(new Date());
+  cardSerial.textContent= serial;
+  cardDate.textContent  = actDate || '—';
+  cardName.textContent  = owner || '—';
+  heroName.textContent  = owner ? ('คุณ' + owner) : 'ผู้ดูแล';
+}
+
+function openGate(mode){
+  gate.hidden = false;
+  document.body.classList.add('locked');
+  gateClose.hidden = (mode !== 'settings');
+  gateGo.textContent = (mode === 'settings') ? 'บันทึก' : 'เปิดใช้งาน';
+  nameInput.value = owner;
+  gateErr.classList.remove('show');
+  setTimeout(() => nameInput.focus(), 220);
+}
+function closeGate(){
+  gate.hidden = true;
+  document.body.classList.remove('locked');
+}
+
+function submitGate(){
+  const v = nameInput.value.trim().replace(/\s+/g, ' ');
+  if (!v){ gateErr.classList.add('show'); nameInput.focus(); return; }
+  owner = v;
+  LS.set('baymax.owner', owner);
+  if (!actDate){ actDate = thaiDate(new Date()); LS.set('baymax.date', actDate); }
+  syncIdentity();
+  closeGate();
+}
+
+gateGo.addEventListener('click', submitGate);
+nameInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') submitGate(); });
+gateClose.addEventListener('click', closeGate);
+gate.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !gateClose.hidden) closeGate(); });
+document.getElementById('editCard').addEventListener('click', () => openGate('settings'));
+
+syncIdentity();
+if (owner) { closeGate(); } else { openGate('register'); }
+
+/* =========================================================
+   2 · โหมดฟิสต์บัมพ์ (กดการ์ดเล่นซ้ำ)
+   ========================================================= */
+(function(){
+  const bump = document.getElementById('bump');
+  const line = document.getElementById('bumpline');
   const replay = [bump.querySelector('.arm-r'), bump.querySelector('.spark'), bump.querySelector('.head')];
-  bump.addEventListener('click',()=>{
+  bump.addEventListener('click', () => {
     line.classList.remove('show'); void line.offsetWidth; line.classList.add('show');
-    replay.forEach(el=>{ if(!el) return; el.style.animation='none'; void el.getBoundingClientRect(); el.style.animation=''; });
+    replay.forEach(el => { if (!el) return; el.style.animation = 'none'; void el.getBoundingClientRect(); el.style.animation = ''; });
   });
+})();
 
-  /* ================= เกมซ้อมปะรอยรั่ว ================= */
-  (function(){
-    const arena = document.getElementById('arena');
-    if (!arena) return;
-    const leakLayer  = document.getElementById('leakLayer');
-    const patchLayer = document.getElementById('patchLayer');
-    const ovl = document.getElementById('ovl');
-    const ovlTitle = document.getElementById('ovlTitle');
-    const ovlText  = document.getElementById('ovlText');
-    const ovlScore = document.getElementById('ovlScore');
-    const finalEl  = document.getElementById('finalScore');
-    const playBtn  = document.getElementById('playBtn');
-    const curEl = document.getElementById('curScore');
-    const bestEl = document.getElementById('bestScore');
-    const patchEl = document.getElementById('patchCount');
-    const rankEl = document.getElementById('rankName');
-    const airBar = document.getElementById('airBar');
-    const airPct = document.getElementById('airPct');
-    const chipGrid = document.getElementById('chipGrid');
+/* =========================================================
+   3 · เกม 1 — ซ้อมปะรอยรั่ว
+   ========================================================= */
+(function(){
+  const arena = document.getElementById('arena');
+  if (!arena) return;
+  const leakLayer = document.getElementById('leakLayer');
+  const patchLayer= document.getElementById('patchLayer');
+  const ovl = document.getElementById('ovl');
+  const ovlTitle = document.getElementById('ovlTitle');
+  const ovlText  = document.getElementById('ovlText');
+  const ovlScore = document.getElementById('ovlScore');
+  const finalEl  = document.getElementById('finalScore');
+  const playBtn  = document.getElementById('playBtn');
+  const curEl = document.getElementById('curScore');
+  const bestEl = document.getElementById('bestScore');
+  const patchEl = document.getElementById('patchCount');
+  const rankEl = document.getElementById('rankName');
+  const airBar = document.getElementById('airBar');
+  const airPct = document.getElementById('airPct');
+  const chipGrid = document.getElementById('chipGrid');
 
-    const ls = {
-      get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } },
-      set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
-    };
+  const SPOTS = [
+    [50,48],[38,55],[62,55],[31,70],[50,70],[69,70],[39,86],[61,86],[50,95],
+    [45,40],[57,40],[28,62],[72,62],[36,78],[64,78],[46,62],[54,62],[50,58],
+    [41,22],[59,22],[21,86],[79,86]
+  ];
+  const RANKS = [[0,'ผู้ช่วยฝึกหัด'],[200,'ช่างปะมือใหม่'],[500,'ช่างซ่อมไวนิล'],[900,'หัวหน้าทีมดูแล'],[1400,'ตำนานเทปกาว']];
+  const CHIPS = [
+    { id:'c1', at:150,  ic:'🩹', name:'ชิปเทปกาว' },
+    { id:'c2', at:350,  ic:'🩺', name:'ชิปปฐมพยาบาล' },
+    { id:'c3', at:600,  ic:'📡', name:'ชิปสแกนเร็ว' },
+    { id:'c4', at:900,  ic:'🤗', name:'ชิปกอด' },
+    { id:'c5', at:1300, ic:'👊', name:'ชิปฟิสต์บัมพ์' },
+    { id:'c6', at:1800, ic:'💗', name:'ชิปดูแลสูงสุด' }
+  ];
 
-    // จุดที่รูโผล่ได้ (พิกัดใน viewBox ของหุ่น)
-    const SPOTS = [
-      [50,48],[38,55],[62,55],[31,70],[50,70],[69,70],[39,86],[61,86],[50,95],
-      [45,40],[57,40],[28,62],[72,62],[36,78],[64,78],[46,62],[54,62],[50,58],
-      [41,22],[59,22],[21,86],[79,86]
-    ];
-    const RANKS = [[0,'ผู้ช่วยฝึกหัด'],[200,'ช่างปะมือใหม่'],[500,'ช่างซ่อมไวนิล'],[900,'หัวหน้าทีมดูแล'],[1400,'ตำนานเทปกาว']];
-    const CHIPS = [
-      { id:'c1', at:150,  ic:'🩹', name:'ชิปเทปกาว' },
-      { id:'c2', at:350,  ic:'🩺', name:'ชิปปฐมพยาบาล' },
-      { id:'c3', at:600,  ic:'📡', name:'ชิปสแกนเร็ว' },
-      { id:'c4', at:900,  ic:'🤗', name:'ชิปกอด' },
-      { id:'c5', at:1300, ic:'👊', name:'ชิปฟิสต์บัมพ์' },
-      { id:'c6', at:1800, ic:'💗', name:'ชิปดูแลสูงสุด' }
-    ];
+  let owned = new Set((LS.get('baymax.chips','') || '').split(',').filter(Boolean));
+  let best  = parseInt(LS.get('baymax.best','0'), 10) || 0;
+  let S = null, raf = 0;
 
-    let owned = new Set((ls.get('baymax.chips','') || '').split(',').filter(Boolean));
-    let best  = parseInt(ls.get('baymax.best','0'), 10) || 0;
-    let S = null, raf = 0;
+  const pos = (i) => ({ left: ((SPOTS[i][0]+10)/120*100) + '%', top: (SPOTS[i][1]/126*100) + '%' });
+  const rankOf = (sc) => RANKS.reduce((acc, r) => sc >= r[0] ? r[1] : acc, RANKS[0][1]);
 
-    const pos = (i) => ({
-      left: ((SPOTS[i][0] + 10) / 120 * 100) + '%',
-      top:  (SPOTS[i][1] / 126 * 100) + '%'
+  function paint(){
+    const sc = S ? Math.round(S.score) : 0;
+    curEl.textContent = sc; bestEl.textContent = best;
+    patchEl.textContent = S ? S.patches : 0;
+    rankEl.textContent = rankOf(Math.max(sc, best));
+  }
+  function renderChips(justId){
+    chipGrid.innerHTML = '';
+    CHIPS.forEach((c) => {
+      const has = owned.has(c.id);
+      const d = document.createElement('div');
+      d.className = 'chip' + (has ? ' got' : '') + (c.id === justId ? ' just' : '');
+      d.innerHTML = '<div class="ic">' + c.ic + '</div><small>' + (has ? c.name : c.at + ' คะแนน') + '</small>';
+      chipGrid.appendChild(d);
     });
-    const rankOf = (sc) => RANKS.reduce((acc, r) => sc >= r[0] ? r[1] : acc, RANKS[0][1]);
-
-    function paint(){
-      const sc = S ? Math.round(S.score) : 0;
-      curEl.textContent = sc;
-      bestEl.textContent = best;
-      patchEl.textContent = S ? S.patches : 0;
-      rankEl.textContent = rankOf(Math.max(sc, best));
-    }
-
-    function renderChips(justId){
-      chipGrid.innerHTML = '';
-      CHIPS.forEach((c) => {
-        const has = owned.has(c.id);
-        const d = document.createElement('div');
-        d.className = 'chip' + (has ? ' got' : '') + (c.id === justId ? ' just' : '');
-        d.innerHTML = '<div class="ic">' + c.ic + '</div><small>' +
-                      (has ? c.name : c.at + ' คะแนน') + '</small>';
-        chipGrid.appendChild(d);
-      });
-    }
-
-    function setAir(v){
-      const pct = Math.max(0, Math.min(100, v));
-      airBar.style.width = pct + '%';
-      airBar.style.background = pct > 55 ? 'var(--mint)' : pct > 25 ? '#FFC861' : 'var(--red)';
-      airPct.textContent = Math.round(pct) + '%';
-      arena.classList.toggle('low', pct <= 30);
-    }
-
-    function spawn(){
-      const free = SPOTS.map((_, i) => i).filter((i) => !S.used.has(i));
-      if (!free.length) return;
-      const i = free[Math.floor(Math.random() * free.length)];
-      S.used.add(i);
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'leak';
-      b.setAttribute('aria-label', 'ปะรอยรั่ว');
-      b.innerHTML = '<i></i>';
-      const p = pos(i);
-      b.style.left = p.left; b.style.top = p.top;
-      b.dataset.i = i; b.dataset.t = performance.now();
-      b.addEventListener('click', () => patch(b), { once:true });
-      leakLayer.appendChild(b);
-      S.open++;
-    }
-
-    function patch(b){
-      if (!S || S.over) return;
-      const i = +b.dataset.i;
-      const age = (performance.now() - +b.dataset.t) / 1000;
-      const gain = Math.max(12, Math.round(42 - age * 13)); // ยิ่งปะไว ยิ่งได้เยอะ
-      S.score += gain; S.patches++; S.air = Math.min(100, S.air + 4);
-      S.used.delete(i); S.open--;
-      b.remove();
-
-      const p = pos(i);
-      const tape = document.createElement('div');
-      tape.className = 'patch';
-      tape.style.left = p.left; tape.style.top = p.top;
-      tape.style.setProperty('--rot', (Math.random() * 70 - 35).toFixed(0) + 'deg');
-      tape.style.transform = 'rotate(var(--rot))';
-      patchLayer.appendChild(tape);
-
-      const pop = document.createElement('div');
-      pop.className = 'pop';
-      pop.textContent = '+' + gain;
-      pop.style.left = p.left; pop.style.top = p.top;
-      patchLayer.appendChild(pop);
-      setTimeout(() => pop.remove(), 780);
-
-      if (navigator.vibrate) { try { navigator.vibrate(12); } catch(e){} }
-      paint();
-    }
-
-    function loop(now){
-      if (!S || S.over || S.paused) return;
-      const dt = Math.min(0.06, (now - S.last) / 1000);
-      S.last = now;
-      const elapsed = (now - S.t0) / 1000;
-
-      S.air += (S.open === 0 ? 3.4 : -(2.0 + 3.3 * S.open)) * dt;
-      S.score += 6 * dt;
-
-      if (now >= S.nextAt){
-        spawn();
-        S.every = Math.max(560, 1500 - elapsed * 24); // เร็วขึ้นเรื่อย ๆ
-        S.nextAt = now + S.every;
-      }
-
-      setAir(S.air);
-      if (S.air <= 0){ end(); return; }
-      paint();
-      raf = requestAnimationFrame(loop);
-    }
-
-    function end(){
-      S.over = true;
-      cancelAnimationFrame(raf);
-      leakLayer.innerHTML = '';
-      const sc = Math.round(S.score);
-      const record = sc > best;
-      if (record){ best = sc; ls.set('baymax.best', String(best)); }
-
-      let justId = null;
-      CHIPS.forEach((c) => {
-        if (sc >= c.at && !owned.has(c.id)){ owned.add(c.id); justId = c.id; }
-      });
-      ls.set('baymax.chips', [...owned].join(','));
-      renderChips(justId);
-
-      finalEl.textContent = sc;
-      ovlScore.hidden = false;
-      ovlTitle.textContent = justId ? 'ปลดล็อกชิปใหม่!' : record ? 'สถิติใหม่' : 'ลมหมดแล้ว';
-      ovlText.textContent = justId
-        ? 'ชิปใหม่ถูกเก็บไว้ในเครื่องแล้ว เก็บให้ครบทั้งหกอันสิ'
-        : record
-          ? 'ดีที่สุดเท่าที่คุณเคยทำมา เขาคงพอใจกับการดูแลนี้'
-          : 'เขาแฟบแล้ว แต่ไม่เป็นไร เทปกาวยังเหลืออีกเยอะ';
-      playBtn.textContent = 'ซ้อมอีกรอบ';
-      ovl.hidden = false;
-      paint();
-    }
-
-    function start(){
-      leakLayer.innerHTML = '';
-      patchLayer.innerHTML = '';
-      const t = performance.now();
-      S = { air:100, score:0, patches:0, open:0, used:new Set(),
-            over:false, paused:false, t0:t, last:t, nextAt:t + 650, every:1500 };
-      ovl.hidden = true;
-      ovlScore.hidden = true;
-      setAir(100);
-      paint();
-      raf = requestAnimationFrame(loop);
-    }
-
-    playBtn.addEventListener('click', start);
-
-    // สลับแท็บ/ย่อแอปแล้วเกมหยุดรอ ไม่ใช่แพ้ฟรี
-    document.addEventListener('visibilitychange', () => {
-      if (!S || S.over) return;
-      if (document.hidden){
-        S.paused = true;
-        cancelAnimationFrame(raf);
-      } else if (S.paused){
-        S.paused = false;
-        const t = performance.now();
-        S.last = t; S.nextAt = t + 700;
-        raf = requestAnimationFrame(loop);
-      }
-    });
-
-    renderChips(null);
-    setAir(100);
+  }
+  function setAir(v){
+    const pct = Math.max(0, Math.min(100, v));
+    airBar.style.width = pct + '%';
+    airBar.style.background = pct > 55 ? 'var(--mint)' : pct > 25 ? '#FFC861' : 'var(--red)';
+    airPct.textContent = Math.round(pct) + '%';
+    arena.classList.toggle('low', pct <= 30);
+  }
+  function spawn(){
+    const free = SPOTS.map((_, i) => i).filter((i) => !S.used.has(i));
+    if (!free.length) return;
+    const i = free[Math.floor(Math.random()*free.length)];
+    S.used.add(i);
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'leak';
+    b.setAttribute('aria-label','ปะรอยรั่ว');
+    b.innerHTML = '<i></i>';
+    const p = pos(i); b.style.left = p.left; b.style.top = p.top;
+    b.dataset.i = i; b.dataset.t = performance.now();
+    b.addEventListener('click', () => patch(b), { once:true });
+    leakLayer.appendChild(b);
+    S.open++;
+  }
+  function patch(b){
+    if (!S || S.over) return;
+    const i = +b.dataset.i;
+    const age = (performance.now() - +b.dataset.t)/1000;
+    const gain = Math.max(12, Math.round(42 - age*13));
+    S.score += gain; S.patches++; S.air = Math.min(100, S.air + 4);
+    S.used.delete(i); S.open--; b.remove();
+    const p = pos(i);
+    const tape = document.createElement('div');
+    tape.className = 'patch'; tape.style.left = p.left; tape.style.top = p.top;
+    tape.style.setProperty('--rot', (Math.random()*70 - 35).toFixed(0) + 'deg');
+    tape.style.transform = 'rotate(var(--rot))';
+    patchLayer.appendChild(tape);
+    const pop = document.createElement('div');
+    pop.className = 'pop'; pop.textContent = '+' + gain;
+    pop.style.left = p.left; pop.style.top = p.top;
+    patchLayer.appendChild(pop);
+    setTimeout(() => pop.remove(), 780);
+    if (navigator.vibrate) { try { navigator.vibrate(12); } catch(e){} }
     paint();
-  })();
+  }
+  function loop(now){
+    if (!S || S.over || S.paused) return;
+    const dt = Math.min(0.06, (now - S.last)/1000); S.last = now;
+    const elapsed = (now - S.t0)/1000;
+    S.air += (S.open === 0 ? 3.4 : -(2.0 + 3.3*S.open)) * dt;
+    S.score += 6*dt;
+    if (now >= S.nextAt){
+      spawn();
+      S.every = Math.max(560, 1500 - elapsed*24);
+      S.nextAt = now + S.every;
+    }
+    setAir(S.air);
+    if (S.air <= 0){ end(); return; }
+    paint();
+    raf = requestAnimationFrame(loop);
+  }
+  function end(){
+    S.over = true; cancelAnimationFrame(raf);
+    leakLayer.innerHTML = '';
+    const sc = Math.round(S.score);
+    const record = sc > best;
+    if (record){ best = sc; LS.set('baymax.best', String(best)); }
+    let justId = null;
+    CHIPS.forEach((c) => { if (sc >= c.at && !owned.has(c.id)){ owned.add(c.id); justId = c.id; } });
+    LS.set('baymax.chips', [...owned].join(','));
+    renderChips(justId);
+    finalEl.textContent = sc; ovlScore.hidden = false;
+    ovlTitle.textContent = justId ? 'ปลดล็อกชิปใหม่!' : record ? 'สถิติใหม่' : 'ลมหมดแล้ว';
+    ovlText.textContent = justId ? 'ชิปใหม่ถูกเก็บไว้ในเครื่องแล้ว เก็บให้ครบทั้งหกอันสิ'
+      : record ? 'ดีที่สุดเท่าที่คุณเคยทำมา' : 'เขาแฟบแล้ว แต่ไม่เป็นไร เทปกาวยังเหลืออีกเยอะ';
+    playBtn.textContent = 'ซ้อมอีกรอบ';
+    ovl.hidden = false; paint();
+  }
+  function start(){
+    leakLayer.innerHTML = ''; patchLayer.innerHTML = '';
+    const t = performance.now();
+    S = { air:100, score:0, patches:0, open:0, used:new Set(), over:false, paused:false, t0:t, last:t, nextAt:t+650, every:1500 };
+    ovl.hidden = true; ovlScore.hidden = true;
+    setAir(100); paint();
+    raf = requestAnimationFrame(loop);
+  }
+  playBtn.addEventListener('click', start);
+  document.addEventListener('visibilitychange', () => {
+    if (!S || S.over) return;
+    if (document.hidden){ S.paused = true; cancelAnimationFrame(raf); }
+    else if (S.paused){ S.paused = false; const t = performance.now(); S.last = t; S.nextAt = t + 700; raf = requestAnimationFrame(loop); }
+  });
+  renderChips(null); setAir(100); paint();
+})();
 
-  /* ================= PWA ================= */
-  const KEY = 'baymax.install.dismissed';
-  const store = {
-    get(k){ try { return localStorage.getItem(k); } catch(e) { return null; } },
-    set(k,v){ try { localStorage.setItem(k,v); } catch(e) {} }
-  };
+/* =========================================================
+   4 · เกม 2 — ซ้อมรบกับเชื้อโรค (arcade)
+   สนามจำลอง 160 x 100 หน่วย แล้วแปลงเป็น %
+   ========================================================= */
+(function(){
+  const field = document.getElementById('bfield');
+  if (!field) return;
+  const fighter = document.getElementById('fighter');
+  const foeLayer = document.getElementById('foes');
+  const shotLayer = document.getElementById('shots');
+  const bitLayer = document.getElementById('bits');
+  const heartsEl = document.getElementById('hearts');
+  const ovl = document.getElementById('bOvl');
+  const bTitle = document.getElementById('bTitle');
+  const bText  = document.getElementById('bText');
+  const bResult= document.getElementById('bResult');
+  const bFinal = document.getElementById('bFinal');
+  const bPlay  = document.getElementById('bPlay');
+  const bScore = document.getElementById('bScore');
+  const bBest  = document.getElementById('bBest');
+  const bKills = document.getElementById('bKills');
+  const bWave  = document.getElementById('bWave');
+  const waveTag= document.getElementById('waveTag');
+  const waveBig= document.getElementById('waveBig');
+  const padL = document.getElementById('padL');
+  const padR = document.getElementById('padR');
+  const padF = document.getElementById('padF');
 
-  const banner   = document.getElementById('install');
-  const goBtn    = document.getElementById('installGo');
-  const laterBtn = document.getElementById('installLater');
-  const closeBtn = document.getElementById('installClose');
-  const iosSteps = document.getElementById('iosSteps');
-  const iTitle   = document.getElementById('installTitle');
-  const iBody    = document.getElementById('installBody');
-  const noteText = document.getElementById('noteText');
-  const toast    = document.getElementById('toast');
-  const toastGo  = document.getElementById('toastGo');
+  const W = 160, H = 100, GROUND = 88, MAXHP = 3;
+  const pctX = (x) => (x / W * 100) + '%';
+  const pctY = (y) => (y / H * 100) + '%';
 
-  const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-  if (standalone) {
-    document.body.classList.add('is-installed');
-    noteText.innerHTML = '<b>ติดตั้งแล้ว</b> — คุณกำลังอ่านจากแอปบนเครื่อง เนื้อหาทั้งเล่มถูกเก็บไว้ให้อ่านได้แม้ไม่มีเน็ต';
+  const GERM = (color, big) =>
+    '<svg viewBox="0 0 44 44" aria-hidden="true">' +
+      '<g stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round">' +
+        '<path d="M22 9V3"/><path d="M22 35v6"/><path d="M9 22H3"/><path d="M35 22h6"/>' +
+        '<path d="M13 13l-4-4"/><path d="M31 31l4 4"/><path d="M31 13l4-4"/><path d="M13 31l-4 4"/>' +
+      '</g>' +
+      '<circle cx="22" cy="22" r="13" fill="' + color + '" stroke="#2B3A47" stroke-width="2.2"/>' +
+      '<circle cx="17.5" cy="20" r="2.3" fill="#2B3A47"/><circle cx="26.5" cy="20" r="2.3" fill="#2B3A47"/>' +
+      (big ? '<path d="M17 28q5-4 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>'
+           : '<path d="M17 27q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>') +
+    '</svg>';
+  const FIST =
+    '<svg viewBox="0 0 22 32" aria-hidden="true">' +
+      '<path d="M11 30l-4-6h8z" fill="#F0575F"/>' +
+      '<rect x="3" y="2" width="16" height="22" rx="8" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>' +
+      '<path d="M7 12h8" stroke="#D3E1EC" stroke-width="2" stroke-linecap="round"/>' +
+    '</svg>';
+
+  let best = parseInt(LS.get('baymax.battleBest','0'), 10) || 0;
+  bBest.textContent = best;
+
+  const keys = { left:false, right:false, fire:false };
+  let G = null, raf = 0;
+
+  function hearts(n){
+    heartsEl.innerHTML = '';
+    for (let i = 0; i < MAXHP; i++){
+      const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      s.setAttribute('viewBox','0 0 24 24');
+      s.setAttribute('class','heart' + (i < n ? '' : ' gone'));
+      s.innerHTML = '<path d="M12 21s-7.5-4.7-7.5-10A4.2 4.2 0 0 1 12 8.3a4.2 4.2 0 0 1 7.5 2.7c0 5.3-7.5 10-7.5 10z" fill="#F0575F" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>';
+      heartsEl.appendChild(s);
+    }
   }
 
-  /* ---- ลงทะเบียน service worker + แจ้งเวอร์ชันใหม่ ---- */
+  function burst(x, y, color){
+    for (let i = 0; i < 7; i++){
+      const b = document.createElement('div');
+      b.className = 'bit';
+      b.style.background = color;
+      b.style.left = pctX(x); b.style.top = pctY(y);
+      const ang = Math.random()*Math.PI*2, d = 18 + Math.random()*26;
+      b.animate(
+        [{ transform:'translate(-50%,-50%) scale(1)', opacity:1 },
+         { transform:'translate(' + (-50 + Math.cos(ang)*d) + '%,' + (-50 + Math.sin(ang)*d) + '%) scale(0)', opacity:0 }],
+        { duration: 420 + Math.random()*180, easing:'ease-out' }
+      );
+      bitLayer.appendChild(b);
+      setTimeout(() => b.remove(), 620);
+    }
+  }
+
+  function spawnFoe(){
+    const big = G.wave >= 2 && Math.random() < 0.18;
+    const el = document.createElement('div');
+    el.className = 'foe' + (big ? ' big' : '');
+    el.innerHTML = GERM(big ? '#F58184' : '#8FD6C2', big);
+    foeLayer.appendChild(el);
+    const f = {
+      el, big,
+      x: 12 + Math.random()*(W - 24),
+      y: -8,
+      hp: big ? 3 : 1,
+      r: big ? 9 : 6,
+      vy: (big ? 11 : 15) + G.wave*2.2 + Math.random()*5,
+      drift: (Math.random() - 0.5) * 14
+    };
+    G.foes.push(f);
+  }
+
+  function shoot(){
+    if (!G || G.over || G.paused) return;
+    const now = performance.now();
+    if (now - G.lastShot < 240) return;
+    G.lastShot = now;
+    const el = document.createElement('div');
+    el.className = 'shot';
+    el.innerHTML = FIST;
+    shotLayer.appendChild(el);
+    G.shots.push({ el, x: G.x, y: GROUND - 16, vy: -128 });
+    fighter.classList.remove('punch'); void fighter.offsetWidth; fighter.classList.add('punch');
+    if (navigator.vibrate) { try { navigator.vibrate(8); } catch(e){} }
+  }
+
+  function damage(){
+    G.hp--;
+    hearts(G.hp);
+    field.classList.remove('shake'); void field.offsetWidth; field.classList.add('shake');
+    fighter.classList.add('hurt');
+    setTimeout(() => fighter.classList.remove('hurt'), 850);
+    if (navigator.vibrate) { try { navigator.vibrate([18, 40, 18]); } catch(e){} }
+    if (G.hp <= 0) end();
+  }
+
+  function loop(now){
+    if (!G || G.over || G.paused) return;
+    const dt = Math.min(0.05, (now - G.last)/1000); G.last = now;
+
+    // เดิน
+    const dir = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+    if (dir !== 0){
+      G.x = Math.max(9, Math.min(W - 9, G.x + dir * 66 * dt));
+      fighter.classList.add('walk');
+      fighter.classList.toggle('left', dir < 0);
+    } else {
+      fighter.classList.remove('walk');
+    }
+    fighter.style.left = pctX(G.x);
+    if (keys.fire) shoot();
+
+    // กระสุน
+    for (let i = G.shots.length - 1; i >= 0; i--){
+      const s = G.shots[i];
+      s.y += s.vy * dt;
+      if (s.y < -6){ s.el.remove(); G.shots.splice(i,1); continue; }
+      s.el.style.left = pctX(s.x); s.el.style.top = pctY(s.y);
+    }
+
+    // เชื้อโรค
+    for (let i = G.foes.length - 1; i >= 0; i--){
+      const f = G.foes[i];
+      f.y += f.vy * dt;
+      f.x += f.drift * dt;
+      if (f.x < 8 || f.x > W - 8) f.drift *= -1;
+      f.el.style.left = pctX(f.x); f.el.style.top = pctY(f.y);
+
+      // ชนตัวผู้เล่น
+      if (f.y > GROUND - 20 && Math.abs(f.x - G.x) < f.r + 8){
+        burst(f.x, f.y, '#F0575F'); f.el.remove(); G.foes.splice(i,1); damage(); continue;
+      }
+      // ถึงพื้น
+      if (f.y >= GROUND){
+        burst(f.x, GROUND, '#F0575F'); f.el.remove(); G.foes.splice(i,1); damage(); continue;
+      }
+      // โดนหมัด
+      for (let j = G.shots.length - 1; j >= 0; j--){
+        const s = G.shots[j];
+        const dx = s.x - f.x, dy = s.y - f.y;
+        if (dx*dx + dy*dy < (f.r + 4)*(f.r + 4)){
+          s.el.remove(); G.shots.splice(j,1);
+          f.hp--;
+          if (f.hp <= 0){
+            burst(f.x, f.y, f.big ? '#F58184' : '#8FD6C2');
+            f.el.remove(); G.foes.splice(i,1);
+            G.kills++; G.score += f.big ? 90 : 30;
+            if (G.kills % 12 === 0){
+              G.wave++;
+              waveTag.textContent = 'WAVE ' + G.wave;
+              waveBig.textContent = 'WAVE ' + G.wave;
+              waveBig.classList.remove('show'); void waveBig.offsetWidth; waveBig.classList.add('show');
+            }
+          } else {
+            f.el.classList.remove('ouch'); void f.el.offsetWidth; f.el.classList.add('ouch');
+            G.score += 10;
+          }
+          break;
+        }
+      }
+    }
+
+    // เกิดใหม่
+    if (now >= G.nextAt){
+      spawnFoe();
+      G.every = Math.max(430, 1250 - G.wave*95);
+      G.nextAt = now + G.every * (0.75 + Math.random()*0.5);
+    }
+
+    G.score += 4*dt;
+    bScore.textContent = Math.round(G.score);
+    bKills.textContent = G.kills;
+    bWave.textContent = G.wave;
+    raf = requestAnimationFrame(loop);
+  }
+
+  function clearField(){
+    foeLayer.innerHTML = ''; shotLayer.innerHTML = ''; bitLayer.innerHTML = '';
+  }
+
+  function end(){
+    G.over = true;
+    cancelAnimationFrame(raf);
+    fighter.classList.remove('walk');
+    clearField();
+    const sc = Math.round(G.score);
+    const record = sc > best;
+    if (record){ best = sc; LS.set('baymax.battleBest', String(best)); bBest.textContent = best; }
+    bFinal.textContent = sc;
+    bResult.hidden = false;
+    bTitle.textContent = record ? 'สถิติใหม่' : 'จบการจำลอง';
+    bText.textContent = record
+      ? 'ป้องกันได้ดีที่สุดเท่าที่เคยทำมา ' + (owner ? 'คุณ' + owner : 'คุณ') + ' เก่งขึ้นแล้ว'
+      : 'ถึงเวฟ ' + G.wave + ' กำจัดไป ' + G.kills + ' ตัว ลองใหม่อีกรอบไหม';
+    bPlay.textContent = 'ซ้อมอีกรอบ';
+    ovl.hidden = false;
+  }
+
+  function start(){
+    clearField();
+    const t = performance.now();
+    G = { x: W/2, hp: MAXHP, score:0, kills:0, wave:1, foes:[], shots:[],
+          over:false, paused:false, last:t, nextAt:t + 700, every:1250, lastShot:0 };
+    hearts(MAXHP);
+    waveTag.textContent = 'WAVE 1';
+    bScore.textContent = '0'; bKills.textContent = '0'; bWave.textContent = '1';
+    fighter.style.left = pctX(G.x);
+    fighter.classList.remove('left');
+    ovl.hidden = true; bResult.hidden = true;
+    field.focus({ preventScroll:true });
+    raf = requestAnimationFrame(loop);
+  }
+
+  bPlay.addEventListener('click', start);
+
+  /* คีย์บอร์ด */
+  const codeMap = { ArrowLeft:'left', KeyA:'left', ArrowRight:'right', KeyD:'right', Space:'fire', ArrowUp:'fire', KeyW:'fire' };
+  window.addEventListener('keydown', (e) => {
+    const k = codeMap[e.code];
+    if (!k || !G || G.over) return;
+    if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+    keys[k] = true;
+    if (k === 'fire') shoot();
+    e.preventDefault();
+  });
+  window.addEventListener('keyup', (e) => {
+    const k = codeMap[e.code];
+    if (!k) return;
+    keys[k] = false;
+  });
+
+  /* ปุ่มบนจอ */
+  function hold(el, key){
+    const on  = (e) => { e.preventDefault(); keys[key] = true; el.classList.add('on'); if (key === 'fire') shoot(); };
+    const off = (e) => { e.preventDefault(); keys[key] = false; el.classList.remove('on'); };
+    el.addEventListener('pointerdown', on);
+    el.addEventListener('pointerup', off);
+    el.addEventListener('pointercancel', off);
+    el.addEventListener('pointerleave', off);
+  }
+  hold(padL, 'left'); hold(padR, 'right'); hold(padF, 'fire');
+
+  document.addEventListener('visibilitychange', () => {
+    if (!G || G.over) return;
+    if (document.hidden){ G.paused = true; cancelAnimationFrame(raf); keys.left = keys.right = keys.fire = false; }
+    else if (G.paused){ G.paused = false; G.last = performance.now(); raf = requestAnimationFrame(loop); }
+  });
+
+  hearts(MAXHP);
+})();
+
+/* =========================================================
+   5 · PWA — service worker, ติดตั้ง, สถานะเน็ต
+   ========================================================= */
+(function(){
+  const toast   = document.getElementById('toast');
+  const toastGo = document.getElementById('toastGo');
+  const giBtn   = document.getElementById('giBtn');
+  const giSub   = document.getElementById('giSub');
+  const block   = document.getElementById('installBlock');
+
+  if (standalone){
+    document.body.classList.add('is-installed');
+    noteText.innerHTML = '<b>ติดตั้งแล้ว</b> — คุณกำลังอ่านจากแอปบนเครื่อง เนื้อหาทั้งเล่มถูกเก็บไว้ให้อ่านได้แม้ไม่มีเน็ต';
+    block.innerHTML = '<div class="installed-note">✓ ติดตั้งเป็นแอปเรียบร้อยแล้ว เปิดจากหน้าจอโฮมได้เลย</div>';
+  }
+
   function offerUpdate(worker){
     toast.classList.add('up');
     toastGo.addEventListener('click', () => worker.postMessage('SKIP_WAITING'), { once:true });
   }
-  if ('serviceWorker' in navigator) {
+  const canSW = 'serviceWorker' in navigator && location.protocol !== 'file:';
+  if (canSW){
     window.addEventListener('load', async () => {
       try {
-        const reg = await navigator.serviceWorker.register('sw.js', { scope: './' });
+        const reg = await navigator.serviceWorker.register('sw.js', { scope:'./' });
         if (reg.waiting && navigator.serviceWorker.controller) offerUpdate(reg.waiting);
         reg.addEventListener('updatefound', () => {
           const nw = reg.installing;
@@ -1146,9 +1321,7 @@
             if (nw.state === 'installed' && navigator.serviceWorker.controller) offerUpdate(nw);
           });
         });
-      } catch (e) {
-        /* เปิดไฟล์ตรง ๆ (file://) หรือไม่ได้อยู่บน https — ข้ามไป หน้ายังใช้งานได้ปกติ */
-      }
+      } catch(e){ /* ไม่ใช่ https หรือเปิดจากไฟล์ตรง ๆ */ }
     });
     let reloading = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -1156,57 +1329,31 @@
     });
   }
 
-  /* ---- คำชวนติดตั้ง ---- */
   let deferred = null;
-  const showBanner = () => {
-    if (standalone || store.get(KEY) === '1') return;
-    setTimeout(() => banner.classList.add('up'), 2200);
-  };
-  const hideBanner = (remember) => {
-    banner.classList.remove('up');
-    if (remember) store.set(KEY, '1');
-    setTimeout(() => { banner.style.display = 'none'; }, 400);
-  };
-
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferred = e;
-    showBanner();
+    if (!standalone){ giBtn.hidden = false; giSub.textContent = 'กดติดตั้งได้เลย ใช้เวลาไม่ถึงวินาที'; }
   });
-
-  goBtn.addEventListener('click', async () => {
+  giBtn.addEventListener('click', async () => {
     if (!deferred) return;
     deferred.prompt();
-    const { outcome } = await deferred.userChoice;
+    await deferred.userChoice;
     deferred = null;
-    hideBanner(outcome === 'dismissed');
+    giBtn.hidden = true;
   });
-  laterBtn.addEventListener('click', () => hideBanner(true));
-  closeBtn.addEventListener('click', () => hideBanner(true));
-
-  /* iOS ไม่มี beforeinstallprompt — บอกวิธีทำเองแทน */
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
-                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (isIOS && !standalone) {
-    iTitle.textContent = 'เพิ่มคู่มือไว้ที่หน้าจอโฮม';
-    iBody.textContent = 'iOS ต้องเพิ่มเองสองสามขั้นตอน ทำครั้งเดียวจบ แล้วอ่านได้แม้ไม่มีเน็ต';
-    iosSteps.hidden = false;
-    goBtn.hidden = true;
-    laterBtn.textContent = 'เข้าใจแล้ว';
-    showBanner();
-  }
-
   window.addEventListener('appinstalled', () => {
-    hideBanner(true);
     document.body.classList.add('is-installed');
+    giBtn.hidden = true;
+    giSub.textContent = 'ติดตั้งเรียบร้อยแล้ว';
     noteText.innerHTML = '<b>ติดตั้งเรียบร้อย</b> — คู่มืออยู่บนหน้าจอโฮมของคุณแล้ว เปิดได้ทุกเมื่อ ไม่ต้องพึ่งสัญญาณ';
   });
 
-  /* ---- สถานะเน็ต ---- */
   const syncNet = () => document.body.classList.toggle('is-offline', !navigator.onLine);
   window.addEventListener('online', syncNet);
   window.addEventListener('offline', syncNet);
   syncNet();
+})();
 </script>
 </body>
 </html>
