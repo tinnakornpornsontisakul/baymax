@@ -1,0 +1,37 @@
+{
+  "id": "/baymax-manual/",
+  "name": "คู่มือผู้ใช้ Baymax",
+  "short_name": "Baymax",
+  "description": "คู่มือผู้ใช้หุ่นยนต์ดูแลสุขภาพประจำตัว รุ่น PHC-01 — เปิดใช้งาน ระดับความเจ็บปวด โหมดการทำงาน และการดูแลรักษา",
+  "lang": "th",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#EAF1F6",
+  "theme_color": "#F0575F",
+  "categories": ["health", "lifestyle", "books"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "ระดับความเจ็บปวด",
+      "short_name": "Pain scale",
+      "description": "ข้ามไปหน้าประเมินระดับความเจ็บปวด 1–10",
+      "url": "./#pain",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "แก้ปัญหาเบื้องต้น",
+      "short_name": "Troubleshoot",
+      "description": "ตารางอาการและวิธีแก้",
+      "url": "./#fix",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
