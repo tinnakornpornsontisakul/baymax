@@ -530,6 +530,7 @@
 
   /* ============ แท็บเมนูล่าง ============ */
   .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:center;gap:6px;
+    transition:transform .22s ease;
     background:rgba(253,254,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
     border-top:1px solid var(--line);
     padding:7px max(12px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
@@ -761,6 +762,20 @@
     .chatwrap{height:calc(100dvh - 250px);min-height:360px}
     .msg{max-width:88%}
     body.tab-chat .toast{bottom:calc(215px + env(safe-area-inset-bottom))}
+
+    /* คีย์บอร์ดขึ้น — ปล่อยให้มันทับแถบแท็บไปเลย แล้วยกห้องแชทมาพอดีพื้นที่ที่เหลือ
+       --vvh / --vvtop มาจาก visualViewport เพราะ iOS ไม่ย่อ layout viewport ให้ */
+    body.kb-open{overflow:hidden}
+    body.kb-open .tabbar{transform:translateY(115%);pointer-events:none}
+    body.kb-open .toast{display:none}
+    /* ใช้ top ไม่ใช่ transform เพราะอนิเมชั่นสลับแท็บจองพร็อพเพอร์ตี้ transform ไว้แล้ว */
+    body.kb-open #chatSec{
+      position:fixed;left:0;right:0;top:var(--vvtop,0px);z-index:66;margin:0;padding:8px 12px 0;
+      height:var(--vvh,100dvh);animation:none;
+      display:flex;flex-direction:column;background:var(--bg)}
+    body.kb-open #chatSec .sec-head{display:none}
+    body.kb-open .chatwrap{flex:1;height:auto;min-height:0}
+    body.kb-open .chat-bar{padding-bottom:10px}
 
     /* วิดีโอคอลบนจอเล็ก */
     .callsec{padding:20px;flex-direction:column;align-items:flex-start}
@@ -2582,7 +2597,13 @@ if (owner) { closeGate(); } else { openGate('register'); }
     reply(think(text));
   }
 
-  form.addEventListener('submit', (e) => { e.preventDefault(); send(input.value); });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const had = document.activeElement === input;
+    send(input.value);
+    // พิมพ์ส่งเองให้คีย์บอร์ดค้างไว้ ไม่ต้องแตะช่องใหม่ทุกครั้ง (กดผ่านปุ่มคำตอบด่วนไม่ต้อง)
+    if (had) input.focus();
+  });
 
   function paintVoice(){
     voiceBtn.classList.toggle('off', VOICE.muted);
@@ -2615,11 +2636,43 @@ if (owner) { closeGate(); } else { openGate('register'); }
   renderChips(null);
 
   document.addEventListener('baymax:view', (e) => {
-    if (e.detail.tab !== 'chat'){ VOICE.stop(); return; }
+    if (e.detail.tab !== 'chat'){ VOICE.stop(); input.blur(); return; }
     // ทักครั้งแรกตอนเข้าห้องแชทจริง ๆ จะได้เรียกชื่อผู้ดูแลที่เพิ่งลงทะเบียนถูก
     if (!msgs.length) greet();
     setTimeout(() => { log.scrollTop = log.scrollHeight; }, 60);
   });
+
+  /* ---------- คีย์บอร์ดมือถือ ----------
+     iOS ไม่ย่อ layout viewport ตอนคีย์บอร์ดขึ้น ปุ่มที่ fixed bottom เลยไปโผล่เหนือคีย์บอร์ด
+     เลยวัดพื้นที่ที่มองเห็นจริงจาก visualViewport แล้วยกห้องแชทมาวางให้พอดี
+     ส่วนแถบแท็บปล่อยให้คีย์บอร์ดทับไปเลยตามที่ต้องการ */
+  (function(){
+    if (!matchMedia('(pointer:coarse)').matches) return;
+    const vv = window.visualViewport, root = document.documentElement;
+    let on = false;
+
+    const sync = () => {
+      if (!vv) return;
+      root.style.setProperty('--vvh', vv.height + 'px');
+      root.style.setProperty('--vvtop', vv.offsetTop + 'px');
+    };
+    const toBottom = () => { log.scrollTop = log.scrollHeight; };
+
+    function setOpen(v){
+      if (on === v) return;
+      on = v;
+      document.body.classList.toggle('kb-open', v);
+      if (v){ sync(); setTimeout(toBottom, 60); setTimeout(toBottom, 260); }
+      else { root.style.removeProperty('--vvh'); root.style.removeProperty('--vvtop'); }
+    }
+
+    input.addEventListener('focus', () => setOpen(true));
+    input.addEventListener('blur',  () => setOpen(false));
+    if (vv){
+      vv.addEventListener('resize', () => { if (on){ sync(); toBottom(); } });
+      vv.addEventListener('scroll', () => { if (on) sync(); });
+    }
+  })();
 })();
 
 /* =========================================================
