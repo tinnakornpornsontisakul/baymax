@@ -858,6 +858,14 @@
   .bxall.opening .bx-hint,.bxall.burst .bx-hint,.bxall.done .bx-hint{visibility:hidden}
   .bx-tap{margin-top:20px;z-index:3;padding:14px 34px;font-size:16px}
   .bxall.opening .bx-tap,.bxall.burst .bx-tap,.bxall.done .bx-tap{display:none}
+  .bx-left{margin-top:12px;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.13em;
+    text-transform:uppercase;color:#A6BACB}
+  .bxall.opening .bx-left,.bxall.burst .bx-left,.bxall.done .bx-left{visibility:hidden}
+  .bx-exit{position:absolute;z-index:6;top:calc(14px + env(safe-area-inset-top));right:16px;
+    width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.12);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
+  .bx-exit:active{transform:scale(.92)}
+  .bx-exit:focus-visible{outline:2px solid #fff;outline-offset:2px}
 
   /* ของที่ยังไม่ปลดล็อก */
   .wopt.lock{cursor:default;opacity:.62}
@@ -1879,6 +1887,7 @@
 
 <!-- ===================== ฉากเปิดกล่องสุ่ม ===================== -->
 <div class="bxall" id="bxAll" hidden role="dialog" aria-modal="true" aria-label="เปิดกล่องสุ่ม">
+  <button class="bx-exit" id="bxExit" type="button" aria-label="ออกจากการเปิดกล่อง">✕</button>
   <div class="bx-scene">
     <div class="bx-rays"></div>
     <div class="bx-halo"></div>
@@ -1911,6 +1920,7 @@
     </div>
 
     <button class="btn btn-go bx-tap" id="bxTap">แตะเพื่อเปิด</button>
+    <span class="bx-left" id="bxLeft"></span>
     <p class="bx-hint" id="bxHint">ข้างในมีของแต่งตัวหนึ่งชิ้น</p>
   </div>
 </div>
@@ -4001,12 +4011,13 @@ const WEAR = (function(){
   const TOTAL  = WEAR.countOf('normal');           // 19
   const SECRET = WEAR.countOf('secret');           // 5
   let prize = null, busy = false;
+  const openTOs = [];
 
   const today = () => { const d = new Date();
     return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
 
   /* ของขวัญประจำเวอร์ชัน — แจกครั้งเดียวต่อรหัสหนึ่งอัน ใครอัปเดตมาก็ได้รับ */
-  const DROP = { id:'v330-street', boxes:30 };
+  const DROP = { id:'v350-guard', boxes:50 };
 
   function claimDaily(){
     let boxes = BOXES.get(), got = 0, drop = 0;
@@ -4088,7 +4099,8 @@ const WEAR = (function(){
       : 'หมวด' + WEAR.CAT_TH[prize.cat];
     const eq = document.getElementById('bxEquip');
     eq.hidden = !!prize.dup;
-    document.getElementById('bxClose').textContent = prize.dup ? 'เอาใหม่' : 'เก็บไว้ก่อน';
+    document.getElementById('bxClose').textContent =
+      canOpen() ? 'เปิดอีกกล่อง' : prize.dup ? 'ปิด' : 'เก็บไว้ก่อน';
   }
 
   function runOpen(){
@@ -4105,7 +4117,7 @@ const WEAR = (function(){
     scene.classList.remove('ready'); scene.classList.add('opening');
     if (navigator.vibrate) { try { navigator.vibrate([12, 90, 18, 90, 30]); } catch(e){} }
 
-    setTimeout(() => {
+    openTOs.push(setTimeout(() => {
       showPrize();
       scene.classList.remove('opening'); scene.classList.add('burst');
       const big = prize.rare === 'secret' && !prize.dup;
@@ -4115,28 +4127,56 @@ const WEAR = (function(){
                                                 : ['#A9CCEA','#D3E1EC','#63CDB4'];
       dust(prize.dup ? 8 : big ? 52 : prize.rare === 'legend' ? 34 : 22, palette);
       if (navigator.vibrate) { try { navigator.vibrate(big ? [40,60,40,60,90] : prize.rare === 'legend' ? [30,50,60] : 22); } catch(e){} }
-      setTimeout(() => { scene.classList.remove('burst'); scene.classList.add('done'); busy = false; }, 620);
-    }, 1100);
+      openTOs.push(setTimeout(() => {
+        scene.classList.remove('burst'); scene.classList.add('done'); busy = false;
+      }, 620));
+    }, 1100));
+  }
+
+  const leftEl = document.getElementById('bxLeft');
+  const canOpen = () => BOXES.get() > 0 && WEAR.lockedPool().length > 0;
+
+  function readyScene(){
+    // ล้างคิวอนิเมชันของรอบก่อน ไม่ให้มายิงทับสถานะใหม่
+    openTOs.forEach(clearTimeout); openTOs.length = 0;
+    busy = false;
+    prize = null;
+    scene.className = 'bxall ready';
+    const n = BOXES.get();
+    leftEl.textContent = n > 1 ? 'เหลืออีก ' + n + ' กล่อง' : 'กล่องสุดท้ายแล้ว';
   }
 
   function openScene(){
-    if (BOXES.get() < 1 || !WEAR.lockedPool().length) return;
-    prize = null;
+    if (!canOpen()) return;
     scene.hidden = false;
-    scene.className = 'bxall ready';
+    readyScene();
     document.body.classList.add('locked');
   }
 
-  function closeScene(){
-    scene.hidden = true;
-    scene.className = 'bxall';
-    if (gate.hidden) document.body.classList.remove('locked');
+  /* ซิงก์ของที่เพิ่งได้กลับไปหน้าอื่น โดยไม่ต้องปิดฉาก */
+  function syncPrize(){
     if (prize && !prize.dup) justGot = WEAR.key(prize.cat, prize.o.id);
     render();
     if (wview === 'album') renderAlbum();
     paintBox(!prize ? null
       : prize.dup ? 'ได้ “' + prize.o.name + '” ซ้ำ น่าเสียดายจัง ลองใหม่นะครับ'
                   : 'ได้ “' + prize.o.name + '” มาแล้ว ลองเอาไปใส่ดูสิ');
+  }
+
+  /* ยังมีกล่องเหลือก็อยู่หน้านี้ต่อ ไม่ต้องเด้งกลับ */
+  function nextOrClose(){
+    syncPrize();
+    if (canOpen()) readyScene();
+    else closeScene();
+  }
+
+  function closeScene(){
+    openTOs.forEach(clearTimeout); openTOs.length = 0;
+    busy = false;
+    if (!scene.hidden) syncPrize();
+    scene.hidden = true;
+    scene.className = 'bxall';
+    if (gate.hidden) document.body.classList.remove('locked');
     prize = null;
   }
 
@@ -4151,14 +4191,15 @@ const WEAR = (function(){
   });
   tapBtn.addEventListener('click', runOpen);
   document.querySelector('.bx-gift').addEventListener('click', runOpen);
-  document.getElementById('bxClose').addEventListener('click', closeScene);
+  document.getElementById('bxClose').addEventListener('click', nextOrClose);
+  document.getElementById('bxExit').addEventListener('click', closeScene);
   document.getElementById('bxEquip').addEventListener('click', () => {
     if (prize){
       L[prize.cat] = prize.o.id;
       LS.set('baymax.' + prize.cat, prize.o.id);
       WEAR.apply();
     }
-    closeScene();
+    nextOrClose();
   });
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !scene.hidden && !busy) closeScene();
