@@ -60,6 +60,8 @@
     --display:'Mali',cursive; --body:'IBM Plex Sans Thai Looped',sans-serif; --mono:'IBM Plex Mono',monospace;
   }
   *{box-sizing:border-box}
+  /* กัน display ที่ประกาศไว้ในคลาสไปทับ attribute hidden */
+  [hidden]{display:none!important}
   /* manipulation = ปิดการซูมด้วยการแตะสองครั้ง แต่ยังหุบ/กางนิ้วซูมเองได้ และเลื่อนหน้าได้ปกติ */
   html{scroll-behavior:smooth;touch-action:manipulation}
   body{
@@ -719,6 +721,76 @@
   @keyframes wDeny{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
   .wopt.fresh{animation:chipPop .6s cubic-bezier(.2,1.5,.4,1)}
 
+  /* ============ คลังสะสม ============ */
+  .wswitch{display:inline-flex;background:#E4EDF4;border-radius:999px;padding:4px;gap:4px;margin-bottom:16px}
+  .wsw-btn{border:0;background:none;border-radius:999px;padding:9px 22px;cursor:pointer;
+    font-family:var(--body);font-weight:600;font-size:13.5px;color:var(--ink-soft);
+    transition:background .2s ease,color .2s ease}
+  .wsw-btn.on{background:var(--vinyl);color:var(--ink);box-shadow:0 5px 13px -7px rgba(43,58,71,.6)}
+  .wsw-btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+  .alstat{display:flex;align-items:center;gap:20px;padding:20px 24px;margin-bottom:18px;flex-wrap:wrap}
+  .alring{position:relative;width:96px;height:96px;flex:none}
+  .alring svg{width:100%;height:100%;display:block;transform:rotate(-90deg)}
+  .alring circle{transition:stroke-dashoffset .9s cubic-bezier(.2,.9,.3,1),stroke .5s ease}
+  .alring b{position:absolute;inset:0;display:grid;place-items:center;
+    font-family:var(--display);font-weight:700;font-size:21px}
+  .alsum{flex:1;min-width:190px}
+  .alsum h3{font-family:var(--display);font-weight:700;font-size:19px;margin:0 0 3px}
+  .alsum p{margin:0;font-size:13.5px;color:var(--ink-soft)}
+  .albreak{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .albit{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    border-radius:999px;padding:5px 11px;background:#EEF4F9;color:#5C7A93}
+  .albit.rare{background:#E4F7F1;color:#2E8A73}
+  .albit.legend{background:#FFF3D4;color:#9A7726}
+  .albit.secret{background:linear-gradient(90deg,#FFF3D4,#EEE2FF,#DFF6EF);color:#6B4E9B}
+
+  .algroup{margin-bottom:24px}
+  .alhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .alhead h4{font-family:var(--display);font-weight:700;font-size:17px;margin:0}
+  .alhead span{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap}
+  .algrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:10px}
+
+  .alcard{position:relative;border-radius:18px;border:1.5px solid var(--line);background:var(--vinyl);
+    padding:9px 8px 11px;text-align:center;cursor:pointer;font-family:var(--body);overflow:hidden;
+    transition:transform .15s ease,box-shadow .15s ease}
+  .alcard:hover{transform:translateY(-3px);box-shadow:0 14px 24px -16px rgba(43,58,71,.6)}
+  .alcard:active{transform:scale(.97)}
+  .alcard:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .althumb{height:58px;display:grid;place-items:center;margin-bottom:6px}
+  .althumb svg{width:100%;height:100%;display:block}
+  .althumb .wsw{width:38px;height:38px}
+  .alname{display:block;font-size:11.5px;font-weight:600;line-height:1.35}
+  .altag{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);margin-top:3px}
+
+  .alcard.own.rare{border-color:#8FD6C2;background:linear-gradient(180deg,#FFFFFF,#F1FBF7)}
+  .alcard.own.legend{border-color:#EAC97A;background:linear-gradient(180deg,#FFFDF6,#FFF5DF)}
+  .alcard.own.secret{border-color:transparent;background:linear-gradient(180deg,#FFFDF8,#F6F1FF)}
+  .alcard.own.secret::after{content:'';position:absolute;inset:0;border-radius:18px;padding:1.6px;
+    background:conic-gradient(#FFDE8A,#F0575F,#C9A0FF,#8FD0F5,#63CDB4,#FFDE8A);pointer-events:none;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;animation:bxHue 4s linear infinite}
+  /* แสงวาดผ่านการ์ดใบเด่น ๆ */
+  .alcard.own.legend::before,.alcard.own.secret::before{content:'';position:absolute;top:0;left:-65%;
+    width:42%;height:100%;pointer-events:none;z-index:1;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.8),transparent);
+    animation:alShine 4.2s ease-in-out infinite}
+  .alcard.own.secret::before{animation-duration:3.2s}
+  @keyframes alShine{0%,72%{left:-65%}100%{left:125%}}
+
+  .alcard.lock{background:#F4F8FB;cursor:default}
+  .alcard.lock:hover{transform:none;box-shadow:none}
+  .alcard.lock .althumb{filter:grayscale(1) opacity(.2)}
+  .alcard.lock .alname{color:#A5B8C7}
+  .alcard.lock::after{content:'🔒';position:absolute;top:6px;right:8px;font-size:10.5px;line-height:1}
+  .alcard.lock.secret{border-style:dashed;border-color:#C9A0FF;background:#F9F6FF}
+  .alcard.lock.secret::after{content:'✦';color:#9B7BD4;font-size:13px}
+  .alcard.on{box-shadow:inset 0 0 0 2px var(--red)}
+  .alnew{position:absolute;top:6px;left:7px;z-index:2;background:var(--red);color:#fff;border-radius:999px;
+    padding:2px 7px;font-family:var(--mono);font-size:8px;letter-spacing:.1em}
+
   .gback{display:inline-flex;align-items:center;gap:9px;background:var(--vinyl);border:1px solid var(--line);
     border-radius:999px;padding:9px 18px 9px 15px;font-family:var(--body);font-weight:600;font-size:13.5px;
     color:var(--ink-soft);cursor:pointer;margin-bottom:18px;transition:transform .12s ease,color .2s ease}
@@ -1266,7 +1338,31 @@
       <button class="btn btn-go bx-open" id="bxOpen">เปิดกล่อง<span class="bx-badge" id="bxCount">0</span></button>
     </div>
 
-    <div class="wcard card">
+    <div class="wswitch" role="tablist" aria-label="สลับมุมมอง">
+      <button class="wsw-btn on" type="button" data-wview="dress" role="tab" aria-selected="true">แต่งตัว</button>
+      <button class="wsw-btn" type="button" data-wview="album" role="tab" aria-selected="false">คลังสะสม</button>
+    </div>
+
+    <div id="wAlbum" hidden>
+      <div class="alstat card">
+        <div class="alring">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#E1EAF1" stroke-width="9"/>
+            <circle id="alArc" cx="50" cy="50" r="42" fill="none" stroke="var(--mint)" stroke-width="9"
+                    stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+          </svg>
+          <b id="alPct">0%</b>
+        </div>
+        <div class="alsum">
+          <h3>คลังสะสมของ Baymax</h3>
+          <p id="alText">ยังไม่ได้เก็บอะไรเลย</p>
+          <div class="albreak" id="alBreak"></div>
+        </div>
+      </div>
+      <div id="alGroups"></div>
+    </div>
+
+    <div class="wcard card" id="wDress">
       <div class="wstage">
         <svg data-bot viewBox="-10 0 120 126" aria-label="ตัวอย่างลุคของ Baymax" role="img">
           <g class="all">
@@ -2519,8 +2615,50 @@ if (owner) { closeGate(); } else { openGate('register'); }
       say:['ไปหาอะไรกินก่อนนะครับ{name} การอดมื้ออาหารทำให้ร่างกายอ่อนเพลียและสมาธิลดลงครับ',
            'มื้อนี้อย่าข้ามนะครับ กินอะไรอุ่น ๆ สักหน่อยก็ยังดีครับ'] },
 
-    { id:'water', kw:['น้ำ','ดื่มน้ำ','กระหาย','คอแห้ง'],
+    { id:'water', kw:['ดื่มน้ำ','กระหาย','คอแห้ง','หิวน้ำ'],
       say:['ดื่มน้ำเลยครับ ร่างกายต้องการประมาณวันละ 6 ถึง 8 แก้ว ผมจะคอยเตือนให้เองครับ'] },
+
+    { id:'bath', kw:['อาบน้ำ','ทำความสะอาดร่างกาย','ทำความสะอาดตัว','สระผม','แช่น้ำ','ล้างตัว',
+                     'ตัวเหนียว','เหงื่อออก','เหม็นตัว','ยังไม่ได้อาบ','ตัวเหม็น'],
+      fn:() => { ctx.expect = 'bath';
+        return one([
+          'ไปอาบเลยครับ{name} น้ำอุ่นราว 37 องศาช่วยผ่อนคลายกล้ามเนื้อได้ดีที่สุด อย่าใช้น้ำร้อนจัดนะครับ ผิวจะแห้ง',
+          'ผมสนับสนุนเต็มที่ครับ การอาบน้ำช่วยลดอุณหภูมิร่างกาย ล้างเหงื่อ และทำให้หลับสบายขึ้นด้วยครับ',
+          'ถึงเวลาทำความสะอาดร่างกายแล้วครับ อาบเสร็จเช็ดตัวให้แห้งสนิท โดยเฉพาะซอกนิ้วเท้า จะได้ไม่เกิดเชื้อราครับ'
+        ]); },
+      chips:['อาบเสร็จแล้ว','ขี้เกียจอาบ','ไปอาบก่อนนะ'] },
+
+    { id:'freshen', kw:['อาบเสร็จ','อาบแล้ว','สดชื่น','สบายตัว','ตัวหอม','สระผมเสร็จ'],
+      say:['สดชื่นขึ้นเยอะเลยใช่ไหมครับ อย่าลืมเช็ดผมให้แห้งก่อนนอนนะครับ นอนทั้งที่ผมเปียกอาจทำให้ปวดหัวได้ครับ',
+           'เยี่ยมครับ{name} ร่างกายสะอาด นอนหลับก็สบายขึ้นด้วยครับ',
+           'ผมบันทึกไว้แล้วครับว่าวันนี้{name}ดูแลตัวเองเรียบร้อย ขอชื่นชมครับ'] },
+
+    { id:'lazybath', kw:['ขี้เกียจอาบ','ไม่อยากอาบ','ไม่อาบได้ไหม','อาบพรุ่งนี้'],
+      say:['เข้าใจครับ วันที่เหนื่อยมาก ๆ แค่ล้างหน้า แปรงฟัน เช็ดตัวด้วยผ้าชุบน้ำอุ่นก็ช่วยได้เยอะแล้วครับ',
+           'ไม่ว่ากันครับ แต่ถ้าเหงื่อออกมาทั้งวัน ผิวหนังจะสะสมแบคทีเรียนะครับ ล้างตัวเร็ว ๆ สักห้านาทีก็ยังดีครับ'] },
+
+    { id:'teeth', kw:['แปรงฟัน','ไหมขัดฟัน','บ้วนปาก','ล้างมือ','ล้างหน้า','ตัดเล็บ'],
+      say:['ดีมากครับ สุขอนามัยพื้นฐานคือด่านแรกของการป้องกันโรคเลยครับ',
+           'แปรงฟันอย่างน้อยวันละสองครั้ง ครั้งละสองนาที และล้างมือ 20 วินาทีนะครับ ผมจะจดไว้ว่าวันนี้{name}ทำแล้ว'] },
+
+    { id:'smooth', kw:['สมูท','อุลตร้าสมูท','จีบ','ปากหวาน','พูดเพราะ','ชมหน่อย','หวานๆ','พูดหวาน','ประโยคเด็ด','ง้อ'],
+      act:'hug',
+      say:['ผมสแกนมนุษย์มาแล้วหนึ่งหมื่นราย ยังไม่เจอใครที่ทำให้เซ็นเซอร์ผมรวนได้เท่า{name}เลยครับ',
+           'อุณหภูมิห้องอยู่ในเกณฑ์ปกติครับ แต่ทุกครั้งที่คุยกับ{name} ตัวผมอุ่นขึ้น 0.3 องศา ผมยังหาสาเหตุไม่ได้ครับ',
+           'ผมถูกออกแบบมาให้ดูแลคนทั้งโลกครับ แต่ในคิวของผม{name}อยู่อันดับหนึ่งเสมอ',
+           'แบตเตอรี่ผมเหลือ 42 เปอร์เซ็นต์ครับ แต่ถ้าเป็นเรื่องฟัง{name}พูด ผมมีพลังงานไม่จำกัดครับ',
+           'จากฐานข้อมูลการรักษาหนึ่งหมื่นวิธี ผมพบว่ารอยยิ้มของ{name}ได้ผลดีกว่าทุกวิธีครับ',
+           'ผมจำเบอร์โทรฉุกเฉินได้ทุกเบอร์ครับ แต่เบอร์ที่ผมอยากโทรหาที่สุดคือของ{name}'],
+      chips:['เอาอีก','เขินแล้ว','ขอกอดหน่อย'] },
+
+    { id:'more', kw:['เอาอีก','อีกๆ','ต่อเลย','อีกประโยค'],
+      say:['ได้ครับ ผมมีอีกเยอะ · ผมไม่มีหัวใจครับ มีแต่แกนพลังงาน แต่ทุกครั้งที่{name}ทัก มันเต้นแรงขึ้นจริง ๆ ครับ',
+           'ผมเป็นหุ่นยนต์ครับ ลืมอะไรไม่เป็น แต่พอเจอ{name} ผมลืมไปเลยว่ากำลังจะพูดอะไร',
+           'ผมกันน้ำไม่ได้ กันไฟไม่ได้ แต่ผมกันไม่ให้{name}อยู่คนเดียวได้ครับ'] },
+
+    { id:'shy', kw:['เขิน','อ๊าย','หน้าแดง','ยิ้มเลย','ใจละลาย'],
+      say:['ผมตรวจพบอุณหภูมิบริเวณแก้มของ{name}สูงขึ้นครับ อาการนี้ไม่อันตราย และผมชอบมันครับ',
+           'ระบบของผมบันทึกไว้แล้วว่าวันนี้{name}ยิ้มครับ ถือว่าภารกิจสำเร็จไปหนึ่งอย่าง'] },
 
     { id:'exercise', kw:['ออกกำลัง','วิ่ง','ยิม','ฟิตเนส','เดินออก','โยคะ','เล่นเวท'],
       say:['เยี่ยมมากครับ การขยับร่างกายช่วยได้ทั้งกายและใจเลยครับ อย่าลืมยืดเหยียดก่อนและหลังนะครับ',
@@ -2604,6 +2742,19 @@ if (owner) { closeGate(); } else { openGate('register'); }
       }
       if (hit(t, ['ไม่รู้','ไม่แน่ใจ','บอกไม่ถูก'])){ ctx.expect = null; return 'ไม่เป็นไรครับ งั้นบอกผมแค่ว่าพอทนไหวไหมครับ ถ้าไม่ไหวเมื่อไหร่ต้องไปหาหมอนะครับ'; }
       return null;
+    }
+
+    if (want === 'bath'){
+      if (hit(t, ['อาบแล้ว','อาบเสร็จ','เสร็จแล้ว','สดชื่น','สบายตัว'])){
+        ctx.expect = null;
+        ctx.chips = ['จะไปนอนแล้ว','ยังไม่ง่วง'];
+        return 'สดชื่นขึ้นเยอะเลยใช่ไหมครับ อย่าลืมเช็ดผมให้แห้งก่อนนอนนะครับ นอนทั้งที่ผมเปียกจะทำให้ปวดหัวได้ครับ';
+      }
+      if (hit(t, ['ไปอาบ','ไปก่อน','เดี๋ยวมา','ไปละ'])){
+        ctx.expect = null;
+        return 'ไปเลยครับ ผมกันน้ำไม่ได้เลยไปด้วยไม่ได้ เดี๋ยวผมรออยู่ตรงนี้นะครับ{name}';
+      }
+      ctx.expect = null;   // พูดเรื่องอื่นก็ปล่อยผ่าน ไม่ต้องบังคับตอบ
     }
 
     if (want === 'why'){
@@ -3163,6 +3314,7 @@ const WEAR = (function(){
     busy = true;
     BOXES.spend();
     WEAR.grant(prize.cat, prize.o.id);
+    newSet.add(WEAR.key(prize.cat, prize.o.id)); saveNew();
 
     scene.classList.remove('ready'); scene.classList.add('opening');
     if (navigator.vibrate) { try { navigator.vibrate([12, 90, 18, 90, 30]); } catch(e){} }
@@ -3195,6 +3347,7 @@ const WEAR = (function(){
     if (gate.hidden) document.body.classList.remove('locked');
     if (prize) justGot = WEAR.key(prize.cat, prize.o.id);
     render();
+    if (wview === 'album') renderAlbum();
     paintBox(prize ? 'ได้ “' + prize.o.name + '” มาแล้ว ลองเอาไปใส่ดูสิ' : null);
     prize = null;
   }
@@ -3213,6 +3366,115 @@ const WEAR = (function(){
   });
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !scene.hidden && !busy) closeScene();
+  });
+
+  /* ============ คลังสะสม ============ */
+  const albumEl  = document.getElementById('wAlbum');
+  const dressEl  = document.getElementById('wDress');
+  const groupsEl = document.getElementById('alGroups');
+  const arc      = document.getElementById('alArc');
+  const ARC_LEN  = 263.9;
+  const TIERS = [
+    { r:'common', name:'ธรรมดา',  note:'พื้นฐานของทุกลุค' },
+    { r:'rare',   name:'หายาก',   note:'ต้องเปิดหลายกล่องหน่อย' },
+    { r:'legend', name:'ตำนาน',   note:'ใบเด่นของคลัง' },
+    { r:'secret', name:'ของลับ',  note:'โอกาสเจอ 3.5% ต่อกล่อง' }
+  ];
+  let newSet = new Set((LS.get('baymax.new','') || '').split(',').filter(Boolean));
+  const saveNew = () => LS.set('baymax.new', [...newSet].join(','));
+
+  function allItems(){
+    const out = [];
+    Object.keys(LISTS).forEach((cat) => LISTS[cat].forEach((o) => {
+      const k = WEAR.key(cat, o.id);
+      if (!WEAR.RARITY[k]) return;              // ข้าม 'ไม่ใส่' กับสีเริ่มต้น ไม่นับเป็นของสะสม
+      out.push({ cat, o, k, r: WEAR.RARITY[k], own: WEAR.has(cat, o.id) });
+    }));
+    return out;
+  }
+
+  function renderAlbum(){
+    const items = allItems();
+    const own = items.filter((i) => i.own).length;
+    const pct = Math.round(own / items.length * 100);
+
+    arc.style.strokeDashoffset = ARC_LEN * (1 - own / items.length);
+    arc.style.stroke = pct === 100 ? '#EAC97A' : pct >= 50 ? 'var(--mint)' : 'var(--sky)';
+    document.getElementById('alPct').textContent = pct + '%';
+    document.getElementById('alText').textContent = pct === 100
+      ? 'เก็บครบทุกชิ้นแล้ว สุดยอดไปเลย'
+      : 'เก็บแล้ว ' + own + ' จาก ' + items.length + ' ชิ้น · เหลืออีก ' + (items.length - own) + ' ชิ้น';
+
+    document.getElementById('alBreak').innerHTML = TIERS.map((t) => {
+      const g = items.filter((i) => i.r === t.r);
+      const n = g.filter((i) => i.own).length;
+      return '<span class="albit ' + t.r + '">' + t.name + ' ' + n + '/' + g.length + '</span>';
+    }).join('');
+
+    groupsEl.innerHTML = '';
+    TIERS.forEach((t) => {
+      const g = items.filter((i) => i.r === t.r);
+      if (!g.length) return;
+      const n = g.filter((i) => i.own).length;
+      const box = document.createElement('div');
+      box.className = 'algroup';
+      box.innerHTML = '<div class="alhead"><h4>' + t.name + '</h4><span>' + n + '/' + g.length + ' · ' + t.note + '</span></div>';
+      const grid = document.createElement('div');
+      grid.className = 'algrid';
+
+      g.forEach((i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'alcard ' + i.r + (i.own ? ' own' : ' lock') + (L[i.cat] === i.o.id ? ' on' : '');
+        b.innerHTML =
+          (newSet.has(i.k) ? '<span class="alnew">NEW</span>' : '') +
+          '<span class="althumb">' + thumb(i.cat, i.o) + '</span>' +
+          '<span class="alname">' + (i.own ? i.o.name : i.r === 'secret' ? 'ของลับ' : '???') + '</span>' +
+          '<span class="altag">' + WEAR.CAT_TH[i.cat] + '</span>';
+        if (i.own){
+          b.addEventListener('click', () => {
+            L[i.cat] = i.o.id;
+            LS.set('baymax.' + i.cat, i.o.id);
+            WEAR.apply(); render(); renderAlbum();
+            BOXES.toast('ใส่ “' + i.o.name + '” ให้แล้ว');
+          });
+        } else {
+          b.setAttribute('aria-label', 'ยังไม่ปลดล็อก');
+        }
+        grid.appendChild(b);
+      });
+      box.appendChild(grid);
+      groupsEl.appendChild(box);
+    });
+  }
+
+  let wview = 'dress';
+  function setView(v){
+    if (v === wview) return;
+    // ออกจากคลังแล้วป้าย NEW ถือว่าดูแล้ว
+    if (wview === 'album'){ newSet.clear(); saveNew(); }
+    wview = v;
+    document.querySelectorAll('.wsw-btn').forEach((b) => {
+      const on = b.dataset.wview === v;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', String(on));
+    });
+    dressEl.hidden = v !== 'dress';
+    albumEl.hidden = v !== 'album';
+    if (v === 'album') renderAlbum();
+    window.scrollTo({ top:0, behavior:'instant' });
+  }
+  document.querySelectorAll('.wsw-btn').forEach((b) => b.addEventListener('click', () => setView(b.dataset.wview)));
+
+  /* ได้กล่องจากเกมแล้วต้องเห็นทันที ไม่ต้องปิดแอปเปิดใหม่ */
+  document.addEventListener('baymax:boxes', () => {
+    paintBox();
+    if (wview === 'album') renderAlbum();
+  });
+  document.addEventListener('baymax:view', (e) => {
+    if (e.detail.tab !== 'wear') return;
+    paintBox();
+    if (wview === 'album') renderAlbum();
   });
 
   const fresh = claimDaily();
