@@ -649,6 +649,10 @@
     background:radial-gradient(circle,rgba(99,205,180,.34),transparent 62%);transition:background .45s ease}
   .bxall.r-rare .bx-halo{background:radial-gradient(circle,rgba(99,205,180,.42),transparent 64%)}
   .bxall.r-legend .bx-halo{background:radial-gradient(circle,rgba(255,222,138,.5),transparent 66%)}
+  .bxall.r-secret .bx-halo{background:radial-gradient(circle,rgba(201,160,255,.55),transparent 68%)}
+  .bxall.r-secret .bx-rays{opacity:.62;
+    background:repeating-conic-gradient(from 0deg,rgba(255,222,138,.3) 0 3deg,transparent 3deg 13deg,
+      rgba(201,160,255,.3) 13deg 16deg,transparent 16deg 26deg)}
 
   .bx-gift{position:relative;width:min(56vw,220px);z-index:2}
   .bx-gift svg{width:100%;height:auto;display:block;overflow:visible}
@@ -672,6 +676,14 @@
     box-shadow:0 26px 50px -26px rgba(0,0,0,.75),0 0 0 3px rgba(169,204,234,.5)}
   .r-rare .bx-prize .pcard{box-shadow:0 26px 50px -26px rgba(0,0,0,.75),0 0 0 3px rgba(99,205,180,.7),0 0 38px rgba(99,205,180,.3)}
   .r-legend .bx-prize .pcard{box-shadow:0 26px 50px -26px rgba(0,0,0,.75),0 0 0 3px rgba(255,222,138,.85),0 0 52px rgba(255,222,138,.42)}
+  /* ของลับ — กรอบไล่สีวิ่งรอบการ์ด */
+  .r-secret .bx-prize .pcard{position:relative;box-shadow:0 26px 54px -26px rgba(0,0,0,.8),0 0 60px rgba(201,160,255,.45)}
+  /* หมุนสีด้วย hue-rotate ไม่ใช่ transform เพราะ bxSpin มี translate ของวงแสงติดมาด้วย */
+  .r-secret .bx-prize .pcard::before{content:'';position:absolute;inset:-3px;border-radius:29px;z-index:-1;
+    background:conic-gradient(#FFDE8A,#F0575F,#C9A0FF,#8FD0F5,#63CDB4,#FFDE8A);
+    animation:bxHue 4s linear infinite}
+  @keyframes bxHue{to{filter:hue-rotate(360deg)}}
+  .r-secret .bx-rare{background:linear-gradient(90deg,#FFF3D4,#EEE2FF,#DFF6EF);color:#6B4E9B}
   .bx-prize .pthumb{height:112px;display:grid;place-items:center;border-radius:18px;background:#EFF5FA;margin-bottom:14px}
   .bx-prize .pthumb svg{width:100%;height:100%;display:block}
   .bx-prize .pthumb .wsw{width:64px;height:64px}
@@ -694,6 +706,14 @@
   .wopt.lock .wthumb{filter:grayscale(1) contrast(.85)}
   .wopt.lock small{color:#9DB0C0}
   .wopt.lock::after{content:'🔒';position:absolute;top:5px;right:7px;font-size:11px;line-height:1}
+  /* ของลับ — เห็นว่ามีอยู่ แต่ไม่บอกว่าเป็นอะไร */
+  .wopt.secret.lock{border-style:dashed;border-color:#C9A0FF;background:#F8F4FF;opacity:.85}
+  .wopt.secret.lock::after{content:'✦';color:#9B7BD4;font-size:13px;top:4px}
+  .wopt.secret.lock small{color:#9B7BD4;font-weight:600}
+  .wopt.secret.lock .wthumb{filter:grayscale(1) opacity(.28)}
+  .wopt.secret:not(.lock){border-color:#C9A0FF;background:linear-gradient(180deg,#FFFDF6,#F7F2FF)}
+  .wopt.secret:not(.lock)::after{content:'✦';position:absolute;top:4px;right:7px;font-size:13px;color:#9B7BD4}
+  .wopt.secret.on{border-color:var(--red)}
   .wopt{position:relative}
   .wopt.deny{animation:wDeny .32s}
   @keyframes wDeny{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
@@ -705,6 +725,13 @@
   .gback:hover{color:var(--ink)}
   .gback:active{transform:scale(.96)}
   .gback:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+  /* แจ้งรางวัลจากการเล่นเกม */
+  .rtoast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));z-index:140;max-width:92vw;
+    background:var(--ink);color:#fff;border-radius:16px;padding:11px 19px;font-size:14px;font-weight:600;
+    text-align:center;box-shadow:0 18px 36px -18px rgba(0,0,0,.75);pointer-events:none;opacity:0;
+    transform:translate(-50%,-150%);transition:transform .42s cubic-bezier(.2,1.35,.4,1),opacity .3s ease}
+  .rtoast.up{opacity:1;transform:translate(-50%,0)}
 
   .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
     z-index:70;background:var(--ink);color:#fff;border-radius:18px;padding:13px 16px 13px 20px;display:none;gap:14px;
@@ -1010,8 +1037,30 @@
     <div class="sec-head">
       <div class="eyebrow">Games — เลือกโหมดซ้อม</div>
       <h2>ห้องซ้อม</h2>
-      <p>เลือกสักโหมดแล้วกดเข้าไปเล่นได้เลย คะแนนสูงสุดถูกเก็บไว้ในเครื่องคุณ</p>
+      <p>เลือกสักโหมดแล้วกดเข้าไปเล่นได้เลย คะแนนที่ทำได้จะกลายเป็นแต้มดูแล สะสมครบแลกกล่องสุ่มได้</p>
     </div>
+
+    <div class="boxcard card ptscard">
+      <div class="bx-ico">
+        <svg viewBox="0 0 120 110" aria-hidden="true">
+          <g class="bx-base">
+            <rect x="20" y="50" width="80" height="48" rx="6" fill="#F58184" stroke="#2B3A47" stroke-width="3"/>
+            <rect x="52" y="50" width="16" height="48" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
+          </g>
+          <g class="bx-lid">
+            <path d="M60 30c-5.5-11-21-15-25-7.5S45 32 60 30zM60 30c5.5-11 21-15 25-7.5S75 32 60 30z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="14" y="30" width="92" height="21" rx="6" fill="#F0575F" stroke="#2B3A47" stroke-width="3"/>
+            <rect x="52" y="30" width="16" height="21" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
+          </g>
+        </svg>
+      </div>
+      <div class="bx-info">
+        <h3>แต้มดูแล</h3>
+        <p id="ptsText">เล่นเกมสะสมแต้ม ครบแล้วได้กล่องสุ่ม</p>
+        <div class="bx-prog"><i id="ptsBar" style="width:0%"></i></div>
+      </div>
+    </div>
+
     <div class="gamelist">
 
       <button class="gcardbtn" type="button" data-play="drill">
@@ -1461,6 +1510,8 @@
   </div>
 </div>
 
+<div class="rtoast" id="rtoast" role="status" aria-live="polite"></div>
+
 <div class="toast" id="toast" role="status">
   <span>มีคู่มือเวอร์ชันใหม่แล้ว</span>
   <button class="btn btn-go" id="toastGo">โหลดใหม่</button>
@@ -1508,6 +1559,48 @@ const VOICE = (function(){
     get muted(){ return muted; },
     setMuted(v){ muted = !!v; LS.set('baymax.mute', muted ? '1' : '0'); if (muted) stop(); }
   };
+})();
+
+/* =========================================================
+   0.6 · กล่องสุ่ม + แต้มดูแลที่ได้จากการเล่นเกม
+   ยิ่งได้กล่องจากเกมมาแล้วมาก กล่องถัดไปยิ่งต้องใช้แต้มเยอะขึ้น
+   ========================================================= */
+const BOXES = (function(){
+  const BASE = 1500, STEP = 600, CAP = 6;   // 1500 → 5100 แล้วคงที่
+  const num = (k) => parseInt(LS.get(k,'0'), 10) || 0;
+  const need = (e) => BASE + Math.min(e, CAP) * STEP;
+
+  const api = {
+    get:   () => num('baymax.boxes'),
+    set:   (n) => LS.set('baymax.boxes', String(Math.max(0, n))),
+    pts:   () => num('baymax.pts'),
+    earned:() => num('baymax.earned'),
+    need:  () => need(num('baymax.earned')),
+    spend(){ api.set(api.get() - 1); },
+
+    /* เอาคะแนนจบเกมมาแปลงเป็นแต้ม ครบเมื่อไหร่ได้กล่อง */
+    add(score){
+      const s = Math.round(score || 0);
+      if (s <= 0) return 0;
+      let p = api.pts() + s, e = api.earned(), got = 0;
+      while (p >= need(e)){ p -= need(e); e++; got++; }
+      LS.set('baymax.pts', String(p));
+      LS.set('baymax.earned', String(e));
+      if (got) api.set(api.get() + got);
+      document.dispatchEvent(new CustomEvent('baymax:boxes', { detail:{ got } }));
+      return got;
+    },
+
+    toast(text){
+      const el = document.getElementById('rtoast');
+      if (!el) return;
+      el.textContent = text;
+      el.classList.add('up');
+      clearTimeout(api._t);
+      api._t = setTimeout(() => el.classList.remove('up'), 3600);
+    }
+  };
+  return api;
 })();
 
 /* =========================================================
@@ -1722,10 +1815,13 @@ if (owner) { closeGate(); } else { openGate('register'); }
     CHIPS.forEach((c) => { if (sc >= c.at && !owned.has(c.id)){ owned.add(c.id); justId = c.id; } });
     LS.set('baymax.chips', [...owned].join(','));
     renderChips(justId);
+    const gotBox = BOXES.add(sc);           // คะแนนรอบนี้กลายเป็นแต้มดูแล
     finalEl.textContent = sc; ovlScore.hidden = false;
-    ovlTitle.textContent = justId ? 'ปลดล็อกชิปใหม่!' : record ? 'สถิติใหม่' : 'ลมหมดแล้ว';
-    ovlText.textContent = justId ? 'ชิปใหม่ถูกเก็บไว้ในเครื่องแล้ว เก็บให้ครบทั้งหกอันสิ'
+    ovlTitle.textContent = gotBox ? 'ได้กล่องสุ่ม!' : justId ? 'ปลดล็อกชิปใหม่!' : record ? 'สถิติใหม่' : 'ลมหมดแล้ว';
+    ovlText.textContent = gotBox ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
+      : justId ? 'ชิปใหม่ถูกเก็บไว้ในเครื่องแล้ว เก็บให้ครบทั้งหกอันสิ'
       : record ? 'ดีที่สุดเท่าที่คุณเคยทำมา' : 'เขาแฟบแล้ว แต่ไม่เป็นไร เทปกาวยังเหลืออีกเยอะ';
+    if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
     playBtn.textContent = 'ซ้อมอีกรอบ';
     ovl.hidden = false; paint();
   }
@@ -1977,12 +2073,16 @@ if (owner) { closeGate(); } else { openGate('register'); }
     const sc = Math.round(G.score);
     const record = sc > best;
     if (record){ best = sc; LS.set('baymax.battleBest', String(best)); bBest.textContent = best; }
+    const gotBox = BOXES.add(sc);           // คะแนนรอบนี้กลายเป็นแต้มดูแล
     bFinal.textContent = sc;
     bResult.hidden = false;
-    bTitle.textContent = record ? 'สถิติใหม่' : 'จบการจำลอง';
-    bText.textContent = record
-      ? 'ป้องกันได้ดีที่สุดเท่าที่เคยทำมา ' + (owner ? 'คุณ' + owner : 'คุณ') + ' เก่งขึ้นแล้ว'
-      : 'ถึงเวฟ ' + G.wave + ' กำจัดไป ' + G.kills + ' ตัว ลองใหม่อีกรอบไหม';
+    bTitle.textContent = gotBox ? 'ได้กล่องสุ่ม!' : record ? 'สถิติใหม่' : 'จบการจำลอง';
+    bText.textContent = gotBox
+      ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
+      : record
+        ? 'ป้องกันได้ดีที่สุดเท่าที่เคยทำมา ' + (owner ? 'คุณ' + owner : 'คุณ') + ' เก่งขึ้นแล้ว'
+        : 'ถึงเวฟ ' + G.wave + ' กำจัดไป ' + G.kills + ' ตัว ลองใหม่อีกรอบไหม';
+    if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
     bPlay.textContent = 'ซ้อมอีกรอบ';
     ovl.hidden = false;
   }
@@ -2687,7 +2787,8 @@ const WEAR = (function(){
     { id:'sky',    name:'ฟ้าใส',      c:'#CFE4F7' },
     { id:'mint',   name:'มิ้นต์',      c:'#C6EDE1' },
     { id:'butter', name:'เหลืองนวล',  c:'#FCEBBE' },
-    { id:'lilac',  name:'ลาเวนเดอร์', c:'#E0D9F6' }
+    { id:'lilac',  name:'ลาเวนเดอร์', c:'#E0D9F6' },
+    { id:'gold',   name:'ทองคำแท้',   c:'#F2D98F' }
   ];
   const HATS = [
     { id:'none', name:'ไม่ใส่', svg:'' },
@@ -2708,7 +2809,11 @@ const WEAR = (function(){
     { id:'cap', name:'หมวกแก๊ป', svg:
       '<path d="M36.5 14.5c0-7.5 6-11 13.5-11s13.5 3.5 13.5 11z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
       '<path d="M63 11.2c5.4.4 8 2 8.6 4.4H62z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
-      '<circle cx="50" cy="4.4" r="1.9" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.4"/>' }
+      '<circle cx="50" cy="4.4" r="1.9" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.4"/>' },
+    { id:'armor', name:'หมวกเกราะรบ', svg:
+      '<path d="M33 20.5C33 12.4 40.6 8 50 8s17 4.4 17 12.5z" fill="#F0575F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M50 8V1.6c3.9 1.1 6 3.9 6.2 8.2z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' +
+      '<path d="M35.5 17.6h29" stroke="#FDFEFF" stroke-width="1.5" opacity=".5"/>' }
   ];
   const FACES = [
     { id:'none', name:'ไม่ใส่', svg:'' },
@@ -2725,7 +2830,11 @@ const WEAR = (function(){
       '<ellipse cx="62.4" cy="28.4" rx="4" ry="2.4"/></g>' },
     { id:'patch', name:'พลาสเตอร์', svg:
       '<g transform="rotate(-18 61 18.5)"><rect x="54.5" y="15" width="13" height="7" rx="2.2" fill="#FFDE8A" stroke="#E7BF64" stroke-width="1.2"/>' +
-      '<path d="M58.6 16.4v4.2M57 18.5h4.2" stroke="#E7BF64" stroke-width="1.1" stroke-linecap="round"/></g>' }
+      '<path d="M58.6 16.4v4.2M57 18.5h4.2" stroke="#E7BF64" stroke-width="1.1" stroke-linecap="round"/></g>' },
+    { id:'visor', name:'บังตาสแกน', svg:
+      '<rect x="33.5" y="18.6" width="33" height="10" rx="5" fill="#63CDB4" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M37 22.4h25" stroke="#FDFEFF" stroke-width="1.7" opacity=".7"/>' +
+      '<path d="M37 25.8h13" stroke="#FDFEFF" stroke-width="1.4" opacity=".4"/>' }
   ];
   const ITEMS = [
     { id:'none', name:'ไม่ใส่', svg:'' },
@@ -2746,7 +2855,17 @@ const WEAR = (function(){
     { id:'badge', name:'เหรียญรางวัล', svg:
       '<path d="M44 36.5 47.5 46M56 36.5 52.5 46" stroke="#A9CCEA" stroke-width="2.4" stroke-linecap="round"/>' +
       '<circle cx="50" cy="50" r="6.2" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.8"/>' +
-      '<path d="M50 46.6l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" fill="#F0575F"/>' }
+      '<path d="M50 46.6l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" fill="#F0575F"/>' },
+    { id:'wings', name:'ปีกจรวด', back:true, svg:
+      '<path d="M41 41C26 38 12.5 44 6 56.5c11.5 2 18 8.5 21.5 18C33 61 37 49.5 41 41z" ' +
+      'fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
+      '<path d="M59 41c15-3 28.5 3 35 15.5-11.5 2-18 8.5-21.5 18C67 61 63 49.5 59 41z" ' +
+      'fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' },
+    { id:'core', name:'แกนพลังงาน', svg:
+      '<circle cx="50" cy="64.5" r="9.5" fill="#63CDB4" stroke="#2B3A47" stroke-width="2"/>' +
+      '<circle cx="50" cy="64.5" r="4.6" fill="#EAF9F4"/>' +
+      '<path d="M50 51.5v-3.8M50 81.3v-3.8M37 64.5h-3.8M66.8 64.5H63" ' +
+      'stroke="#2B3A47" stroke-width="1.9" stroke-linecap="round"/>' }
   ];
 
   /* หัว/ตัวของภาพแบบอื่น อยู่คนละพิกัด — แปลงให้ทับกับหุ่นมาตรฐาน */
@@ -2763,9 +2882,12 @@ const WEAR = (function(){
     'shell:rose':'common', 'shell:sky':'common', 'shell:mint':'rare', 'shell:butter':'rare', 'shell:lilac':'legend',
     'hat:nurse':'common',  'hat:cap':'common',   'hat:beanie':'rare', 'hat:party':'rare',    'hat:crown':'legend',
     'face:blush':'common', 'face:patch':'common','face:round':'rare', 'face:shades':'rare',
-    'item:bowtie':'common','item:tie':'common',  'item:scarf':'rare', 'item:badge':'rare',   'item:cape':'legend'
+    'item:bowtie':'common','item:tie':'common',  'item:scarf':'rare', 'item:badge':'rare',   'item:cape':'legend',
+    /* ของลับ — ออกจากกล่องยากมาก ไม่นับรวมกับ 19 ชิ้นปกติ */
+    'shell:gold':'secret', 'hat:armor':'secret', 'face:visor':'secret',
+    'item:wings':'secret', 'item:core':'secret'
   };
-  const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน' };
+  const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน', secret:'ของลับ' };
   const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
 
   const L = { shell:'vinyl', hat:'none', face:'none', item:'none' };
@@ -2778,13 +2900,22 @@ const WEAR = (function(){
   const has = (cat, id) => isFree(cat, id) || owned.has(key(cat, id));
   const saveOwned = () => LS.set('baymax.owned', [...owned].join(','));
   const grant = (cat, id) => { owned.add(key(cat, id)); saveOwned(); };
-  const lockedPool = () => {
+  const rareOf = (cat, id) => RARITY[key(cat, id)] || 'common';
+  const isSecret = (cat, id) => rareOf(cat, id) === 'secret';
+  /* kind: 'normal' | 'secret' | undefined (เอาทั้งหมด) */
+  const lockedPool = (kind) => {
     const out = [];
     Object.keys(LISTS).forEach((cat) => LISTS[cat].forEach((o) => {
-      if (!has(cat, o.id)) out.push({ cat, o, rare: RARITY[key(cat, o.id)] || 'common' });
+      if (isFree(cat, o.id) || has(cat, o.id)) return;
+      const r = rareOf(cat, o.id);
+      if (kind === 'normal' && r === 'secret') return;
+      if (kind === 'secret' && r !== 'secret') return;
+      out.push({ cat, o, rare:r });
     }));
     return out;
   };
+  const countOf = (kind) => Object.keys(RARITY)
+    .filter((k) => (kind === 'secret') === (RARITY[k] === 'secret')).length;
 
   function frag(markup){
     const doc = new DOMParser().parseFromString(
@@ -2843,7 +2974,7 @@ const WEAR = (function(){
 
   load(); apply();
   return { L, LISTS, SHELLS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH,
-           apply, pick, key, has, grant, owned, lockedPool };
+           apply, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf };
 })();
 
 /* หน้าตู้เสื้อผ้า */
@@ -2886,18 +3017,21 @@ const WEAR = (function(){
       host.innerHTML = '';
       LISTS[cat].forEach((o) => {
         const locked = !WEAR.has(cat, o.id);
+        const secret = WEAR.isSecret(cat, o.id);
         const b = document.createElement('button');
         b.type = 'button';
         b.className = 'wopt' + (L[cat] === o.id ? ' on' : '') + (locked ? ' lock' : '') +
-                      (justGot === WEAR.key(cat, o.id) ? ' fresh' : '');
+                      (secret ? ' secret' : '') + (justGot === WEAR.key(cat, o.id) ? ' fresh' : '');
         b.setAttribute('aria-pressed', L[cat] === o.id);
         if (locked) b.setAttribute('aria-label', o.name + ' — ยังไม่ปลดล็อก');
         b.innerHTML = '<span class="wthumb">' + thumb(cat, o) + '</span><small>' +
-                      (locked ? '???' : o.name) + '</small>';
+                      (locked ? (secret ? 'ของลับ' : '???') : o.name) + '</small>';
         b.addEventListener('click', () => {
           if (locked){
             b.classList.remove('deny'); void b.offsetWidth; b.classList.add('deny');
-            status.textContent = 'ชิ้นนี้ยังล็อกอยู่ — เปิดกล่องสุ่มเพื่อลุ้นดูสิ';
+            status.textContent = secret
+              ? 'ชิ้นนี้เป็นของลับ เจอได้ยากมาก ต้องเปิดกล่องลุ้นเอาเท่านั้น'
+              : 'ชิ้นนี้ยังล็อกอยู่ — เปิดกล่องสุ่มเพื่อลุ้นดูสิ';
             return;
           }
           L[cat] = o.id;
@@ -2937,39 +3071,50 @@ const WEAR = (function(){
   const scene  = document.getElementById('bxAll');
   const tapBtn = document.getElementById('bxTap');
   const WEIGHT = { common:60, rare:28, legend:11 };
-  const TOTAL  = Object.keys(WEAR.RARITY).length;
-  let boxes = 0, prize = null, busy = false;
+  const SECRET_ODDS = 0.035;                       // โอกาสเจอของลับต่อกล่อง
+  const TOTAL  = WEAR.countOf('normal');           // 19
+  const SECRET = WEAR.countOf('secret');           // 5
+  let prize = null, busy = false;
 
   const today = () => { const d = new Date();
     return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
 
   function claimDaily(){
-    boxes = parseInt(LS.get('baymax.boxes','0'), 10) || 0;
-    let got = 0;
+    let boxes = BOXES.get(), got = 0;
     if (LS.get('baymax.welcomed','') !== '1'){ boxes += 3; got += 3; LS.set('baymax.welcomed','1'); }
     if (LS.get('baymax.lastFree','') !== today()){ boxes += 1; got += 1; LS.set('baymax.lastFree', today()); }
-    if (got) LS.set('baymax.boxes', String(boxes));
+    if (got) BOXES.set(boxes);
     return got;
   }
 
   function paintBox(msg){
-    const left = WEAR.lockedPool().length;
-    const done = TOTAL - left;
-    bar.style.width = (done / TOTAL * 100) + '%';
+    const boxes  = BOXES.get();
+    const left   = WEAR.lockedPool().length;
+    const doneN  = TOTAL  - WEAR.lockedPool('normal').length;
+    const doneS  = SECRET - WEAR.lockedPool('secret').length;
+    bar.style.width = (doneN / TOTAL * 100) + '%';
     countEl.textContent = boxes;
+
     const all = left === 0;
     openBtn.disabled = all || boxes < 1;
     openBtn.textContent = all ? 'ครบทุกชิ้นแล้ว' : 'เปิดกล่อง';
     if (!all) openBtn.appendChild(countEl);
+
+    const tail = doneS ? ' · ของลับ ' + doneS + '/' + SECRET : '';
     status.textContent = msg || (
-      all   ? 'สุดยอด ปลดล็อกครบทั้ง ' + TOTAL + ' ชิ้นแล้ว'
-    : boxes ? 'ปลดล็อกแล้ว ' + done + '/' + TOTAL + ' ชิ้น · มีกล่องรออยู่ ' + boxes + ' กล่อง'
-            : 'ปลดล็อกแล้ว ' + done + '/' + TOTAL + ' ชิ้น · กล่องฟรีกล่องถัดไปได้พรุ่งนี้');
+      all   ? 'สุดยอด เก็บครบทุกชิ้นแล้ว รวมของลับด้วย'
+    : boxes ? 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · มีกล่องรออยู่ ' + boxes + ' กล่อง'
+            : 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · เล่นเกมสะสมแต้ม หรือรอกล่องฟรีพรุ่งนี้');
   }
 
   function draw(){
-    const pool = WEAR.lockedPool();
+    const secrets = WEAR.lockedPool('secret');
+    const normals = WEAR.lockedPool('normal');
+    // ของลับต้องดวงล้วน ๆ ส่วนของปกติจะไม่ออกซ้ำ เก็บไปเรื่อย ๆ ครบแน่นอน
+    const goSecret = secrets.length && (!normals.length || Math.random() < SECRET_ODDS);
+    const pool = goSecret ? secrets : normals;
     if (!pool.length) return null;
+    if (goSecret) return pool[Math.floor(Math.random()*pool.length)];
     let sum = 0; pool.forEach((p) => sum += WEIGHT[p.rare]);
     let r = Math.random() * sum;
     for (const p of pool){ r -= WEIGHT[p.rare]; if (r <= 0) return p; }
@@ -3001,20 +3146,22 @@ const WEAR = (function(){
   }
 
   function showPrize(){
-    scene.classList.remove('r-common','r-rare','r-legend');
+    scene.classList.remove('r-common','r-rare','r-legend','r-secret');
     scene.classList.add('r-' + prize.rare);
     document.getElementById('bxThumb').innerHTML = thumb(prize.cat, prize.o);
     document.getElementById('bxRare').textContent = WEAR.RARE_TH[prize.rare];
     document.getElementById('bxName').textContent = prize.o.name;
-    document.getElementById('bxCat').textContent = 'หมวด' + WEAR.CAT_TH[prize.cat];
+    document.getElementById('bxCat').textContent = prize.rare === 'secret'
+      ? 'หมวด' + WEAR.CAT_TH[prize.cat] + ' · เจอได้ยากมาก'
+      : 'หมวด' + WEAR.CAT_TH[prize.cat];
   }
 
   function runOpen(){
-    if (busy || boxes < 1) return;
+    if (busy || BOXES.get() < 1) return;
     prize = draw();
     if (!prize){ paintBox(); return; }
     busy = true;
-    boxes--; LS.set('baymax.boxes', String(boxes));
+    BOXES.spend();
     WEAR.grant(prize.cat, prize.o.id);
 
     scene.classList.remove('ready'); scene.classList.add('opening');
@@ -3023,17 +3170,19 @@ const WEAR = (function(){
     setTimeout(() => {
       showPrize();
       scene.classList.remove('opening'); scene.classList.add('burst');
-      const palette = prize.rare === 'legend' ? ['#FFDE8A','#F0575F','#FFF3D4','#63CDB4']
-                    : prize.rare === 'rare'   ? ['#63CDB4','#A9CCEA','#FFDE8A']
-                                              : ['#A9CCEA','#D3E1EC','#63CDB4'];
-      dust(prize.rare === 'legend' ? 34 : 22, palette);
-      if (navigator.vibrate) { try { navigator.vibrate(prize.rare === 'legend' ? [30,50,60] : 22); } catch(e){} }
+      const big = prize.rare === 'secret';
+      const palette = big                       ? ['#C9A0FF','#FFDE8A','#63CDB4','#F0575F','#8FD0F5']
+                    : prize.rare === 'legend'   ? ['#FFDE8A','#F0575F','#FFF3D4','#63CDB4']
+                    : prize.rare === 'rare'     ? ['#63CDB4','#A9CCEA','#FFDE8A']
+                                                : ['#A9CCEA','#D3E1EC','#63CDB4'];
+      dust(big ? 52 : prize.rare === 'legend' ? 34 : 22, palette);
+      if (navigator.vibrate) { try { navigator.vibrate(big ? [40,60,40,60,90] : prize.rare === 'legend' ? [30,50,60] : 22); } catch(e){} }
       setTimeout(() => { scene.classList.remove('burst'); scene.classList.add('done'); busy = false; }, 620);
     }, 1100);
   }
 
   function openScene(){
-    if (boxes < 1 || !WEAR.lockedPool().length) return;
+    if (BOXES.get() < 1 || !WEAR.lockedPool().length) return;
     prize = null;
     scene.hidden = false;
     scene.className = 'bxall ready';
@@ -3086,10 +3235,20 @@ const WEAR = (function(){
   const emit = () => document.dispatchEvent(
     new CustomEvent('baymax:view', { detail:{ tab:curTab, game:curGame } }));
 
+  const ptsBar  = document.getElementById('ptsBar');
+  const ptsText = document.getElementById('ptsText');
+
   function refreshHub(){
     bestDrill.textContent  = parseInt(LS.get('baymax.best','0'), 10) || 0;
     bestBattle.textContent = parseInt(LS.get('baymax.battleBest','0'), 10) || 0;
+    if (!ptsBar) return;
+    const p = BOXES.pts(), n = BOXES.need(), boxes = BOXES.get();
+    ptsBar.style.width = Math.min(100, p / n * 100) + '%';
+    ptsText.textContent = 'อีก ' + (n - p).toLocaleString('th-TH') + ' แต้มได้กล่องถัดไป (' +
+      p.toLocaleString('th-TH') + '/' + n.toLocaleString('th-TH') + ')' +
+      (boxes ? ' · มีกล่องยังไม่ได้เปิด ' + boxes + ' กล่อง' : '');
   }
+  document.addEventListener('baymax:boxes', refreshHub);
 
   function setGame(id){
     if (id === curGame) return;
