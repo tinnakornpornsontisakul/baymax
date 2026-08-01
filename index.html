@@ -193,7 +193,8 @@
     padding-bottom:13px;border-bottom:1.5px dashed var(--line)}
   .id-model{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--red);
     border:1.5px solid var(--red);border-radius:8px;padding:4px 9px}
-  .id-body{display:flex;gap:18px;align-items:center;padding:16px 0 4px;flex-wrap:wrap}
+  /* ให้ขอบบนรูปตรงกับบรรทัด "ผู้ดูแล" พอดี ไม่ลอยกลาง */
+  .id-body{display:flex;gap:18px;align-items:flex-start;padding:16px 0 4px;flex-wrap:wrap}
   .id-photo{width:88px;height:88px;flex:none;border-radius:18px;background:#FDEEEF;display:grid;place-items:center}
   .id-photo svg{width:62px;height:auto;display:block}
   .id-fields{flex:1;min-width:210px;display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}
@@ -1290,7 +1291,7 @@
     <div class="sec-head">
       <div class="eyebrow">Games — เลือกโหมดซ้อม</div>
       <h2>ห้องซ้อม</h2>
-      <p>เลือกสักโหมดแล้วกดเข้าไปเล่นได้เลย คะแนนที่ทำได้จะกลายเป็นแต้มดูแล สะสมครบแลกกล่องสุ่มได้</p>
+      <p>เลือกสักโหมดแล้วกดเข้าไปเล่นได้เลย คะแนนที่ทำได้จะกลายเป็นแต้มดูแล ต้องสะสมเยอะพอสมควรกว่าจะแลกกล่องได้สักใบ</p>
     </div>
 
     <div class="boxcard card ptscard">
@@ -1863,7 +1864,7 @@ const VOICE = (function(){
    ยิ่งได้กล่องจากเกมมาแล้วมาก กล่องถัดไปยิ่งต้องใช้แต้มเยอะขึ้น
    ========================================================= */
 const BOXES = (function(){
-  const BASE = 1500, STEP = 600, CAP = 6;   // 1500 → 5100 แล้วคงที่
+  const BASE = 5000, STEP = 2500, CAP = 8;  // 5000 → 25000 แล้วคงที่ ตั้งใจให้ต้องเล่นเยอะจริง ๆ
   const num = (k) => parseInt(LS.get(k,'0'), 10) || 0;
   const need = (e) => BASE + Math.min(e, CAP) * STEP;
 
@@ -3165,8 +3166,17 @@ const WEAR = (function(){
     { id:'mint',   name:'มิ้นต์',      c:'#C6EDE1' },
     { id:'butter', name:'เหลืองนวล',  c:'#FCEBBE' },
     { id:'lilac',  name:'ลาเวนเดอร์', c:'#E0D9F6' },
-    { id:'gold',   name:'ทองคำแท้',   c:'#F2D98F' }
+    { id:'gold',   name:'ทองคำแท้',   c:'#F2D98F' },
+    { id:'concrete', name:'เทาคอนกรีต', c:'#D6DCE4' }
   ];
+  /* โลโก้หัวเกรย์ฮาวด์ของ SMILEYHOUND วาดในกล่อง 0..26 x 0..40 แล้วค่อยย่อไปวางที่อก */
+  const SH_HEAD = (c, ink) =>
+    '<path d="M1 16C2 12 6 9 12 7c1-3 2.5-5 4-3 1.5-2.5 4-2 4.5 1.5' +
+    'C23 9 23.5 13 22.5 17c-1 5-1.5 13-.5 23h-9c-.5-8-.5-15 0-19' +
+    '-4-.5-9-2.5-11.2-3.4C.8 17.2.6 16.6 1 16z" fill="' + c + '"/>' +
+    '<circle cx="15" cy="11" r="1.4" fill="' + ink + '"/>' +
+    '<path d="M4 16.4c2.6 1 5.4 1.7 7.6 2" fill="none" stroke="' + ink + '" stroke-width="1" stroke-linecap="round"/>';
+
   const HATS = [
     { id:'none', name:'ไม่ใส่', svg:'' },
     { id:'nurse', name:'หมวกพยาบาล', svg:
@@ -3192,6 +3202,11 @@ const WEAR = (function(){
       '<path d="M50 6.6v14.9" stroke="#FDFEFF" stroke-width="3.2" opacity=".85"/>' +
       '<path d="M36 12.8q14-5.6 28 0" fill="none" stroke="#FDFEFF" stroke-width="1.8" opacity=".5"/>' +
       '<path d="M31.5 21.5h37" stroke="#2B3A47" stroke-width="1.8"/>' },
+    { id:'shcap', name:'หมวกแก๊ป SH', svg:
+      '<path d="M35 17.6C35 9.4 41.6 4.2 50 4.2s15 5.2 15 13.4z" fill="#16181C" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M64 13.4c6.2.5 9.4 2.4 10 5.2H62.4z" fill="#16181C" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
+      '<g transform="translate(46.4 6.6) scale(.2)">' + SH_HEAD('#FDFEFF', '#16181C') + '</g>' +
+      '<circle cx="50" cy="4.6" r="1.5" fill="#FDFEFF" opacity=".85"/>' },
     { id:'armor', name:'หมวกเกราะรบ', svg:
       '<path d="M33 20.5C33 12.4 40.6 8 50 8s17 4.4 17 12.5z" fill="#F0575F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
       '<path d="M50 8V1.6c3.9 1.1 6 3.9 6.2 8.2z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' +
@@ -3213,6 +3228,12 @@ const WEAR = (function(){
     { id:'patch', name:'พลาสเตอร์', svg:
       '<g transform="rotate(-18 61 18.5)"><rect x="54.5" y="15" width="13" height="7" rx="2.2" fill="#FFDE8A" stroke="#E7BF64" stroke-width="1.2"/>' +
       '<path d="M58.6 16.4v4.2M57 18.5h4.2" stroke="#E7BF64" stroke-width="1.1" stroke-linecap="round"/></g>' },
+    { id:'mask', name:'มาสก์ปิดปาก SH', svg:
+      '<path d="M34.6 25.8 31 22.2M65.4 25.8 69 22.2" stroke="#16181C" stroke-width="1.9" stroke-linecap="round"/>' +
+      '<path d="M34.4 25.6c5.2 2.4 26 2.4 31.2 0 .6 4.6-1.4 8.8-6.2 10.4-3.2 1.1-11.6 1.1-14.8 0-4.8-1.6-6.8-5.8-6.2-10.4z" ' +
+      'fill="#16181C" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' +
+      '<path d="M35.6 27.4c4.8 1.9 24 1.9 28.8 0" fill="none" stroke="#FDFEFF" stroke-width="1" opacity=".35"/>' +
+      '<g transform="translate(47.2 27.8) scale(.155)">' + SH_HEAD('#FDFEFF', '#16181C') + '</g>' },
     { id:'visor', name:'บังตาสแกน', svg:
       '<rect x="33.5" y="18.6" width="33" height="10" rx="5" fill="#63CDB4" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M37 22.4h25" stroke="#FDFEFF" stroke-width="1.7" opacity=".7"/>' +
@@ -3238,6 +3259,13 @@ const WEAR = (function(){
       '<path d="M44 36.5 47.5 46M56 36.5 52.5 46" stroke="#A9CCEA" stroke-width="2.4" stroke-linecap="round"/>' +
       '<circle cx="50" cy="50" r="6.2" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<path d="M50 46.6l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" fill="#F0575F"/>' },
+    { id:'chain', name:'สร้อยคอทอง SH', svg:
+      '<path d="M35.5 40.5q14.5 17 29 0" fill="none" stroke="#2B3A47" stroke-width="4.8" stroke-linecap="round"/>' +
+      '<path d="M35.5 40.5q14.5 17 29 0" fill="none" stroke="#E8C25A" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<path d="M35.5 40.5q14.5 17 29 0" fill="none" stroke="#FFF2C6" stroke-width="1.1" stroke-linecap="round" ' +
+      'stroke-dasharray="1.3 2.7" opacity=".85"/>' +
+      '<circle cx="50" cy="53.4" r="1.7" fill="#E8C25A" stroke="#2B3A47" stroke-width="1"/>' +
+      '<g transform="translate(46.4 55.4) scale(.31)">' + SH_HEAD('#E8C25A', '#7A5A12') + '</g>' },
     { id:'wings', name:'ปีกจรวด', back:true, svg:
       '<path d="M41 41C26 38 12.5 44 6 56.5c11.5 2 18 8.5 21.5 18C33 61 37 49.5 41 41z" ' +
       'fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
@@ -3259,6 +3287,7 @@ const WEAR = (function(){
 
   /* ชุด — ใส่คลุมลำตัว ตัดตามทรงด้วย clipTorso ให้ไม่ล้นออกนอกตัว */
   const FIT = (inner) => '<g clip-path="url(#clipTorso)">' + inner + '</g>';
+
   const OUTFITS = [
     { id:'none', name:'ไม่ใส่', svg:'' },
     { id:'coat', name:'เสื้อกาวน์หมอ', svg: FIT(
@@ -3290,6 +3319,17 @@ const WEAR = (function(){
       '<path d="M38 43 50 60 62 43" fill="none" stroke="#1B2733" stroke-width="2" stroke-linejoin="round"/>' +
       '<path d="M50 60l-4.5 5 4.5 6 4.5-6z" fill="#F0575F"/>' +
       '<path d="M50 71.5l-3 4.5 1.5 15h3l1.5-15z" fill="#F0575F"/>') },
+    /* SMILEYHOUND — แจ็คเก็ตวอร์มกรมท่า สกรีนโลโก้หัวเกรย์ฮาวด์กับเวิร์ดมาร์กเต็มหน้าอก */
+    { id:'track', name:'เสื้อ SMILEYHOUND', svg: FIT(
+      '<path d="M18 44h64v69H18z" fill="#16181C"/>' +
+      '<path d="M21 44v69M79 44v69" stroke="#FDFEFF" stroke-width="2.2" opacity=".85"/>' +
+      '<path d="M37.5 42 50 55.5 62.5 42" fill="none" stroke="#FDFEFF" stroke-width="2" stroke-linejoin="round"/>' +
+      '<g transform="translate(29.5 53) scale(.3)">' + SH_HEAD('#FDFEFF', '#16181C') + '</g>' +
+      '<text x="50" y="76" text-anchor="middle" fill="#FDFEFF" font-family="Helvetica,Arial,sans-serif" ' +
+      'font-weight="700" font-size="5.6" letter-spacing=".4">SMILEYHOUND</text>' +
+      '<text x="50" y="84" text-anchor="middle" fill="#FDFEFF" font-family="Helvetica,Arial,sans-serif" ' +
+      'font-weight="700" font-size="3.6" letter-spacing="1.1" opacity=".9">GREYHOUND</text>' +
+      '<path d="M18 100h64" stroke="#FDFEFF" stroke-width="2" opacity=".75"/>') },
     { id:'astro', name:'ชุดนักบินอวกาศ', svg: FIT(
       '<path d="M18 46h64v67H18z" fill="#FDFEFF"/>' +
       '<path d="M18 61h64v9H18z" fill="#F58B4C"/>' +
@@ -3304,7 +3344,10 @@ const WEAR = (function(){
 
   /* ชุดที่จัดไว้ให้ครบเซ็ต — เก็บครบสี่ชิ้นแล้วใส่ทีเดียวได้ */
   const SETS = [
-    { id:'hero', name:'ชุดฮีโร่ลับ', badge:'ชุดใหม่ล่าสุด', hot:true,
+    { id:'sh', name:'SMILEYHOUND STREET', badge:'SMILEYHOUND × BAYMAX', hot:true,
+      note:'คอลเลกชันสตรีทแวร์จาก SMILEYHOUND เจ้าของโลโก้เกรย์ฮาวด์ ทั้งห้าชิ้นเป็นของลับระดับหายากที่สุดในเกม ครบทั้งเซ็ตเมื่อไหร่เขาจะเท่ที่สุดในซอย',
+      look:{ shell:'concrete', outfit:'track', hat:'shcap', face:'mask', item:'chain' } },
+    { id:'hero', name:'ชุดฮีโร่ลับ', badge:'ของลับ',
       note:'เกราะที่เด็กอัจฉริยะคนหนึ่งออกแบบให้เขาทั้งชุด ทุกชิ้นเป็นของลับที่เจอยากที่สุดในเกม ครบสี่ชิ้นเมื่อไหร่ เขาจะบินได้จริง',
       look:{ shell:'gold', outfit:'astro', hat:'armor', face:'visor', item:'wings' } },
     { id:'night', name:'ชุดเวรดึก', badge:'คลาสสิก',
@@ -3328,7 +3371,10 @@ const WEAR = (function(){
     'outfit:coat':'common','outfit:tee':'common','outfit:hoodie':'rare','outfit:sweater':'rare','outfit:suit':'legend',
     /* ของลับ — ออกจากกล่องยากมาก ไม่นับรวมกับของปกติ */
     'shell:gold':'secret', 'hat:armor':'secret', 'face:visor':'secret',
-    'item:wings':'secret', 'item:core':'secret', 'outfit:astro':'secret'
+    'item:wings':'secret', 'item:core':'secret', 'outfit:astro':'secret',
+    /* คอลแลป SMILEYHOUND — ของลับทั้งเซ็ต */
+    'shell:concrete':'secret', 'outfit:track':'secret', 'hat:shcap':'secret',
+    'face:mask':'secret',     'item:chain':'secret'
   };
   const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน', secret:'ของลับ' };
 
@@ -3368,7 +3414,13 @@ const WEAR = (function(){
     'outfit:hoodie':'ตัวนี้เจ้าของเดิมใส่ตอนอ่านหนังสือดึก ๆ ครับ เขาบอกว่าให้ผมไว้เพราะ "เธอน่าจะได้ใส่อะไรที่อุ่นบ้าง" ทั้งที่ผมไม่รู้สึกหนาวเลย',
     'outfit:sweater':'ถักด้วยไหมพรมเหลือจากผ้าพันคอผืนนั้นครับ คนถักบอกว่าคราวนี้จะถักให้เสร็จ แล้วเธอก็ทำได้จริง ๆ ใช้เวลาหนึ่งปีเต็ม',
     'outfit:suit':'ใส่ครั้งเดียวในงานเปิดตัวศูนย์ดูแลผู้ป่วยแห่งใหม่ครับ ผมยืนอยู่บนเวทีข้างคนที่สร้างผมขึ้นมา วันนั้นเขาบอกว่าภูมิใจในตัวผม',
-    'outfit:astro':'ชุดสำรองจากภารกิจทดสอบสภาวะไร้แรงโน้มถ่วงครับ ผมถูกส่งขึ้นไปดูแลนักบินสี่คนเป็นเวลาสิบเอ็ดวัน และผมพาพวกเขากลับมาครบทุกคน'
+    'outfit:astro':'ชุดสำรองจากภารกิจทดสอบสภาวะไร้แรงโน้มถ่วงครับ ผมถูกส่งขึ้นไปดูแลนักบินสี่คนเป็นเวลาสิบเอ็ดวัน และผมพาพวกเขากลับมาครบทุกคน',
+
+    'shell:concrete':'เฉดสีที่ทีมออกแบบของ SMILEYHOUND เลือกมาให้ผมโดยเฉพาะครับ เขาบอกว่าอยากได้สีเดียวกับตัวเกรย์ฮาวด์ในโลโก้ ผมเลยได้ใส่สีของญาติห่าง ๆ ของผมเอง',
+    'outfit:track':'ตัวอย่างชิ้นแรกจากคอลเลกชันคอลแลปครับ ที่อกปักหัวเกรย์ฮาวด์ไว้ ช่างปักบอกว่าใช้เวลาเก้าชั่วโมงกับลายเล็ก ๆ ลายเดียว เพราะเส้นมันต้องเป๊ะ',
+    'hat:shcap':'หมวกใบนี้ผลิตออกมาแค่ล็อตทดลองครับ ด้านในเย็บป้ายไว้ว่า "ให้คนที่วิ่งไปหาคนอื่นเสมอ" ผมยังไม่กล้าถามว่าเขาหมายถึงหมาหรือหมายถึงผม',
+    'face:mask':'มาสก์ปิดปากลายเกรย์ฮาวด์ครับ ผมไม่ต้องหายใจก็เลยไม่จำเป็นต้องใส่ แต่หมอบอกว่าถ้าผมใส่ คนไข้จะกล้าใส่ตามมากขึ้น ผมเลยใส่ทุกวันตั้งแต่นั้นมา',
+    'item:chain':'สร้อยคอทองพร้อมจี้หัวเกรย์ฮาวด์ครับ ทีมออกแบบบอกว่าอยากให้ผมมีของที่ดู "แรง" สักชิ้น ผมเลยใส่ไว้ แต่ผมยังยืนกรานว่าผมเป็นหุ่นพยาบาลที่ใจดีที่สุดในซอยอยู่ดีครับ'
   };
   const CAT_TH  = { shell:'สีเปลือกไวนิล', outfit:'ชุด', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
 
