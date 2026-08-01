@@ -387,10 +387,6 @@
 
   /* ============ เกม 2 · ต่อสู้ ============ */
   .game2{padding:20px}
-  .bfield{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;touch-action:none;
-    -webkit-user-select:none;user-select:none;
-    background:linear-gradient(180deg,#F7FBFD 0%,#E6F0F7 62%,#DCE9F2 100%)}
-  .bfield.shake{animation:shake .3s}
   @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
   .ground{position:absolute;left:0;right:0;bottom:0;height:9%;background:#D3E1EC;border-top:2px solid #BFD3E2}
   .grid-lines{position:absolute;inset:0;opacity:.5;
@@ -694,14 +690,14 @@
   body.tab-games .wrap > [data-tab]:not([data-tab="games"]),
   body.tab-wear .wrap > [data-tab]:not([data-tab="wear"]),
   body.tab-chat .wrap > [data-tab]:not([data-tab="chat"]){display:none;animation:none}
-  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #battle,body.tab-games #charge,
+  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #charge,body.tab-games #guard,
   body.tab-wear #wardrobe,body.tab-chat #chatSec{margin-top:10px}
 
   /* ============ หน้าเลือกเกม ============ */
-  body.game-none #drill,body.game-none #battle,body.game-none #charge{display:none}
-  body.game-drill #gamehub,body.game-drill #battle,body.game-drill #charge{display:none}
-  body.game-battle #gamehub,body.game-battle #drill,body.game-battle #charge{display:none}
-  body.game-charge #gamehub,body.game-charge #drill,body.game-charge #battle{display:none}
+  body.game-none   #drill,body.game-none   #charge,body.game-none   #guard,
+  body.game-drill  #gamehub,body.game-drill  #charge,body.game-drill  #guard,
+  body.game-charge #gamehub,body.game-charge #drill,body.game-charge #guard,
+  body.game-guard  #gamehub,body.game-guard  #drill,body.game-guard  #charge{display:none}
 
   .gamelist{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
   .carehead{grid-column:1/-1;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
@@ -717,9 +713,7 @@
   .gcardbtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .gart{display:flex;align-items:center;justify-content:center;gap:16px;height:140px;position:relative;overflow:hidden}
   .gart.drill{background:radial-gradient(120% 90% at 50% 0%,#FFFFFF,#E4EDF4)}
-  .gart.battle{background:linear-gradient(180deg,#F7FBFD 0%,#E6F0F7 62%,#DCE9F2 100%)}
   .gart svg{display:block;height:112px;width:auto}
-  .gart.battle{gap:15px}
   .gart .artgerm{height:42px;animation:foeSpin 5s linear infinite}
   .gart .artfist{height:33px;transform:rotate(-90deg);animation:artPunch 1.9s ease-in-out infinite}
   @keyframes artPunch{0%,100%{transform:rotate(-90deg) translateY(6px)}55%{transform:rotate(-90deg) translateY(-6px)}}
@@ -953,6 +947,42 @@
   .alnew{position:absolute;top:6px;left:7px;z-index:2;background:var(--red);color:#fff;border-radius:999px;
     padding:2px 7px;font-family:var(--mono);font-size:8px;letter-spacing:.1em}
 
+  /* ============ เกมปกป้องหัวใจ ============ */
+  .gart.guard{background:radial-gradient(120% 90% at 50% 10%,#FFF6F6,#FBE4E6)}
+  .gart.guard .artgerm2{animation:foeSpin 6s linear infinite;transform-box:fill-box;transform-origin:100px 24px}
+
+  .gdfield{position:relative;aspect-ratio:16/11;border-radius:20px;overflow:hidden;touch-action:none;
+    -webkit-user-select:none;user-select:none;cursor:crosshair;
+    background:radial-gradient(60% 60% at 50% 50%,#FFF3F4 0%,#F1F7FB 45%,#E2ECF4 100%)}
+  .gdfield.shake{animation:shake .3s}
+  .gd-rings{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(circle at 50% 50%,transparent 11%,rgba(240,87,95,.13) 11.4%,transparent 12%),
+               radial-gradient(circle at 50% 50%,transparent 24%,rgba(169,204,234,.4) 24.3%,transparent 25%),
+               radial-gradient(circle at 50% 50%,transparent 38%,rgba(169,204,234,.28) 38.3%,transparent 39%)}
+  .gd-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:15%;z-index:3;pointer-events:none;
+    animation:corePulse 1.9s ease-in-out infinite}
+  .gd-core svg{width:100%;height:auto;display:block}
+  @keyframes corePulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.08)}}
+  .gd-core.hurt{animation:coreHurt .45s steps(2) 2}
+  @keyframes coreHurt{50%{opacity:.3}}
+  .gd-hp{position:absolute;top:12px;left:14px;display:flex;gap:4px;z-index:6;max-width:44%;flex-wrap:wrap}
+  .gd-hp i{display:block;width:9px;height:9px;border-radius:50%;background:var(--red);
+    border:1.4px solid #2B3A47;transition:opacity .2s ease,transform .2s ease}
+  .gd-hp i.gone{opacity:.18;transform:scale(.7)}
+
+  .gdunit{position:absolute;width:8.5%;transform:translate(-50%,-50%);z-index:4;pointer-events:none}
+  .gdunit svg{width:100%;height:auto;display:block;animation:unitBob .5s ease-in-out infinite}
+  @keyframes unitBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
+  .gdunit.spawn{animation:unitIn .3s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes unitIn{from{transform:translate(-50%,-50%) scale(.3);opacity:0}}
+  .gdunit.hit svg{animation:unitHit .2s}
+  @keyframes unitHit{50%{transform:scale(1.25) rotate(-8deg)}}
+  .gdfoe{position:absolute;width:7%;transform:translate(-50%,-50%);z-index:2;pointer-events:none}
+  .gdfoe.big{width:10.5%}
+  .gdfoe svg{width:100%;height:auto;display:block;animation:foeSpin 3s linear infinite}
+  .gdfoe.big svg{animation-duration:2s}
+  .gdfoe.ouch svg{animation:foeOuch .18s}
+
   /* ============ เกมชาร์จแบต ============ */
   .gart.charge{background:linear-gradient(180deg,#FFF9E8,#FFEFC4)}
   .gart .artbolt{animation:boltPop 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
@@ -1067,7 +1097,6 @@
 
     /* Combat simulation บนจอเล็ก — สนามสูงขึ้น ปุ่มใหญ่ขึ้น สกอร์ไม่ล้น */
     .game2{padding:12px 12px 16px}
-    .bfield{aspect-ratio:auto;height:min(58vh,470px)}
     .fighter{width:17%}
     .foe{width:10%}
     .foe.big{width:15%}
@@ -1079,10 +1108,10 @@
     .brow2 .hint{min-width:0!important}
 
     /* หน้าเกม — หัวข้อกระชับ เหลือพื้นที่ให้สนามมากขึ้น */
-    body.tab-games #drill,body.tab-games #battle,body.tab-games #charge{margin-top:6px}
-    #drill .gback,#battle .gback,#charge .gback{margin-bottom:11px}
-    #drill .sec-head,#battle .sec-head,#charge .sec-head{margin-bottom:16px}
-    #drill .sec-head p,#battle .sec-head p{display:none}
+    body.tab-games #drill,body.tab-games #charge{margin-top:6px}
+    #drill .gback,#charge .gback{margin-bottom:11px}
+    #drill .sec-head,#charge .sec-head{margin-bottom:16px}
+    #drill .sec-head p,#guard .sec-head p{display:none}
     .ch-stage{min-height:250px}
     .chbot{width:min(64vw,215px)}
     .gart{height:124px}
@@ -1455,41 +1484,34 @@
         </span>
       </button>
 
-      <button class="gcardbtn" type="button" data-play="battle">
-        <span class="gart battle">
-          <svg data-bot viewBox="12 0 76 120" aria-hidden="true">
-            <g class="all">
-              <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
-              <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
-              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/></g>
-              <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
-              <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+      <button class="gcardbtn" type="button" data-play="guard">
+        <span class="gart guard">
+          <svg viewBox="0 0 120 92" aria-hidden="true">
+            <path d="M60 84s-26-16-26-34a13 13 0 0 1 26-9 13 13 0 0 1 26 9c0 18-26 34-26 34z"
+                  fill="#F0575F" stroke="#2B3A47" stroke-width="3" stroke-linejoin="round"/>
+            <g transform="translate(6 26) scale(.42)">
+              <path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
+              <rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/>
+              <circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/>
+              <line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/>
             </g>
-          </svg>
-          <svg class="artfist" viewBox="0 0 22 32" aria-hidden="true">
-            <path d="M11 30l-4-6h8z" fill="#F0575F"/>
-            <rect x="3" y="2" width="16" height="22" rx="8" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>
-            <path d="M7 12h8" stroke="#D3E1EC" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <svg class="artgerm" viewBox="0 0 44 44" aria-hidden="true">
-            <g stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round">
-              <path d="M22 9V3"/><path d="M22 35v6"/><path d="M9 22H3"/><path d="M35 22h6"/>
-              <path d="M13 13l-4-4"/><path d="M31 31l4 4"/><path d="M31 13l4-4"/><path d="M13 31l-4 4"/>
+            <g class="artgerm2">
+              <circle cx="100" cy="24" r="9" fill="#8FD6C2" stroke="#2B3A47" stroke-width="2.4"/>
+              <circle cx="97" cy="22" r="1.7" fill="#2B3A47"/><circle cx="103" cy="22" r="1.7" fill="#2B3A47"/>
+              <path d="M100 11v-5M100 42v-5M87 24h-5M118 24h-5" stroke="#2B3A47" stroke-width="2.4" stroke-linecap="round"/>
             </g>
-            <circle cx="22" cy="22" r="13" fill="#8FD6C2" stroke="#2B3A47" stroke-width="2.2"/>
-            <circle cx="17.5" cy="20" r="2.3" fill="#2B3A47"/><circle cx="26.5" cy="20" r="2.3" fill="#2B3A47"/>
-            <path d="M17 27q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </span>
         <span class="ginfo">
-          <span class="gname">ซ้อมรบกับเชื้อโรค</span>
-          <span class="gdesc">เอียงเครื่องเดินหลบ แล้วยิงหมัดจรวดใส่เชื้อโรคก่อนมันลงถึงพื้น</span>
+          <span class="gname">ปกป้องหัวใจ</span>
+          <span class="gdesc">กดเพื่อส่ง Baymax ออกไปสกัดเชื้อโรค ยิ่งกดยิ่งออกไปเยอะ อย่าให้อะไรแตะหัวใจได้</span>
         </span>
         <span class="gfoot">
-          <span class="gbest"><b id="hubBestBattle">0</b>Best score</span>
+          <span class="gbest"><b id="hubBestGuard">0</b>Best score</span>
           <span class="gplay">▶ เล่น</span>
         </span>
       </button>
+
 
     </div>
   </section>
@@ -1578,67 +1600,56 @@
     </div>
   </section>
 
-  <!-- ============ 04 · เกมต่อสู้ ============ -->
-  <section id="battle" data-tab="games">
+  <!-- ============ เกม 3 · ปกป้องหัวใจ ============ -->
+  <section id="guard" data-tab="games">
     <button class="gback" type="button" data-back>← เลือกเกมอื่น</button>
     <div class="sec-head">
-      <div class="eyebrow">Combat simulation</div>
-      <h2>ซ้อมรบกับเชื้อโรค</h2>
-      <p>ชิปต่อสู้ห้ามใช้เดี่ยว ๆ ต้องเสียบคู่กับชิปการดูแลเสมอ นี่คือสนามจำลอง ไม่มีใครเจ็บจริง — เดินหลบแล้วยิงหมัดจรวดใส่เชื้อโรคก่อนมันลงถึงพื้น</p>
+      <div class="eyebrow">Heart defense</div>
+      <h2>ปกป้องหัวใจ</h2>
+      <p>เชื้อโรคจะพุ่งเข้าหาหัวใจจากทุกทิศ แตะที่สนามเพื่อส่ง Baymax ออกไปสกัด ยิ่งกดรัวยิ่งส่งออกไปได้มาก แต่ละเวฟจะมาเยอะขึ้นเรื่อย ๆ</p>
     </div>
+
     <div class="game2 card">
-      <div class="bfield" id="bfield" tabindex="0" aria-label="สนามซ้อมรบ">
-        <div class="grid-lines"></div>
-        <div class="ground"></div>
+      <div class="gdfield" id="gdField" tabindex="0" aria-label="สนามปกป้องหัวใจ">
+        <div class="gd-rings"></div>
 
-        <div class="hearts" id="hearts"></div>
-        <div class="wavetag" id="waveTag">WAVE 1</div>
-        <div class="btop"><b id="bScore">0</b><span>Score</span></div>
-        <div class="wavebig" id="waveBig">WAVE 2</div>
+        <div class="gd-hp" id="gdHearts"></div>
+        <div class="wavetag" id="gdWaveTag">WAVE 1</div>
+        <div class="btop"><b id="gdScore">0</b><span>Score</span></div>
+        <div class="wavebig" id="gdWaveBig">WAVE 2</div>
 
-        <div class="layer" id="foes"></div>
-        <div class="layer" id="shots"></div>
-        <div class="layer" id="bits"></div>
-        <div class="tilt-pill" id="tiltPill"><i>📱</i> เอียงเครื่องซ้าย–ขวาเพื่อเดิน</div>
-
-        <div class="fighter" id="fighter">
-          <svg class="bot fbot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
-            <g class="all">
-              <g class="leg-l"><path class="leg-out" d="M41 100v15"/><path class="leg-in" d="M41 100v15"/></g>
-              <g class="leg-r"><path class="leg-out" d="M59 100v15"/><path class="leg-in" d="M59 100v15"/></g>
-              <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
-              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/></g>
-              <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
-              <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
-            </g>
+        <div class="gd-core" id="gdCore">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21.5s-8-5-8-10.5A4.5 4.5 0 0 1 12 8.6a4.5 4.5 0 0 1 8 2.4c0 5.5-8 10.5-8 10.5z"
+                  fill="#F0575F" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>
           </svg>
         </div>
 
-        <div class="overlay" id="bOvl">
-          <h3 id="bTitle">สนามซ้อมรบ</h3>
-          <p id="bText">ใช้ ← → หรือปุ่มด้านล่างเพื่อเดิน กด Space หรือปุ่มยิงเพื่อปล่อยหมัดจรวด อย่าให้เชื้อโรคลงถึงพื้น</p>
-          <div id="bResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="bFinal">0</div></div>
-          <p class="lowbatt" id="battleLow" hidden><b>แบตไม่พอ</b> — ต้องมีอย่างน้อย 15% ไปชาร์จก่อนนะครับ</p>
-          <button class="btn btn-go" id="bPlay">เริ่มซ้อมรบ</button>
-        </div>
-      </div>
+        <div class="layer" id="gdUnits"></div>
+        <div class="layer" id="gdFoes"></div>
+        <div class="layer" id="gdBits"></div>
 
-      <div class="pad">
-        <button class="pbtn" id="padL" aria-label="เดินซ้าย">◀</button>
-        <button class="pbtn fire" id="padF" aria-label="ยิง">ยิงหมัด</button>
-        <button class="pbtn" id="padR" aria-label="เดินขวา">▶</button>
+        <div class="overlay" id="gdOvl">
+          <h3 id="gdTitle">ปกป้องหัวใจ</h3>
+          <p id="gdText">แตะที่สนามเพื่อส่ง Baymax ออกไปสกัดเชื้อโรค กดรัว ๆ ได้เลย แต่ส่งออกไปพร้อมกันได้จำกัด</p>
+          <div id="gdResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="gdFinal">0</div></div>
+          <p class="lowbatt" id="gdLow" hidden><b>แบตไม่พอ</b> — ต้องมีอย่างน้อย 15% ไปชาร์จก่อนนะครับ</p>
+          <button class="btn btn-go" id="gdPlay">เริ่มป้องกัน</button>
+        </div>
       </div>
 
       <div class="brow2">
-        <div class="scores" style="flex:1;max-width:420px">
-          <div class="kpi"><b id="bBest">0</b><span>Best</span></div>
-          <div class="kpi"><b id="bKills">0</b><span>Kills</span></div>
-          <div class="kpi"><b id="bWave">1</b><span>Wave</span></div>
+        <div class="scores" style="flex:1;max-width:460px">
+          <div class="kpi"><b id="gdBest">0</b><span>Best</span></div>
+          <div class="kpi"><b id="gdKills">0</b><span>Kills</span></div>
+          <div class="kpi"><b id="gdWave">1</b><span>Wave</span></div>
+          <div class="kpi"><b id="gdUnitCount">0/12</b><span>Baymax</span></div>
         </div>
-        <p class="hint" id="bHint" style="flex:1;min-width:220px">คีย์บอร์ด: ← → เดิน · Space ยิง · เชื้อโรคตัวแดงต้องยิงสามครั้ง · ทุก 12 ตัวขึ้นเวฟใหม่ ตกลงพื้นเสียหนึ่งหัวใจ</p>
+        <p class="hint" style="flex:1;min-width:220px">แตะที่ไหนก็ส่ง Baymax ไปตรงนั้น เขาจะวิ่งหาเชื้อโรคที่ใกล้ที่สุดเอง · ตัวแดงต้องชนสามครั้ง · หัวใจโดนสิบครั้งจบเกม</p>
       </div>
     </div>
   </section>
+
 
   <!-- ============ ตู้เสื้อผ้า ============ -->
   <section id="wardrobe" data-tab="wear">
@@ -2064,7 +2075,7 @@ const BATT = (function(){
   const MAX = 100;
   const DRAIN_PER_HOUR = 25;         // ลดเองตามเวลา ~4 ชั่วโมงหมดก้อน จะได้กลับมาดูแลบ่อย ๆ
   const PER_TAP = 0.55;              // กดหนึ่งทีได้เท่าไหร่
-  const COST = { drill:12, battle:15 };   // เล่นเกมหนึ่งรอบใช้เท่าไหร่
+  const COST = { drill:12, guard:15 };    // เล่นเกมหนึ่งรอบใช้เท่าไหร่
 
   function read(){
     const raw = parseFloat(LS.get('baymax.batt','100'));
@@ -2547,377 +2558,6 @@ if (owner) { closeGate(); } else { openGate('register'); }
   renderChips(null); setAir(100); paint();
 })();
 
-/* =========================================================
-   4 · เกม 2 — ซ้อมรบกับเชื้อโรค (arcade)
-   สนามจำลอง 160 x 100 หน่วย แล้วแปลงเป็น %
-   ========================================================= */
-(function(){
-  const field = document.getElementById('bfield');
-  if (!field) return;
-  const fighter = document.getElementById('fighter');
-  const foeLayer = document.getElementById('foes');
-  const shotLayer = document.getElementById('shots');
-  const bitLayer = document.getElementById('bits');
-  const heartsEl = document.getElementById('hearts');
-  const ovl = document.getElementById('bOvl');
-  const bTitle = document.getElementById('bTitle');
-  const bText  = document.getElementById('bText');
-  const bResult= document.getElementById('bResult');
-  const bFinal = document.getElementById('bFinal');
-  const bPlay  = document.getElementById('bPlay');
-  const bScore = document.getElementById('bScore');
-  const bBest  = document.getElementById('bBest');
-  const bKills = document.getElementById('bKills');
-  const bWave  = document.getElementById('bWave');
-  const waveTag= document.getElementById('waveTag');
-  const waveBig= document.getElementById('waveBig');
-  const padL = document.getElementById('padL');
-  const padR = document.getElementById('padR');
-  const padF = document.getElementById('padF');
-
-  const W = 160, H = 100, GROUND = 88, MAXHP = 3;
-  const pctX = (x) => (x / W * 100) + '%';
-  const pctY = (y) => (y / H * 100) + '%';
-
-  const GERM = (color, big) =>
-    '<svg viewBox="0 0 44 44" aria-hidden="true">' +
-      '<g stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round">' +
-        '<path d="M22 9V3"/><path d="M22 35v6"/><path d="M9 22H3"/><path d="M35 22h6"/>' +
-        '<path d="M13 13l-4-4"/><path d="M31 31l4 4"/><path d="M31 13l4-4"/><path d="M13 31l-4 4"/>' +
-      '</g>' +
-      '<circle cx="22" cy="22" r="13" fill="' + color + '" stroke="#2B3A47" stroke-width="2.2"/>' +
-      '<circle cx="17.5" cy="20" r="2.3" fill="#2B3A47"/><circle cx="26.5" cy="20" r="2.3" fill="#2B3A47"/>' +
-      (big ? '<path d="M17 28q5-4 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>'
-           : '<path d="M17 27q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>') +
-    '</svg>';
-  const FIST =
-    '<svg viewBox="0 0 22 32" aria-hidden="true">' +
-      '<path d="M11 30l-4-6h8z" fill="#F0575F"/>' +
-      '<rect x="3" y="2" width="16" height="22" rx="8" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>' +
-      '<path d="M7 12h8" stroke="#D3E1EC" stroke-width="2" stroke-linecap="round"/>' +
-    '</svg>';
-
-  let best = parseInt(LS.get('baymax.battleBest','0'), 10) || 0;
-  bBest.textContent = best;
-
-  const keys = { left:false, right:false, fire:false };
-  let G = null, raf = 0;
-
-  function hearts(n){
-    heartsEl.innerHTML = '';
-    for (let i = 0; i < MAXHP; i++){
-      const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
-      s.setAttribute('viewBox','0 0 24 24');
-      s.setAttribute('class','heart' + (i < n ? '' : ' gone'));
-      s.innerHTML = '<path d="M12 21s-7.5-4.7-7.5-10A4.2 4.2 0 0 1 12 8.3a4.2 4.2 0 0 1 7.5 2.7c0 5.3-7.5 10-7.5 10z" fill="#F0575F" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>';
-      heartsEl.appendChild(s);
-    }
-  }
-
-  function burst(x, y, color){
-    for (let i = 0; i < 7; i++){
-      const b = document.createElement('div');
-      b.className = 'bit';
-      b.style.background = color;
-      b.style.left = pctX(x); b.style.top = pctY(y);
-      const ang = Math.random()*Math.PI*2, d = 18 + Math.random()*26;
-      b.animate(
-        [{ transform:'translate(-50%,-50%) scale(1)', opacity:1 },
-         { transform:'translate(' + (-50 + Math.cos(ang)*d) + '%,' + (-50 + Math.sin(ang)*d) + '%) scale(0)', opacity:0 }],
-        { duration: 420 + Math.random()*180, easing:'ease-out' }
-      );
-      bitLayer.appendChild(b);
-      setTimeout(() => b.remove(), 620);
-    }
-  }
-
-  function spawnFoe(){
-    const big = G.wave >= 2 && Math.random() < 0.18;
-    const el = document.createElement('div');
-    el.className = 'foe' + (big ? ' big' : '');
-    el.innerHTML = GERM(big ? '#F58184' : '#8FD6C2', big);
-    foeLayer.appendChild(el);
-    const f = {
-      el, big,
-      x: 12 + Math.random()*(W - 24),
-      y: -8,
-      hp: big ? 3 : 1,
-      r: big ? 9 : 6,
-      vy: (big ? 11 : 15) + G.wave*2.2 + Math.random()*5,
-      drift: (Math.random() - 0.5) * 14
-    };
-    G.foes.push(f);
-  }
-
-  function shoot(){
-    if (!G || G.over || G.paused) return;
-    const now = performance.now();
-    if (now - G.lastShot < 240) return;
-    G.lastShot = now;
-    const el = document.createElement('div');
-    el.className = 'shot';
-    el.innerHTML = FIST;
-    shotLayer.appendChild(el);
-    G.shots.push({ el, x: G.x, y: GROUND - 16, vy: -128 });
-    fighter.classList.remove('punch'); void fighter.offsetWidth; fighter.classList.add('punch');
-    if (navigator.vibrate) { try { navigator.vibrate(8); } catch(e){} }
-  }
-
-  function damage(){
-    G.hp--;
-    hearts(G.hp);
-    field.classList.remove('shake'); void field.offsetWidth; field.classList.add('shake');
-    fighter.classList.add('hurt');
-    setTimeout(() => fighter.classList.remove('hurt'), 850);
-    if (navigator.vibrate) { try { navigator.vibrate([18, 40, 18]); } catch(e){} }
-    if (G.hp <= 0) end();
-  }
-
-  function loop(now){
-    if (!G || G.over || G.paused) return;
-    const dt = Math.min(0.05, (now - G.last)/1000); G.last = now;
-
-    // เดิน — ปุ่ม/คีย์บอร์ด หรือเอียงเครื่อง
-    let vx = (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
-    if (!vx && tilt.state === 'on'){
-      const dead = 3, full = 15, d = tilt.g;
-      if (Math.abs(d) > dead) vx = Math.max(-1, Math.min(1, (d - Math.sign(d)*dead)/(full - dead)));
-    }
-    if (vx){
-      G.x = Math.max(9, Math.min(W - 9, G.x + vx * 66 * dt));
-      fighter.classList.add('walk');
-      fighter.classList.toggle('left', vx < 0);
-    } else {
-      fighter.classList.remove('walk');
-    }
-    fighter.style.left = pctX(G.x);
-    if (keys.fire) shoot();
-
-    // กระสุน
-    for (let i = G.shots.length - 1; i >= 0; i--){
-      const s = G.shots[i];
-      s.y += s.vy * dt;
-      if (s.y < -6){ s.el.remove(); G.shots.splice(i,1); continue; }
-      s.el.style.left = pctX(s.x); s.el.style.top = pctY(s.y);
-    }
-
-    // เชื้อโรค
-    for (let i = G.foes.length - 1; i >= 0; i--){
-      const f = G.foes[i];
-      f.y += f.vy * dt;
-      f.x += f.drift * dt;
-      if (f.x < 8 || f.x > W - 8) f.drift *= -1;
-      f.el.style.left = pctX(f.x); f.el.style.top = pctY(f.y);
-
-      // ชนตัวผู้เล่น
-      if (f.y > GROUND - 20 && Math.abs(f.x - G.x) < f.r + 8){
-        burst(f.x, f.y, '#F0575F'); f.el.remove(); G.foes.splice(i,1); damage(); continue;
-      }
-      // ถึงพื้น
-      if (f.y >= GROUND){
-        burst(f.x, GROUND, '#F0575F'); f.el.remove(); G.foes.splice(i,1); damage(); continue;
-      }
-      // โดนหมัด
-      for (let j = G.shots.length - 1; j >= 0; j--){
-        const s = G.shots[j];
-        const dx = s.x - f.x, dy = s.y - f.y;
-        if (dx*dx + dy*dy < (f.r + 4)*(f.r + 4)){
-          s.el.remove(); G.shots.splice(j,1);
-          f.hp--;
-          if (f.hp <= 0){
-            burst(f.x, f.y, f.big ? '#F58184' : '#8FD6C2');
-            f.el.remove(); G.foes.splice(i,1);
-            G.kills++; G.score += f.big ? 90 : 30;
-            if (G.kills % 12 === 0){
-              G.wave++;
-              waveTag.textContent = 'WAVE ' + G.wave;
-              waveBig.textContent = 'WAVE ' + G.wave;
-              waveBig.classList.remove('show'); void waveBig.offsetWidth; waveBig.classList.add('show');
-            }
-          } else {
-            f.el.classList.remove('ouch'); void f.el.offsetWidth; f.el.classList.add('ouch');
-            G.score += 10;
-          }
-          break;
-        }
-      }
-    }
-
-    // เกิดใหม่
-    if (now >= G.nextAt){
-      spawnFoe();
-      G.every = Math.max(430, 1250 - G.wave*95);
-      G.nextAt = now + G.every * (0.75 + Math.random()*0.5);
-    }
-
-    G.score += 4*dt;
-    bScore.textContent = Math.round(G.score);
-    bKills.textContent = G.kills;
-    bWave.textContent = G.wave;
-    raf = requestAnimationFrame(loop);
-  }
-
-  function clearField(){
-    foeLayer.innerHTML = ''; shotLayer.innerHTML = ''; bitLayer.innerHTML = '';
-  }
-
-  function end(){
-    G.over = true;
-    cancelAnimationFrame(raf);
-    fighter.classList.remove('walk');
-    clearField();
-    const sc = Math.round(G.score);
-    const record = sc > best;
-    if (record){ best = sc; LS.set('baymax.battleBest', String(best)); bBest.textContent = best; }
-    const gotBox = BOXES.add(sc);           // คะแนนรอบนี้กลายเป็นแต้มดูแล
-    bFinal.textContent = sc;
-    bResult.hidden = false;
-    bTitle.textContent = gotBox ? 'ได้กล่องสุ่ม!' : record ? 'สถิติใหม่' : 'จบการจำลอง';
-    bText.textContent = gotBox
-      ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
-      : record
-        ? 'ป้องกันได้ดีที่สุดเท่าที่เคยทำมา ' + (owner ? 'คุณ' + owner : 'คุณ') + ' เก่งขึ้นแล้ว'
-        : 'ถึงเวฟ ' + G.wave + ' กำจัดไป ' + G.kills + ' ตัว ลองใหม่อีกรอบไหม';
-    if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
-    bPlay.textContent = 'ซ้อมอีกรอบ';
-    ovl.hidden = false;
-  }
-
-  function start(){
-    if (!BATT.spend('battle')){
-      document.getElementById('battleLow').hidden = false;
-      return;
-    }
-    document.getElementById('battleLow').hidden = true;
-    clearField();
-    const t = performance.now();
-    G = { x: W/2, hp: MAXHP, score:0, kills:0, wave:1, foes:[], shots:[],
-          over:false, paused:false, last:t, nextAt:t + 700, every:1250, lastShot:0 };
-    hearts(MAXHP);
-    waveTag.textContent = 'WAVE 1';
-    bScore.textContent = '0'; bKills.textContent = '0'; bWave.textContent = '1';
-    fighter.style.left = pctX(G.x);
-    fighter.classList.remove('left');
-    ovl.hidden = true; bResult.hidden = true;
-    field.focus({ preventScroll:true });
-    raf = requestAnimationFrame(loop);
-  }
-
-  /* เอียงเครื่องเพื่อเดิน — แทนปุ่มซ้ายขวาบนมือถือ */
-  const pad = document.querySelector('.pad');
-  const tiltPill = document.getElementById('tiltPill');
-  const bHint = document.getElementById('bHint');
-  const coarse = matchMedia('(pointer:coarse)').matches;
-  const tilt = { state:'unknown', g:0, zero:null, got:false };
-
-  function tiltAngle(){
-    const a = (screen.orientation && typeof screen.orientation.angle === 'number')
-      ? screen.orientation.angle : (window.orientation || 0);
-    return ((a % 360) + 360) % 360;
-  }
-  function onTilt(e){
-    if (e.gamma == null || e.beta == null) return;
-    const a = tiltAngle();
-    const raw = a === 90 ? e.beta : a === 270 ? -e.beta : a === 180 ? -e.gamma : e.gamma;
-    tilt.got = true;
-    if (tilt.zero === null) tilt.zero = raw;
-    tilt.g += ((raw - tilt.zero) - tilt.g) * 0.3;
-  }
-  window.addEventListener('orientationchange', () => { tilt.zero = null; tilt.g = 0; });
-
-  function tiltUI(on){
-    pad.classList.toggle('tilt-on', on);
-    if (on){
-      bHint.textContent = 'เอียงมาก เดินเร็ว · แตะที่สนามเพื่อยิงก็ได้ · เชื้อโรคตัวแดงต้องยิงสามครั้ง · ตกถึงพื้นเสียหนึ่งหัวใจ';
-    }
-  }
-
-  async function tiltEnable(){
-    if (tilt.state === 'on'){ tilt.zero = null; tilt.g = 0; return true; }
-    if (tilt.state === 'off') return false;
-    if (!coarse || !('DeviceOrientationEvent' in window)){ tilt.state = 'off'; return false; }
-    try {
-      if (typeof DeviceOrientationEvent.requestPermission === 'function'){
-        const r = await DeviceOrientationEvent.requestPermission();
-        if (r !== 'granted'){ tilt.state = 'off'; return false; }
-      }
-    } catch(err){ tilt.state = 'off'; return false; }
-    window.addEventListener('deviceorientation', onTilt);
-    const ok = await new Promise((res) => {
-      let n = 0;
-      const iv = setInterval(() => {
-        if (tilt.got){ clearInterval(iv); res(true); }
-        else if (++n > 12){ clearInterval(iv); res(false); }
-      }, 100);
-    });
-    tilt.state = ok ? 'on' : 'off';
-    if (ok){ tilt.zero = null; tilt.g = 0; }
-    else window.removeEventListener('deviceorientation', onTilt);
-    return ok;
-  }
-
-  if (coarse && 'DeviceOrientationEvent' in window){
-    bText.textContent = 'กด "เริ่มซ้อมรบ" แล้วเอียงเครื่องซ้าย–ขวาเพื่อเดิน แตะที่สนามหรือปุ่มแดงเพื่อยิงหมัดจรวด อย่าให้เชื้อโรคลงถึงพื้น';
-  }
-
-  bPlay.addEventListener('click', async () => {
-    const on = await tiltEnable();
-    tiltUI(on);
-    start();
-    if (on){
-      tiltPill.classList.add('show');
-      setTimeout(() => tiltPill.classList.remove('show'), 3600);
-    }
-  });
-
-  /* แตะที่สนามเพื่อยิง — เล่นสองมือถนัดกว่าบนมือถือ */
-  field.addEventListener('pointerdown', () => { if (G && !G.over && !G.paused) shoot(); });
-
-  /* คีย์บอร์ด */
-  const codeMap = { ArrowLeft:'left', KeyA:'left', ArrowRight:'right', KeyD:'right', Space:'fire', ArrowUp:'fire', KeyW:'fire' };
-  window.addEventListener('keydown', (e) => {
-    const k = codeMap[e.code];
-    if (!k || !G || G.over) return;
-    if (!document.body.classList.contains('game-battle')) return;
-    if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
-    keys[k] = true;
-    if (k === 'fire') shoot();
-    e.preventDefault();
-  });
-  window.addEventListener('keyup', (e) => {
-    const k = codeMap[e.code];
-    if (!k) return;
-    keys[k] = false;
-  });
-
-  /* ปุ่มบนจอ */
-  function hold(el, key){
-    const on  = (e) => { e.preventDefault(); keys[key] = true; el.classList.add('on'); if (key === 'fire') shoot(); };
-    const off = (e) => { e.preventDefault(); keys[key] = false; el.classList.remove('on'); };
-    el.addEventListener('pointerdown', on);
-    el.addEventListener('pointerup', off);
-    el.addEventListener('pointercancel', off);
-    el.addEventListener('pointerleave', off);
-  }
-  hold(padL, 'left'); hold(padR, 'right'); hold(padF, 'fire');
-
-  document.addEventListener('visibilitychange', () => {
-    if (!G || G.over) return;
-    if (document.hidden){ G.paused = true; cancelAnimationFrame(raf); keys.left = keys.right = keys.fire = false; }
-    else if (G.paused){ G.paused = false; G.last = performance.now(); raf = requestAnimationFrame(loop); }
-  });
-  document.addEventListener('baymax:view', (e) => {
-    if (!G || G.over) return;
-    const active = e.detail.tab === 'games' && e.detail.game === 'battle';
-    if (!active){
-      if (!G.paused){ G.paused = true; cancelAnimationFrame(raf); keys.left = keys.right = keys.fire = false; }
-    } else if (G.paused){
-      G.paused = false; G.last = performance.now(); raf = requestAnimationFrame(loop);
-    }
-  });
-
-  hearts(MAXHP);
-})();
 
 /* =========================================================
    5 · วิดีโอคอลกับ Baymax — ทุกอย่างเกิดในเครื่อง ไม่ส่งออกไปไหน
@@ -3100,6 +2740,291 @@ if (owner) { closeGate(); } else { openGate('register'); }
   document.getElementById('vcEnd').addEventListener('click', endCall);
   document.getElementById('vcCancel').addEventListener('click', endCall);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) endCall(); });
+})();
+
+/* =========================================================
+   4.5 · เกม 3 — ปกป้องหัวใจ
+   สนาม 160 x 110 หน่วย หัวใจอยู่กลาง เชื้อโรควิ่งเข้าหา แตะเพื่อส่ง Baymax ออกไปสกัด
+   ========================================================= */
+(function(){
+  const field = document.getElementById('gdField');
+  if (!field) return;
+  const uLayer = document.getElementById('gdUnits');
+  const fLayer = document.getElementById('gdFoes');
+  const bLayer = document.getElementById('gdBits');
+  const core   = document.getElementById('gdCore');
+  const hpEl   = document.getElementById('gdHearts');
+  const ovl    = document.getElementById('gdOvl');
+  const elScore= document.getElementById('gdScore');
+  const elKills= document.getElementById('gdKills');
+  const elWave = document.getElementById('gdWave');
+  const elUnits= document.getElementById('gdUnitCount');
+  const elBest = document.getElementById('gdBest');
+  const waveTag= document.getElementById('gdWaveTag');
+  const waveBig= document.getElementById('gdWaveBig');
+  const playBtn= document.getElementById('gdPlay');
+
+  const W = 160, H = 110, CX = W/2, CY = H/2;
+  const CORE_R = 9, MAX_HP = 10, MAX_UNITS = 12, TAP_GAP = 90;
+  const UNIT_LIFE = 14, UNIT_SPD = 46, FOE_R = 5.5, BIG_R = 8;
+  const pctX = (x) => (x / W * 100) + '%';
+  const pctY = (y) => (y / H * 100) + '%';
+
+  const GERM = (color, big) =>
+    '<svg viewBox="0 0 44 44" aria-hidden="true">' +
+      '<g stroke="#2B3A47" stroke-width="2.4" stroke-linecap="round">' +
+        '<path d="M22 9V3"/><path d="M22 35v6"/><path d="M9 22H3"/><path d="M35 22h6"/>' +
+        '<path d="M13 13l-4-4"/><path d="M31 31l4 4"/><path d="M31 13l4-4"/><path d="M13 31l-4 4"/>' +
+      '</g>' +
+      '<circle cx="22" cy="22" r="13" fill="' + color + '" stroke="#2B3A47" stroke-width="2.4"/>' +
+      '<circle cx="17.5" cy="20" r="2.3" fill="#2B3A47"/><circle cx="26.5" cy="20" r="2.3" fill="#2B3A47"/>' +
+      (big ? '<path d="M17 28q5-4 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>'
+           : '<path d="M17 27q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>') +
+    '</svg>';
+  const UNIT =
+    '<svg viewBox="14 6 72 108" aria-hidden="true"><g class="all">' +
+      '<g class="legs"><path class="leg-out" d="M41 102v11"/><path class="leg-in" d="M41 102v11"/>' +
+      '<path class="leg-out" d="M59 102v11"/><path class="leg-in" d="M59 102v11"/></g>' +
+      '<g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/>' +
+      '<path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>' +
+      '<g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>' +
+      '<rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>' +
+      '<g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/>' +
+      '<path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>' +
+      '<g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/>' +
+      '<circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/>' +
+      '<line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g></g></svg>';
+
+  let best = parseInt(LS.get('baymax.guardBest','0'), 10) || 0;
+  elBest.textContent = best;
+  const hubBest = document.getElementById('hubBestGuard');
+  if (hubBest) hubBest.textContent = best;
+
+  let S = null, raf = 0, lastTap = 0;
+
+  function hearts(n){
+    hpEl.innerHTML = '';
+    for (let i = 0; i < MAX_HP; i++){
+      const i2 = document.createElement('i');
+      if (i >= n) i2.className = 'gone';
+      hpEl.appendChild(i2);
+    }
+  }
+
+  function burst(x, y, color, n){
+    for (let i = 0; i < n; i++){
+      const b = document.createElement('div');
+      b.className = 'bit';
+      b.style.background = color;
+      b.style.left = pctX(x); b.style.top = pctY(y);
+      const a = Math.random()*Math.PI*2, d = 16 + Math.random()*26;
+      b.animate([{ transform:'translate(-50%,-50%) scale(1)', opacity:1 },
+                 { transform:'translate(' + (-50+Math.cos(a)*d) + '%,' + (-50+Math.sin(a)*d) + '%) scale(0)', opacity:0 }],
+                { duration:400 + Math.random()*180, easing:'ease-out' });
+      bLayer.appendChild(b);
+      setTimeout(() => b.remove(), 620);
+    }
+  }
+
+  /* เชื้อโรคเกิดที่ขอบวงนอกแล้ววิ่งตรงเข้าหัวใจ */
+  function spawnFoe(){
+    const w = S.wave;
+    const big  = w >= 3 && Math.random() < 0.16 + w*0.012;
+    const fast = !big && w >= 2 && Math.random() < 0.22;
+    const a = Math.random()*Math.PI*2, rad = 62 + Math.random()*14;
+    const x = CX + Math.cos(a)*rad, y = CY + Math.sin(a)*rad*0.72;
+    const el = document.createElement('div');
+    el.className = 'gdfoe' + (big ? ' big' : '');
+    el.innerHTML = GERM(big ? '#F58184' : fast ? '#FFC861' : '#8FD6C2', big);
+    el.style.left = pctX(x); el.style.top = pctY(y);
+    fLayer.appendChild(el);
+    const spd = (big ? 7.5 : fast ? 15 : 10.5) + w*0.75;
+    S.foes.push({ el, x, y, big, hp: big ? 3 : 1, r: big ? BIG_R : FOE_R, spd });
+    S.left--;
+  }
+
+  function spawnUnit(x, y){
+    if (!S || S.over || S.paused) return;
+    const now = performance.now();
+    if (now - lastTap < TAP_GAP) return;
+    if (S.units.length >= MAX_UNITS) return;
+    lastTap = now;
+    const el = document.createElement('div');
+    el.className = 'gdunit spawn';
+    el.innerHTML = UNIT;
+    el.style.left = pctX(x); el.style.top = pctY(y);
+    uLayer.appendChild(el);
+    S.units.push({ el, x, y, hp:4, t:0 });
+    elUnits.textContent = S.units.length + '/' + MAX_UNITS;
+    if (navigator.vibrate) { try { navigator.vibrate(6); } catch(e){} }
+  }
+
+  function hurtCore(dmg){
+    S.hp -= dmg;
+    hearts(Math.max(0, S.hp));
+    core.classList.remove('hurt'); void core.offsetWidth; core.classList.add('hurt');
+    field.classList.remove('shake'); void field.offsetWidth; field.classList.add('shake');
+    if (navigator.vibrate) { try { navigator.vibrate([18,40,18]); } catch(e){} }
+    if (S.hp <= 0) end();
+  }
+
+  function nextWave(){
+    S.wave++;
+    S.left = 5 + Math.round(S.wave * S.wave * 0.9) + S.wave * 3;   // เวฟหลัง ๆ มาเยอะขึ้นชัดเจน
+    S.every = Math.max(190, 900 - S.wave * 55);
+    S.score += 120 + S.wave * 30;
+    waveTag.textContent = 'WAVE ' + S.wave;
+    waveBig.textContent = 'WAVE ' + S.wave;
+    waveBig.classList.remove('show'); void waveBig.offsetWidth; waveBig.classList.add('show');
+    elWave.textContent = S.wave;
+  }
+
+  function loop(now){
+    if (!S || S.over || S.paused) return;
+    const dt = Math.min(0.05, (now - S.last)/1000); S.last = now;
+
+    if (S.left > 0 && now >= S.nextAt){
+      spawnFoe();
+      S.nextAt = now + S.every * (0.7 + Math.random()*0.6);
+    }
+
+    // Baymax วิ่งหาเชื้อโรคที่ใกล้ที่สุด
+    for (let i = S.units.length - 1; i >= 0; i--){
+      const u = S.units[i];
+      u.t += dt;
+      if (u.t > UNIT_LIFE || u.hp <= 0){
+        burst(u.x, u.y, '#A9CCEA', 5);
+        u.el.remove(); S.units.splice(i,1);
+        elUnits.textContent = S.units.length + '/' + MAX_UNITS;
+        continue;
+      }
+      let tgt = null, bd = 1e9;
+      for (const f of S.foes){
+        const d = (f.x-u.x)*(f.x-u.x) + (f.y-u.y)*(f.y-u.y);
+        if (d < bd){ bd = d; tgt = f; }
+      }
+      let mx = 0, my = 0;
+      if (tgt){
+        const d = Math.sqrt(bd) || 1;
+        mx = (tgt.x-u.x)/d; my = (tgt.y-u.y)/d;
+      }
+      // ผลักกันเองนิดหน่อย จะได้ไม่กองซ้อนเป็นกระจุกเดียว
+      for (const o of S.units){
+        if (o === u) continue;
+        const ddx = u.x-o.x, ddy = u.y-o.y, dd = Math.hypot(ddx, ddy);
+        if (dd > 0 && dd < 9){ mx += ddx/dd * (9-dd)/9 * 1.5; my += ddy/dd * (9-dd)/9 * 1.5; }
+      }
+      const ml = Math.hypot(mx, my);
+      if (ml > 0){
+        u.x = Math.max(4, Math.min(W-4, u.x + mx/ml * UNIT_SPD * dt));
+        u.y = Math.max(4, Math.min(H-4, u.y + my/ml * UNIT_SPD * dt));
+        u.el.style.left = pctX(u.x); u.el.style.top = pctY(u.y);
+      }
+    }
+
+    // เชื้อโรควิ่งเข้าหัวใจ
+    for (let i = S.foes.length - 1; i >= 0; i--){
+      const f = S.foes[i];
+      const dx = CX - f.x, dy = CY - f.y, d = Math.hypot(dx, dy) || 1;
+      f.x += dx/d * f.spd * dt;
+      f.y += dy/d * f.spd * dt;
+      f.el.style.left = pctX(f.x); f.el.style.top = pctY(f.y);
+
+      if (d < CORE_R + f.r){
+        burst(f.x, f.y, '#F0575F', 7);
+        f.el.remove(); S.foes.splice(i,1);
+        hurtCore(f.big ? 2 : 1);
+        if (S.over) return;
+        continue;
+      }
+
+      for (let j = S.units.length - 1; j >= 0; j--){
+        const u = S.units[j];
+        if (Math.hypot(u.x-f.x, u.y-f.y) > f.r + 5) continue;
+        f.hp--; u.hp--;
+        u.el.classList.remove('hit'); void u.el.offsetWidth; u.el.classList.add('hit');
+        if (f.hp <= 0){
+          burst(f.x, f.y, f.big ? '#F58184' : '#8FD6C2', 8);
+          f.el.remove(); S.foes.splice(i,1);
+          S.kills++; S.score += f.big ? 90 : 30;
+          elKills.textContent = S.kills;
+        } else {
+          f.el.classList.remove('ouch'); void f.el.offsetWidth; f.el.classList.add('ouch');
+          S.score += 8;
+        }
+        break;
+      }
+    }
+
+    if (S.left <= 0 && !S.foes.length) nextWave();
+
+    S.score += 3*dt;
+    elScore.textContent = Math.round(S.score);
+    raf = requestAnimationFrame(loop);
+  }
+
+  function clearField(){ uLayer.innerHTML = ''; fLayer.innerHTML = ''; bLayer.innerHTML = ''; }
+
+  function end(){
+    S.over = true;
+    cancelAnimationFrame(raf);
+    clearField();
+    const sc = Math.round(S.score);
+    const record = sc > best;
+    if (record){ best = sc; LS.set('baymax.guardBest', String(best)); elBest.textContent = best;
+                 if (hubBest) hubBest.textContent = best; }
+    const gotBox = BOXES.add(sc);
+    document.getElementById('gdFinal').textContent = sc;
+    document.getElementById('gdResult').hidden = false;
+    document.getElementById('gdTitle').textContent = gotBox ? 'ได้กล่องสุ่ม!' : record ? 'สถิติใหม่' : 'หัวใจหยุดเต้นแล้ว';
+    document.getElementById('gdText').textContent = gotBox
+      ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
+      : record ? 'ป้องกันได้นานที่สุดเท่าที่เคยทำมา ถึงเวฟ ' + S.wave
+               : 'ถึงเวฟ ' + S.wave + ' สกัดไปได้ ' + S.kills + ' ตัว ลองใหม่อีกรอบไหม';
+    if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
+    playBtn.textContent = 'ป้องกันอีกรอบ';
+    ovl.hidden = false;
+  }
+
+  function start(){
+    if (!BATT.spend('guard')){
+      document.getElementById('gdLow').hidden = false;
+      return;
+    }
+    document.getElementById('gdLow').hidden = true;
+    clearField();
+    const t = performance.now();
+    S = { hp:MAX_HP, score:0, kills:0, wave:0, left:0, every:900,
+          foes:[], units:[], over:false, paused:false, last:t, nextAt:t + 700 };
+    hearts(MAX_HP);
+    elScore.textContent = '0'; elKills.textContent = '0'; elUnits.textContent = '0/' + MAX_UNITS;
+    ovl.hidden = true; document.getElementById('gdResult').hidden = true;
+    nextWave();
+    field.focus({ preventScroll:true });
+    raf = requestAnimationFrame(loop);
+  }
+
+  playBtn.addEventListener('click', start);
+
+  field.addEventListener('pointerdown', (e) => {
+    if (!S || S.over || S.paused) return;
+    const r = field.getBoundingClientRect();
+    spawnUnit((e.clientX - r.left) / r.width * W, (e.clientY - r.top) / r.height * H);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (!S || S.over) return;
+    if (document.hidden){ S.paused = true; cancelAnimationFrame(raf); }
+    else if (S.paused){ S.paused = false; S.last = performance.now(); raf = requestAnimationFrame(loop); }
+  });
+  document.addEventListener('baymax:view', (e) => {
+    if (!S || S.over) return;
+    const active = e.detail.tab === 'games' && e.detail.game === 'guard';
+    if (!active){ if (!S.paused){ S.paused = true; cancelAnimationFrame(raf); } }
+    else if (S.paused){ S.paused = false; S.last = performance.now(); raf = requestAnimationFrame(loop); }
+  });
+
+  hearts(MAX_HP);
 })();
 
 /* =========================================================
@@ -4499,7 +4424,6 @@ const TABS = (function(){
   if (!bar) return { go(){}, game(){} };
   const btns = [...bar.querySelectorAll('.tabbtn')];
   const bestDrill  = document.getElementById('hubBestDrill');
-  const bestBattle = document.getElementById('hubBestBattle');
   let curTab = 'manual', curGame = 'none';
 
   const top = () => window.scrollTo({ top:0, behavior:'instant' });
@@ -4511,7 +4435,8 @@ const TABS = (function(){
 
   function refreshHub(){
     bestDrill.textContent  = parseInt(LS.get('baymax.best','0'), 10) || 0;
-    bestBattle.textContent = parseInt(LS.get('baymax.battleBest','0'), 10) || 0;
+    const bg = document.getElementById('hubBestGuard');
+    if (bg) bg.textContent = parseInt(LS.get('baymax.guardBest','0'), 10) || 0;
     if (!ptsBar) return;
     const p = BOXES.pts(), n = BOXES.need(), boxes = BOXES.get();
     ptsBar.style.width = Math.min(100, p / n * 100) + '%';
@@ -4524,7 +4449,7 @@ const TABS = (function(){
   function setGame(id){
     if (id === curGame) return;
     curGame = id;
-    document.body.classList.remove('game-none','game-charge','game-drill','game-battle');
+    document.body.classList.remove('game-none','game-charge','game-drill','game-guard');
     document.body.classList.add('game-' + id);
     if (id === 'none') refreshHub();
     top(); emit();
