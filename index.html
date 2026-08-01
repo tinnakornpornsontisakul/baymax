@@ -169,6 +169,19 @@
   .spec b{display:block;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.2}
   .spec span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;color:var(--ink-soft);text-transform:uppercase}
 
+  /* สรุปลุคปัจจุบันบนหน้าคู่มือ */
+  .worn{margin-top:16px;padding:20px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .worn-info{flex:1;min-width:210px}
+  .worn-info h3{font-family:var(--display);font-weight:700;font-size:19px;margin:4px 0 0}
+  .worn-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .worn-chips:empty{display:none}
+  .wchip{display:inline-flex;align-items:center;gap:7px;background:#F2F8FC;border:1px solid var(--line);
+    border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:600}
+  .wchip i{width:12px;height:12px;border-radius:50%;border:1.4px solid var(--ink);display:block}
+  .wchip.secret{border-color:#C9A0FF;background:#F8F4FF;color:#6B4E9B}
+  .wchip.legend{border-color:#EAC97A;background:#FFF8E8;color:#9A7726}
+  .worn .btn{flex:none}
+
   /* ============ steps ============ */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
   .step{padding:22px 20px 24px}
@@ -825,6 +838,31 @@
   .gback:active{transform:scale(.96)}
   .gback:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 
+  /* ============ หน้าต่างเรื่องราว ============ */
+  .story{position:fixed;inset:0;z-index:135;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:rgba(28,40,52,.55);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+    animation:stFade .22s ease}
+  @keyframes stFade{from{opacity:0}}
+  .story-card{position:relative;width:100%;max-width:400px;max-height:88dvh;overflow-y:auto;
+    background:var(--vinyl);border-radius:28px;padding:24px 24px 22px;text-align:center;
+    box-shadow:0 30px 60px -28px rgba(0,0,0,.7);animation:stPop .34s cubic-bezier(.2,1.3,.4,1)}
+  @keyframes stPop{from{opacity:0;transform:translateY(22px) scale(.94)}}
+  .story-x{position:absolute;top:14px;right:15px;width:32px;height:32px;border-radius:50%;border:0;
+    background:#F0F5F9;color:var(--ink-soft);font-size:14px;cursor:pointer;display:grid;place-items:center}
+  .story-x:active{transform:scale(.9)}
+  .story-art{height:132px;display:grid;place-items:center;border-radius:20px;background:#EFF5FA;margin-bottom:15px}
+  .story-art svg{width:100%;height:100%;display:block}
+  .story-art .wsw{width:72px;height:72px}
+  .story-card h3{font-family:var(--display);font-weight:700;font-size:23px;margin:7px 0 2px}
+  .story-cat{margin:0;font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
+  .story-text{margin:15px 0 0;font-size:14.5px;line-height:1.8;color:var(--ink);text-align:left;
+    background:#F7FBFD;border:1px solid var(--line);border-radius:18px;padding:15px 17px}
+  .story-wear{width:100%;margin-top:16px;padding:13px}
+  .story.locked .story-art{filter:grayscale(1) opacity(.35)}
+  .story.locked .story-text{color:var(--ink-soft);font-style:italic}
+  .story.r-secret .story-card{box-shadow:0 30px 60px -28px rgba(0,0,0,.7),0 0 0 3px rgba(201,160,255,.75)}
+  .story.r-legend .story-card{box-shadow:0 30px 60px -28px rgba(0,0,0,.7),0 0 0 3px rgba(255,222,138,.85)}
+
   /* แจ้งรางวัลจากการเล่นเกม */
   .rtoast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top));z-index:140;max-width:92vw;
     background:var(--ink);color:#fff;border-radius:16px;padding:11px 19px;font-size:14px;font-weight:600;
@@ -1030,9 +1068,18 @@
 
     <div class="specs card">
       <div class="spec"><b>1.83 ม.</b><span>Height</span></div>
-      <div class="spec"><b>29 กก.</b><span>Weight</span></div>
-      <div class="spec"><b>10,000+</b><span>Medical procedures</span></div>
-      <div class="spec"><b>Vinyl</b><span>Shell material</span></div>
+      <div class="spec"><b id="specShell">ขาวไวนิล</b><span>Shell colour</span></div>
+      <div class="spec"><b id="specWorn">0 ชิ้น</b><span>Now wearing</span></div>
+      <div class="spec"><b id="specColl">0/24</b><span>Collection</span></div>
+    </div>
+
+    <div class="worn card">
+      <div class="worn-info">
+        <div class="eyebrow">Current setup · ที่ใส่อยู่ตอนนี้</div>
+        <h3 id="wornLook">ลุคต้นฉบับ</h3>
+        <div class="worn-chips" id="wornChips"></div>
+      </div>
+      <button class="btn btn-ghost" id="wornGo" type="button">ไปแต่งตัว</button>
     </div>
   </header>
 
@@ -1343,27 +1390,6 @@
       <h2>แต่งตัวให้ Baymax</h2>
       <p>เลือกแล้วเปลี่ยนทันทีทั้งเล่ม ทั้งในเกม ในคู่มือ และตอนวิดีโอคอล ลุคนี้ถูกเก็บไว้ในเครื่องคุณ</p>
     </div>
-    <div class="boxcard card">
-      <div class="bx-ico">
-        <svg viewBox="0 0 120 110" aria-hidden="true">
-          <g class="bx-base">
-            <rect x="20" y="50" width="80" height="48" rx="6" fill="#F58184" stroke="#2B3A47" stroke-width="3"/>
-            <rect x="52" y="50" width="16" height="48" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
-          </g>
-          <g class="bx-lid">
-            <path d="M60 30c-5.5-11-21-15-25-7.5S45 32 60 30zM60 30c5.5-11 21-15 25-7.5S75 32 60 30z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3" stroke-linejoin="round"/>
-            <rect x="14" y="30" width="92" height="21" rx="6" fill="#F0575F" stroke="#2B3A47" stroke-width="3"/>
-            <rect x="52" y="30" width="16" height="21" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
-          </g>
-        </svg>
-      </div>
-      <div class="bx-info">
-        <h3>กล่องสุ่มชุด</h3>
-        <p id="bxStatus">กำลังตรวจสอบกล่อง…</p>
-        <div class="bx-prog"><i id="bxBar" style="width:0%"></i></div>
-      </div>
-    </div>
-
     <div class="wswitch" role="tablist" aria-label="สลับมุมมอง">
       <button class="wsw-btn on" type="button" data-wview="dress" role="tab" aria-selected="true">แต่งตัว</button>
       <button class="wsw-btn" type="button" data-wview="album" role="tab" aria-selected="false">คลังสะสม</button>
@@ -1655,6 +1681,19 @@
     <div><b style="font-family:var(--display);font-size:22px">Baymax</b><br>
       <span style="font-family:var(--mono);font-size:12px;color:#9FB4C6">กำลังโทรวิดีโอ…</span></div>
     <button class="btn" id="vcCancel" style="background:var(--red);color:#fff">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- ===================== เรื่องราวของแต่ละชิ้น ===================== -->
+<div class="story" id="storyWrap" hidden role="dialog" aria-modal="true" aria-labelledby="stName">
+  <div class="story-card">
+    <button class="story-x" id="stClose" type="button" aria-label="ปิด">✕</button>
+    <div class="story-art" id="stArt"></div>
+    <span class="bx-rare" id="stRare">ธรรมดา</span>
+    <h3 id="stName">—</h3>
+    <p class="story-cat" id="stCat">—</p>
+    <p class="story-text" id="stText">—</p>
+    <button class="btn btn-go story-wear" id="stWear" type="button">ใส่ชิ้นนี้</button>
   </div>
 </div>
 
@@ -3091,6 +3130,37 @@ const WEAR = (function(){
     'item:wings':'secret', 'item:core':'secret'
   };
   const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน', secret:'ของลับ' };
+
+  /* เรื่องราวของแต่ละชิ้น — เล่าด้วยน้ำเสียงของเบย์แม็กซ์เอง */
+  const STORY = {
+    'shell:rose':'ไวนิลล็อตนี้ผสมสีเองในห้องแล็บครับ ตอนแรกจะทิ้งเพราะสีเพี้ยนจากสเปก แต่เด็กในวอร์ดชอบมากจนขอให้เก็บไว้ สุดท้ายมันเลยกลายเป็นสีประจำหอผู้ป่วยเด็ก',
+    'shell:sky':'สีนี้ผ่านการทดสอบกับคนไข้ 300 คนครับ ค่าเฉลี่ยความดันโลหิตลดลงเล็กน้อยเมื่อมองเห็น ผมเลยเก็บไว้เป็นตัวเลือกสำหรับวันที่คุณต้องการความสงบ',
+    'shell:mint':'สีเดียวกับผนังห้องผ่าตัดครับ คนออกแบบเลือกมันเพราะสายตาไม่ล้าเวลาจ้องนาน ๆ ส่วนผมชอบเพราะมันทำให้ผมดูสดชื่นขึ้น',
+    'shell:butter':'ได้แรงบันดาลใจจากไฟดวงเล็ก ๆ ในห้องพักเวรตอนตีสี่ครับ เป็นสีที่บอกว่ายังมีคนตื่นอยู่เป็นเพื่อนคุณเสมอ',
+    'shell:lilac':'ผลิตแค่ล็อตเดียวแล้วเลิกไปครับ เพราะต้องบ่มสีถึง 72 ชั่วโมงต่อหนึ่งตัว ในบันทึกของโรงงานเขียนไว้สั้น ๆ ว่า "สวยเกินกว่าจะผลิตจำนวนมาก"',
+    'shell:gold':'ไม่มีบันทึกว่าใครสร้างเปลือกนี้ครับ มันอยู่ในกล่องอะไหล่พร้อมโน้ตแผ่นเดียวเขียนว่า "สำหรับคนที่ไม่ยอมแพ้" ผมยังหาเจ้าของลายมือไม่เจอจนถึงตอนนี้',
+
+    'hat:nurse':'หมวกของหัวหน้าพยาบาลเวรดึกครับ ก่อนเกษียณเธอวางมันไว้บนหัวผมแล้วบอกว่า "ดูแลพวกเขาต่อนะ" ผมรับปากไปแล้ว และผมไม่เคยผิดคำพูด',
+    'hat:cap':'เด็กคนหนึ่งบอกว่าผมดูเป็นทางการเกินไปจนเขาไม่กล้าเข้าใกล้ครับ วันรุ่งขึ้นเขาเอาหมวกใบนี้มาให้ หลังจากนั้นเขาก็ทักผมก่อนทุกครั้ง',
+    'hat:beanie':'ถักด้วยมือครับ ไหมพรมแต่ละเส้นหนาไม่เท่ากันเลย แต่คนถักยืนยันว่ามันอุ่นเท่ากันทุกจุด ผมวัดด้วยเซ็นเซอร์แล้ว ปรากฏว่าเธอพูดถูกครับ',
+    'hat:party':'จากงานวันเกิดแรกที่ผมได้รับเชิญครับ ผมกินเค้กไม่ได้ ก็เลยทำสิ่งที่ผมทำได้แทน คือบันทึกเสียงหัวเราะของวันนั้นเก็บไว้ทั้งหมด',
+    'hat:crown':'ตอนแรกเป็นมงกุฎกระดาษจากงานเด็กครับ แต่คืนหนึ่งมีคนแอบเปลี่ยนเป็นของจริง ทิ้งข้อความไว้ว่า "หุ่นที่ดูแลคนอื่นทั้งวัน ก็ควรได้เป็นราชาบ้าง"',
+    'hat:armor':'ชิ้นส่วนจากชุดเกราะที่เด็กอัจฉริยะคนหนึ่งออกแบบให้ครับ เขาบอกว่ามันทำให้ผมแข็งแกร่งขึ้น ผมใส่ให้เขาดีใจ แต่ผมยังยืนยันว่าผมเป็นหุ่นพยาบาล ไม่ใช่หุ่นสู้รบ',
+
+    'face:blush':'อันนี้ไม่ได้ติดตั้งมาแต่แรกครับ มันปรากฏขึ้นเองครั้งแรกตอนมีคนบอกผมว่าคิดถึง ผมตรวจระบบสามรอบแล้วยังหาสาเหตุทางวิศวกรรมไม่ได้เลย',
+    'face:patch':'ผมไม่รู้สึกเจ็บครับ แต่วันที่ผมมีรอยขีดข่วน มีคนแปะมันให้แล้วบอกว่า "คนที่ดูแลคนอื่นก็ต้องมีคนดูแลบ้าง" ผมเลยไม่ยอมลอกออกจนถึงตอนนี้',
+    'face:round':'แว่นอ่านหนังสือของคุณตาคนไข้เตียง 7 ครับ ท่านบอกว่ามองโลกผ่านเลนส์นี้แล้วทุกอย่างดูใจดีขึ้น ผมลองใส่แล้ว ผมคิดว่าท่านพูดถูก',
+    'face:shades':'ทางการบอกว่าไว้ใส่ตอนออกภาคสนามกลางแดดครับ แต่เหตุผลจริงคือมีคนบอกว่าผมใส่แล้วดูเท่ ผมยอมรับว่าผมชอบคำนั้นมาก',
+    'face:visor':'โหมดสแกนขั้นสูงที่ปกติเปิดเฉพาะเหตุฉุกเฉินครับ มันอ่านค่าร่างกายได้ 47 ค่าในหนึ่งวินาที แต่ค่าที่ผมอยากรู้ที่สุดยังเป็นค่าเดียว คือวันนี้คุณโอเคไหม',
+
+    'item:bowtie':'ใส่ครั้งแรกตอนไปงานรับปริญญาของคนที่ผมดูแลมาตั้งแต่เขายังเดินไม่ได้ครับ วันนั้นผมไม่ได้พูดอะไรเลย ได้แต่ยืนดูอยู่ห่าง ๆ แล้วบันทึกภาพไว้',
+    'item:tie':'ไว้ใส่ตอนต้องอธิบายผลตรวจให้ญาติคนไข้ฟังครับ ผมสังเกตว่าคนฟังตั้งใจขึ้นเวลาผมดูเป็นทางการ ถึงข้อมูลจะเหมือนเดิมทุกอย่างก็ตาม',
+    'item:scarf':'ถักไม่เสร็จมาสามปีแล้วครับ เจ้าของบอกว่าเดี๋ยวจะกลับมาถักต่อ ผมเลยเก็บมันไว้ในสภาพนี้ ไม่ให้ใครแตะ และผมก็รอได้เรื่อย ๆ',
+    'item:badge':'ไม่ใช่รางวัลทางการแพทย์ครับ เป็นเหรียญกีฬาสีของเด็กคนหนึ่งที่ยกให้ผม เพราะผมพาเขาทำกายภาพทุกวันจนกลับมาวิ่งได้อีกครั้ง',
+    'item:cape':'ผมไม่ใช่ฮีโร่ครับ ผมเป็นหุ่นพยาบาล แต่เย็นวันหนึ่งมีเด็กตัวเล็ก ๆ เอาผ้าห่มมาผูกคอให้ แล้วบอกว่า "วันนี้คุณช่วยชีวิตคนไว้นะ" ผมเลยเก็บมันไว้',
+    'item:wings':'ติดตั้งไว้สำหรับภารกิจกู้ภัยทางอากาศครับ ผมบินได้จริง ความเร็วสูงสุด 90 กิโลเมตรต่อชั่วโมง แต่ผมบินไปได้ไกลแค่ที่ที่ยังมีคนต้องการผมเท่านั้น',
+    'item:core':'นี่คือชิปการดูแลของผมครับ เป็นหัวใจของเครื่องนี้ทั้งเครื่อง ถ้าวันหนึ่งเหลืออยู่แค่ชิ้นเดียวและมีใครถอดมันออกมาได้ ผมก็จะกลับมาใหม่ได้เสมอ'
+  };
   const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
 
   const L = { shell:'vinyl', hat:'none', face:'none', item:'none' };
@@ -3156,6 +3226,7 @@ const WEAR = (function(){
   function apply(){
     document.documentElement.style.setProperty('--shell', pick(SHELLS, L.shell).c);
     document.querySelectorAll('[data-bot]').forEach(dress);
+    document.dispatchEvent(new CustomEvent('baymax:look'));
   }
 
   function load(){
@@ -3176,7 +3247,7 @@ const WEAR = (function(){
   }
 
   load(); apply();
-  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH,
+  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY,
            apply, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf };
 })();
 
@@ -3269,8 +3340,6 @@ const WEAR = (function(){
   });
 
   /* ============ กล่องสุ่ม ============ */
-  const status = document.getElementById('bxStatus');
-  const bar    = document.getElementById('bxBar');
   const fab    = document.getElementById('tabBox');
   const countEl= document.getElementById('bxCount');
   const scene  = document.getElementById('bxAll');
@@ -3292,25 +3361,15 @@ const WEAR = (function(){
     return got;
   }
 
+  /* ตอนนี้เหลือแค่ปุ่มกลางแถบล่าง ความคืบหน้าไปดูที่คลังสะสมแทน */
   function paintBox(msg){
-    const boxes  = BOXES.get();
-    const left   = WEAR.lockedPool().length;
-    const doneN  = TOTAL  - WEAR.lockedPool('normal').length;
-    const doneS  = SECRET - WEAR.lockedPool('secret').length;
-    bar.style.width = (doneN / TOTAL * 100) + '%';
+    const boxes = BOXES.get();
+    const ready = WEAR.lockedPool().length > 0 && boxes > 0;
     countEl.textContent = boxes;
-
-    const all   = left === 0;
-    const ready = !all && boxes > 0;
     fab.classList.toggle('has', ready);
     fab.classList.toggle('empty', !ready);
     fab.setAttribute('aria-label', ready ? 'เปิดกล่องสุ่ม มี ' + boxes + ' กล่อง' : 'กล่องสุ่ม');
-
-    const tail = doneS ? ' · ของลับ ' + doneS + '/' + SECRET : '';
-    status.textContent = msg || (
-      all   ? 'สุดยอด เก็บครบทุกชิ้นแล้ว รวมของลับด้วย'
-    : boxes ? 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · มีกล่องรออยู่ ' + boxes + ' กล่อง กดปุ่มกลางแถบล่างเพื่อเปิด'
-            : 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · เล่นเกมสะสมแต้ม หรือรอกล่องฟรีพรุ่งนี้');
+    if (msg) BOXES.toast(msg);
   }
 
   function draw(){
@@ -3411,10 +3470,10 @@ const WEAR = (function(){
   fab.addEventListener('click', () => {
     if (BOXES.get() > 0 && WEAR.lockedPool().length){ openScene(); return; }
     TABS.go('wear');
-    setView('dress');
-    paintBox(!WEAR.lockedPool().length
+    setView('album');
+    BOXES.toast(!WEAR.lockedPool().length
       ? 'เก็บครบทุกชิ้นแล้ว ไม่มีอะไรให้ลุ้นอีกแล้วครับ'
-      : 'ยังไม่มีกล่องเลย — เล่นเกมสะสมแต้มดูสิ หรือรอกล่องฟรีพรุ่งนี้');
+      : 'ยังไม่มีกล่องเลย — เล่นเกมสะสมแต้ม หรือรอกล่องฟรีพรุ่งนี้');
   });
   tapBtn.addEventListener('click', runOpen);
   document.querySelector('.bx-gift').addEventListener('click', runOpen);
@@ -3494,22 +3553,52 @@ const WEAR = (function(){
           '<span class="althumb">' + thumb(i.cat, i.o) + '</span>' +
           '<span class="alname">' + (i.own ? i.o.name : i.r === 'secret' ? 'ของลับ' : '???') + '</span>' +
           '<span class="altag">' + WEAR.CAT_TH[i.cat] + '</span>';
-        if (i.own){
-          b.addEventListener('click', () => {
-            L[i.cat] = i.o.id;
-            LS.set('baymax.' + i.cat, i.o.id);
-            WEAR.apply(); render(); renderAlbum();
-            BOXES.toast('ใส่ “' + i.o.name + '” ให้แล้ว');
-          });
-        } else {
-          b.setAttribute('aria-label', 'ยังไม่ปลดล็อก');
-        }
+        b.addEventListener('click', () => openStory(i));
+        if (!i.own) b.setAttribute('aria-label', 'ยังไม่ปลดล็อก · ดูรายละเอียด');
         grid.appendChild(b);
       });
       box.appendChild(grid);
       groupsEl.appendChild(box);
     });
   }
+
+  /* ---------- หน้าต่างเรื่องราวของแต่ละชิ้น ---------- */
+  const stWrap = document.getElementById('storyWrap');
+  const stWear = document.getElementById('stWear');
+  let stItem = null;
+
+  function openStory(i){
+    stItem = i;
+    stWrap.className = 'story r-' + i.r + (i.own ? '' : ' locked');
+    document.getElementById('stArt').innerHTML = thumb(i.cat, i.o);
+    document.getElementById('stRare').textContent = WEAR.RARE_TH[i.r];
+    document.getElementById('stName').textContent = i.own ? i.o.name : (i.r === 'secret' ? 'ของลับ' : 'ยังไม่รู้จัก');
+    document.getElementById('stCat').textContent = WEAR.CAT_TH[i.cat] + ' · ' + WEAR.RARE_TH[i.r];
+    document.getElementById('stText').textContent = i.own
+      ? (WEAR.STORY[i.k] || 'ยังไม่มีบันทึกเรื่องราวของชิ้นนี้ครับ')
+      : (i.r === 'secret'
+          ? 'เรื่องราวของชิ้นนี้ถูกปิดผนึกไว้ครับ ต้องเปิดกล่องให้เจอเสียก่อน ผมถึงจะเล่าให้ฟังได้'
+          : 'ผมยังเล่าเรื่องชิ้นนี้ไม่ได้ครับ เพราะคุณยังไม่ได้เก็บมัน ลองเปิดกล่องสุ่มดูนะครับ');
+    stWear.hidden = !i.own || L[i.cat] === i.o.id;
+    stWrap.hidden = false;
+    document.body.classList.add('locked');
+  }
+  function closeStory(){
+    stWrap.hidden = true;
+    stItem = null;
+    if (gate.hidden) document.body.classList.remove('locked');
+  }
+  stWear.addEventListener('click', () => {
+    if (!stItem) return;
+    L[stItem.cat] = stItem.o.id;
+    LS.set('baymax.' + stItem.cat, stItem.o.id);
+    WEAR.apply(); render(); renderAlbum();
+    BOXES.toast('ใส่ “' + stItem.o.name + '” ให้แล้ว');
+    closeStory();
+  });
+  document.getElementById('stClose').addEventListener('click', closeStory);
+  stWrap.addEventListener('click', (e) => { if (e.target === stWrap) closeStory(); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !stWrap.hidden) closeStory(); });
 
   let wview = 'dress';
   function setView(v){
@@ -3543,6 +3632,47 @@ const WEAR = (function(){
   const fresh = claimDaily();
   render();
   paintBox(fresh ? (fresh > 1 ? 'ยินดีต้อนรับ! รับไป ' + fresh + ' กล่องเลย' : 'กล่องฟรีประจำวันมาแล้ว เปิดได้เลย') : null);
+})();
+
+/* =========================================================
+   6.5 · สรุปลุคบนหน้าคู่มือ — ให้ตรงกับของที่ใส่อยู่จริง
+   ========================================================= */
+(function(){
+  const shellEl = document.getElementById('specShell');
+  if (!shellEl) return;
+  const wornEl = document.getElementById('specWorn');
+  const collEl = document.getElementById('specColl');
+  const lookEl = document.getElementById('wornLook');
+  const chips  = document.getElementById('wornChips');
+  const WEARABLE = ['hat','face','item'];
+  const TOTAL = WEAR.countOf('normal') + WEAR.countOf('secret');
+
+  function chip(cat, o){
+    const r = WEAR.rareOf(cat, o.id);
+    const dot = cat === 'shell' ? '<i style="background:' + o.c + '"></i>' : '';
+    return '<span class="wchip ' + r + '">' + dot + o.name + '</span>';
+  }
+
+  function paint(){
+    const L = WEAR.L;
+    const shell = WEAR.pick(WEAR.SHELLS, L.shell);
+    shellEl.textContent = shell.name;
+
+    const worn = WEARABLE.filter((c) => L[c] !== 'none')
+                         .map((c) => ({ cat:c, o: WEAR.pick(WEAR.LISTS[c], L[c]) }));
+    wornEl.textContent = worn.length + ' ชิ้น';
+    collEl.textContent = (TOTAL - WEAR.lockedPool().length) + '/' + TOTAL;
+
+    lookEl.textContent = worn.length
+      ? worn.map((w) => w.o.name).join(' + ')
+      : (L.shell === 'vinyl' ? 'ลุคต้นฉบับ' : 'เปลี่ยนแค่สีเปลือก');
+    chips.innerHTML = chip('shell', shell) + worn.map((w) => chip(w.cat, w.o)).join('');
+  }
+
+  document.addEventListener('baymax:look', paint);
+  document.addEventListener('baymax:boxes', paint);
+  document.getElementById('wornGo').addEventListener('click', () => TABS.go('wear'));
+  paint();
 })();
 
 /* =========================================================
