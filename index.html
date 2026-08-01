@@ -56,6 +56,7 @@
   :root{
     --bg:#EAF1F6; --vinyl:#FDFEFF; --ink:#2B3A47; --ink-soft:#6C8194;
     --red:#F0575F; --mint:#63CDB4; --sky:#A9CCEA; --butter:#FFDE8A; --line:#D3E1EC;
+    --shell:#FDFEFF;
     --display:'Mali',cursive; --body:'IBM Plex Sans Thai Looped',sans-serif; --mono:'IBM Plex Mono',monospace;
   }
   *{box-sizing:border-box}
@@ -66,7 +67,7 @@
     color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.75;-webkit-font-smoothing:antialiased;
   }
   body.locked{overflow:hidden}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 24px 80px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px calc(120px + env(safe-area-inset-bottom))}
 
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
   .card{background:var(--vinyl);border:1px solid var(--line);border-radius:26px;box-shadow:0 12px 28px -22px rgba(43,58,71,.55)}
@@ -174,11 +175,11 @@
   .stage{width:96px;height:114px;flex:none;border-radius:22px;display:grid;place-items:center;overflow:hidden}
   .bot{width:94px;height:auto;display:block}
   .bot g,.bot path,.bot rect,.bot circle,.bot line{transform-box:view-box}
-  .body-sh{fill:#FDFEFF;stroke:#2B3A47;stroke-width:2.6}
+  .body-sh{fill:var(--shell);stroke:#2B3A47;stroke-width:2.6}
   .limb-out{fill:none;stroke:#2B3A47;stroke-width:13;stroke-linecap:round}
-  .limb-in{fill:none;stroke:#FDFEFF;stroke-width:9;stroke-linecap:round}
+  .limb-in{fill:none;stroke:var(--shell);stroke-width:9;stroke-linecap:round}
   .leg-out{fill:none;stroke:#2B3A47;stroke-width:16;stroke-linecap:round}
-  .leg-in{fill:none;stroke:#FDFEFF;stroke-width:12;stroke-linecap:round}
+  .leg-in{fill:none;stroke:var(--shell);stroke-width:12;stroke-linecap:round}
   .eye{fill:#2B3A47}
   .brow{stroke:#2B3A47;stroke-width:2.4;stroke-linecap:round}
   .belly{fill:#EAF1F6;stroke:#2B3A47;stroke-width:1.5}
@@ -459,7 +460,184 @@
   .offline-note b{color:var(--ink);font-family:var(--display);font-weight:600}
   body.is-installed .offline-note{background:#E8F7F3;border-color:#B7E5D8;border-style:solid}
 
-  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
+  /* ============ แท็บเมนูล่าง ============ */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:center;gap:6px;
+    background:rgba(253,254,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border-top:1px solid var(--line);
+    padding:7px max(12px,env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+  .tabbtn{flex:1;max-width:120px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;
+    cursor:pointer;padding:4px 0 3px;color:var(--ink-soft);font-family:var(--body);font-weight:600;font-size:10.5px;
+    transition:color .2s ease}
+  .tabbtn svg{width:22px;height:22px;stroke:currentColor}
+  .tico{display:grid;place-items:center;width:46px;height:28px;border-radius:999px;transition:background .2s ease}
+  .tabbtn.active{color:var(--red)}
+  .tabbtn.active .tico{background:#FDEEEF}
+  .tabbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:12px}
+
+  /* สลับหน้า — ซ่อนทุกบล็อกเนื้อหาที่ไม่ใช่ของแท็บปัจจุบัน */
+  .wrap > [data-tab]{animation:pageIn .28s ease}
+  @keyframes pageIn{from{opacity:0;transform:translateY(8px)}}
+  body.tab-manual .wrap > [data-tab]:not([data-tab="manual"]),
+  body.tab-games .wrap > [data-tab]:not([data-tab="games"]),
+  body.tab-wear .wrap > [data-tab]:not([data-tab="wear"]),
+  body.tab-call .wrap > [data-tab]:not([data-tab="call"]){display:none;animation:none}
+  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #battle,
+  body.tab-wear #wardrobe,body.tab-call #vcallSec{margin-top:30px}
+
+  /* ============ หน้าเลือกเกม ============ */
+  body.game-none #drill,body.game-none #battle{display:none}
+  body.game-drill #gamehub,body.game-drill #battle{display:none}
+  body.game-battle #gamehub,body.game-battle #drill{display:none}
+
+  .gamelist{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+  .gcardbtn{display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;cursor:pointer;
+    background:var(--vinyl);border:1px solid var(--line);border-radius:26px;font-family:var(--body);color:var(--ink);
+    box-shadow:0 12px 28px -22px rgba(43,58,71,.55);transition:transform .18s ease,box-shadow .18s ease}
+  .gcardbtn:hover{transform:translateY(-3px);box-shadow:0 22px 36px -24px rgba(43,58,71,.6)}
+  .gcardbtn:active{transform:scale(.985)}
+  .gcardbtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .gart{display:flex;align-items:center;justify-content:center;gap:16px;height:140px;position:relative;overflow:hidden}
+  .gart.drill{background:radial-gradient(120% 90% at 50% 0%,#FFFFFF,#E4EDF4)}
+  .gart.battle{background:linear-gradient(180deg,#F7FBFD 0%,#E6F0F7 62%,#DCE9F2 100%)}
+  .gart svg{display:block;height:112px;width:auto}
+  .gart.battle{gap:15px}
+  .gart .artgerm{height:42px;animation:foeSpin 5s linear infinite}
+  .gart .artfist{height:33px;transform:rotate(-90deg);animation:artPunch 1.9s ease-in-out infinite}
+  @keyframes artPunch{0%,100%{transform:rotate(-90deg) translateY(6px)}55%{transform:rotate(-90deg) translateY(-6px)}}
+  .gart .artleak{fill:var(--red);animation:leakBeat .6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+  .ginfo{display:block;padding:17px 19px 4px}
+  .gname{display:block;font-family:var(--display);font-weight:700;font-size:18.5px;line-height:1.3}
+  .gdesc{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:5px;line-height:1.55}
+  .gfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 19px 17px}
+  .gbest{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
+  .gbest b{display:block;font-family:var(--display);font-size:19px;color:var(--ink);letter-spacing:0;line-height:1.2}
+  .gplay{display:inline-flex;align-items:center;gap:7px;background:var(--red);color:#fff;border-radius:999px;
+    padding:10px 19px;font-size:13.5px;font-weight:600}
+
+  /* ============ ตู้เสื้อผ้า ============ */
+  .wcard{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;padding:24px}
+  .wstage{border-radius:22px;padding:18px;min-height:250px;gap:12px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:radial-gradient(120% 90% at 50% 0%,#FFFFFF,#E4EDF4)}
+  .wstage svg{width:min(100%,235px);height:auto;overflow:visible}
+  .wstage .torso{animation:breathe 3.6s ease-in-out infinite;transform-origin:50px 108px}
+  .wstage .head{transform-origin:50px 33px;animation:wNod 6s ease-in-out infinite}
+  @keyframes wNod{0%,84%,100%{transform:rotate(0)}90%{transform:rotate(-5deg)}95%{transform:rotate(3deg)}}
+  .wtag{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ink-soft);line-height:1.6}
+  .wpanel{display:flex;flex-direction:column;gap:17px;min-width:0}
+  .wgroup h4{font-family:var(--display);font-weight:600;font-size:15px;margin:0 0 9px}
+  .wopts{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .wopts::-webkit-scrollbar{display:none}
+  .wopt{flex:none;width:76px;background:#FBFDFE;border:1.5px solid var(--line);border-radius:16px;
+    padding:8px 5px 7px;cursor:pointer;font-family:var(--body);text-align:center;
+    transition:transform .14s ease,border-color .2s ease,background .2s ease}
+  .wopt:active{transform:scale(.95)}
+  .wopt.on{border-color:var(--red);background:#FDEEEF}
+  .wopt:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .wthumb{display:grid;place-items:center;height:48px}
+  .wthumb svg{display:block;width:100%;height:100%}
+  .wsw{display:block;width:33px;height:33px;border-radius:50%;border:1.6px solid var(--ink)}
+  .wopt small{display:block;margin-top:5px;font-size:10.5px;color:var(--ink-soft);line-height:1.3}
+  .wopt.on small{color:var(--ink);font-weight:600}
+  .wbtns{display:flex;gap:10px;flex-wrap:wrap}
+
+  /* ============ กล่องสุ่ม ============ */
+  .boxcard{display:flex;align-items:center;gap:20px;padding:20px 24px;margin-bottom:16px;flex-wrap:wrap}
+  .bx-ico{width:66px;height:62px;flex:none}
+  .bx-ico svg{width:100%;height:100%;display:block}
+  .bx-ico .bx-lid{animation:bxTease 2.8s ease-in-out infinite;transform-origin:60px 50px}
+  @keyframes bxTease{0%,72%,100%{transform:translateY(0) rotate(0)}80%{transform:translateY(-5px) rotate(-6deg)}88%{transform:translateY(-2px) rotate(3deg)}}
+  .bx-info{flex:1;min-width:180px}
+  .bx-info h3{font-family:var(--display);font-weight:700;font-size:19px;margin:0 0 3px}
+  .bx-info p{margin:0 0 9px;font-size:13.5px;color:var(--ink-soft)}
+  .bx-prog{height:8px;border-radius:999px;background:#E1EAF1;overflow:hidden;max-width:280px}
+  .bx-prog i{display:block;height:100%;border-radius:999px;background:var(--mint);transition:width .5s cubic-bezier(.2,.9,.3,1)}
+  .bx-open{position:relative;font-size:15px;padding:13px 24px}
+  .bx-open[disabled]{opacity:.45;cursor:not-allowed}
+  .bx-badge{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;border-radius:999px;background:var(--ink);
+    color:#fff;font-family:var(--mono);font-size:11px;display:grid;place-items:center;padding:0 6px}
+  .bx-open[disabled] .bx-badge{display:none}
+
+  /* ฉากเปิดกล่อง */
+  .bxall{position:fixed;inset:0;z-index:130;display:grid;place-items:center;padding:24px;overflow:hidden;
+    background:radial-gradient(120% 80% at 50% 34%,#3C5169 0%,#22303D 56%,#141E28 100%)}
+  .bxall[hidden]{display:none}
+  .bxall::after{content:'';position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+  .bxall.burst::after{animation:bxFlash .55s ease-out}
+  @keyframes bxFlash{0%{opacity:.85}100%{opacity:0}}
+  .bx-scene{position:relative;width:100%;max-width:430px;display:grid;place-items:center;text-align:center}
+  .bx-rays{position:absolute;left:50%;top:50%;width:min(190vw,1020px);aspect-ratio:1;border-radius:50%;opacity:0;
+    background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.17) 0 3deg,transparent 3deg 26deg);
+    -webkit-mask:radial-gradient(circle,transparent 21%,#000 40%,#000 66%,transparent 92%);
+    mask:radial-gradient(circle,transparent 21%,#000 40%,#000 66%,transparent 92%);
+    animation:bxSpin 14s linear infinite;transition:opacity .5s ease}
+  @keyframes bxSpin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .bxall.opening .bx-rays{opacity:.7;animation-duration:1.5s}
+  .bxall.burst .bx-rays,.bxall.done .bx-rays{opacity:.5;animation-duration:9s}
+  .bx-halo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:min(108vw,470px);aspect-ratio:1;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle,rgba(99,205,180,.34),transparent 62%);transition:background .45s ease}
+  .bxall.r-rare .bx-halo{background:radial-gradient(circle,rgba(99,205,180,.42),transparent 64%)}
+  .bxall.r-legend .bx-halo{background:radial-gradient(circle,rgba(255,222,138,.5),transparent 66%)}
+
+  .bx-gift{position:relative;width:min(56vw,220px);z-index:2}
+  .bx-gift svg{width:100%;height:auto;display:block;overflow:visible}
+  .bx-gift .bx-lid{transform-origin:60px 46px}
+  .bxall.ready .bx-gift{animation:bxFloat 2.6s ease-in-out infinite}
+  @keyframes bxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  .bxall.opening .bx-gift{animation:bxRattle 1.1s cubic-bezier(.36,.07,.19,.97)}
+  @keyframes bxRattle{0%{transform:translate(0,0) rotate(0) scale(1)}
+    15%{transform:translate(-6px,0) rotate(-5deg)}30%{transform:translate(6px,0) rotate(5deg)}
+    45%{transform:translate(-7px,-3px) rotate(-6deg) scale(1.04)}60%{transform:translate(7px,-3px) rotate(6deg) scale(1.04)}
+    75%{transform:translate(-8px,-6px) rotate(-7deg) scale(1.09)}
+    90%{transform:translate(8px,-6px) rotate(7deg) scale(1.13)}100%{transform:translate(0,-4px) scale(1.16)}}
+  .bxall.burst .bx-gift,.bxall.done .bx-gift{display:none}
+  .bxall.opening .bx-lid{animation:bxLidPop 1.1s ease-in}
+  @keyframes bxLidPop{0%,60%{transform:translateY(0) rotate(0)}80%{transform:translateY(-9px) rotate(-7deg)}100%{transform:translateY(-24px) rotate(-16deg)}}
+
+  .bx-prize{position:relative;z-index:3;display:none;width:100%;max-width:300px}
+  .bxall.burst .bx-prize,.bxall.done .bx-prize{display:block;animation:bxPrize .6s cubic-bezier(.2,1.5,.4,1)}
+  @keyframes bxPrize{0%{opacity:0;transform:scale(.55) translateY(18px)}60%{opacity:1}100%{opacity:1;transform:scale(1) translateY(0)}}
+  .bx-prize .pcard{background:var(--vinyl);border-radius:26px;padding:20px 22px 22px;
+    box-shadow:0 26px 50px -26px rgba(0,0,0,.75),0 0 0 3px rgba(169,204,234,.5)}
+  .r-rare .bx-prize .pcard{box-shadow:0 26px 50px -26px rgba(0,0,0,.75),0 0 0 3px rgba(99,205,180,.7),0 0 38px rgba(99,205,180,.3)}
+  .r-legend .bx-prize .pcard{box-shadow:0 26px 50px -26px rgba(0,0,0,.75),0 0 0 3px rgba(255,222,138,.85),0 0 52px rgba(255,222,138,.42)}
+  .bx-prize .pthumb{height:112px;display:grid;place-items:center;border-radius:18px;background:#EFF5FA;margin-bottom:14px}
+  .bx-prize .pthumb svg{width:100%;height:100%;display:block}
+  .bx-prize .pthumb .wsw{width:64px;height:64px}
+  .bx-rare{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+    border-radius:999px;padding:4px 12px;margin-bottom:7px;background:#EAF2FA;color:#4E7BA8}
+  .r-rare .bx-rare{background:#E4F7F1;color:#2E8A73}
+  .r-legend .bx-rare{background:#FFF3D4;color:#9A7726}
+  .bx-prize h3{font-family:var(--display);font-weight:700;font-size:22px;margin:0 0 2px}
+  .bx-prize .pcat{margin:0;font-size:13px;color:var(--ink-soft)}
+  .bx-acts{display:flex;gap:10px;margin-top:16px}
+  .bx-acts .btn{flex:1;padding:12px}
+  .bx-dust{position:absolute;width:9px;height:9px;border-radius:2px;pointer-events:none;z-index:4}
+  .bx-hint{margin-top:22px;font-size:13.5px;color:#A6BACB;z-index:2}
+  .bxall.opening .bx-hint,.bxall.burst .bx-hint,.bxall.done .bx-hint{visibility:hidden}
+  .bx-tap{margin-top:20px;z-index:3;padding:14px 34px;font-size:16px}
+  .bxall.opening .bx-tap,.bxall.burst .bx-tap,.bxall.done .bx-tap{display:none}
+
+  /* ของที่ยังไม่ปลดล็อก */
+  .wopt.lock{cursor:default;opacity:.62}
+  .wopt.lock .wthumb{filter:grayscale(1) contrast(.85)}
+  .wopt.lock small{color:#9DB0C0}
+  .wopt.lock::after{content:'🔒';position:absolute;top:5px;right:7px;font-size:11px;line-height:1}
+  .wopt{position:relative}
+  .wopt.deny{animation:wDeny .32s}
+  @keyframes wDeny{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .wopt.fresh{animation:chipPop .6s cubic-bezier(.2,1.5,.4,1)}
+
+  .gback{display:inline-flex;align-items:center;gap:9px;background:var(--vinyl);border:1px solid var(--line);
+    border-radius:999px;padding:9px 18px 9px 15px;font-family:var(--body);font-weight:600;font-size:13.5px;
+    color:var(--ink-soft);cursor:pointer;margin-bottom:18px;transition:transform .12s ease,color .2s ease}
+  .gback:hover{color:var(--ink)}
+  .gback:active{transform:scale(.96)}
+  .gback:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+  .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,20px);
     z-index:70;background:var(--ink);color:#fff;border-radius:18px;padding:13px 16px 13px 20px;display:none;gap:14px;
     align-items:center;box-shadow:0 18px 36px -18px rgba(43,58,71,.7);opacity:0;transition:transform .3s ease,opacity .3s ease;font-size:14px;max-width:92vw}
   .toast.up{display:flex;transform:translate(-50%,0);opacity:1}
@@ -474,7 +652,7 @@
     .steps,.modes,footer{grid-template-columns:1fr}
     .game{grid-template-columns:1fr;gap:20px;padding:18px}
     .arena{max-width:330px;margin:0 auto;width:100%}
-    .wrap{padding:0 18px 60px}
+    .wrap{padding:0 18px calc(104px + env(safe-area-inset-bottom))}
     .gcard{padding:28px 22px 24px}
     .grow{grid-template-columns:1fr}
 
@@ -491,6 +669,23 @@
     .brow2 .scores{max-width:none!important}
     .brow2 .hint{min-width:0!important}
 
+    /* หน้าเกม — หัวข้อกระชับ เหลือพื้นที่ให้สนามมากขึ้น */
+    body.tab-games #drill,body.tab-games #battle{margin-top:18px}
+    #drill .gback,#battle .gback{margin-bottom:11px}
+    #drill .sec-head,#battle .sec-head{margin-bottom:16px}
+    #drill .sec-head p,#battle .sec-head p{display:none}
+    .gart{height:124px}
+    .gart svg{height:100px}
+
+    /* ตู้เสื้อผ้าบนจอเล็ก */
+    .boxcard{padding:18px;gap:14px}
+    .boxcard .bx-open{width:100%;order:3}
+    .wcard{grid-template-columns:1fr;gap:18px;padding:16px}
+    .wstage{min-height:200px;padding:14px}
+    .wstage svg{width:min(100%,165px)}
+    .wopts{padding-inline:0}
+    .wbtns .btn{flex:1}
+
     /* วิดีโอคอลบนจอเล็ก */
     .callsec{padding:20px;flex-direction:column;align-items:flex-start}
     .btn-call{width:100%;justify-content:center}
@@ -499,15 +694,15 @@
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body class="locked">
+<body class="locked tab-manual game-none">
 
 <!-- ===================== หน้าลงทะเบียน ===================== -->
 <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
   <div class="gcard">
     <button class="gclose" id="gateClose" aria-label="ปิด" hidden>✕</button>
 
-    <svg class="gface" viewBox="0 0 100 56" aria-hidden="true">
-      <rect x="4" y="6" width="92" height="44" rx="22" fill="#FDFEFF" stroke="#2B3A47" stroke-width="3"/>
+    <svg class="gface" data-bot="face" viewBox="0 0 100 56" aria-hidden="true">
+      <rect x="4" y="6" width="92" height="44" rx="22" fill="var(--shell)" stroke="#2B3A47" stroke-width="3"/>
       <circle class="gEye" cx="35" cy="28" r="6" fill="#2B3A47"/>
       <circle class="gEye" cx="65" cy="28" r="6" fill="#2B3A47"/>
       <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
@@ -564,7 +759,7 @@
 
 <div class="wrap">
 
-  <header>
+  <header data-tab="manual">
     <span class="tag"><span class="dot"></span><span class="eyebrow">System ready · พร้อมดูแลคุณ</span></span>
     <span class="netchip"><span class="eyebrow">Offline · อ่านจากเครื่องอยู่</span></span>
 
@@ -578,7 +773,7 @@
       </div>
 
       <div class="diagram">
-        <svg viewBox="0 0 340 360" role="img" aria-label="แผนภาพส่วนประกอบของหุ่นยนต์ดูแลสุขภาพ">
+        <svg data-bot="hero" viewBox="0 0 340 360" role="img" aria-label="แผนภาพส่วนประกอบของหุ่นยนต์ดูแลสุขภาพ">
           <defs>
             <linearGradient id="beamGrad" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0%" stop-color="#63CDB4" stop-opacity="0"/>
@@ -590,18 +785,18 @@
             </clipPath>
           </defs>
           <line x1="170" y1="24" x2="170" y2="336" stroke="#D3E1EC" stroke-width="1" stroke-dasharray="2 5"/>
-          <path d="M170 96c46 0 74 34 74 88 0 62-30 96-74 96s-74-34-74-96c0-54 28-88 74-88z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
+          <path d="M170 96c46 0 74 34 74 88 0 62-30 96-74 96s-74-34-74-96c0-54 28-88 74-88z" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>
           <path d="M124 210c14 10 32 15 46 15s32-5 46-15" fill="none" stroke="#D3E1EC" stroke-width="1.6"/>
           <rect x="152" y="150" width="36" height="26" rx="7" fill="#EAF1F6" stroke="#2B3A47" stroke-width="1.6"/>
           <rect x="160" y="157" width="20" height="4" rx="2" fill="#F0575F"/>
           <rect x="160" y="165" width="12" height="4" rx="2" fill="#A9CCEA"/>
-          <path d="M104 152c-20 8-30 26-28 46 2 18 10 28 20 30" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M236 152c20 8 30 26 28 46-2 18-10 28-20 30" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round"/>
-          <circle cx="92" cy="230" r="15" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
-          <circle cx="248" cy="230" r="15" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
-          <path d="M140 276c-4 22-6 36-4 46h30c-2-14-2-30 0-44" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linejoin="round"/>
-          <path d="M200 276c4 22 6 36 4 46h-30c2-14 2-30 0-44" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2" stroke-linejoin="round"/>
-          <rect x="126" y="58" width="88" height="46" rx="23" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>
+          <path d="M104 152c-20 8-30 26-28 46 2 18 10 28 20 30" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M236 152c20 8 30 26 28 46-2 18-10 28-20 30" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="92" cy="230" r="15" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>
+          <circle cx="248" cy="230" r="15" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>
+          <path d="M140 276c-4 22-6 36-4 46h30c-2-14-2-30 0-44" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2" stroke-linejoin="round"/>
+          <path d="M200 276c4 22 6 36 4 46h-30c2-14 2-30 0-44" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2" stroke-linejoin="round"/>
+          <rect x="126" y="58" width="88" height="46" rx="23" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>
           <circle cx="150" cy="81" r="5.5" fill="#2B3A47"/>
           <circle cx="190" cy="81" r="5.5" fill="#2B3A47"/>
           <line x1="155.5" y1="81" x2="184.5" y2="81" stroke="#2B3A47" stroke-width="2.2"/>
@@ -625,7 +820,7 @@
   </header>
 
   <!-- ============ 01 ============ -->
-  <section>
+  <section data-tab="manual">
     <div class="sec-head">
       <div class="eyebrow">01 — Getting started</div>
       <h2>เปิดใช้งานครั้งแรก</h2>
@@ -640,7 +835,7 @@
   </section>
 
   <!-- ============ 02 ============ -->
-  <section id="modes">
+  <section id="modes" data-tab="manual">
     <div class="sec-head">
       <div class="eyebrow">02 — Operating modes</div>
       <h2>โหมดการทำงาน</h2>
@@ -650,7 +845,7 @@
 
       <div class="mode card">
         <div class="stage nurse" style="background:#E8F7F3">
-          <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
+          <svg class="bot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
             <defs><clipPath id="clipScan"><path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/></clipPath></defs>
             <g class="all">
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
@@ -667,7 +862,7 @@
 
       <div class="mode card">
         <div class="stage hug" style="background:#FDEEEF">
-          <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
+          <svg class="bot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
             <g class="all">
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
               <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/></g>
@@ -682,7 +877,7 @@
 
       <div class="mode card">
         <div class="stage low" style="background:#FFF6E0">
-          <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
+          <svg class="bot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
             <g class="all">
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
               <g class="arm arm-l"><path class="limb-out" d="M30 56C18 64 15 76 17 86c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C18 64 15 76 17 86c1 6 4 9 7 10"/></g>
@@ -702,7 +897,7 @@
 
       <div class="mode card" id="bump">
         <div class="stage fist" style="background:#EAF2FA">
-          <svg class="bot" viewBox="-10 0 120 126" aria-hidden="true">
+          <svg class="bot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
             <g class="all">
               <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
               <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
@@ -719,16 +914,90 @@
     </div>
   </section>
 
-  <!-- ============ 03 · เกมปะรอยรั่ว ============ -->
-  <section id="drill">
+  <!-- ============ หน้าเลือกเกม ============ -->
+  <section id="gamehub" data-tab="games">
     <div class="sec-head">
-      <div class="eyebrow">03 — Practice drill</div>
+      <div class="eyebrow">Games — เลือกโหมดซ้อม</div>
+      <h2>ห้องซ้อม</h2>
+      <p>เลือกสักโหมดแล้วกดเข้าไปเล่นได้เลย คะแนนสูงสุดถูกเก็บไว้ในเครื่องคุณ</p>
+    </div>
+    <div class="gamelist">
+
+      <button class="gcardbtn" type="button" data-play="drill">
+        <span class="gart drill">
+          <svg data-bot viewBox="12 0 76 120" aria-hidden="true">
+            <g class="all">
+              <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
+              <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+              <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
+              <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+              <circle class="artleak" cx="33" cy="80" r="3.4"/>
+              <circle class="artleak" cx="66" cy="52" r="3.4" style="animation-delay:.3s"/>
+              <rect x="55" y="86" width="15" height="7.5" rx="2" fill="#FFDE8A" stroke="#E7BF64" transform="rotate(-14 62 90)"/>
+            </g>
+          </svg>
+        </span>
+        <span class="ginfo">
+          <span class="gname">ซ้อมปะรอยรั่ว</span>
+          <span class="gdesc">แตะรูที่โผล่บนตัวเขาให้ทันก่อนลมจะหมด ยิ่งปะเร็ว ยิ่งได้คะแนน</span>
+        </span>
+        <span class="gfoot">
+          <span class="gbest"><b id="hubBestDrill">0</b>Best score</span>
+          <span class="gplay">▶ เล่น</span>
+        </span>
+      </button>
+
+      <button class="gcardbtn" type="button" data-play="battle">
+        <span class="gart battle">
+          <svg data-bot viewBox="12 0 76 120" aria-hidden="true">
+            <g class="all">
+              <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
+              <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4" style="fill:#FBE2E4"/></g>
+              <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+              <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+            </g>
+          </svg>
+          <svg class="artfist" viewBox="0 0 22 32" aria-hidden="true">
+            <path d="M11 30l-4-6h8z" fill="#F0575F"/>
+            <rect x="3" y="2" width="16" height="22" rx="8" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>
+            <path d="M7 12h8" stroke="#D3E1EC" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="artgerm" viewBox="0 0 44 44" aria-hidden="true">
+            <g stroke="#2B3A47" stroke-width="2.2" stroke-linecap="round">
+              <path d="M22 9V3"/><path d="M22 35v6"/><path d="M9 22H3"/><path d="M35 22h6"/>
+              <path d="M13 13l-4-4"/><path d="M31 31l4 4"/><path d="M31 13l4-4"/><path d="M13 31l-4 4"/>
+            </g>
+            <circle cx="22" cy="22" r="13" fill="#8FD6C2" stroke="#2B3A47" stroke-width="2.2"/>
+            <circle cx="17.5" cy="20" r="2.3" fill="#2B3A47"/><circle cx="26.5" cy="20" r="2.3" fill="#2B3A47"/>
+            <path d="M17 27q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="ginfo">
+          <span class="gname">ซ้อมรบกับเชื้อโรค</span>
+          <span class="gdesc">เอียงเครื่องเดินหลบ แล้วยิงหมัดจรวดใส่เชื้อโรคก่อนมันลงถึงพื้น</span>
+        </span>
+        <span class="gfoot">
+          <span class="gbest"><b id="hubBestBattle">0</b>Best score</span>
+          <span class="gplay">▶ เล่น</span>
+        </span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ============ เกม 1 · ปะรอยรั่ว ============ -->
+  <section id="drill" data-tab="games">
+    <button class="gback" type="button" data-back>← เลือกเกมอื่น</button>
+    <div class="sec-head">
+      <div class="eyebrow">Practice drill</div>
       <h2>ซ้อมปะรอยรั่ว</h2>
       <p>วันจริงคุณจะไม่มีเวลาอ่านคู่มือ ซ้อมไว้ก่อน — แตะรูที่โผล่บนตัวเขาให้ทันก่อนลมจะหมด</p>
     </div>
     <div class="game card">
       <div class="arena" id="arena">
-        <svg class="bot gbot" viewBox="-10 0 120 126" aria-hidden="true">
+        <svg class="bot gbot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
           <g class="all">
             <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
             <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
@@ -768,9 +1037,10 @@
   </section>
 
   <!-- ============ 04 · เกมต่อสู้ ============ -->
-  <section id="battle">
+  <section id="battle" data-tab="games">
+    <button class="gback" type="button" data-back>← เลือกเกมอื่น</button>
     <div class="sec-head">
-      <div class="eyebrow">04 — Combat simulation</div>
+      <div class="eyebrow">Combat simulation</div>
       <h2>ซ้อมรบกับเชื้อโรค</h2>
       <p>ชิปต่อสู้ห้ามใช้เดี่ยว ๆ ต้องเสียบคู่กับชิปการดูแลเสมอ นี่คือสนามจำลอง ไม่มีใครเจ็บจริง — เดินหลบแล้วยิงหมัดจรวดใส่เชื้อโรคก่อนมันลงถึงพื้น</p>
     </div>
@@ -790,7 +1060,7 @@
         <div class="tilt-pill" id="tiltPill"><i>📱</i> เอียงเครื่องซ้าย–ขวาเพื่อเดิน</div>
 
         <div class="fighter" id="fighter">
-          <svg class="bot fbot" viewBox="-10 0 120 126" aria-hidden="true">
+          <svg class="bot fbot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
             <g class="all">
               <g class="leg-l"><path class="leg-out" d="M41 100v15"/><path class="leg-in" d="M41 100v15"/></g>
               <g class="leg-r"><path class="leg-out" d="M59 100v15"/><path class="leg-in" d="M59 100v15"/></g>
@@ -827,17 +1097,72 @@
     </div>
   </section>
 
-  <!-- ============ 05 · วิดีโอคอล ============ -->
-  <section id="vcallSec">
+  <!-- ============ ตู้เสื้อผ้า ============ -->
+  <section id="wardrobe" data-tab="wear">
     <div class="sec-head">
-      <div class="eyebrow">05 — Video call</div>
+      <div class="eyebrow">Wardrobe — ตู้เสื้อผ้า</div>
+      <h2>แต่งตัวให้ Baymax</h2>
+      <p>เลือกแล้วเปลี่ยนทันทีทั้งเล่ม ทั้งในเกม ในคู่มือ และตอนวิดีโอคอล ลุคนี้ถูกเก็บไว้ในเครื่องคุณ</p>
+    </div>
+    <div class="boxcard card">
+      <div class="bx-ico">
+        <svg viewBox="0 0 120 110" aria-hidden="true">
+          <g class="bx-base">
+            <rect x="20" y="50" width="80" height="48" rx="6" fill="#F58184" stroke="#2B3A47" stroke-width="3"/>
+            <rect x="52" y="50" width="16" height="48" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
+          </g>
+          <g class="bx-lid">
+            <path d="M60 30c-5.5-11-21-15-25-7.5S45 32 60 30zM60 30c5.5-11 21-15 25-7.5S75 32 60 30z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3" stroke-linejoin="round"/>
+            <rect x="14" y="30" width="92" height="21" rx="6" fill="#F0575F" stroke="#2B3A47" stroke-width="3"/>
+            <rect x="52" y="30" width="16" height="21" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
+          </g>
+        </svg>
+      </div>
+      <div class="bx-info">
+        <h3>กล่องสุ่มชุด</h3>
+        <p id="bxStatus">กำลังตรวจสอบกล่อง…</p>
+        <div class="bx-prog"><i id="bxBar" style="width:0%"></i></div>
+      </div>
+      <button class="btn btn-go bx-open" id="bxOpen">เปิดกล่อง<span class="bx-badge" id="bxCount">0</span></button>
+    </div>
+
+    <div class="wcard card">
+      <div class="wstage">
+        <svg data-bot viewBox="-10 0 120 126" aria-label="ตัวอย่างลุคของ Baymax" role="img">
+          <g class="all">
+            <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
+            <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+            <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
+            <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+            <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+          </g>
+        </svg>
+        <span class="wtag" id="wTag">Look · ต้นฉบับ</span>
+      </div>
+      <div class="wpanel">
+        <div class="wgroup"><h4>สีเปลือกไวนิล</h4><div class="wopts" id="wShell"></div></div>
+        <div class="wgroup"><h4>หมวก</h4><div class="wopts" id="wHat"></div></div>
+        <div class="wgroup"><h4>บนใบหน้า</h4><div class="wopts" id="wFace"></div></div>
+        <div class="wgroup"><h4>ของประดับ</h4><div class="wopts" id="wItem"></div></div>
+        <div class="wbtns">
+          <button class="btn btn-go" id="wRandom">🎲 สุ่มลุค</button>
+          <button class="btn btn-ghost" id="wReset">ถอดออกทั้งหมด</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 · วิดีโอคอล ============ -->
+  <section id="vcallSec" data-tab="call">
+    <div class="sec-head">
+      <div class="eyebrow">FaceTime — Video call</div>
       <h2>โทรหา Baymax</h2>
       <p>คิดถึงเมื่อไหร่ก็โทรได้ เขารับสายเสมอ ไม่เคยติดประชุม</p>
     </div>
     <div class="callsec card">
       <div class="callface">
-        <svg width="86" height="48" viewBox="0 0 100 56" aria-hidden="true">
-          <rect x="4" y="6" width="92" height="44" rx="22" fill="#FDFEFF" stroke="#2B3A47" stroke-width="3"/>
+        <svg width="86" height="48" data-bot="face" viewBox="0 0 100 56" aria-hidden="true">
+          <rect x="4" y="6" width="92" height="44" rx="22" fill="var(--shell)" stroke="#2B3A47" stroke-width="3"/>
           <circle cx="35" cy="28" r="6" fill="#2B3A47"/><circle cx="65" cy="28" r="6" fill="#2B3A47"/>
           <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
         </svg>
@@ -851,9 +1176,9 @@
   </section>
 
   <!-- ============ 06 ============ -->
-  <section id="fix">
+  <section id="fix" data-tab="manual">
     <div class="sec-head">
-      <div class="eyebrow">06 — Troubleshooting</div>
+      <div class="eyebrow">03 — Troubleshooting</div>
       <h2>แก้ปัญหาเบื้องต้น</h2>
       <p>อาการที่เจอบ่อยที่สุด เรียงตามที่ศูนย์บริการได้รับแจ้ง</p>
     </div>
@@ -871,7 +1196,7 @@
     </div>
   </section>
 
-  <footer>
+  <footer data-tab="manual">
     <div class="warranty card">
       <div class="eyebrow">Registration card</div>
       <h3>บัตรรับประกัน</h3>
@@ -899,6 +1224,73 @@
 
 </div>
 
+<!-- ===================== แท็บเมนูล่าง ===================== -->
+<nav class="tabbar" id="tabbar" aria-label="เมนูหลัก">
+  <button class="tabbtn active" type="button" data-tab="manual" aria-current="page">
+    <span class="tico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 5.5C10 4 7.5 3.5 4 3.5v15c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2v-15c-3.5 0-6 .5-8 2z"/><path d="M12 5.5v15"/>
+    </svg></span>
+    คู่มือ
+  </button>
+  <button class="tabbtn" type="button" data-tab="games">
+    <span class="tico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="2.5" y="7.5" width="19" height="10" rx="5"/><path d="M7.5 10.5v4M5.5 12.5h4"/>
+      <circle cx="15.5" cy="11.2" r="1.2" fill="currentColor" stroke="none"/><circle cx="18" cy="13.8" r="1.2" fill="currentColor" stroke="none"/>
+    </svg></span>
+    เกม
+  </button>
+  <button class="tabbtn" type="button" data-tab="wear">
+    <span class="tico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 3.5a3 3 0 0 0 6 0l5.5 3-2 3.5-1.5-.8V20.5h-10V9.2l-1.5.8-2-3.5z"/>
+    </svg></span>
+    แต่งตัว
+  </button>
+  <button class="tabbtn" type="button" data-tab="call">
+    <span class="tico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="2.5" y="6" width="13" height="12" rx="3.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/>
+    </svg></span>
+    FaceTime
+  </button>
+</nav>
+
+<!-- ===================== ฉากเปิดกล่องสุ่ม ===================== -->
+<div class="bxall" id="bxAll" hidden role="dialog" aria-modal="true" aria-label="เปิดกล่องสุ่ม">
+  <div class="bx-scene">
+    <div class="bx-rays"></div>
+    <div class="bx-halo"></div>
+
+    <div class="bx-gift">
+      <svg viewBox="0 0 120 110" aria-hidden="true">
+        <g class="bx-base">
+          <rect x="20" y="50" width="80" height="48" rx="6" fill="#F58184" stroke="#2B3A47" stroke-width="3"/>
+          <rect x="52" y="50" width="16" height="48" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
+        </g>
+        <g class="bx-lid">
+          <path d="M60 30c-5.5-11-21-15-25-7.5S45 32 60 30zM60 30c5.5-11 21-15 25-7.5S75 32 60 30z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3" stroke-linejoin="round"/>
+          <rect x="14" y="30" width="92" height="21" rx="6" fill="#F0575F" stroke="#2B3A47" stroke-width="3"/>
+          <rect x="52" y="30" width="16" height="21" fill="#FFDE8A" stroke="#2B3A47" stroke-width="3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="bx-prize">
+      <div class="pcard">
+        <div class="pthumb" id="bxThumb"></div>
+        <span class="bx-rare" id="bxRare">ธรรมดา</span>
+        <h3 id="bxName">—</h3>
+        <p class="pcat" id="bxCat">—</p>
+        <div class="bx-acts">
+          <button class="btn btn-go" id="bxEquip">ใส่เลย</button>
+          <button class="btn btn-ghost" id="bxClose">เก็บไว้ก่อน</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-go bx-tap" id="bxTap">แตะเพื่อเปิด</button>
+    <p class="bx-hint" id="bxHint">ข้างในมีของแต่งตัวหนึ่งชิ้น</p>
+  </div>
+</div>
+
 <!-- ===================== วิดีโอคอลกับ Baymax ===================== -->
 <div class="vcall" id="vcall" hidden role="dialog" aria-modal="true" aria-label="วิดีโอคอลกับ Baymax">
   <div class="vc-top"><div><b>Baymax</b><span id="vcStatus">00:00</span></div></div>
@@ -906,7 +1298,7 @@
   <div class="vc-stage">
     <div class="vc-glow"></div>
     <div class="vc-bubble" id="vcBubble"></div>
-    <svg class="vbot" id="vcBot" viewBox="-10 0 120 126" aria-hidden="true">
+    <svg class="vbot" id="vcBot" data-bot viewBox="-10 0 120 126" aria-hidden="true">
       <defs><clipPath id="clipVc"><path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/></clipPath></defs>
       <g class="all">
         <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
@@ -933,8 +1325,8 @@
 
   <div class="vc-ring" id="vcRing" hidden>
     <div class="vc-ava">
-      <svg viewBox="0 0 100 56" aria-hidden="true">
-        <rect x="4" y="6" width="92" height="44" rx="22" fill="#FDFEFF" stroke="#2B3A47" stroke-width="3"/>
+      <svg data-bot="face" viewBox="0 0 100 56" aria-hidden="true">
+        <rect x="4" y="6" width="92" height="44" rx="22" fill="var(--shell)" stroke="#2B3A47" stroke-width="3"/>
         <circle cx="35" cy="28" r="6" fill="#2B3A47"/><circle cx="65" cy="28" r="6" fill="#2B3A47"/>
         <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
       </svg>
@@ -1193,6 +1585,15 @@ if (owner) { closeGate(); } else { openGate('register'); }
     if (document.hidden){ S.paused = true; cancelAnimationFrame(raf); }
     else if (S.paused){ S.paused = false; const t = performance.now(); S.last = t; S.nextAt = t + 700; raf = requestAnimationFrame(loop); }
   });
+  document.addEventListener('baymax:view', (e) => {
+    if (!S || S.over) return;
+    const active = e.detail.tab === 'games' && e.detail.game === 'drill';
+    if (!active){
+      if (!S.paused){ S.paused = true; cancelAnimationFrame(raf); }
+    } else if (S.paused){
+      S.paused = false; const t = performance.now(); S.last = t; S.nextAt = t + 700; raf = requestAnimationFrame(loop);
+    }
+  });
   renderChips(null); setAir(100); paint();
 })();
 
@@ -1242,7 +1643,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   const FIST =
     '<svg viewBox="0 0 22 32" aria-hidden="true">' +
       '<path d="M11 30l-4-6h8z" fill="#F0575F"/>' +
-      '<rect x="3" y="2" width="16" height="22" rx="8" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2.2"/>' +
+      '<rect x="3" y="2" width="16" height="22" rx="8" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>' +
       '<path d="M7 12h8" stroke="#D3E1EC" stroke-width="2" stroke-linecap="round"/>' +
     '</svg>';
 
@@ -1518,6 +1919,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   window.addEventListener('keydown', (e) => {
     const k = codeMap[e.code];
     if (!k || !G || G.over) return;
+    if (!document.body.classList.contains('game-battle')) return;
     if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
     keys[k] = true;
     if (k === 'fire') shoot();
@@ -1544,6 +1946,15 @@ if (owner) { closeGate(); } else { openGate('register'); }
     if (!G || G.over) return;
     if (document.hidden){ G.paused = true; cancelAnimationFrame(raf); keys.left = keys.right = keys.fire = false; }
     else if (G.paused){ G.paused = false; G.last = performance.now(); raf = requestAnimationFrame(loop); }
+  });
+  document.addEventListener('baymax:view', (e) => {
+    if (!G || G.over) return;
+    const active = e.detail.tab === 'games' && e.detail.game === 'battle';
+    if (!active){
+      if (!G.paused){ G.paused = true; cancelAnimationFrame(raf); keys.left = keys.right = keys.fire = false; }
+    } else if (G.paused){
+      G.paused = false; G.last = performance.now(); raf = requestAnimationFrame(loop);
+    }
   });
 
   hearts(MAXHP);
@@ -1747,7 +2158,453 @@ if (owner) { closeGate(); } else { openGate('register'); }
 })();
 
 /* =========================================================
-   6 · PWA — service worker, ติดตั้ง, สถานะเน็ต
+   6 · ตู้เสื้อผ้า — ลุคเดียว ใช้กับ Baymax ทุกตัวในแอป
+   ของทุกชิ้นวาดในพิกัดเดียวกับหุ่นมาตรฐาน (หัว 33..67 x 14..33, ตัว 20..80 x 34..108)
+   แล้วค่อยแปลงพิกัดไปวางบนภาพแบบอื่น
+   ========================================================= */
+const WEAR = (function(){
+  const SHELLS = [
+    { id:'vinyl',  name:'ขาวไวนิล',   c:'#FDFEFF' },
+    { id:'rose',   name:'ชมพูหวาน',   c:'#FBD8DC' },
+    { id:'sky',    name:'ฟ้าใส',      c:'#CFE4F7' },
+    { id:'mint',   name:'มิ้นต์',      c:'#C6EDE1' },
+    { id:'butter', name:'เหลืองนวล',  c:'#FCEBBE' },
+    { id:'lilac',  name:'ลาเวนเดอร์', c:'#E0D9F6' }
+  ];
+  const HATS = [
+    { id:'none', name:'ไม่ใส่', svg:'' },
+    { id:'nurse', name:'หมวกพยาบาล', svg:
+      '<path d="M35.5 14.5c1-6.2 7-9.8 14.5-9.8s13.5 3.6 14.5 9.8z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M50 7.2v5.4M47.3 9.9h5.4" stroke="#F0575F" stroke-width="2.2" stroke-linecap="round"/>' },
+    { id:'party', name:'หมวกปาร์ตี้', svg:
+      '<path d="M50 1.8 58 14.5H42z" fill="#F0575F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M45.6 9.6h8.8" stroke="#FFDE8A" stroke-width="2"/>' +
+      '<circle cx="50" cy="2" r="2.3" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.5"/>' },
+    { id:'crown', name:'มงกุฎ', svg:
+      '<path d="M37.5 14.5V4.5l5.2 4.2L50 2.6l7.3 6.1 5.2-4.2v10z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<circle cx="50" cy="10.6" r="1.7" fill="#F0575F"/>' },
+    { id:'beanie', name:'หมวกไหมพรม', svg:
+      '<path d="M36 14c0-8.4 6.2-12.6 14-12.6S64 5.6 64 14z" fill="#63CDB4" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<rect x="34.2" y="12" width="31.6" height="4.8" rx="2.4" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<circle cx="50" cy="2" r="2.9" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8"/>' },
+    { id:'cap', name:'หมวกแก๊ป', svg:
+      '<path d="M36.5 14.5c0-7.5 6-11 13.5-11s13.5 3.5 13.5 11z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M63 11.2c5.4.4 8 2 8.6 4.4H62z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
+      '<circle cx="50" cy="4.4" r="1.9" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.4"/>' }
+  ];
+  const FACES = [
+    { id:'none', name:'ไม่ใส่', svg:'' },
+    { id:'round', name:'แว่นกลม', svg:
+      '<g fill="none" stroke="#2B3A47" stroke-width="1.8">' +
+      '<circle cx="43" cy="23.5" r="5.2"/><circle cx="57" cy="23.5" r="5.2"/>' +
+      '<path d="M48.2 23.5h3.6"/><path d="M37.8 22l-4.6-1.6"/><path d="M62.2 22l4.6-1.6"/></g>' },
+    { id:'shades', name:'แว่นกันแดด', svg:
+      '<g fill="#2B3A47"><rect x="35" y="19.4" width="13.4" height="8.4" rx="3.6"/>' +
+      '<rect x="51.6" y="19.4" width="13.4" height="8.4" rx="3.6"/>' +
+      '<rect x="47.4" y="21.6" width="5.2" height="2.2" rx="1.1"/></g>' },
+    { id:'blush', name:'แก้มแดง', svg:
+      '<g fill="#F58184" opacity=".6"><ellipse cx="37.6" cy="28.4" rx="4" ry="2.4"/>' +
+      '<ellipse cx="62.4" cy="28.4" rx="4" ry="2.4"/></g>' },
+    { id:'patch', name:'พลาสเตอร์', svg:
+      '<g transform="rotate(-18 61 18.5)"><rect x="54.5" y="15" width="13" height="7" rx="2.2" fill="#FFDE8A" stroke="#E7BF64" stroke-width="1.2"/>' +
+      '<path d="M58.6 16.4v4.2M57 18.5h4.2" stroke="#E7BF64" stroke-width="1.1" stroke-linecap="round"/></g>' }
+  ];
+  const ITEMS = [
+    { id:'none', name:'ไม่ใส่', svg:'' },
+    { id:'bowtie', name:'หูกระต่าย', svg:
+      '<g stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round" fill="#F0575F">' +
+      '<path d="M50 40.5 40.5 35v11z"/><path d="M50 40.5 59.5 35v11z"/></g>' +
+      '<circle cx="50" cy="40.5" r="2.5" fill="#F0575F" stroke="#2B3A47" stroke-width="1.6"/>' },
+    { id:'scarf', name:'ผ้าพันคอ', svg:
+      '<path d="M34.5 39.5q15.5 7.5 31 0v5.6q-15.5 7.5-31 0z" fill="#63CDB4" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
+      '<path d="M59.5 45.4 63.8 60l-7.2-1.4z" fill="#63CDB4" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' },
+    { id:'tie', name:'เนคไท', svg:
+      '<path d="M50 35.5 45.6 40 50 45.4 54.4 40z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>' +
+      '<path d="M50 45.4 45.8 49.6 47.8 57h4.4l2-7.4z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>' },
+    /* ผ้าคลุมวางไว้หลังสุดของทั้งตัว โผล่ที่ไหล่กับชายผ้าด้านล่าง */
+    { id:'cape', name:'ผ้าคลุมฮีโร่', back:true, svg:
+      '<path d="M42 34.5C25 42.5 13.5 64 9.5 101c18 7.5 63 7.5 81 0C86.5 64 75 42.5 58 34.5z" ' +
+      'fill="#F0575F" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' },
+    { id:'badge', name:'เหรียญรางวัล', svg:
+      '<path d="M44 36.5 47.5 46M56 36.5 52.5 46" stroke="#A9CCEA" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<circle cx="50" cy="50" r="6.2" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<path d="M50 46.6l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" fill="#F0575F"/>' }
+  ];
+
+  /* หัว/ตัวของภาพแบบอื่น อยู่คนละพิกัด — แปลงให้ทับกับหุ่นมาตรฐาน */
+  const TF = {
+    hero: { head:'translate(170 81) scale(2.588) translate(-50 -23.5)',
+            body:'translate(170 96) scale(2.467) translate(-50 -34)' },
+    face: { head:'translate(50 28) scale(2.706) translate(-50 -23.5)', body:null }
+  };
+
+  const LISTS = { shell:SHELLS, hat:HATS, face:FACES, item:ITEMS };
+
+  /* ความหายาก — มีผลกับโอกาสออกจากกล่องและสีของฉากตอนเปิด */
+  const RARITY = {
+    'shell:rose':'common', 'shell:sky':'common', 'shell:mint':'rare', 'shell:butter':'rare', 'shell:lilac':'legend',
+    'hat:nurse':'common',  'hat:cap':'common',   'hat:beanie':'rare', 'hat:party':'rare',    'hat:crown':'legend',
+    'face:blush':'common', 'face:patch':'common','face:round':'rare', 'face:shades':'rare',
+    'item:bowtie':'common','item:tie':'common',  'item:scarf':'rare', 'item:badge':'rare',   'item:cape':'legend'
+  };
+  const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน' };
+  const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
+
+  const L = { shell:'vinyl', hat:'none', face:'none', item:'none' };
+  const pick = (arr, id) => arr.find((o) => o.id === id) || arr[0];
+  const key = (cat, id) => cat + ':' + id;
+
+  /* ของที่ปลดล็อกแล้ว — 'ไม่ใส่' กับสีขาวไวนิลมีติดตัวมาแต่แรก */
+  const owned = new Set((LS.get('baymax.owned','') || '').split(',').filter(Boolean));
+  const isFree = (cat, id) => id === 'none' || key(cat, id) === 'shell:vinyl';
+  const has = (cat, id) => isFree(cat, id) || owned.has(key(cat, id));
+  const saveOwned = () => LS.set('baymax.owned', [...owned].join(','));
+  const grant = (cat, id) => { owned.add(key(cat, id)); saveOwned(); };
+  const lockedPool = () => {
+    const out = [];
+    Object.keys(LISTS).forEach((cat) => LISTS[cat].forEach((o) => {
+      if (!has(cat, o.id)) out.push({ cat, o, rare: RARITY[key(cat, o.id)] || 'common' });
+    }));
+    return out;
+  };
+
+  function frag(markup){
+    const doc = new DOMParser().parseFromString(
+      '<svg xmlns="http://www.w3.org/2000/svg">' + markup + '</svg>', 'image/svg+xml');
+    const f = document.createDocumentFragment();
+    [...doc.documentElement.childNodes].forEach((n) => f.appendChild(document.importNode(n, true)));
+    return f;
+  }
+
+  function dress(svg){
+    svg.querySelectorAll('.wear').forEach((el) => el.remove());
+    const onHead = pick(HATS, L.hat).svg + pick(FACES, L.face).svg;
+    const it = pick(ITEMS, L.item);
+    const kind = svg.getAttribute('data-bot');
+    const put = (host, node, behind) => behind ? host.insertBefore(node, host.firstChild) : host.appendChild(node);
+
+    if (kind === 'hero' || kind === 'face'){
+      const t = TF[kind];
+      // ภาพโคลสอัพใบหน้ามีที่ไม่พอใส่หมวก ใส่แค่ของบนหน้าพอ
+      const bits = kind === 'face' ? pick(FACES, L.face).svg : onHead;
+      if (bits) svg.appendChild(frag('<g class="wear" transform="' + t.head + '">' + bits + '</g>'));
+      if (it.svg && t.body) put(svg, frag('<g class="wear" transform="' + t.body + '">' + it.svg + '</g>'), it.back);
+      return;
+    }
+    // หุ่นมาตรฐาน — ยัดเข้าไปในกลุ่มหัว/ตัว ของจะได้ขยับตามท่าทางไปด้วย
+    const head = svg.querySelector('.head'), torso = svg.querySelector('.torso');
+    if (head && onHead) head.appendChild(frag('<g class="wear">' + onHead + '</g>'));
+    if (it.svg){
+      // ของที่ต้องอยู่ข้างหลัง ไปไว้หลังสุดของทั้งตัว ไม่งั้นมันจะทับแขน
+      const host = it.back ? (svg.querySelector('.all') || torso) : torso;
+      if (host) put(host, frag('<g class="wear">' + it.svg + '</g>'), it.back);
+    }
+  }
+
+  function apply(){
+    document.documentElement.style.setProperty('--shell', pick(SHELLS, L.shell).c);
+    document.querySelectorAll('[data-bot]').forEach(dress);
+  }
+
+  function load(){
+    L.shell = pick(SHELLS, LS.get('baymax.shell','vinyl')).id;
+    L.hat   = pick(HATS,   LS.get('baymax.hat','none')).id;
+    L.face  = pick(FACES,  LS.get('baymax.face','none')).id;
+    L.item  = pick(ITEMS,  LS.get('baymax.item','none')).id;
+    // คนที่เคยแต่งไว้ก่อนมีระบบกล่อง ให้ถือว่าปลดล็อกของชิ้นนั้นแล้ว จะได้ไม่หายไปเฉย ๆ
+    if (LS.get('baymax.migrated','') !== '1'){
+      Object.keys(LISTS).forEach((cat) => { if (!isFree(cat, L[cat])) owned.add(key(cat, L[cat])); });
+      saveOwned();
+      LS.set('baymax.migrated','1');
+    }
+    // เผื่อของที่ใส่อยู่ยังไม่ได้ปลดล็อก ให้ถอดกลับเป็นค่าเริ่มต้น
+    Object.keys(LISTS).forEach((cat) => {
+      if (!has(cat, L[cat])){ L[cat] = cat === 'shell' ? 'vinyl' : 'none'; LS.set('baymax.' + cat, L[cat]); }
+    });
+  }
+
+  load(); apply();
+  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH,
+           apply, pick, key, has, grant, owned, lockedPool };
+})();
+
+/* หน้าตู้เสื้อผ้า */
+(function(){
+  const hosts = { shell:document.getElementById('wShell'), hat:document.getElementById('wHat'),
+                  face:document.getElementById('wFace'), item:document.getElementById('wItem') };
+  if (!hosts.shell) return;
+  const tag = document.getElementById('wTag');
+  const L = WEAR.L;
+  const LISTS = { shell:WEAR.SHELLS, hat:WEAR.HATS, face:WEAR.FACES, item:WEAR.ITEMS };
+
+  const HEAD_ART =
+    '<rect x="33" y="14" width="34" height="19" rx="9.5" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>' +
+    '<circle cx="43" cy="23.5" r="2.6" fill="#2B3A47"/><circle cx="57" cy="23.5" r="2.6" fill="#2B3A47"/>' +
+    '<line x1="45.6" y1="23.5" x2="54.4" y2="23.5" stroke="#2B3A47" stroke-width="2.4"/>';
+  const BODY_ART =
+    '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>';
+
+  function thumb(cat, o){
+    if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
+    if (cat === 'item')  return '<svg viewBox="14 31 72 40" aria-hidden="true">' +
+      (o.back ? o.svg + BODY_ART : BODY_ART + o.svg) + '</svg>';
+    const vb = cat === 'hat' ? '31 0 38 35' : '32 12 36 23';
+    return '<svg viewBox="' + vb + '" aria-hidden="true">' + HEAD_ART + o.svg + '</svg>';
+  }
+
+  function label(){
+    const parts = [];
+    if (L.hat  !== 'none') parts.push(WEAR.pick(WEAR.HATS,  L.hat).name);
+    if (L.face !== 'none') parts.push(WEAR.pick(WEAR.FACES, L.face).name);
+    if (L.item !== 'none') parts.push(WEAR.pick(WEAR.ITEMS, L.item).name);
+    tag.textContent = 'Look · ' + (parts.length ? parts.join(' + ') : 'ต้นฉบับ');
+  }
+
+  let justGot = null;
+
+  function render(){
+    Object.keys(hosts).forEach((cat) => {
+      const host = hosts[cat];
+      host.innerHTML = '';
+      LISTS[cat].forEach((o) => {
+        const locked = !WEAR.has(cat, o.id);
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'wopt' + (L[cat] === o.id ? ' on' : '') + (locked ? ' lock' : '') +
+                      (justGot === WEAR.key(cat, o.id) ? ' fresh' : '');
+        b.setAttribute('aria-pressed', L[cat] === o.id);
+        if (locked) b.setAttribute('aria-label', o.name + ' — ยังไม่ปลดล็อก');
+        b.innerHTML = '<span class="wthumb">' + thumb(cat, o) + '</span><small>' +
+                      (locked ? '???' : o.name) + '</small>';
+        b.addEventListener('click', () => {
+          if (locked){
+            b.classList.remove('deny'); void b.offsetWidth; b.classList.add('deny');
+            status.textContent = 'ชิ้นนี้ยังล็อกอยู่ — เปิดกล่องสุ่มเพื่อลุ้นดูสิ';
+            return;
+          }
+          L[cat] = o.id;
+          LS.set('baymax.' + cat, o.id);
+          WEAR.apply(); render();
+          if (navigator.vibrate) { try { navigator.vibrate(10); } catch(e){} }
+        });
+        host.appendChild(b);
+      });
+    });
+    justGot = null;
+    label();
+  }
+
+  document.getElementById('wReset').addEventListener('click', () => {
+    ['shell','hat','face','item'].forEach((k) => {
+      L[k] = k === 'shell' ? 'vinyl' : 'none';
+      LS.set('baymax.' + k, L[k]);
+    });
+    WEAR.apply(); render();
+  });
+  document.getElementById('wRandom').addEventListener('click', () => {
+    // สุ่มจากของที่ปลดล็อกแล้วเท่านั้น
+    Object.keys(LISTS).forEach((cat) => {
+      const pool = LISTS[cat].filter((o) => WEAR.has(cat, o.id));
+      L[cat] = pool[Math.floor(Math.random()*pool.length)].id;
+      LS.set('baymax.' + cat, L[cat]);
+    });
+    WEAR.apply(); render();
+  });
+
+  /* ============ กล่องสุ่ม ============ */
+  const status = document.getElementById('bxStatus');
+  const bar    = document.getElementById('bxBar');
+  const openBtn= document.getElementById('bxOpen');
+  const countEl= document.getElementById('bxCount');
+  const scene  = document.getElementById('bxAll');
+  const tapBtn = document.getElementById('bxTap');
+  const WEIGHT = { common:60, rare:28, legend:11 };
+  const TOTAL  = Object.keys(WEAR.RARITY).length;
+  let boxes = 0, prize = null, busy = false;
+
+  const today = () => { const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
+
+  function claimDaily(){
+    boxes = parseInt(LS.get('baymax.boxes','0'), 10) || 0;
+    let got = 0;
+    if (LS.get('baymax.welcomed','') !== '1'){ boxes += 3; got += 3; LS.set('baymax.welcomed','1'); }
+    if (LS.get('baymax.lastFree','') !== today()){ boxes += 1; got += 1; LS.set('baymax.lastFree', today()); }
+    if (got) LS.set('baymax.boxes', String(boxes));
+    return got;
+  }
+
+  function paintBox(msg){
+    const left = WEAR.lockedPool().length;
+    const done = TOTAL - left;
+    bar.style.width = (done / TOTAL * 100) + '%';
+    countEl.textContent = boxes;
+    const all = left === 0;
+    openBtn.disabled = all || boxes < 1;
+    openBtn.textContent = all ? 'ครบทุกชิ้นแล้ว' : 'เปิดกล่อง';
+    if (!all) openBtn.appendChild(countEl);
+    status.textContent = msg || (
+      all   ? 'สุดยอด ปลดล็อกครบทั้ง ' + TOTAL + ' ชิ้นแล้ว'
+    : boxes ? 'ปลดล็อกแล้ว ' + done + '/' + TOTAL + ' ชิ้น · มีกล่องรออยู่ ' + boxes + ' กล่อง'
+            : 'ปลดล็อกแล้ว ' + done + '/' + TOTAL + ' ชิ้น · กล่องฟรีกล่องถัดไปได้พรุ่งนี้');
+  }
+
+  function draw(){
+    const pool = WEAR.lockedPool();
+    if (!pool.length) return null;
+    let sum = 0; pool.forEach((p) => sum += WEIGHT[p.rare]);
+    let r = Math.random() * sum;
+    for (const p of pool){ r -= WEIGHT[p.rare]; if (r <= 0) return p; }
+    return pool[pool.length - 1];
+  }
+
+  function dust(n, colors){
+    const host = scene.querySelector('.bx-scene');
+    for (let i = 0; i < n; i++){
+      const d = document.createElement('i');
+      d.className = 'bx-dust';
+      d.style.background = colors[i % colors.length];
+      d.style.left = '50%'; d.style.top = '46%';
+      d.style.borderRadius = i % 3 === 0 ? '50%' : '2px';
+      host.appendChild(d);
+      const ang = Math.random()*Math.PI*2, dist = 90 + Math.random()*190;
+      d.animate(
+        [{ transform:'translate(-50%,-50%) scale(0) rotate(0deg)', opacity:1 },
+         { transform:'translate(' + (-50 + Math.cos(ang)*dist) + 'px,' +
+             (-50 + Math.sin(ang)*dist) + 'px) scale(1.1) rotate(' + (Math.random()*540-270) + 'deg)',
+           opacity:1, offset:.45 },
+         { transform:'translate(' + (-50 + Math.cos(ang)*dist*1.25) + 'px,' +
+             (-50 + Math.sin(ang)*dist*1.25 + 120) + 'px) scale(.4) rotate(' + (Math.random()*720-360) + 'deg)',
+           opacity:0 }],
+        { duration: 1100 + Math.random()*700, easing:'cubic-bezier(.15,.7,.35,1)' }
+      );
+      setTimeout(() => d.remove(), 1900);
+    }
+  }
+
+  function showPrize(){
+    scene.classList.remove('r-common','r-rare','r-legend');
+    scene.classList.add('r-' + prize.rare);
+    document.getElementById('bxThumb').innerHTML = thumb(prize.cat, prize.o);
+    document.getElementById('bxRare').textContent = WEAR.RARE_TH[prize.rare];
+    document.getElementById('bxName').textContent = prize.o.name;
+    document.getElementById('bxCat').textContent = 'หมวด' + WEAR.CAT_TH[prize.cat];
+  }
+
+  function runOpen(){
+    if (busy || boxes < 1) return;
+    prize = draw();
+    if (!prize){ paintBox(); return; }
+    busy = true;
+    boxes--; LS.set('baymax.boxes', String(boxes));
+    WEAR.grant(prize.cat, prize.o.id);
+
+    scene.classList.remove('ready'); scene.classList.add('opening');
+    if (navigator.vibrate) { try { navigator.vibrate([12, 90, 18, 90, 30]); } catch(e){} }
+
+    setTimeout(() => {
+      showPrize();
+      scene.classList.remove('opening'); scene.classList.add('burst');
+      const palette = prize.rare === 'legend' ? ['#FFDE8A','#F0575F','#FFF3D4','#63CDB4']
+                    : prize.rare === 'rare'   ? ['#63CDB4','#A9CCEA','#FFDE8A']
+                                              : ['#A9CCEA','#D3E1EC','#63CDB4'];
+      dust(prize.rare === 'legend' ? 34 : 22, palette);
+      if (navigator.vibrate) { try { navigator.vibrate(prize.rare === 'legend' ? [30,50,60] : 22); } catch(e){} }
+      setTimeout(() => { scene.classList.remove('burst'); scene.classList.add('done'); busy = false; }, 620);
+    }, 1100);
+  }
+
+  function openScene(){
+    if (boxes < 1 || !WEAR.lockedPool().length) return;
+    prize = null;
+    scene.hidden = false;
+    scene.className = 'bxall ready';
+    document.body.classList.add('locked');
+  }
+
+  function closeScene(){
+    scene.hidden = true;
+    scene.className = 'bxall';
+    if (gate.hidden) document.body.classList.remove('locked');
+    if (prize) justGot = WEAR.key(prize.cat, prize.o.id);
+    render();
+    paintBox(prize ? 'ได้ “' + prize.o.name + '” มาแล้ว ลองเอาไปใส่ดูสิ' : null);
+    prize = null;
+  }
+
+  openBtn.addEventListener('click', openScene);
+  tapBtn.addEventListener('click', runOpen);
+  document.querySelector('.bx-gift').addEventListener('click', runOpen);
+  document.getElementById('bxClose').addEventListener('click', closeScene);
+  document.getElementById('bxEquip').addEventListener('click', () => {
+    if (prize){
+      L[prize.cat] = prize.o.id;
+      LS.set('baymax.' + prize.cat, prize.o.id);
+      WEAR.apply();
+    }
+    closeScene();
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !scene.hidden && !busy) closeScene();
+  });
+
+  const fresh = claimDaily();
+  render();
+  paintBox(fresh ? (fresh > 1 ? 'ยินดีต้อนรับ! รับไป ' + fresh + ' กล่องเลย' : 'กล่องฟรีประจำวันมาแล้ว เปิดได้เลย') : null);
+})();
+
+/* =========================================================
+   7 · แท็บเมนูล่าง + หน้าเลือกเกม
+   ========================================================= */
+(function(){
+  const bar = document.getElementById('tabbar');
+  if (!bar) return;
+  const btns = [...bar.querySelectorAll('.tabbtn')];
+  const bestDrill  = document.getElementById('hubBestDrill');
+  const bestBattle = document.getElementById('hubBestBattle');
+  let curTab = 'manual', curGame = 'none';
+
+  const top = () => window.scrollTo({ top:0, behavior:'instant' });
+  const emit = () => document.dispatchEvent(
+    new CustomEvent('baymax:view', { detail:{ tab:curTab, game:curGame } }));
+
+  function refreshHub(){
+    bestDrill.textContent  = parseInt(LS.get('baymax.best','0'), 10) || 0;
+    bestBattle.textContent = parseInt(LS.get('baymax.battleBest','0'), 10) || 0;
+  }
+
+  function setGame(id){
+    if (id === curGame) return;
+    curGame = id;
+    document.body.classList.remove('game-none','game-drill','game-battle');
+    document.body.classList.add('game-' + id);
+    if (id === 'none') refreshHub();
+    top(); emit();
+  }
+
+  function setTab(id){
+    if (id === curTab) return;
+    curTab = id;
+    document.body.classList.remove('tab-manual','tab-games','tab-wear','tab-call');
+    document.body.classList.add('tab-' + id);
+    btns.forEach((b) => {
+      const on = b.dataset.tab === id;
+      b.classList.toggle('active', on);
+      if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+    });
+    if (id === 'games' && curGame === 'none') refreshHub();
+    top(); emit();
+  }
+
+  btns.forEach((b) => b.addEventListener('click', () => setTab(b.dataset.tab)));
+  document.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', () => setGame(b.dataset.play)));
+  document.querySelectorAll('[data-back]').forEach((b) => b.addEventListener('click', () => setGame('none')));
+
+  refreshHub();
+})();
+
+/* =========================================================
+   8 · PWA — service worker, ติดตั้ง, สถานะเน็ต
    ========================================================= */
 (function(){
   const toast   = document.getElementById('toast');
