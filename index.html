@@ -361,7 +361,7 @@
   .overlay .finlab{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 
   .hud{display:flex;flex-direction:column;gap:16px;justify-content:center}
-  .hud .scores{display:flex;gap:10px}
+  .scores{display:flex;gap:10px}
   .kpi{flex:1;background:#F4F9FC;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
   .kpi b{display:block;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.2}
   .kpi span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
@@ -1030,7 +1030,7 @@
   .gart.guard{background:radial-gradient(120% 90% at 50% 10%,#FFF6F6,#FBE4E6)}
   .gart.guard .artgerm2{animation:foeSpin 6s linear infinite;transform-box:fill-box;transform-origin:100px 24px}
 
-  .gdfield{position:relative;aspect-ratio:16/11;border-radius:20px;overflow:hidden;touch-action:none;
+  .gdfield{position:relative;aspect-ratio:16/12;border-radius:20px;overflow:hidden;touch-action:none;
     -webkit-user-select:none;user-select:none;cursor:crosshair;
     background:radial-gradient(60% 60% at 50% 50%,#FFF3F4 0%,#F1F7FB 45%,#E2ECF4 100%)}
   .gdfield.shake{animation:shake .3s}
@@ -1191,8 +1191,6 @@
     .gcard{padding:28px 22px 24px}
     .grow{grid-template-columns:1fr}
 
-    /* Combat simulation บนจอเล็ก — สนามสูงขึ้น ปุ่มใหญ่ขึ้น สกอร์ไม่ล้น */
-    .game2{padding:12px 12px 16px}
     .fighter{width:17%}
     .foe{width:10%}
     .foe.big{width:15%}
@@ -1203,12 +1201,39 @@
     .brow2 .scores{max-width:none!important}
     .brow2 .hint{min-width:0!important}
 
-    /* หน้าเกม — หัวข้อกระชับ เหลือพื้นที่ให้สนามมากขึ้น */
-    body.tab-games #drill,body.tab-games #charge{margin-top:6px}
-    #drill .gback,#charge .gback{margin-bottom:11px}
-    #drill .sec-head,#charge .sec-head{margin-bottom:16px}
-    #drill .sec-head p,#guard .sec-head p{display:none}
-    .ch-stage{min-height:250px}
+    /* ============ หน้าเกมบนจอเล็ก ============
+       จอมือถือมีที่จำกัด เลยตัดหัวข้อยาว ๆ ทิ้ง แล้วดันการ์ดสนามออกไปชนขอบจอ
+       สนามกว้างขึ้นราว 18% (และสูงตามอัตราส่วน) เล่นแล้วไม่อึดอัด */
+    body.tab-games #drill,body.tab-games #charge,
+    body.tab-games #guard,body.tab-games #boss{margin-top:2px}
+    #drill .gback,#charge .gback,#guard .gback,#boss .gback{margin-bottom:9px}
+    #drill .sec-head,#charge .sec-head,
+    #guard .sec-head,#boss .sec-head{margin-bottom:11px}
+    #gamehub .sec-head p,#drill .sec-head p,#charge .sec-head p,
+    #guard .sec-head p,#boss .sec-head p{display:none}
+    #gamehub .sec-head{margin-bottom:14px}
+    #drill .sec-head h2,#charge .sec-head h2,
+    #guard .sec-head h2,#boss .sec-head h2{font-size:23px;margin:3px 0 0}
+
+    /* การ์ดสนามเต็มขอบจอ — ดันออกไปให้พ้น padding ของ .wrap */
+    .game.card,.game2.card,.chargecard.card{
+      margin-inline:-18px;border-radius:0;border-left:0;border-right:0;padding:0 0 16px}
+    .game{gap:0}
+    .gdfield,.bsfield,.ch-stage{border-radius:0}
+    /* ปะรอยรั่วต้องคงสัดส่วน 120/126 ไว้ ไม่งั้นรอยรั่วจะไม่ตรงตัว Baymax
+       เลยคุมด้วยความกว้าง ให้ใหญ่ที่สุดเท่าที่ยังเหลือที่ให้ HUD ข้างล่าง */
+    .arena{margin:0 auto;max-width:none;
+      width:min(100%,max(330px,calc((100dvh - 468px) * .952)))}
+    /* เนื้อหาที่ไม่ใช่สนามยังต้องมีขอบของมันเอง */
+    .game .hud,.game2 .brow2,.chargecard .ch-meter,
+    .chargecard .ch-stats,.chargecard>.hint{margin-inline:16px}
+    .game .hud{margin-top:18px}
+    .game2 .brow2{margin-top:14px}
+    .chargecard .ch-meter{margin-top:16px}
+    /* ศึกกับมุซันยิงจากล่างขึ้นบน เลยปล่อยให้สูงเต็มที่เท่าที่จอเหลือ อ่านใบมีดง่ายขึ้น */
+    .bsfield{aspect-ratio:auto;height:min(calc(100dvh - 432px),470px);min-height:280px}
+    .brow2 .hint{font-size:12.5px;line-height:1.55}
+    .ch-stage{min-height:min(44dvh,312px)}
     .chbot{width:min(64vw,215px)}
     .gart{height:124px}
     .gart svg{height:100px}
@@ -1671,7 +1696,7 @@
         <div class="kpi"><b id="chPts">0</b><span>แต้มรอบนี้</span></div>
         <div class="kpi"><b id="chTotal">0</b><span>กดสะสม</span></div>
       </div>
-      <p class="hint">กดแล้วได้ทั้งแบตและแต้มดูแล · แบตลดเองชั่วโมงละ 25% · ซ้อมปะรอยรั่วใช้ 12% · ซ้อมรบใช้ 15%</p>
+      <p class="hint">กดแล้วได้ทั้งแบตและแต้มดูแล · แบตลดเองชั่วโมงละ 25% · ซ้อมปะรอยรั่วใช้ 12% · ปกป้องหัวใจใช้ 15% · ศึกกับมุซันใช้ 20%</p>
     </div>
   </section>
 
@@ -3259,7 +3284,8 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
 /* =========================================================
    4.5 · เกม 3 — ปกป้องหัวใจ
-   สนาม 160 x 110 หน่วย หัวใจอยู่กลาง เชื้อโรควิ่งเข้าหา แตะเพื่อส่ง Baymax ออกไปสกัด
+   สนาม 160 x 120 หน่วย (ต้องเท่าอัตราส่วนของ .gdfield ไม่งั้นวงกลมจะเบี้ยว)
+   หัวใจอยู่กลาง เชื้อโรควิ่งเข้าหา แตะเพื่อส่ง Baymax ออกไปสกัด
    ========================================================= */
 (function(){
   const field = document.getElementById('gdField');
@@ -3282,7 +3308,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   const cellBar= document.getElementById('gdCellBar');
   const warn   = document.getElementById('gdWarn');
 
-  const W = 160, H = 110, CX = W/2, CY = H/2;
+  const W = 160, H = 120, CX = W/2, CY = H/2;
   const CORE_R = 9, MAX_HP = 8, MAX_UNITS = 8, TAP_GAP = 90;
   const UNIT_LIFE = 11, UNIT_SPD = 44, FOE_R = 5.5, BIG_R = 8;
   /* เซลล์พลังงาน — ตัวจำกัดการวาง ต้องเลือกจังหวะและตำแหน่งเอง */
@@ -3357,7 +3383,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     const fast   = !shield && !big && w >= 2 && Math.random() < 0.26;
     const a = S.arc + (Math.random()-0.5) * S.spread;
     const rad = 62 + Math.random()*14;
-    const x = CX + Math.cos(a)*rad, y = CY + Math.sin(a)*rad*0.72;
+    const x = CX + Math.cos(a)*rad, y = CY + Math.sin(a)*rad*0.76;   // วงเกิดชิดขอบบน-ล่าง
     const el = document.createElement('div');
     el.className = 'gdfoe' + (big || shield ? ' big' : '');
     el.innerHTML = GERM(shield ? '#B79BE8' : big ? '#F58184' : fast ? '#FFC861' : '#8FD6C2', big || shield);
