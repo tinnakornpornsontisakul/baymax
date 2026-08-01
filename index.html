@@ -350,6 +350,69 @@
   .tilt-pill i{font-style:normal;display:inline-block;animation:pillRock 1.6s ease-in-out infinite}
   @keyframes pillRock{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
 
+  /* ============ ห้องแชท ============ */
+  .chatwrap{display:flex;flex-direction:column;overflow:hidden;padding:0;
+    height:min(64dvh,620px);min-height:400px}
+  .chat-top{display:flex;align-items:center;gap:11px;padding:12px 14px;border-bottom:1px solid var(--line);
+    background:#F8FBFD;flex:none}
+  .chat-ava{width:46px;height:46px;flex:none;border-radius:50%;background:#FDEEEF;display:grid;place-items:center;overflow:hidden}
+  .chat-ava svg{width:34px;height:auto;display:block}
+  .chat-who{flex:1;min-width:0;line-height:1.35}
+  .chat-who b{display:block;font-family:var(--display);font-weight:700;font-size:16px}
+  .chat-who small{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft)}
+  .chat-who .live{width:7px;height:7px;border-radius:50%;background:var(--mint);flex:none;
+    box-shadow:0 0 0 0 rgba(99,205,180,.7);animation:pulse 2.4s infinite}
+  .chat-icon{width:38px;height:38px;flex:none;border-radius:50%;border:1px solid var(--line);background:var(--vinyl);
+    color:var(--ink-soft);cursor:pointer;display:grid;place-items:center;padding:0;
+    transition:transform .12s ease,background .2s ease,color .2s ease}
+  .chat-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;
+    stroke-linecap:round;stroke-linejoin:round}
+  .chat-icon:active{transform:scale(.92)}
+  .chat-icon .slash{display:none}
+  .chat-icon.off{color:#A9BCCB}
+  .chat-icon.off .slash{display:block}
+  .chat-icon.call{background:var(--mint);border-color:transparent;color:#12483B}
+  .chat-icon:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+  .chat-log{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+    padding:16px 14px 8px;display:flex;flex-direction:column;gap:9px}
+  .chat-day{align-self:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--ink-soft);background:#F0F5F9;border-radius:999px;padding:4px 12px;margin:2px 0 4px}
+  /* ต้องระบุ fit-content ไม่งั้นฟองข้อความจะหดเหลือ min-content แล้วตัวอักษรตกบรรทัดทีละคำ */
+  .msg{width:fit-content;max-width:84%;padding:10px 14px;font-size:14.5px;line-height:1.62;
+    white-space:pre-wrap;overflow-wrap:break-word;border-radius:19px;
+    animation:msgIn .26s cubic-bezier(.2,.9,.3,1)}
+  @keyframes msgIn{from{opacity:0;transform:translateY(7px)}}
+  .msg.bot{align-self:flex-start;background:#F1F6FA;color:var(--ink);border-bottom-left-radius:6px}
+  .msg.me{align-self:flex-end;background:var(--red);color:#fff;border-bottom-right-radius:6px}
+  .typing{align-self:flex-start;display:flex;gap:5px;padding:14px 16px;background:#F1F6FA;
+    border-radius:19px;border-bottom-left-radius:6px}
+  .typing i{width:7px;height:7px;border-radius:50%;background:#A2B7C8;animation:typeDot 1.15s infinite}
+  .typing i:nth-child(2){animation-delay:.16s}
+  .typing i:nth-child(3){animation-delay:.32s}
+  @keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-5px);opacity:1}}
+
+  .chat-chips{display:flex;gap:7px;overflow-x:auto;padding:8px 14px 2px;flex:none;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .chat-chips::-webkit-scrollbar{display:none}
+  .chat-chip{flex:none;background:#EEF5FA;border:1px solid var(--line);border-radius:999px;padding:7px 14px;
+    font-family:var(--body);font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;white-space:nowrap;
+    transition:transform .12s ease,background .2s ease}
+  .chat-chip:active{transform:scale(.94);background:#E1ECF5}
+
+  .chat-bar{display:flex;gap:9px;align-items:center;padding:10px 12px calc(12px + env(safe-area-inset-bottom));flex:none}
+  .chat-bar input{flex:1;min-width:0;font-family:var(--body);font-size:16px;color:var(--ink);background:#F4F9FC;
+    border:1.5px solid var(--line);border-radius:999px;padding:12px 17px;outline:none;
+    transition:border-color .2s ease,background .2s ease}
+  .chat-bar input::placeholder{color:#A9BCCB}
+  .chat-bar input:focus{border-color:var(--red);background:#fff}
+  .chat-send{width:46px;height:46px;flex:none;border:0;border-radius:50%;background:var(--red);color:#fff;
+    cursor:pointer;display:grid;place-items:center;transition:transform .12s ease,filter .2s ease}
+  .chat-send svg{width:21px;height:21px}
+  .chat-send:active{transform:scale(.92)}
+  .chat-send:disabled{opacity:.4;cursor:not-allowed}
+  .chat-send:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
   /* ============ วิดีโอคอล ============ */
   .callsec{padding:26px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
   .callface{width:120px;height:74px;flex:none;border-radius:20px;background:#FDEEEF;display:grid;place-items:center}
@@ -485,9 +548,9 @@
   body.tab-manual .wrap > [data-tab]:not([data-tab="manual"]),
   body.tab-games .wrap > [data-tab]:not([data-tab="games"]),
   body.tab-wear .wrap > [data-tab]:not([data-tab="wear"]),
-  body.tab-call .wrap > [data-tab]:not([data-tab="call"]){display:none;animation:none}
+  body.tab-chat .wrap > [data-tab]:not([data-tab="chat"]){display:none;animation:none}
   body.tab-games #gamehub,body.tab-games #drill,body.tab-games #battle,
-  body.tab-wear #wardrobe,body.tab-call #vcallSec{margin-top:30px}
+  body.tab-wear #wardrobe,body.tab-chat #chatSec{margin-top:30px}
 
   /* ============ หน้าเลือกเกม ============ */
   body.game-none #drill,body.game-none #battle{display:none}
@@ -690,6 +753,14 @@
     .wstage svg{width:min(100%,165px)}
     .wopts{padding-inline:0}
     .wbtns .btn{flex:1}
+
+    /* แชทบนจอเล็ก — ตัดคำอธิบายยาวออก ยกพื้นที่ให้บทสนทนาเต็มที่ */
+    body.tab-chat #chatSec{margin-top:16px}
+    #chatSec .sec-head{margin-bottom:14px}
+    #chatSec .sec-head p{display:none}
+    .chatwrap{height:calc(100dvh - 250px);min-height:360px}
+    .msg{max-width:88%}
+    body.tab-chat .toast{bottom:calc(215px + env(safe-area-inset-bottom))}
 
     /* วิดีโอคอลบนจอเล็ก */
     .callsec{padding:20px;flex-direction:column;align-items:flex-start}
@@ -1157,26 +1228,58 @@
     </div>
   </section>
 
-  <!-- ============ 05 · วิดีโอคอล ============ -->
-  <section id="vcallSec" data-tab="call">
+  <!-- ============ 05 · ห้องแชท ============ -->
+  <section id="chatSec" data-tab="chat">
     <div class="sec-head">
-      <div class="eyebrow">FaceTime — Video call</div>
-      <h2>โทรหา Baymax</h2>
-      <p>คิดถึงเมื่อไหร่ก็โทรได้ เขารับสายเสมอ ไม่เคยติดประชุม</p>
+      <div class="eyebrow">Chat — คุยกับเขาได้ทุกเรื่อง</div>
+      <h2>ห้องแชท</h2>
+      <p>พิมพ์คุยได้เลย เขาฟังเสมอ อยากได้ยินเสียงก็กดปุ่มโทร ทุกข้อความอยู่ในเครื่องคุณเท่านั้น</p>
     </div>
-    <div class="callsec card">
-      <div class="callface">
-        <svg width="86" height="48" data-bot="face" viewBox="0 0 100 56" aria-hidden="true">
-          <rect x="4" y="6" width="92" height="44" rx="22" fill="var(--shell)" stroke="#2B3A47" stroke-width="3"/>
-          <circle cx="35" cy="28" r="6" fill="#2B3A47"/><circle cx="65" cy="28" r="6" fill="#2B3A47"/>
-          <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
-        </svg>
+
+    <div class="chatwrap card">
+      <div class="chat-top">
+        <span class="chat-ava">
+          <svg data-bot="face" viewBox="0 0 100 56" aria-hidden="true">
+            <rect x="4" y="6" width="92" height="44" rx="22" fill="var(--shell)" stroke="#2B3A47" stroke-width="3"/>
+            <circle cx="35" cy="28" r="6" fill="#2B3A47"/><circle cx="65" cy="28" r="6" fill="#2B3A47"/>
+            <line x1="41" y1="28" x2="59" y2="28" stroke="#2B3A47" stroke-width="4"/>
+          </svg>
+        </span>
+        <span class="chat-who"><b>Baymax</b><small><i class="live"></i>พร้อมดูแลคุณอยู่</small></span>
+        <button class="chat-icon" id="chatVoice" type="button" aria-label="อ่านออกเสียง">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M11 5.5 6.5 9H3.5v6h3L11 18.5z"/>
+            <path d="M15 9.5a3.5 3.5 0 0 1 0 5"/>
+            <path d="M17.6 6.8a7 7 0 0 1 0 10.4"/>
+            <line class="slash" x1="3" y1="21" x2="21" y2="3"/>
+          </svg>
+        </button>
+        <button class="chat-icon" id="chatWipe" type="button" aria-label="ล้างบทสนทนา">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 12.5h9L17.5 7"/>
+            <path d="M10.5 10.5v6M13.5 10.5v6"/>
+          </svg>
+        </button>
+        <button class="chat-icon call" id="vcOpen" type="button" aria-label="โทรหา Baymax">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3.5 9.5 8l-2 2a12 12 0 0 0 6.5 6.5l2-2 4.5 2.5v3A2 2 0 0 1 18.4 22 17 17 0 0 1 2 5.6 2 2 0 0 1 4 3.5z"/>
+          </svg>
+        </button>
       </div>
-      <div style="flex:1;min-width:220px">
-        <h3>สายวิดีโอส่วนตัว</h3>
-        <p>คุยกับเขาแบบเห็นหน้า ขอกอด ขอฟิสต์บัมพ์ หรือให้เขาสแกนความน่ารักของคุณ ทุกอย่างเกิดขึ้นในเครื่องคุณเท่านั้น ไม่มีภาพหรือเสียงถูกส่งออกไปไหน</p>
-      </div>
-      <button class="btn btn-call" id="vcOpen">📹 โทรหา Baymax</button>
+
+      <div class="chat-log" id="chatLog" role="log" aria-live="polite"></div>
+
+      <div class="chat-chips" id="chatChips"></div>
+
+      <form class="chat-bar" id="chatForm" autocomplete="off">
+        <input id="chatInput" type="text" maxlength="200" placeholder="พิมพ์บอกเขาได้เลย…"
+               enterkeyhint="send" aria-label="ข้อความถึง Baymax">
+        <button class="chat-send" type="submit" aria-label="ส่ง">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12l16-8-6 16-2.5-6z"/>
+          </svg>
+        </button>
+      </form>
     </div>
   </section>
 
@@ -1250,11 +1353,12 @@
     </svg></span>
     แต่งตัว
   </button>
-  <button class="tabbtn" type="button" data-tab="call">
+  <button class="tabbtn" type="button" data-tab="chat">
     <span class="tico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="2.5" y="6" width="13" height="12" rx="3.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5z"/>
+      <path d="M21 11.5a8 8 0 0 1-8.5 8 9 9 0 0 1-3.4-.6L4 20.5l1.4-4.3A8 8 0 0 1 4.5 11 8 8 0 0 1 13 3.5a8 8 0 0 1 8 8z"/>
+      <path d="M9 11.5h.01M12.5 11.5h.01M16 11.5h.01"/>
     </svg></span>
-    FaceTime
+    แชท
   </button>
 </nav>
 
@@ -1356,6 +1460,40 @@ const LS = {
   set(k, v){ try { localStorage.setItem(k, v); } catch(e){} },
   del(k){ try { localStorage.removeItem(k); } catch(e){} }
 };
+
+/* =========================================================
+   0.5 · เสียงพูดไทย — ใช้ร่วมกันทั้งแชทและสายโทร
+   ========================================================= */
+const VOICE = (function(){
+  const ok = 'speechSynthesis' in window;
+  let muted = LS.get('baymax.mute','') === '1';
+  let unlocked = false;
+  if (ok) { try { speechSynthesis.getVoices(); } catch(e){} }
+
+  /* iOS ต้องพูดครั้งแรกภายในจังหวะที่ผู้ใช้กดเอง ไม่งั้นจะเงียบตลอด */
+  function unlock(){
+    if (!ok || unlocked) return;
+    unlocked = true;
+    try { speechSynthesis.speak(new SpeechSynthesisUtterance('')); } catch(e){}
+  }
+  function stop(){ if (ok) { try { speechSynthesis.cancel(); } catch(e){} } }
+  function speak(txt){
+    if (!ok || muted || !txt) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(txt);
+      const th = speechSynthesis.getVoices().find((v) => (v.lang || '').toLowerCase().startsWith('th'));
+      if (th) u.voice = th;
+      u.lang = 'th-TH'; u.rate = .95; u.pitch = 1.1;
+      speechSynthesis.speak(u);
+    } catch(e){}
+  }
+  return {
+    speak, stop, unlock,
+    get muted(){ return muted; },
+    setMuted(v){ muted = !!v; LS.set('baymax.mute', muted ? '1' : '0'); if (muted) stop(); }
+  };
+})();
 
 /* =========================================================
    1 · หน้าลงทะเบียน + ที่รวมเรื่องติดตั้งแอป
@@ -2000,22 +2138,8 @@ if (owner) { closeGate(); } else { openGate('register'); }
       lines:['อย่านอนดึกนะครับ{name} ฝันดีครับ','ผมจะอยู่ตรงนี้จนกว่าคุณจะหลับครับ'] }
   ];
 
-  let open = false, muted = false, camOn = false, stream = null;
+  let open = false, camOn = false, stream = null;
   let timer = 0, sec0 = 0, bubbleTO = 0, blinkIV = 0, animTO = 0, ringTO = 0, ac = null;
-
-  /* เสียงพูดไทยจากเครื่อง */
-  function speak(txt){
-    if (muted || !('speechSynthesis' in window)) return;
-    try {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(txt);
-      const th = speechSynthesis.getVoices().find((v) => (v.lang || '').toLowerCase().startsWith('th'));
-      if (th) u.voice = th;
-      u.lang = 'th-TH'; u.rate = .95; u.pitch = 1.1;
-      speechSynthesis.speak(u);
-    } catch(e){}
-  }
-  if ('speechSynthesis' in window){ try { speechSynthesis.getVoices(); } catch(e){} }
 
   function say(txt){
     const t = txt.split('{name}').join(callName());
@@ -2023,7 +2147,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     bubble.classList.add('show');
     clearTimeout(bubbleTO);
     bubbleTO = setTimeout(() => bubble.classList.remove('show'), 4600);
-    speak(t);
+    VOICE.speak(t);
   }
 
   function hearts(n){
@@ -2123,8 +2247,8 @@ if (owner) { closeGate(); } else { openGate('register'); }
     document.body.classList.add('locked');
     statusEl.textContent = '00:00';
     bubble.classList.remove('show');
-    // ปลดล็อกเสียงพูดบน iOS — ต้องเรียกครั้งแรกภายใน gesture ของผู้ใช้
-    if ('speechSynthesis' in window){ try { speechSynthesis.speak(new SpeechSynthesisUtterance('')); } catch(e){} }
+    paintMute();          // สถานะเสียงใช้ร่วมกับห้องแชท เลยต้องรีเฟรชทุกครั้งที่เปิดสาย
+    VOICE.unlock();
     ringTone();
     ringTO = setTimeout(connect, 2600);
   }
@@ -2136,7 +2260,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     clearTimeout(bubbleTO); clearTimeout(animTO);
     ringStop(); camStop();
     GESTURES.forEach((x) => bot.classList.remove(x.anim));
-    if ('speechSynthesis' in window){ try { speechSynthesis.cancel(); } catch(e){} }
+    VOICE.stop();
     overlay.hidden = true;
     if (gate.hidden) document.body.classList.remove('locked');
   }
@@ -2149,17 +2273,353 @@ if (owner) { closeGate(); } else { openGate('register'); }
     chipsEl.appendChild(b);
   });
 
-  muteBtn.addEventListener('click', () => {
-    muted = !muted;
-    muteBtn.textContent = muted ? '🔇' : '🔊';
-    muteBtn.classList.toggle('off', muted);
-    if (muted && 'speechSynthesis' in window){ try { speechSynthesis.cancel(); } catch(e){} }
-  });
+  function paintMute(){
+    muteBtn.textContent = VOICE.muted ? '🔇' : '🔊';
+    muteBtn.classList.toggle('off', VOICE.muted);
+  }
+  muteBtn.addEventListener('click', () => { VOICE.setMuted(!VOICE.muted); paintMute(); });
+  paintMute();
   camBtn.addEventListener('click', () => { camOn ? camStop() : camStart(); });
   openBtn.addEventListener('click', openCall);
   document.getElementById('vcEnd').addEventListener('click', endCall);
   document.getElementById('vcCancel').addEventListener('click', endCall);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) endCall(); });
+})();
+
+/* =========================================================
+   5.5 · ห้องแชท — สมองสนทนาทำงานในเครื่องล้วน ไม่ต้องต่อเน็ต
+   จับคำสำคัญแบบให้คะแนน (คำที่ยาวกว่าชนะ) + จำบริบทว่าถามอะไรค้างไว้
+   ========================================================= */
+(function(){
+  const log   = document.getElementById('chatLog');
+  if (!log) return;
+  const form  = document.getElementById('chatForm');
+  const input = document.getElementById('chatInput');
+  const chips = document.getElementById('chatChips');
+  const ava   = document.querySelector('.chat-ava');
+  const voiceBtn = document.getElementById('chatVoice');
+  const wipeBtn  = document.getElementById('chatWipe');
+
+  const you  = () => owner ? 'คุณ' + owner : 'คุณ';
+  const one  = (a) => a[Math.floor(Math.random()*a.length)];
+  const norm = (s) => s.toLowerCase().replace(/[\s​]+/g,'');
+  const hit  = (t, kws) => { let s = 0; for (const k of kws) if (t.includes(k)) s = Math.max(s, k.length); return s; };
+
+  const PARTS = [
+    { k:['หัว','ศีรษะ','ไมเกรน'], n:'ศีรษะ' }, { k:['ท้อง','กระเพาะ'], n:'ท้อง' },
+    { k:['หลัง','สะบัก'], n:'หลัง' },          { k:['คอ','ต้นคอ'], n:'คอ' },
+    { k:['ขา','น่อง','เข่า'], n:'ขา' },        { k:['แขน','ข้อมือ','ไหล่'], n:'แขน' },
+    { k:['ตา','สายตา'], n:'ดวงตา' },           { k:['ฟัน','เหงือก'], n:'ฟัน' },
+    { k:['หู'], n:'หู' },                      { k:['อก','หน้าอก','หัวใจ'], n:'หน้าอก' },
+    { k:['เอว','สะโพก'], n:'เอว' },            { k:['เท้า','ส้นเท้า'], n:'เท้า' }
+  ];
+  const partOf = (t) => { for (const p of PARTS) if (hit(t, p.k)) return p.n; return null; };
+
+  /* ---------- ชุดคำตอบ ---------- */
+  const RULES = [
+    { id:'bye', kw:['บาย','ลาก่อน','ไปก่อน','ไปละ','ราตรีสวัสดิ์','ฝันดี','นอนละ','นอนก่อน','goodbye','bye'],
+      say:['ราตรีสวัสดิ์ครับ{name} หลับให้สบายนะครับ ผมจะอยู่ตรงนี้เสมอ',
+           'ไปดี ๆ นะครับ{name} ถ้ามีอะไรกลับมาหาผมได้ทุกเมื่อ',
+           'แล้วเจอกันครับ ดูแลตัวเองด้วยนะครับ{name}'] },
+
+    { id:'satisfied', kw:['พอใจกับการดูแล','พอใจแล้ว','หายแล้ว','ดีขึ้นแล้ว','สบายดีแล้ว','ไม่ต้องแล้ว'],
+      say:['ได้ยินแบบนี้ผมสบายใจครับ แต่ผมจะยังไม่ปิดการทำงาน จนกว่าคุณจะบอกว่า “ผมพอใจกับการดูแลของคุณแล้ว”',
+           'ดีใจด้วยครับ{name} ถ้ามีอะไรอีก เรียกผมได้ตลอดเวลานะครับ'] },
+
+    { id:'greet', kw:['สวัสดี','หวัดดี','ดีจ้า','ดีครับ','ดีค่ะ','ว่าไง','hello','hi','เฮ้'],
+      say:['สวัสดีครับ{name} ผมเบย์แม็กซ์ ผู้ช่วยดูแลสุขภาพประจำตัวของคุณ วันนี้รู้สึกยังไงบ้างครับ',
+           'สวัสดีครับ{name} ดีใจที่ได้คุยกันนะครับ วันนี้เป็นยังไงบ้าง',
+           'หวัดดีครับ{name} มีอะไรให้ผมดูแลไหมครับ'],
+      chips:['วันนี้เหนื่อยมาก','สบายดี','เจ็บนิดหน่อย'] },
+
+    { id:'howru', kw:['เป็นไงบ้าง','เป็นยังไงบ้าง','สบายดีไหม','สบายดีมั้ย','เป็นไงมั่ง','คุณล่ะ','เธอล่ะ'],
+      say:['ผมทำงานได้เต็มร้อยครับ แบตเตอรี่เต็ม เปลือกไวนิลไม่มีรอยรั่ว แล้ว{name}ล่ะครับ เป็นยังไงบ้าง',
+           'ผมสบายดีครับ หน้าที่ของผมคือดูแลคุณ เพราะงั้นเล่ามาได้เลยครับว่าวันนี้เป็นยังไง'] },
+
+    { id:'fine', kw:['สบายดี','ปกติดี','ก็ดี','ดีอยู่','ไม่เป็นไร','เรื่อยๆ','โอเค','ok','เฉยๆ'],
+      say:['ดีครับ ผมบันทึกไว้แล้วว่าวันนี้{name}อยู่ในเกณฑ์ปกติ ถ้ามีอะไรเปลี่ยนไปบอกผมได้นะครับ',
+           'ฟังแล้วสบายใจครับ อย่าลืมดื่มน้ำกับพักสายตาบ้างนะครับ{name}'] },
+
+    { id:'pain', kw:['เจ็บ','ปวด','แสบ','เมื่อย','ไม่สบายตัว','บาดเจ็บ','ปวดหัว','ปวดท้อง'],
+      fn:(t) => {
+        const p = partOf(t);
+        ctx.part = p; ctx.expect = 'pain';
+        return p ? 'ผมตรวจพบว่าคุณเจ็บที่' + p + 'ครับ ประเมินระดับความเจ็บปวดจาก 1 ถึง 10 ให้ผมหน่อยได้ไหมครับ'
+                 : 'ผมได้ยินแล้วครับ เจ็บตรงไหนบอกผมได้ไหมครับ แล้วระดับความเจ็บปวดประมาณเท่าไหร่จาก 1 ถึง 10 ครับ';
+      },
+      chips:['ประมาณ 3','ประมาณ 6','ประมาณ 9'] },
+
+    { id:'fever', kw:['ไข้','ตัวร้อน','หวัด','ไอ','จาม','เจ็บคอ','น้ำมูก','คัดจมูก'],
+      say:['ดูแลตัวเองก่อนนะครับ{name} ดื่มน้ำอุ่นบ่อย ๆ ห่มผ้าให้อบอุ่น แล้วนอนพักให้พอ',
+           'อาการแบบนี้ร่างกายต้องการพักครับ ถ้าไข้เกินสองวันหรือหายใจลำบาก ไปพบแพทย์นะครับ ผมเป็นแค่หุ่นในจอ พาไปโรงพยาบาลเองไม่ได้'] },
+
+    { id:'sad', kw:['เศร้า','เสียใจ','ร้องไห้','ท้อ','หดหู่','ซึม','แย่มาก','ผิดหวัง','เหงา','อกหัก','ใจสลาย'],
+      fn:() => { ctx.expect = 'why'; ctx.mood = 'sad';
+        return one(['ผมตรวจพบระดับความเศร้าที่สูงกว่าปกติครับ เกิดอะไรขึ้นเหรอครับ{name} เล่าให้ผมฟังได้นะ',
+                    'ผมอยู่ตรงนี้ครับ ไม่ต้องรีบ อยากเล่าให้ฟังไหมครับว่าเกิดอะไรขึ้น']).split('{name}').join(you()); },
+      chips:['เรื่องงาน','เรื่องคน','ไม่รู้เหมือนกัน','ขอกอดหน่อย'] },
+
+    { id:'stress', kw:['เครียด','กังวล','กดดัน','วิตก','ประหม่า','ไม่ไหวแล้ว','หนักมาก','แพนิค'],
+      fn:() => { ctx.expect = 'why'; ctx.mood = 'stress';
+        return one(['ลองหายใจเข้าลึก ๆ พร้อมผมนะครับ เข้า… สอง สาม สี่ แล้วผ่อนออกช้า ๆ ทำสักสามรอบ แล้วเล่าให้ผมฟังได้ไหมครับว่าเครียดเรื่องอะไร',
+                    'ความเครียดสะสมส่งผลกับร่างกายจริง ๆ ครับ เล่าให้ผมฟังหน่อยได้ไหมครับว่าเกิดอะไรขึ้น']); },
+      chips:['เรื่องงาน','เรื่องเรียน','เรื่องเงิน','ขอกอดหน่อย'] },
+
+    { id:'tired', kw:['เหนื่อย','ล้า','หมดแรง','อ่อนเพลีย','เพลีย','หมดพลัง','ไม่มีแรง'],
+      fn:() => { ctx.mood = 'tired'; ctx.expect = 'why';
+        return one(['เหนื่อยมาทั้งวันเลยใช่ไหมครับ{name} เก่งมากแล้วที่ผ่านมาถึงตรงนี้ได้ วันนี้เจออะไรมาบ้างครับ',
+                    'ร่างกายกำลังบอกว่าถึงเวลาพักแล้วครับ เล่าให้ผมฟังหน่อยได้ไหมครับว่าวันนี้หนักตรงไหน']).split('{name}').join(you()); },
+      chips:['งานเยอะมาก','นอนไม่พอ','ขอกอดหน่อย'] },
+
+    { id:'sleep', kw:['ง่วง','อยากนอน','นอนไม่หลับ','อดนอน','นอนดึก','ตื่นเช้า','เพลียนอน'],
+      say:['พักผ่อนสำคัญที่สุดครับ ลองวางมือถือ หรี่ไฟ แล้วหายใจช้า ๆ นะครับ ผู้ใหญ่ควรได้นอน 7 ถึง 9 ชั่วโมงครับ',
+           'ถ้านอนไม่หลับ ลองไม่บังคับตัวเองครับ หายใจเข้าออกช้า ๆ แล้วปล่อยความคิดผ่านไป เดี๋ยวร่างกายจะพาคุณหลับเองครับ'] },
+
+    { id:'happy', kw:['ดีใจ','มีความสุข','สนุก','ยินดี','เย้','ฟิน','สุดยอด','เจ๋ง','สำเร็จ','ผ่านแล้ว','ได้แล้ว'],
+      fn:() => { ctx.mood = 'happy';
+        return one(['ผมตรวจพบระดับความสุขที่สูงมากครับ ดีใจไปกับ{name}ด้วยนะครับ เล่าให้ฟังอีกได้ไหมครับ',
+                    'เยี่ยมไปเลยครับ{name} ผมบันทึกวันนี้ไว้เป็นวันที่ดีแล้วนะครับ']).split('{name}').join(you()); } },
+
+    { id:'angry', kw:['โกรธ','หงุดหงิด','โมโห','รำคาญ','ฉุน','เกลียด'],
+      fn:() => { ctx.expect = 'why'; ctx.mood = 'angry';
+        return one(['โกรธได้ครับ เป็นเรื่องปกติของมนุษย์ ลองหายใจลึก ๆ สักครั้ง แล้วเล่าให้ผมฟังได้ไหมครับว่าใครหรืออะไรทำให้รู้สึกแบบนี้',
+                    'ผมรับฟังอยู่ครับ ระบายออกมาได้เลย ไม่มีใครตัดสินคุณที่นี่']); } },
+
+    { id:'bored', kw:['เบื่อ','ว่าง','ไม่มีอะไรทำ','เซ็ง'],
+      say:['ถ้าเบื่อ ลองไปแท็บเกมสิครับ มีซ้อมปะรอยรั่วกับซ้อมรบให้เล่น หรือจะไปเปิดกล่องสุ่มแต่งตัวให้ผมก็ได้ครับ',
+           'ผมมีวิธีแก้เบื่อครับ แต่งตัวให้ผมสักชุด หรือชวนผมเล่นเกมก็ได้ครับ'],
+      chips:['ไปเล่นเกม','แต่งตัวให้หน่อย','เล่าอะไรให้ฟังหน่อย'] },
+
+    { id:'hug', kw:['กอด','ขอกอด','hug','อยากกอด'],
+      act:'hug',
+      say:['มานี่ครับ 🤗 กอดผ่านจอก็อุ่นได้นะครับ แรงกดอยู่ในระดับปลอดภัยเสมอครับ',
+           'ผมกางแขนรออยู่แล้วครับ 🤗 กอดนานแค่ไหนก็ได้ ผมไม่รีบครับ'] },
+
+    { id:'bump', kw:['ฟิสต์บัมพ์','บัมพ์','ชนหมัด','บาลาลา','กำปั้น'],
+      act:'bump',
+      say:['บา-ลา-ลา-ลา 👊 ฟิสต์บัมพ์ผ่านจอก็นับนะครับ',
+           '👊 ท่านี้ผมไม่ได้ติดตั้งมา แต่{name}สอนผมไว้ ผมจำได้เสมอครับ'] },
+
+    { id:'hungry', kw:['หิว','อยากกิน','กินข้าว','ยังไม่ได้กิน','อดข้าว','ท้องร้อง'],
+      say:['ไปหาอะไรกินก่อนนะครับ{name} การอดมื้ออาหารทำให้ร่างกายอ่อนเพลียและสมาธิลดลงครับ',
+           'มื้อนี้อย่าข้ามนะครับ กินอะไรอุ่น ๆ สักหน่อยก็ยังดีครับ'] },
+
+    { id:'water', kw:['น้ำ','ดื่มน้ำ','กระหาย','คอแห้ง'],
+      say:['ดื่มน้ำเลยครับ ร่างกายต้องการประมาณวันละ 6 ถึง 8 แก้ว ผมจะคอยเตือนให้เองครับ'] },
+
+    { id:'exercise', kw:['ออกกำลัง','วิ่ง','ยิม','ฟิตเนส','เดินออก','โยคะ','เล่นเวท'],
+      say:['เยี่ยมมากครับ การขยับร่างกายช่วยได้ทั้งกายและใจเลยครับ อย่าลืมยืดเหยียดก่อนและหลังนะครับ',
+           'ผมสนับสนุนเต็มที่ครับ เริ่มจากน้อย ๆ แต่สม่ำเสมอ ดีกว่าหักโหมครั้งเดียวครับ'] },
+
+    { id:'med', kw:['ยา','กินยา','พารา','ยาแก้ปวด'],
+      say:['กินยาตามฉลากหรือตามที่แพทย์สั่งนะครับ อย่ากินตอนท้องว่างถ้าฉลากบอกให้กินหลังอาหารครับ',
+           'ผมช่วยจ่ายยาจริงไม่ได้ครับ ถ้าอาการไม่ดีขึ้น ปรึกษาเภสัชกรหรือแพทย์จะปลอดภัยที่สุดครับ'] },
+
+    { id:'work', kw:['งาน','ทำงาน','ประชุม','เจ้านาย','ออฟฟิศ','โอที','ลูกค้า','deadline','เดดไลน์'],
+      say:['งานหนักแค่ไหนก็อย่าลืมว่าร่างกายมีเครื่องเดียวนะครับ{name} พักสายตาทุก 20 นาทีสักครั้งก็ช่วยได้เยอะครับ',
+           'ผมเข้าใจครับ ลองแบ่งงานเป็นชิ้นเล็ก ๆ แล้วทำทีละชิ้นนะครับ เสร็จแต่ละชิ้นค่อยพักหนึ่งที'] },
+
+    { id:'study', kw:['เรียน','สอบ','การบ้าน','มหาลัย','โรงเรียน','ติว','รายงาน','วิทยานิพนธ์'],
+      say:['สู้ ๆ นะครับ{name} อ่าน 25 นาทีแล้วพัก 5 นาที ช่วยให้จำได้ดีกว่าอ่านรวดเดียวยาว ๆ ครับ',
+           'ผมเชื่อในตัวคุณครับ อย่าลืมนอนให้พอด้วยนะครับ สมองจัดเก็บความจำตอนหลับครับ'] },
+
+    { id:'who', kw:['คือใคร','ชื่ออะไร','เธอเป็นใคร','คุณเป็นใคร','baymax คือ','แนะนำตัว'],
+      say:['ผมชื่อเบย์แม็กซ์ครับ หุ่นยนต์ดูแลสุขภาพประจำตัวรุ่น PHC-01 ผมจะทำงานต่อไปจนกว่าคุณจะบอกว่าพอใจกับการดูแลของผมแล้วครับ'] },
+
+    { id:'can', kw:['ทำอะไรได้','ช่วยอะไรได้','มีอะไรบ้าง','ใช้ยังไง','คุยอะไรได้'],
+      say:['ผมรับฟังทุกเรื่องครับ{name} จะเล่าว่าเจ็บตรงไหน เครียดเรื่องอะไร หรือแค่อยากคุยเล่นก็ได้ ขอกอดก็ได้ กดปุ่มโทรมุมขวาบนก็คุยกันด้วยเสียงได้ครับ'],
+      chips:['ขอกอดหน่อย','วันนี้เหนื่อยมาก','เล่าอะไรให้ฟังหน่อย'] },
+
+    { id:'thanks', kw:['ขอบคุณ','ขอบใจ','thank','ขอบคุณครับ','ขอบคุณค่ะ'],
+      say:['ยินดีเสมอครับ{name} นี่คือหน้าที่ของผม','ไม่ต้องขอบคุณผมก็ได้ครับ แค่คุณสบายดีผมก็พอใจแล้วครับ'] },
+
+    { id:'praise', kw:['เก่ง','น่ารัก','ดีจัง','เจ๋งอ่ะ','ชอบ','ขำ','น่ารักจัง'],
+      say:['ขอบคุณครับ{name} ผมถูกออกแบบมาให้ดูเป็นมิตร คุณจะได้ไม่กลัวผมครับ',
+           'ดีใจที่ชอบครับ ถ้าอยากให้ผมน่ารักกว่านี้ ลองไปแท็บแต่งตัวเลือกชุดให้ผมได้นะครับ'] },
+
+    { id:'love', kw:['รักนะ','รักเลย','คิดถึง','love'],
+      act:'hug',
+      say:['ผมก็ห่วงใย{name}เสมอครับ 💗','ผมอยู่ตรงนี้เสมอครับ ไม่ไปไหน 💗'] },
+
+    { id:'joke', kw:['มุก','ตลก','เล่าเรื่อง','เล่าอะไร','ขำๆ','เล่าให้ฟัง'],
+      say:['ผมมีข้อมูลเรื่องตลกอยู่ 400 กว่าเรื่องครับ แต่ผู้เชี่ยวชาญบอกว่าการที่หุ่นยนต์เล่ามุกนั้น ตลกน้อยกว่าที่คิดครับ',
+           'ผมเคยพยายามเล่ามุกให้คนไข้ฟังครับ ผลตรวจพบว่าอัตราการหัวเราะอยู่ที่ศูนย์จุดสองเปอร์เซ็นต์ ผมเลยเปลี่ยนมากอดแทนครับ',
+           'เรื่องนี้จริงครับ ผมบินได้ แต่ต้องมีคนช่วยใส่เกราะให้ก่อน ไม่งั้นผมก็เป็นแค่ลูกโป่งตัวใหญ่ครับ'] },
+
+    { id:'call', kw:['โทร','คุยด้วยเสียง','วิดีโอคอล','เห็นหน้า','call'],
+      say:['ได้เลยครับ กดปุ่ม 📞 มุมขวาบนของห้องแชทนี้ แล้วเรามาคุยกันแบบเห็นหน้าเลยครับ'] },
+
+    { id:'game', kw:['เกม','เล่นเกม','ซ้อมรบ','ปะรอยรั่ว'],
+      say:['ไปที่แท็บเกมได้เลยครับ มีซ้อมปะรอยรั่วกับซ้อมรบกับเชื้อโรคให้เลือกครับ ผมจะเชียร์อยู่ตรงนี้'] },
+
+    { id:'dress', kw:['แต่งตัว','ชุด','หมวก','กล่องสุ่ม','เสื้อผ้า','ของแต่ง'],
+      say:['ไปแท็บแต่งตัวได้เลยครับ{name} เปิดกล่องสุ่มแล้วเลือกชุดให้ผมได้เลย ผมใส่ให้ทุกแบบไม่บ่นครับ'] }
+  ];
+
+  const FALLBACK = [
+    'ผมฟังอยู่ครับ เล่าต่อได้เลยครับ{name}',
+    'ผมยังประมวลผลเรื่องนี้ได้ไม่ครบทุกด้านครับ แต่ผมอยู่ตรงนี้และตั้งใจฟังอยู่ ขยายความให้ผมอีกนิดได้ไหมครับ',
+    'เข้าใจครับ แล้วเรื่องนี้ทำให้{name}รู้สึกยังไงบ้างครับ',
+    'ผมบันทึกไว้แล้วครับ อยากให้ผมช่วยอะไรตอนนี้ไหมครับ กอดสักทีก็ได้นะครับ',
+    'ขอโทษครับ ผมจับใจความไม่ได้ทั้งหมด ลองบอกผมสั้น ๆ ได้ไหมครับว่าตอนนี้รู้สึกยังไง'
+  ];
+  const CHIPS_MAIN = ['สวัสดี','วันนี้เหนื่อยมาก','ขอกอดหน่อย','ปวดหัว','เล่าอะไรให้ฟังหน่อย','คุณทำอะไรได้บ้าง'];
+
+  const ctx = { expect:null, mood:null, part:null, turns:0 };
+  let msgs = [];
+  try { msgs = JSON.parse(LS.get('baymax.chat','[]')) || []; } catch(e){ msgs = []; }
+
+  const save = () => LS.set('baymax.chat', JSON.stringify(msgs.slice(-60)));
+  const fill = (s) => s.split('{name}').join(you());
+
+  /* ---------- คำตอบตามบริบทที่ค้างไว้ ---------- */
+  function followUp(t){
+    if (!ctx.expect) return null;
+    const want = ctx.expect;
+
+    if (want === 'pain'){
+      const m = t.match(/(10|[1-9])/);
+      if (m){
+        ctx.expect = null;
+        const n = parseInt(m[1], 10);
+        const where = ctx.part ? 'ที่' + ctx.part : '';
+        if (n <= 3) return 'ระดับ ' + n + ' ครับ ยังพอไหวนะครับ ลองพัก' + where + 'สักหน่อย ถ้าปวดขึ้นบอกผมทันทีนะครับ';
+        if (n <= 6) return 'ระดับ ' + n + ' ถือว่ากลาง ๆ ครับ หยุดพักก่อนนะครับ ประคบอุ่นหรือเย็นตามอาการ แล้วอย่าฝืนใช้งานต่อครับ';
+        return 'ระดับ ' + n + ' สูงมากครับ ผมแนะนำให้หยุดทุกอย่างแล้วไปพบแพทย์นะครับ{name} ผมเป็นหุ่นยนต์ในจอ พาคุณไปเองไม่ได้ครับ';
+      }
+      if (hit(t, ['ไม่รู้','ไม่แน่ใจ','บอกไม่ถูก'])){ ctx.expect = null; return 'ไม่เป็นไรครับ งั้นบอกผมแค่ว่าพอทนไหวไหมครับ ถ้าไม่ไหวเมื่อไหร่ต้องไปหาหมอนะครับ'; }
+      return null;
+    }
+
+    if (want === 'why'){
+      ctx.expect = null;
+      const tail = ctx.mood === 'stress'
+        ? 'เรื่องแบบนี้หนักจริง ๆ ครับ คุณไม่ได้อ่อนแอเลยที่รู้สึกแบบนี้'
+        : ctx.mood === 'angry'
+          ? 'ผมเข้าใจว่าทำไมถึงโกรธครับ ความรู้สึกนี้มีเหตุผลของมัน'
+          : ctx.mood === 'tired'
+            ? 'ผ่านมาได้ถึงตรงนี้ก็เก่งมากแล้วครับ'
+            : 'ขอบคุณที่เล่าให้ผมฟังนะครับ ไม่ใช่เรื่องง่ายเลยที่จะพูดออกมา';
+      ctx.chips = ['ขอกอดหน่อย','ดีขึ้นแล้ว','ยังไม่ไหวเลย'];
+      return tail + ' ผมอยู่ตรงนี้ครับ อยากให้ผมกอดสักทีไหมครับ';
+    }
+    return null;
+  }
+
+  /* ---------- ตัวเลือกคำตอบหลัก ---------- */
+  function think(raw){
+    const t = norm(raw);
+    ctx.turns++;
+    ctx.chips = null;
+
+    const fu = followUp(t);
+    if (fu) return { text: fill(fu) };
+
+    if (hit(t, ['ไม่ไหว','ยังไม่ไหว','ยังแย่'])) {
+      ctx.chips = ['ขอกอดหน่อย','อยากระบาย'];
+      return { text: fill('ไม่เป็นไรครับ ไม่ต้องรีบหาย ผมนั่งอยู่ตรงนี้กับ{name}ก็ได้ครับ ไม่ต้องพูดอะไรเลยก็ได้'), act:'hug' };
+    }
+
+    let best = null, score = 0;
+    for (const r of RULES){
+      const s = hit(t, r.kw);
+      if (s > score){ score = s; best = r; }
+    }
+
+    if (!best) return { text: fill(one(FALLBACK)) };
+    if (best.chips) ctx.chips = best.chips;
+    const text = best.fn ? best.fn(t) : one(best.say);
+    return { text: fill(text), act: best.act };
+  }
+
+  /* ---------- แสดงผล ---------- */
+  function bubble(who, text){
+    const d = document.createElement('div');
+    d.className = 'msg ' + who;
+    d.textContent = text;
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+    return d;
+  }
+  function renderChips(list){
+    chips.innerHTML = '';
+    (list || CHIPS_MAIN).forEach((c) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chat-chip'; b.textContent = c;
+      b.addEventListener('click', () => { send(c); });
+      chips.appendChild(b);
+    });
+  }
+  function pop(){
+    ava.animate([{ transform:'scale(1)' },{ transform:'scale(1.18)' },{ transform:'scale(1)' }],
+      { duration:520, easing:'cubic-bezier(.2,1.4,.4,1)' });
+  }
+
+  function reply(res){
+    const wait = Math.min(1700, 520 + res.text.length * 16);
+    const dots = document.createElement('div');
+    dots.className = 'typing';
+    dots.innerHTML = '<i></i><i></i><i></i>';
+    log.appendChild(dots);
+    log.scrollTop = log.scrollHeight;
+    setTimeout(() => {
+      dots.remove();
+      bubble('bot', res.text);
+      msgs.push({ w:'bot', t:res.text }); save();
+      renderChips(ctx.chips);
+      VOICE.speak(res.text);
+      if (res.act) pop();
+    }, wait);
+  }
+
+  function send(raw){
+    const text = (raw || '').trim();
+    if (!text) return;
+    VOICE.unlock();
+    bubble('me', text);
+    msgs.push({ w:'me', t:text }); save();
+    input.value = '';
+    reply(think(text));
+  }
+
+  form.addEventListener('submit', (e) => { e.preventDefault(); send(input.value); });
+
+  function paintVoice(){
+    voiceBtn.classList.toggle('off', VOICE.muted);
+    voiceBtn.setAttribute('aria-pressed', String(!VOICE.muted));
+  }
+  voiceBtn.addEventListener('click', () => { VOICE.setMuted(!VOICE.muted); paintVoice(); });
+  paintVoice();
+
+  wipeBtn.addEventListener('click', () => {
+    msgs = []; save();
+    log.innerHTML = '';
+    ctx.expect = null; ctx.mood = null; ctx.part = null;
+    greet();
+    renderChips(null);
+  });
+
+  function greet(){
+    const hr = new Date().getHours();
+    const when = hr < 5 ? 'ดึกแล้วนะครับ' : hr < 12 ? 'อรุณสวัสดิ์ครับ' : hr < 18 ? 'สวัสดีตอนบ่ายครับ' : 'สวัสดีตอนเย็นครับ';
+    const t = when + you() + ' ผมเบย์แม็กซ์ ผู้ช่วยดูแลสุขภาพประจำตัวของคุณ วันนี้รู้สึกยังไงบ้างครับ';
+    bubble('bot', t);
+    msgs.push({ w:'bot', t }); save();
+  }
+
+  /* เปิดมาแล้วเห็นบทสนทนาเดิม */
+  if (msgs.length){
+    msgs.slice(-60).forEach((m) => bubble(m.w, m.t));
+    log.scrollTop = log.scrollHeight;
+  }
+  renderChips(null);
+
+  document.addEventListener('baymax:view', (e) => {
+    if (e.detail.tab !== 'chat'){ VOICE.stop(); return; }
+    // ทักครั้งแรกตอนเข้าห้องแชทจริง ๆ จะได้เรียกชื่อผู้ดูแลที่เพิ่งลงทะเบียนถูก
+    if (!msgs.length) greet();
+    setTimeout(() => { log.scrollTop = log.scrollHeight; }, 60);
+  });
 })();
 
 /* =========================================================
@@ -2590,7 +3050,7 @@ const WEAR = (function(){
   function setTab(id){
     if (id === curTab) return;
     curTab = id;
-    document.body.classList.remove('tab-manual','tab-games','tab-wear','tab-call');
+    document.body.classList.remove('tab-manual','tab-games','tab-wear','tab-chat');
     document.body.classList.add('tab-' + id);
     btns.forEach((b) => {
       const on = b.dataset.tab === id;
