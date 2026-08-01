@@ -60,12 +60,17 @@
     --display:'Mali',cursive; --body:'IBM Plex Sans Thai Looped',sans-serif; --mono:'IBM Plex Mono',monospace;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  /* manipulation = ปิดการซูมด้วยการแตะสองครั้ง แต่ยังหุบ/กางนิ้วซูมเองได้ และเลื่อนหน้าได้ปกติ */
+  html{scroll-behavior:smooth;touch-action:manipulation}
   body{
     margin:0;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
     background:radial-gradient(900px 500px at 80% -10%, #FFFFFF 0%, transparent 60%), var(--bg);
     color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.75;-webkit-font-smoothing:antialiased;
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
   }
+  /* ปุ่มกับการ์ดที่กดรัว ๆ — กันไม่ให้เผลอลากเลือกข้อความหรือเด้งเมนู */
+  .btn,.pbtn,.tabbtn,.wopt,.vc-chip,.gcardbtn,.gback,.leak,.bx-open,.bx-gift,.mode{
+    -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   body.locked{overflow:hidden}
   .wrap{max-width:1000px;margin:0 auto;padding:0 24px calc(120px + env(safe-area-inset-bottom))}
 
