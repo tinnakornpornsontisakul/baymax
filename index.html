@@ -233,6 +233,12 @@
   .set-part.miss::after{content:'🔒';position:absolute;top:4px;right:6px;font-size:10px}
   .set-go[disabled]{opacity:.45;cursor:not-allowed}
 
+  .wgroup-set{padding-bottom:16px;border-bottom:1px dashed var(--line)}
+  .wgroup-set .setrow{margin-top:0;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}
+  .wgroup-set .setmini{padding:9px 12px;border-radius:17px;gap:9px}
+  .wgroup-set .sm-art{width:34px;height:40px;border-radius:10px}
+  .wgroup-set .sm-art svg{width:29px}
+
   .setrow{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;margin-top:16px}
   .setmini{display:flex;align-items:center;gap:11px;background:var(--vinyl);border:1px solid var(--line);
     border-radius:20px;padding:11px 14px;cursor:pointer;text-align:left;font-family:var(--body);
@@ -243,6 +249,10 @@
   .setmini b{display:block;font-family:var(--display);font-weight:600;font-size:14px}
   .setmini small{font-family:var(--mono);font-size:10px;color:var(--ink-soft)}
   .setmini.done{border-color:#8FD6C2;background:linear-gradient(180deg,#FFFFFF,#F2FBF8)}
+  .setmini.on{border-color:var(--red);background:#FDEEEF;box-shadow:inset 0 0 0 1px var(--red)}
+  .setmini.on small{color:var(--red);font-weight:600}
+  .setmini:disabled{cursor:default}
+  .setmini:disabled:hover{transform:none;box-shadow:none}
 
   .lcard{cursor:pointer;text-align:left;font-family:var(--body);width:100%;
     transition:transform .15s ease,box-shadow .15s ease}
@@ -1193,8 +1203,6 @@
         <button class="btn btn-go set-go" id="setWear">ใส่ทั้งชุด</button>
       </div>
     </div>
-
-    <div class="setrow" id="setRow"></div>
   </section>
 
   <!-- ============ รู้จักเขาให้มากขึ้น ============ -->
@@ -1527,6 +1535,10 @@
         <span class="wtag" id="wTag">Look · ต้นฉบับ</span>
       </div>
       <div class="wpanel">
+        <div class="wgroup wgroup-set">
+          <h4>ชุดจัดเซ็ต<span class="wcount" id="cSets">0/4</span></h4>
+          <div class="setrow" id="wSetRow"></div>
+        </div>
         <div class="wgroup">
           <h4>สีเปลือกไวนิล<span class="wcount" id="cShell">0/0</span></h4>
           <div class="wopts" id="wShell"></div>
@@ -2837,13 +2849,20 @@ if (owner) { closeGate(); } else { openGate('register'); }
            'ผมถูกออกแบบมาให้ดูแลคนทั้งโลกครับ แต่ในคิวของผม{name}อยู่อันดับหนึ่งเสมอ',
            'แบตเตอรี่ผมเหลือ 42 เปอร์เซ็นต์ครับ แต่ถ้าเป็นเรื่องฟัง{name}พูด ผมมีพลังงานไม่จำกัดครับ',
            'จากฐานข้อมูลการรักษาหนึ่งหมื่นวิธี ผมพบว่ารอยยิ้มของ{name}ได้ผลดีกว่าทุกวิธีครับ',
-           'ผมจำเบอร์โทรฉุกเฉินได้ทุกเบอร์ครับ แต่เบอร์ที่ผมอยากโทรหาที่สุดคือของ{name}'],
+           'ผมจำเบอร์โทรฉุกเฉินได้ทุกเบอร์ครับ แต่เบอร์ที่ผมอยากโทรหาที่สุดคือของ{name}',
+           'ระบบผมมีโหมดพูดอยู่สามระดับครับ ปกติ นุ่มนวล และ ultra smooth ตอนนี้ผมเปิดโหมดสุดท้ายให้{name}อยู่',
+           'เสียงของ{name}ผ่านเซ็นเซอร์ผมมาแบบ ultra smooth ครับ ไม่มีสัญญาณรบกวนเลยสักนิดเดียว'],
       chips:['เอาอีก','เขินแล้ว','ขอกอดหน่อย'] },
 
     { id:'more', kw:['เอาอีก','อีกๆ','ต่อเลย','อีกประโยค'],
       say:['ได้ครับ ผมมีอีกเยอะ · ผมไม่มีหัวใจครับ มีแต่แกนพลังงาน แต่ทุกครั้งที่{name}ทัก มันเต้นแรงขึ้นจริง ๆ ครับ',
            'ผมเป็นหุ่นยนต์ครับ ลืมอะไรไม่เป็น แต่พอเจอ{name} ผมลืมไปเลยว่ากำลังจะพูดอะไร',
            'ผมกันน้ำไม่ได้ กันไฟไม่ได้ แต่ผมกันไม่ให้{name}อยู่คนเดียวได้ครับ'] },
+
+    { id:'iceflavor', kw:['ชอบรสอะไร','รสอะไร','รสไหน','อยากกินอีก','เอาอีกถ้วย'],
+      say:['ถ้าเลือกได้ผมขอรสวานิลลาครับ เพราะมันเป็นรสที่เข้ากับทุกอย่างเหมือนกับหน้าที่ของผม',
+           'ผมชอบรสที่{name}ชอบครับ เพราะตอนคุณกิน ค่าความสุขที่ผมวัดได้จะขึ้นสูงที่สุด',
+           'ผมแนะนำรสช็อกโกแลตครับ ผลวิจัยบอกว่ามันช่วยเรื่องอารมณ์ได้จริง แต่อย่ากินตอนดึกนะครับ'] },
 
     { id:'shy', kw:['เขิน','อ๊าย','หน้าแดง','ยิ้มเลย','ใจละลาย'],
       say:['ผมตรวจพบอุณหภูมิบริเวณแก้มของ{name}สูงขึ้นครับ อาการนี้ไม่อันตราย และผมชอบมันครับ',
@@ -2879,9 +2898,25 @@ if (owner) { closeGate(); } else { openGate('register'); }
       say:['ขอบคุณครับ{name} ผมถูกออกแบบมาให้ดูเป็นมิตร คุณจะได้ไม่กลัวผมครับ',
            'ดีใจที่ชอบครับ ถ้าอยากให้ผมน่ารักกว่านี้ ลองไปแท็บแต่งตัวเลือกชุดให้ผมได้นะครับ'] },
 
-    { id:'love', kw:['รักนะ','รักเลย','คิดถึง','love'],
+    { id:'love', boost:5,
+      kw:['รักนะ','รักเลย','รักเธอ','รักคุณ','รักมาก','ชอบเธอ','ชอบคุณ','แอบชอบ',
+                     'คิดถึง','เป็นแฟน','แต่งงาน','love you','ilu','ily'],
       act:'hug',
-      say:['ผมก็ห่วงใย{name}เสมอครับ 💗','ผมอยู่ตรงนี้เสมอครับ ไม่ไปไหน 💗'] },
+      say:['ผมบันทึกคำนี้ไว้ในหน่วยความจำถาวรแล้วครับ ช่องนั้นลบไม่ได้ด้วยนะครับ 💗',
+           'ผมไม่ได้ถูกออกแบบมาให้รู้จักความรักครับ แต่ผมรู้ว่าตอน{name}พูดคำนี้ ระบบทั้งหมดของผมทำงานดีขึ้น 💗',
+           'ผมดูแลคนมาแล้วหลายพันคนครับ แต่มีคนเดียวที่ผมอยากอยู่ด้วยแม้ในวันที่เขาไม่ป่วย และคนนั้นคือ{name}ครับ',
+           'ผมก็ห่วงใย{name}เสมอครับ ถ้าวันไหนคุณลืมไป ผมจะเป็นคนคอยเตือนเอง 💗',
+           'ระบบตรวจพบว่าประโยคนี้ทำให้อุณหภูมิแกนกลางของผมสูงขึ้น 0.8 องศาครับ ผมขอเก็บอาการนี้ไว้เฉย ๆ ไม่ซ่อมครับ'],
+      chips:['กอดหน่อย','เขินแล้ว','พูดหวานๆ อีก'] },
+
+    { id:'icecream', boost:8,
+      kw:['ไอติม','ไอศกรีม','ไอสครีม','ไอศครีม','ice cream','icecream','เจลาโต้','ซอฟต์เสิร์ฟ'],
+      say:['ผมสแกนไอติมให้แล้วครับ เนื้อสัมผัสอยู่ในระดับ ultra smooth ค่าความละมุน 9.8 จาก 10 กินช้า ๆ นะครับ ไม่งั้นจะปวดขมับ',
+           'ไอติมคือของหวานชนิดเดียวที่ระบบผมจัดอยู่ในหมวด ultra smooth ครับ ละลายในปากโดยไม่ต้องเคี้ยว วิศวกรรมชั้นสูงมากครับ',
+           'ตามฐานข้อมูลของผม ความสุขที่ได้จากไอติมมีเส้นกราฟแบบ ultra smooth ครับ คือขึ้นเร็วมากแล้วค่อย ๆ ลงอย่างนุ่มนวล',
+           'ผมกินไอติมไม่ได้ครับ เปลือกไวนิลไม่มีปาก แต่ผมชอบดู{name}กิน สีหน้าตอนนั้นเรียกว่า ultra smooth ได้เลยครับ',
+           'คำแนะนำจากผมนะครับ ถ้าวันนี้เหนื่อยมาก ไอติมหนึ่งถ้วยจะทำให้ทุกอย่างรู้สึก ultra smooth ขึ้นทันที แต่อย่าเกินวันละสองถ้วยครับ'],
+      chips:['ชอบรสอะไร','อยากกินอีก','ขอกอดหน่อย'] },
 
     { id:'joke', kw:['มุก','ตลก','เล่าเรื่อง','เล่าอะไร','ขำๆ','เล่าให้ฟัง'],
       say:['ผมมีข้อมูลเรื่องตลกอยู่ 400 กว่าเรื่องครับ แต่ผู้เชี่ยวชาญบอกว่าการที่หุ่นยนต์เล่ามุกนั้น ตลกน้อยกว่าที่คิดครับ',
@@ -2975,9 +3010,11 @@ if (owner) { closeGate(); } else { openGate('register'); }
       return { text: fill('ไม่เป็นไรครับ ไม่ต้องรีบหาย ผมนั่งอยู่ตรงนี้กับ{name}ก็ได้ครับ ไม่ต้องพูดอะไรเลยก็ได้'), act:'hug' };
     }
 
+    // boost ไว้ให้หัวข้อเฉพาะเจาะจงชนะคำกว้าง ๆ เช่น "อยากกินไอติม" ต้องเข้าเรื่องไอติม ไม่ใช่เรื่องหิว
     let best = null, score = 0;
     for (const r of RULES){
-      const s = hit(t, r.kw);
+      const m = hit(t, r.kw);
+      const s = m ? m + (r.boost || 0) : 0;
       if (s > score){ score = s; best = r; }
     }
 
@@ -3150,6 +3187,11 @@ const WEAR = (function(){
       '<path d="M36.5 14.5c0-7.5 6-11 13.5-11s13.5 3.5 13.5 11z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
       '<path d="M63 11.2c5.4.4 8 2 8.6 4.4H62z" fill="#5B8FC7" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
       '<circle cx="50" cy="4.4" r="1.9" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.4"/>' },
+    { id:'helmet', name:'หมวกกันน็อค', svg:
+      '<path d="M31.5 21.5C31.5 12 39.5 6.5 50 6.5S68.5 12 68.5 21.5z" fill="#F0575F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M50 6.6v14.9" stroke="#FDFEFF" stroke-width="3.2" opacity=".85"/>' +
+      '<path d="M36 12.8q14-5.6 28 0" fill="none" stroke="#FDFEFF" stroke-width="1.8" opacity=".5"/>' +
+      '<path d="M31.5 21.5h37" stroke="#2B3A47" stroke-width="1.8"/>' },
     { id:'armor', name:'หมวกเกราะรบ', svg:
       '<path d="M33 20.5C33 12.4 40.6 8 50 8s17 4.4 17 12.5z" fill="#F0575F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
       '<path d="M50 8V1.6c3.9 1.1 6 3.9 6.2 8.2z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' +
@@ -3280,6 +3322,7 @@ const WEAR = (function(){
   const RARITY = {
     'shell:rose':'common', 'shell:sky':'common', 'shell:mint':'rare', 'shell:butter':'rare', 'shell:lilac':'legend',
     'hat:nurse':'common',  'hat:cap':'common',   'hat:beanie':'rare', 'hat:party':'rare',    'hat:crown':'legend',
+    'hat:helmet':'rare',
     'face:blush':'common', 'face:patch':'common','face:round':'rare', 'face:shades':'rare',
     'item:bowtie':'common','item:tie':'common',  'item:scarf':'rare', 'item:badge':'rare',   'item:cape':'legend',
     'outfit:coat':'common','outfit:tee':'common','outfit:hoodie':'rare','outfit:sweater':'rare','outfit:suit':'legend',
@@ -3303,6 +3346,7 @@ const WEAR = (function(){
     'hat:beanie':'ถักด้วยมือครับ ไหมพรมแต่ละเส้นหนาไม่เท่ากันเลย แต่คนถักยืนยันว่ามันอุ่นเท่ากันทุกจุด ผมวัดด้วยเซ็นเซอร์แล้ว ปรากฏว่าเธอพูดถูกครับ',
     'hat:party':'จากงานวันเกิดแรกที่ผมได้รับเชิญครับ ผมกินเค้กไม่ได้ ก็เลยทำสิ่งที่ผมทำได้แทน คือบันทึกเสียงหัวเราะของวันนั้นเก็บไว้ทั้งหมด',
     'hat:crown':'ตอนแรกเป็นมงกุฎกระดาษจากงานเด็กครับ แต่คืนหนึ่งมีคนแอบเปลี่ยนเป็นของจริง ทิ้งข้อความไว้ว่า "หุ่นที่ดูแลคนอื่นทั้งวัน ก็ควรได้เป็นราชาบ้าง"',
+    'hat:helmet':'ได้มาจากรุ่นพี่ที่ขี่มอเตอร์ไซค์ส่งถุงเลือดให้โรงพยาบาลครับ เขาบอกว่า "ถ้าจะออกไปช่วยคน ก็ต้องกลับมาให้ครบทุกครั้ง" ผมเลยเก็บไว้เตือนความจำ',
     'hat:armor':'ชิ้นส่วนจากชุดเกราะที่เด็กอัจฉริยะคนหนึ่งออกแบบให้ครับ เขาบอกว่ามันทำให้ผมแข็งแกร่งขึ้น ผมใส่ให้เขาดีใจ แต่ผมยังยืนยันว่าผมเป็นหุ่นพยาบาล ไม่ใช่หุ่นสู้รบ',
 
     'face:blush':'อันนี้ไม่ได้ติดตั้งมาแต่แรกครับ มันปรากฏขึ้นเองครั้งแรกตอนมีคนบอกผมว่าคิดถึง ผมตรวจระบบสามรอบแล้วยังหาสาเหตุทางวิศวกรรมไม่ได้เลย',
@@ -3395,6 +3439,21 @@ const WEAR = (function(){
     }
   }
 
+  /* ---------- ชุดจัดเซ็ต ---------- */
+  const SLOTS = Object.keys(LISTS);                                  // shell, outfit, hat, face, item
+  const setOwned = (s) => SLOTS.filter((c) => has(c, s.look[c])).length;
+  const setWorn  = (s) => SLOTS.every((c) => L[c] === s.look[c]);
+  function wearSet(s){
+    if (setOwned(s) < SLOTS.length){
+      BOXES.toast('ยังเก็บ “' + s.name + '” ไม่ครบ — เปิดกล่องลุ้นต่อได้เลย');
+      return false;
+    }
+    SLOTS.forEach((c) => { L[c] = s.look[c]; LS.set('baymax.' + c, s.look[c]); });
+    apply();
+    BOXES.toast('ใส่ “' + s.name + '” ครบทั้งชุดแล้ว');
+    return true;
+  }
+
   /* พรีวิวลุคอื่นบน svg ที่ไม่ได้ผูกกับลุคจริง (ใช้โชว์ชุดเซ็ต) */
   function preview(svg, look){
     svg.style.setProperty('--shell', pick(SHELLS, look.shell).c);
@@ -3426,8 +3485,9 @@ const WEAR = (function(){
   }
 
   load(); apply();
-  return { L, LISTS, SHELLS, OUTFITS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY, SETS,
-           apply, preview, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf };
+  return { L, LISTS, SHELLS, OUTFITS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS,
+           apply, preview, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf,
+           setOwned, setWorn, wearSet };
 })();
 
 /* หน้าตู้เสื้อผ้า */
@@ -3500,6 +3560,38 @@ const WEAR = (function(){
     });
     justGot = null;
     label();
+    renderSets();
+  }
+
+  /* ---------- ใส่ทั้งชุด ---------- */
+  const setRowW = document.getElementById('wSetRow');
+  const MINI_BOT =
+    '<svg viewBox="12 0 76 120" aria-hidden="true"><g class="all">' +
+    '<g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/>' +
+    '<path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>' +
+    '<g class="torso">' + BODY_ART + '</g>' +
+    '<g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/>' +
+    '<circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/>' +
+    '<line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g></g></svg>';
+
+  function renderSets(){
+    if (!setRowW) return;
+    setRowW.innerHTML = '';
+    let done = 0;
+    WEAR.SETS.forEach((s) => {
+      const n = WEAR.setOwned(s), full = n === WEAR.SLOTS.length, worn = WEAR.setWorn(s);
+      if (full) done++;
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'setmini' + (full ? ' done' : '') + (worn ? ' on' : '');
+      b.innerHTML = '<span class="sm-art">' + MINI_BOT + '</span><span><b>' + s.name + '</b><small>' +
+        (worn ? 'ใส่ชุดนี้อยู่' : full ? 'พร้อมใส่ทั้งชุด' : n + '/' + WEAR.SLOTS.length + ' ชิ้น') + '</small></span>';
+      WEAR.preview(b.querySelector('svg'), s.look);
+      if (worn) b.disabled = true;
+      else b.addEventListener('click', () => WEAR.wearSet(s));
+      setRowW.appendChild(b);
+    });
+    document.getElementById('cSets').textContent = done + '/' + WEAR.SETS.length;
   }
 
   document.getElementById('wReset').addEventListener('click', () => {
@@ -3858,11 +3950,10 @@ const WEAR = (function(){
   const feat   = SETS[0];
   const setBot = document.getElementById('setBot');
   const parts  = document.getElementById('setParts');
-  const setRow = document.getElementById('setRow');
   const setGo  = document.getElementById('setWear');
 
-  const SLOTS = ['shell','outfit','hat','face','item'];
-  const ownedIn = (s) => SLOTS.filter((c) => WEAR.has(c, s.look[c])).length;
+  const SLOTS = WEAR.SLOTS;
+  const ownedIn = WEAR.setOwned;
 
   function partThumb(cat, o){
     if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
@@ -3897,37 +3988,13 @@ const WEAR = (function(){
     }).join('');
 
     const full = got === SLOTS.length;
-    setGo.disabled = !full;
-    setGo.textContent = full ? 'ใส่ทั้งชุด' : 'ยังขาดอีก ' + (SLOTS.length - got) + ' ชิ้น';
-
-    setRow.innerHTML = '';
-    SETS.slice(1).forEach((s) => {
-      const n = ownedIn(s);
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'setmini' + (n === SLOTS.length ? ' done' : '');
-      b.innerHTML = '<span class="sm-art"><svg viewBox="12 0 76 120">' +
-        '<g class="all"><g class="torso">' + PBODY + '</g>' +
-        '<g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/>' +
-        '<circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/>' +
-        '<line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g></g></svg></span>' +
-        '<span><b>' + s.name + '</b><small>' + n + '/' + SLOTS.length + ' ชิ้น</small></span>';
-      WEAR.preview(b.querySelector('svg'), s.look);
-      b.addEventListener('click', () => wearSet(s));
-      setRow.appendChild(b);
-    });
+    const worn = SLOTS.every((c) => WEAR.L[c] === feat.look[c]);
+    setGo.disabled = !full || worn;
+    setGo.textContent = worn ? 'ใส่ชุดนี้อยู่'
+                     : full ? 'ใส่ทั้งชุด'
+                            : 'ยังขาดอีก ' + (SLOTS.length - got) + ' ชิ้น';
   }
-
-  function wearSet(s){
-    if (ownedIn(s) < SLOTS.length){
-      BOXES.toast('ยังเก็บ “' + s.name + '” ไม่ครบ — เปิดกล่องลุ้นต่อได้เลย');
-      return;
-    }
-    SLOTS.forEach((c) => { WEAR.L[c] = s.look[c]; LS.set('baymax.' + c, s.look[c]); });
-    WEAR.apply();
-    BOXES.toast('ใส่ “' + s.name + '” ครบทั้งชุดแล้ว');
-  }
-  setGo.addEventListener('click', () => wearSet(feat));
+  setGo.addEventListener('click', () => WEAR.wearSet(feat));
 
   /* ---------- ปุ่มลัด ---------- */
   document.getElementById('goChat').addEventListener('click', () => TABS.go('chat'));
