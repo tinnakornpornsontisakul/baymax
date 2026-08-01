@@ -209,7 +209,8 @@
 
   /* โปรโมทชุดใหม่ */
   .setpromo{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;padding:24px;overflow:hidden}
-  .set-stage{position:relative;border-radius:22px;display:grid;place-items:center;padding:16px;min-height:230px;
+  .set-stage{position:relative;border-radius:22px;display:grid;place-items:center;min-height:230px;
+    padding:46px 16px 16px;   /* เว้นที่ด้านบนให้ป้ายคอลแลป ไม่ให้ทับหัว */
     background:radial-gradient(120% 90% at 50% 0%,#2F4256,#1D2A36)}
   .set-stage::before{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
     background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.07) 0 3deg,transparent 3deg 26deg);
@@ -674,15 +675,21 @@
   body.tab-games .wrap > [data-tab]:not([data-tab="games"]),
   body.tab-wear .wrap > [data-tab]:not([data-tab="wear"]),
   body.tab-chat .wrap > [data-tab]:not([data-tab="chat"]){display:none;animation:none}
-  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #battle,
+  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #battle,body.tab-games #charge,
   body.tab-wear #wardrobe,body.tab-chat #chatSec{margin-top:30px}
 
   /* ============ หน้าเลือกเกม ============ */
-  body.game-none #drill,body.game-none #battle{display:none}
-  body.game-drill #gamehub,body.game-drill #battle{display:none}
-  body.game-battle #gamehub,body.game-battle #drill{display:none}
+  body.game-none #drill,body.game-none #battle,body.game-none #charge{display:none}
+  body.game-drill #gamehub,body.game-drill #battle,body.game-drill #charge{display:none}
+  body.game-battle #gamehub,body.game-battle #drill,body.game-battle #charge{display:none}
+  body.game-charge #gamehub,body.game-charge #drill,body.game-charge #battle{display:none}
 
   .gamelist{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+  .carehead{grid-column:1/-1;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-soft);margin-top:4px}
+  .carehead:first-child{margin-top:0}
+  .gcardbtn.charge{border-color:#EAD4A0;background:linear-gradient(180deg,#FFFDF6,#FFF6E2)}
+  .gcardbtn.charge .gplay{background:#E8A93C;color:#3A2410}
   .gcardbtn{display:flex;flex-direction:column;text-align:left;padding:0;overflow:hidden;cursor:pointer;
     background:var(--vinyl);border:1px solid var(--line);border-radius:26px;font-family:var(--body);color:var(--ink);
     box-shadow:0 12px 28px -22px rgba(43,58,71,.55);transition:transform .18s ease,box-shadow .18s ease}
@@ -813,6 +820,15 @@
     animation:bxHue 4s linear infinite}
   @keyframes bxHue{to{filter:hue-rotate(360deg)}}
   .r-secret .bx-rare{background:linear-gradient(90deg,#FFF3D4,#EEE2FF,#DFF6EF);color:#6B4E9B}
+  /* ได้ของซ้ำ — ตัดความอลังทิ้ง ให้รู้สึกน่าเสียดาย */
+  .bxall.is-dup .bx-rays{opacity:.16}
+  .bxall.is-dup .bx-halo{background:radial-gradient(circle,rgba(169,204,234,.2),transparent 62%)}
+  .bxall.is-dup .bx-prize .pcard{box-shadow:0 24px 46px -26px rgba(0,0,0,.7),0 0 0 2px rgba(169,188,203,.6)}
+  .bxall.is-dup .bx-prize .pcard::before{display:none}
+  .bxall.is-dup .pthumb{filter:grayscale(.85) opacity(.75)}
+  .bxall.is-dup .bx-rare{background:#EEF2F6;color:#7C8C9B}
+  .bxall.is-dup .bx-prize h3{color:var(--ink-soft)}
+  .bxall.is-dup .bx-acts .btn-ghost{flex:1}
   .bx-prize .pthumb{height:112px;display:grid;place-items:center;border-radius:18px;background:#EFF5FA;margin-bottom:14px}
   .bx-prize .pthumb svg{width:100%;height:100%;display:block}
   .bx-prize .pthumb .wsw{width:64px;height:64px}
@@ -918,6 +934,55 @@
   .alnew{position:absolute;top:6px;left:7px;z-index:2;background:var(--red);color:#fff;border-radius:999px;
     padding:2px 7px;font-family:var(--mono);font-size:8px;letter-spacing:.1em}
 
+  /* ============ เกมชาร์จแบต ============ */
+  .gart.charge{background:linear-gradient(180deg,#FFF9E8,#FFEFC4)}
+  .gart .artbolt{animation:boltPop 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes boltPop{0%,70%,100%{transform:scale(1);opacity:.9}82%{transform:scale(1.22);opacity:1}}
+
+  .chargecard{padding:22px}
+  .ch-meter{margin-bottom:16px}
+  .ch-stage{position:relative;display:grid;place-items:center;border-radius:24px;padding:18px 18px 34px;
+    min-height:290px;cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation;
+    background:radial-gradient(120% 92% at 50% 8%,#FFFFFF,#E6EFF6);overflow:hidden}
+  .ch-stage:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .ch-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:78%;aspect-ratio:1;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,222,138,.42),transparent 66%);opacity:0;transition:opacity .35s ease;pointer-events:none}
+  .ch-stage.hot .ch-glow{opacity:1}
+  .chface{position:relative;width:min(100%,300px);height:auto;overflow:visible;pointer-events:none;
+    transform-origin:50% 60%}
+  .ch-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);pointer-events:none;
+    font-size:13px;color:var(--ink-soft);animation:hintFade 2.4s ease-in-out infinite}
+  @keyframes hintFade{0%,100%{opacity:.45}50%{opacity:1}}
+  .ch-stage.tapped .ch-hint{display:none}
+
+  /* ขยับหน้าตอนกด — สุ่มหนึ่งในสี่แบบ */
+  .chface.m1{animation:fSquash .3s ease-out}
+  @keyframes fSquash{45%{transform:scale(1.1,.88)}100%{transform:scale(1,1)}}
+  .chface.m2{animation:fPop .34s cubic-bezier(.3,1.6,.4,1)}
+  @keyframes fPop{45%{transform:scale(1.13) translateY(-6px)}100%{transform:scale(1)}}
+  .chface.m3{animation:fShake .34s ease-in-out}
+  @keyframes fShake{25%{transform:rotate(-6deg)}60%{transform:rotate(5deg)}100%{transform:rotate(0)}}
+  .chface.m4{animation:fNod .34s ease-out}
+  @keyframes fNod{40%{transform:translateY(7px) scale(1.04,.94)}100%{transform:translateY(0)}}
+  #chExp{animation:expIn .18s ease-out}
+  @keyframes expIn{from{opacity:.35}}
+
+  .ch-pop{position:absolute;pointer-events:none;z-index:3;font-family:var(--display);font-weight:700;
+    font-size:19px;color:#B98A17;text-shadow:0 2px 0 rgba(255,255,255,.7)}
+  .ch-spark{position:absolute;pointer-events:none;z-index:2;width:9px;height:9px;border-radius:2px}
+  .ch-stats{display:flex;gap:10px;margin-top:16px}
+  .ch-full{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:4px;z-index:4;
+    background:rgba(255,250,235,.9);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:24px}
+  .ch-full[hidden]{display:none}
+  .ch-full b{font-family:var(--display);font-weight:700;font-size:23px}
+  .ch-full span{font-size:13.5px;color:var(--ink-soft)}
+
+  /* เตือนแบตไม่พอตอนจะเล่นเกม */
+  .lowbatt{margin:0 0 14px;background:#FFF3D4;border:1px solid #EAD4A0;border-radius:16px;
+    padding:12px 15px;font-size:13.5px;color:#8A6A16}
+  .lowbatt b{font-family:var(--display)}
+  .lowbatt[hidden]{display:none}
+
   .gback{display:inline-flex;align-items:center;gap:9px;background:var(--vinyl);border:1px solid var(--line);
     border-radius:999px;padding:9px 18px 9px 15px;font-family:var(--body);font-weight:600;font-size:13.5px;
     color:var(--ink-soft);cursor:pointer;margin-bottom:18px;transition:transform .12s ease,color .2s ease}
@@ -994,10 +1059,12 @@
     .brow2 .hint{min-width:0!important}
 
     /* หน้าเกม — หัวข้อกระชับ เหลือพื้นที่ให้สนามมากขึ้น */
-    body.tab-games #drill,body.tab-games #battle{margin-top:18px}
-    #drill .gback,#battle .gback{margin-bottom:11px}
-    #drill .sec-head,#battle .sec-head{margin-bottom:16px}
+    body.tab-games #drill,body.tab-games #battle,body.tab-games #charge{margin-top:18px}
+    #drill .gback,#battle .gback,#charge .gback{margin-bottom:11px}
+    #drill .sec-head,#battle .sec-head,#charge .sec-head{margin-bottom:16px}
     #drill .sec-head p,#battle .sec-head p{display:none}
+    .ch-stage{min-height:250px}
+    .chbot{width:min(64vw,215px)}
     .gart{height:124px}
     .gart svg{height:100px}
 
@@ -1317,6 +1384,32 @@
 
     <div class="gamelist">
 
+      <span class="carehead">Care · ดูแลเขาก่อนลงสนาม</span>
+      <button class="gcardbtn charge" type="button" data-play="charge">
+        <span class="gart charge">
+          <svg viewBox="12 0 76 120" aria-hidden="true">
+            <g class="all">
+              <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
+              <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+              <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
+              <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+              <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+            </g>
+            <g class="artbolt"><path d="M53 47l-9 15h6l-3 12 10-16h-6z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/></g>
+          </svg>
+        </span>
+        <span class="ginfo">
+          <span class="gname">ชาร์จแบตให้ Baymax</span>
+          <span class="gdesc">ไม่ใช่เกม แต่เป็นการดูแลเขา กดที่หน้าเขาไปเรื่อย ๆ หน้าจะเปลี่ยนไม่ซ้ำ แบตที่ได้เอาไว้ใช้ลงเล่นเกม</span>
+        </span>
+        <span class="gfoot">
+          <span class="gbest"><b id="hubBatt">100%</b>Battery</span>
+          <span class="gplay">⚡ ไปดูแล</span>
+        </span>
+      </button>
+
+      <span class="carehead">Games · ลงสนามซ้อม</span>
+
       <button class="gcardbtn" type="button" data-play="drill">
         <span class="gart drill">
           <svg data-bot viewBox="12 0 76 120" aria-hidden="true">
@@ -1381,6 +1474,39 @@
     </div>
   </section>
 
+  <!-- ============ เกม 0 · ชาร์จแบต ============ -->
+  <section id="charge" data-tab="games">
+    <button class="gback" type="button" data-back>← เลือกเกมอื่น</button>
+    <div class="sec-head">
+      <div class="eyebrow">Charging station</div>
+      <h2>ชาร์จแบตให้ Baymax</h2>
+      <p>กดที่ตัวเขารัว ๆ แบตจะขึ้นทีละนิด กดแล้วเขาจะทำท่าให้ดูไม่ซ้ำกัน — แบตก้อนนี้ใช้เป็นพลังงานตอนเล่นเกมอื่น และจะค่อย ๆ ลดลงเองตามเวลา</p>
+    </div>
+
+    <div class="chargecard card">
+      <div class="ch-meter">
+        <div class="meter-lab"><span>พลังงาน · Battery</span><b id="chPct">100%</b></div>
+        <div class="meter"><i id="chBar"></i></div>
+      </div>
+
+      <div class="ch-stage" id="chStage" role="button" tabindex="0" aria-label="กดเพื่อชาร์จแบต">
+        <div class="ch-glow"></div>
+        <svg class="chface" id="chFace" viewBox="0 0 100 64" aria-hidden="true">
+          <rect x="4" y="8" width="92" height="44" rx="22" fill="var(--shell)" stroke="#2B3A47" stroke-width="3"/>
+          <g id="chExp"></g>
+        </svg>
+        <span class="ch-hint" id="chHint">แตะหน้าเขาเลย</span>
+      </div>
+
+      <div class="ch-stats">
+        <div class="kpi"><b id="chTaps">0</b><span>Taps รอบนี้</span></div>
+        <div class="kpi"><b id="chCombo">x1</b><span>Combo</span></div>
+        <div class="kpi"><b id="chTotal">0</b><span>กดสะสม</span></div>
+      </div>
+      <p class="hint">แบตลดเองชั่วโมงละ 6% · ซ้อมปะรอยรั่วใช้ 12% · ซ้อมรบใช้ 15%</p>
+    </div>
+  </section>
+
   <!-- ============ เกม 1 · ปะรอยรั่ว ============ -->
   <section id="drill" data-tab="games">
     <button class="gback" type="button" data-back>← เลือกเกมอื่น</button>
@@ -1406,6 +1532,7 @@
           <h3 id="ovlTitle">พร้อมซ้อมหรือยัง</h3>
           <p id="ovlText">รูจะโผล่ขึ้นมาเรื่อย ๆ แตะให้ทันก่อนลมในตัวเขาจะหมด ยิ่งปะเร็ว ยิ่งได้คะแนน</p>
           <div id="ovlScore" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="finalScore">0</div></div>
+          <p class="lowbatt" id="drillLow" hidden><b>แบตไม่พอ</b> — ต้องมีอย่างน้อย 12% ไปชาร์จก่อนนะครับ</p>
           <button class="btn btn-go" id="playBtn">เริ่มซ้อม</button>
         </div>
       </div>
@@ -1470,6 +1597,7 @@
           <h3 id="bTitle">สนามซ้อมรบ</h3>
           <p id="bText">ใช้ ← → หรือปุ่มด้านล่างเพื่อเดิน กด Space หรือปุ่มยิงเพื่อปล่อยหมัดจรวด อย่าให้เชื้อโรคลงถึงพื้น</p>
           <div id="bResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="bFinal">0</div></div>
+          <p class="lowbatt" id="battleLow" hidden><b>แบตไม่พอ</b> — ต้องมีอย่างน้อย 15% ไปชาร์จก่อนนะครับ</p>
           <button class="btn btn-go" id="bPlay">เริ่มซ้อมรบ</button>
         </div>
       </div>
@@ -1902,6 +2030,50 @@ const BOXES = (function(){
 })();
 
 /* =========================================================
+   0.7 · แบตเตอรี่ของ Baymax — ชาร์จด้วยการกด ใช้เป็นพลังงานเล่นเกม
+   เก็บเป็นเวลาที่บันทึกล่าสุด แล้วคำนวณย้อนหลัง จะได้ไหลลงต่อแม้ปิดแอปไป
+   ========================================================= */
+const BATT = (function(){
+  const MAX = 100;
+  const DRAIN_PER_HOUR = 6;          // ลดเองตามเวลา
+  const PER_TAP = 0.55;              // กดหนึ่งทีได้เท่าไหร่
+  const COST = { drill:12, battle:15 };   // เล่นเกมหนึ่งรอบใช้เท่าไหร่
+
+  function read(){
+    const raw = parseFloat(LS.get('baymax.batt','100'));
+    const at  = parseFloat(LS.get('baymax.battAt','0'));
+    let v = isNaN(raw) ? MAX : raw;
+    if (at){
+      const hrs = Math.max(0, (Date.now() - at) / 3600000);
+      v -= hrs * DRAIN_PER_HOUR;
+    }
+    return Math.max(0, Math.min(MAX, v));
+  }
+  function write(v){
+    LS.set('baymax.batt', String(Math.max(0, Math.min(MAX, v))));
+    LS.set('baymax.battAt', String(Date.now()));
+  }
+  const emit = () => document.dispatchEvent(new CustomEvent('baymax:batt'));
+
+  const api = {
+    MAX, PER_TAP, COST,
+    get: read,
+    add(n){ const v = Math.min(MAX, read() + n); write(v); emit(); return v; },
+    /* หักค่าพลังงานตอนเริ่มเกม ไม่พอก็เล่นไม่ได้ */
+    spend(kind){
+      const need = COST[kind] || 0, v = read();
+      if (v < need) return false;
+      write(v - need); emit();
+      return true;
+    },
+    enough: (kind) => read() >= (COST[kind] || 0)
+  };
+  /* ให้ตัวเลขไหลลงเรื่อย ๆ ระหว่างเปิดแอปค้างไว้ */
+  setInterval(emit, 30000);
+  return api;
+})();
+
+/* =========================================================
    1 · หน้าลงทะเบียน + ที่รวมเรื่องติดตั้งแอป
    ========================================================= */
 const gate      = document.getElementById('gate');
@@ -1982,6 +2154,157 @@ if (owner) { closeGate(); } else { openGate('register'); }
     line.classList.remove('show'); void line.offsetWidth; line.classList.add('show');
     replay.forEach(el => { if (!el) return; el.style.animation = 'none'; void el.getBoundingClientRect(); el.style.animation = ''; });
   });
+})();
+
+/* =========================================================
+   2.5 · เกมชาร์จแบต — กดตัวเขารัว ๆ แบบ popcat
+   ========================================================= */
+(function(){
+  const stage = document.getElementById('chStage');
+  if (!stage) return;
+  const bot   = document.getElementById('chFace');
+  const bar   = document.getElementById('chBar');
+  const pct   = document.getElementById('chPct');
+  const tapsEl= document.getElementById('chTaps');
+  const comboEl= document.getElementById('chCombo');
+  const totalEl= document.getElementById('chTotal');
+  const hubBatt= document.getElementById('hubBatt');
+
+  const exp   = document.getElementById('chExp');
+  const MOVES = ['m1','m2','m3','m4'];
+  const CHEER = ['+พลังงาน','ขอบคุณครับ','โอ๊ะ!','สบายตัว','ชาร์จอยู่','อุ่นขึ้นแล้ว','ฮึบ!','ดีจังครับ','จั๊กจี้!','อีกทีครับ'];
+  const COLORS = ['#FFDE8A','#63CDB4','#A9CCEA','#F0575F','#FFF3D4'];
+
+  /* หน้าตาสุ่มตอนกด — ตาอยู่ที่ (35,30) กับ (65,30) */
+  const K = '#2B3A47';
+  const dot = (x, r) => '<circle cx="' + x + '" cy="30" r="' + r + '" fill="' + K + '"/>';
+  const brow = '<line x1="41" y1="30" x2="59" y2="30" stroke="' + K + '" stroke-width="4"/>';
+  const arcUp = (x) => '<path d="M' + (x-7) + ' 32q7-9 14 0" fill="none" stroke="' + K + '" stroke-width="4" stroke-linecap="round"/>';
+  const arcDn = (x) => '<path d="M' + (x-7) + ' 28q7 9 14 0" fill="none" stroke="' + K + '" stroke-width="4" stroke-linecap="round"/>';
+  const blush = '<ellipse cx="20" cy="38" rx="6" ry="3.4" fill="#F58184" opacity=".55"/>' +
+                '<ellipse cx="80" cy="38" rx="6" ry="3.4" fill="#F58184" opacity=".55"/>';
+  const heart = (x) => '<path d="M' + x + ' 35c-9-6-9-11-5-13 2.5-1.2 5 .6 5 2.6 0-2 2.5-3.8 5-2.6 4 2 4 7-5 13z" fill="#F0575F"/>';
+  const star  = (x) => '<path d="M' + x + ' 21l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.8z" fill="#FFC93C" stroke="' + K + '" stroke-width="1.2" stroke-linejoin="round"/>';
+  const cross = (x) => '<path d="M' + (x-5) + ' 25l10 10M' + (x+5) + ' 25l-10 10" stroke="' + K + '" stroke-width="3.6" stroke-linecap="round"/>';
+  const spiral= (x) => '<path d="M' + x + ' 30a4 4 0 1 1-3.4-4 6 6 0 1 1 6.4 7.6" fill="none" stroke="' + K + '" stroke-width="2.6" stroke-linecap="round"/>';
+
+  const EXPS = [
+    dot(35,6) + dot(65,6) + brow,                                   // ปกติ
+    arcUp(35) + arcUp(65) + brow + blush,                           // ยิ้มตาหยี
+    dot(35,9) + dot(65,9) + brow,                                   // ตาโต
+    dot(35,10.5) + dot(65,10.5) + '<ellipse cx="50" cy="44" rx="5" ry="4" fill="' + K + '"/>',  // ตกใจอ้าปาก
+    arcUp(35) + dot(65,6) + brow,                                   // ขยิบตา
+    dot(35,6) + arcUp(65) + brow,                                   // ขยิบอีกข้าง
+    arcDn(35) + arcDn(65) + brow,                                   // ง่วงหลับ
+    heart(35) + heart(65),                                         // ตาเป็นหัวใจ
+    star(35) + star(65),                                           // ตาเป็นดาว
+    cross(35) + cross(65) + brow,                                   // มึน
+    spiral(35) + spiral(65),                                       // ตาหมุน
+    dot(35,4) + dot(65,4) + brow + '<path d="M74 40q5 6 0 9" stroke="#63CDB4" stroke-width="3" fill="none" stroke-linecap="round"/>', // เหงื่อตก
+    dot(35,7.5) + dot(65,3.5) + brow,                               // ตาไม่เท่ากัน
+    arcUp(35) + arcUp(65) + '<path d="M43 40q7 7 14 0" fill="none" stroke="' + K + '" stroke-width="3.4" stroke-linecap="round"/>' + blush // ยิ้มกว้าง
+  ];
+  let expIdx = 0;
+
+  let taps = 0, combo = 1, lastTap = 0, comboTO = 0, poseTO = 0;
+  let total = parseInt(LS.get('baymax.taps','0'), 10) || 0;
+
+  const full = () => document.createElement('div');
+
+  function paint(){
+    const v = BATT.get();
+    const p = Math.round(v);
+    bar.style.width = v + '%';
+    bar.style.background = v > 55 ? 'var(--mint)' : v > 25 ? '#FFC861' : 'var(--red)';
+    pct.textContent = p + '%';
+    if (hubBatt) hubBatt.textContent = p + '%';
+    stage.classList.toggle('hot', combo >= 3);
+  }
+
+  function pop(x, y, text){
+    const d = document.createElement('div');
+    d.className = 'ch-pop';
+    d.textContent = text;
+    d.style.left = x + 'px'; d.style.top = y + 'px';
+    stage.appendChild(d);
+    d.animate([{ transform:'translate(-50%,-50%) scale(.7)', opacity:0 },
+               { transform:'translate(-50%,-125%) scale(1.05)', opacity:1, offset:.35 },
+               { transform:'translate(-50%,-210%) scale(1)', opacity:0 }],
+              { duration:820, easing:'cubic-bezier(.2,.9,.3,1)' });
+    setTimeout(() => d.remove(), 880);
+  }
+
+  function sparks(x, y, n){
+    for (let i = 0; i < n; i++){
+      const s = document.createElement('i');
+      s.className = 'ch-spark';
+      s.style.background = COLORS[i % COLORS.length];
+      s.style.left = x + 'px'; s.style.top = y + 'px';
+      s.style.borderRadius = i % 2 ? '50%' : '2px';
+      stage.appendChild(s);
+      const a = Math.random()*Math.PI*2, d = 46 + Math.random()*70;
+      s.animate([{ transform:'translate(-50%,-50%) scale(1)', opacity:1 },
+                 { transform:'translate(' + (-50 + Math.cos(a)*d) + 'px,' + (-50 + Math.sin(a)*d) + 'px) scale(0)', opacity:0 }],
+                { duration:520 + Math.random()*260, easing:'ease-out' });
+      setTimeout(() => s.remove(), 820);
+    }
+  }
+
+  function tap(e){
+    if (BATT.get() >= BATT.MAX){ paint(); return; }
+    const now = performance.now();
+    combo = (now - lastTap < 620) ? Math.min(10, combo + 1) : 1;
+    lastTap = now;
+    clearTimeout(comboTO);
+    comboTO = setTimeout(() => { combo = 1; comboEl.textContent = 'x1'; paint(); }, 900);
+
+    taps++; total++;
+    LS.set('baymax.taps', String(total));
+    const gain = BATT.PER_TAP * (1 + (combo - 1) * 0.12);
+    BATT.add(gain);
+
+    const r = stage.getBoundingClientRect();
+    const x = (e && e.clientX ? e.clientX - r.left : r.width/2);
+    const y = (e && e.clientY ? e.clientY - r.top  : r.height/2);
+
+    // เปลี่ยนหน้าใหม่ทุกครั้ง ไม่ให้ซ้ำอันเดิม
+    let next = expIdx;
+    while (next === expIdx) next = Math.floor(Math.random()*EXPS.length);
+    expIdx = next;
+    exp.innerHTML = EXPS[expIdx];
+
+    const mv = MOVES[Math.floor(Math.random()*MOVES.length)];
+    MOVES.forEach((m) => bot.classList.remove(m));
+    void bot.offsetWidth;
+    bot.classList.add(mv);
+    clearTimeout(poseTO);
+    poseTO = setTimeout(() => bot.classList.remove(mv), 420);
+
+    stage.classList.add('tapped');
+    if (taps % 6 === 0 || combo >= 4) pop(x, y, CHEER[Math.floor(Math.random()*CHEER.length)]);
+    sparks(x, y, combo >= 5 ? 8 : 4);
+    tapsEl.textContent = taps;
+    comboEl.textContent = 'x' + combo;
+    totalEl.textContent = total.toLocaleString('th-TH');
+    paint();
+
+    if (navigator.vibrate) { try { navigator.vibrate(combo >= 5 ? 14 : 8); } catch(err){} }
+    if (BATT.get() >= BATT.MAX) BOXES.toast('🔋 แบตเต็มแล้ว เขาพร้อมลุยทุกเกมเลยครับ');
+  }
+
+  stage.addEventListener('pointerdown', tap);
+  stage.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); tap(null); }
+  });
+
+  document.addEventListener('baymax:batt', paint);
+  document.addEventListener('baymax:view', (e) => {
+    if (e.detail.tab === 'games'){ taps = 0; tapsEl.textContent = '0'; paint(); }
+  });
+
+  exp.innerHTML = EXPS[0];
+  totalEl.textContent = total.toLocaleString('th-TH');
+  paint();
 })();
 
 /* =========================================================
@@ -2124,6 +2447,11 @@ if (owner) { closeGate(); } else { openGate('register'); }
     ovl.hidden = false; paint();
   }
   function start(){
+    if (!BATT.spend('drill')){          // ไม่มีแบตก็ออกไปวิ่งเล่นไม่ได้
+      document.getElementById('drillLow').hidden = false;
+      return;
+    }
+    document.getElementById('drillLow').hidden = true;
     leakLayer.innerHTML = ''; patchLayer.innerHTML = '';
     const t = performance.now();
     S = { air:100, score:0, patches:0, open:0, used:new Set(), over:false, paused:false, t0:t, last:t, nextAt:t+650, every:1500 };
@@ -2386,6 +2714,11 @@ if (owner) { closeGate(); } else { openGate('register'); }
   }
 
   function start(){
+    if (!BATT.spend('battle')){
+      document.getElementById('battleLow').hidden = false;
+      return;
+    }
+    document.getElementById('battleLow').hidden = true;
     clearField();
     const t = performance.now();
     G = { x: W/2, hp: MAXHP, score:0, kills:0, wave:1, foes:[], shots:[],
@@ -3696,18 +4029,25 @@ const WEAR = (function(){
     if (msg) BOXES.toast(msg);
   }
 
+  /* โอกาสต่อกล่อง — หายาก 1/50, ตำนาน 1/100, ของลับ 1/200 ที่เหลือเป็นของธรรมดา
+     ของซ้ำออกได้ ถือว่าพลาดไปหนึ่งกล่อง */
+  const ODDS = [['secret', 1/200], ['legend', 1/100], ['rare', 1/50]];
+  const byTier = (t) => {
+    const out = [];
+    Object.keys(WEAR.LISTS).forEach((cat) => WEAR.LISTS[cat].forEach((o) => {
+      if (WEAR.rareOf(cat, o.id) === t && WEAR.RARITY[WEAR.key(cat, o.id)]) out.push({ cat, o, rare:t });
+    }));
+    return out;
+  };
+
   function draw(){
-    const secrets = WEAR.lockedPool('secret');
-    const normals = WEAR.lockedPool('normal');
-    // ของลับต้องดวงล้วน ๆ ส่วนของปกติจะไม่ออกซ้ำ เก็บไปเรื่อย ๆ ครบแน่นอน
-    const goSecret = secrets.length && (!normals.length || Math.random() < SECRET_ODDS);
-    const pool = goSecret ? secrets : normals;
+    let tier = 'common', r = Math.random(), acc = 0;
+    for (const [t, p] of ODDS){ acc += p; if (r < acc){ tier = t; break; } }
+    let pool = byTier(tier);
+    if (!pool.length) pool = byTier('common');
     if (!pool.length) return null;
-    if (goSecret) return pool[Math.floor(Math.random()*pool.length)];
-    let sum = 0; pool.forEach((p) => sum += WEIGHT[p.rare]);
-    let r = Math.random() * sum;
-    for (const p of pool){ r -= WEIGHT[p.rare]; if (r <= 0) return p; }
-    return pool[pool.length - 1];
+    const hit = pool[Math.floor(Math.random()*pool.length)];
+    return { ...hit, dup: WEAR.has(hit.cat, hit.o.id) };
   }
 
   function dust(n, colors){
@@ -3737,12 +4077,16 @@ const WEAR = (function(){
   function showPrize(){
     scene.classList.remove('r-common','r-rare','r-legend','r-secret');
     scene.classList.add('r-' + prize.rare);
+    scene.classList.toggle('is-dup', !!prize.dup);
     document.getElementById('bxThumb').innerHTML = thumb(prize.cat, prize.o);
-    document.getElementById('bxRare').textContent = WEAR.RARE_TH[prize.rare];
+    document.getElementById('bxRare').textContent = prize.dup ? 'ได้ซ้ำ' : WEAR.RARE_TH[prize.rare];
     document.getElementById('bxName').textContent = prize.o.name;
-    document.getElementById('bxCat').textContent = prize.rare === 'secret'
-      ? 'หมวด' + WEAR.CAT_TH[prize.cat] + ' · เจอได้ยากมาก'
+    document.getElementById('bxCat').textContent = prize.dup
+      ? 'มีอยู่แล้ว · น่าเสียดายจัง'
       : 'หมวด' + WEAR.CAT_TH[prize.cat];
+    const eq = document.getElementById('bxEquip');
+    eq.hidden = !!prize.dup;
+    document.getElementById('bxClose').textContent = prize.dup ? 'เอาใหม่' : 'เก็บไว้ก่อน';
   }
 
   function runOpen(){
@@ -3751,8 +4095,10 @@ const WEAR = (function(){
     if (!prize){ paintBox(); return; }
     busy = true;
     BOXES.spend();
-    WEAR.grant(prize.cat, prize.o.id);
-    newSet.add(WEAR.key(prize.cat, prize.o.id)); saveNew();
+    if (!prize.dup){
+      WEAR.grant(prize.cat, prize.o.id);
+      newSet.add(WEAR.key(prize.cat, prize.o.id)); saveNew();
+    }
 
     scene.classList.remove('ready'); scene.classList.add('opening');
     if (navigator.vibrate) { try { navigator.vibrate([12, 90, 18, 90, 30]); } catch(e){} }
@@ -3760,12 +4106,12 @@ const WEAR = (function(){
     setTimeout(() => {
       showPrize();
       scene.classList.remove('opening'); scene.classList.add('burst');
-      const big = prize.rare === 'secret';
+      const big = prize.rare === 'secret' && !prize.dup;
       const palette = big                       ? ['#C9A0FF','#FFDE8A','#63CDB4','#F0575F','#8FD0F5']
                     : prize.rare === 'legend'   ? ['#FFDE8A','#F0575F','#FFF3D4','#63CDB4']
                     : prize.rare === 'rare'     ? ['#63CDB4','#A9CCEA','#FFDE8A']
                                                 : ['#A9CCEA','#D3E1EC','#63CDB4'];
-      dust(big ? 52 : prize.rare === 'legend' ? 34 : 22, palette);
+      dust(prize.dup ? 8 : big ? 52 : prize.rare === 'legend' ? 34 : 22, palette);
       if (navigator.vibrate) { try { navigator.vibrate(big ? [40,60,40,60,90] : prize.rare === 'legend' ? [30,50,60] : 22); } catch(e){} }
       setTimeout(() => { scene.classList.remove('burst'); scene.classList.add('done'); busy = false; }, 620);
     }, 1100);
@@ -3783,10 +4129,12 @@ const WEAR = (function(){
     scene.hidden = true;
     scene.className = 'bxall';
     if (gate.hidden) document.body.classList.remove('locked');
-    if (prize) justGot = WEAR.key(prize.cat, prize.o.id);
+    if (prize && !prize.dup) justGot = WEAR.key(prize.cat, prize.o.id);
     render();
     if (wview === 'album') renderAlbum();
-    paintBox(prize ? 'ได้ “' + prize.o.name + '” มาแล้ว ลองเอาไปใส่ดูสิ' : null);
+    paintBox(!prize ? null
+      : prize.dup ? 'ได้ “' + prize.o.name + '” ซ้ำ น่าเสียดายจัง ลองใหม่นะครับ'
+                  : 'ได้ “' + prize.o.name + '” มาแล้ว ลองเอาไปใส่ดูสิ');
     prize = null;
   }
 
@@ -3824,7 +4172,7 @@ const WEAR = (function(){
     { r:'common', name:'ธรรมดา',  note:'พื้นฐานของทุกลุค' },
     { r:'rare',   name:'หายาก',   note:'ต้องเปิดหลายกล่องหน่อย' },
     { r:'legend', name:'ตำนาน',   note:'ใบเด่นของคลัง' },
-    { r:'secret', name:'ของลับ',  note:'โอกาสเจอ 3.5% ต่อกล่อง' }
+    { r:'secret', name:'ของลับ',  note:'เจอได้ยากที่สุดในเกม' }
   ];
   let newSet = new Set((LS.get('baymax.new','') || '').split(',').filter(Boolean));
   const saveNew = () => LS.set('baymax.new', [...newSet].join(','));
@@ -4096,7 +4444,7 @@ const TABS = (function(){
   function setGame(id){
     if (id === curGame) return;
     curGame = id;
-    document.body.classList.remove('game-none','game-drill','game-battle');
+    document.body.classList.remove('game-none','game-charge','game-drill','game-battle');
     document.body.classList.add('game-' + id);
     if (id === 'none') refreshHub();
     top(); emit();
