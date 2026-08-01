@@ -545,6 +545,28 @@
   .tabbtn.active .tico{background:#FDEEEF}
   .tabbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:12px}
 
+  /* ปุ่มเปิดกล่องกลางแถบ — ยกลอยขึ้นมาให้เด่นกว่าเมนูอื่น */
+  .tabfab{position:relative;flex:none;width:62px;height:62px;margin:-26px 8px 0;padding:0;border:0;
+    border-radius:50%;cursor:pointer;display:grid;place-items:center;color:#fff;
+    background:linear-gradient(150deg,#FF8A90 0%,#F0575F 52%,#DC3F49 100%);
+    box-shadow:0 12px 24px -9px rgba(240,87,95,.8),0 0 0 6px rgba(253,254,255,.96);
+    transition:transform .16s ease,filter .2s ease,background .3s ease}
+  .tabfab svg{width:30px;height:30px;position:relative;z-index:1}
+  .tabfab:active{transform:scale(.9)}
+  .tabfab:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+  .tabfab .fabnum{position:absolute;top:-3px;right:-3px;z-index:2;min-width:23px;height:23px;padding:0 6px;
+    border-radius:999px;background:var(--ink);color:#fff;border:2.5px solid var(--vinyl);
+    font-family:var(--mono);font-size:11px;display:grid;place-items:center}
+  /* มีกล่องรออยู่ = เต้นเรียกสายตา */
+  .tabfab.has::before{content:'';position:absolute;inset:-5px;border-radius:50%;pointer-events:none;
+    border:2px solid rgba(240,87,95,.6);animation:fabPulse 2.1s ease-out infinite}
+  @keyframes fabPulse{0%{transform:scale(.88);opacity:.85}100%{transform:scale(1.4);opacity:0}}
+  .tabfab.has{animation:fabBob 2.1s ease-in-out infinite}
+  @keyframes fabBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  .tabfab.empty{background:linear-gradient(150deg,#CBD8E3,#A8BAC9);
+    box-shadow:0 8px 18px -10px rgba(43,58,71,.55),0 0 0 6px rgba(253,254,255,.96)}
+  .tabfab.empty .fabnum{display:none}
+
   /* สลับหน้า — ซ่อนทุกบล็อกเนื้อหาที่ไม่ใช่ของแท็บปัจจุบัน */
   .wrap > [data-tab]{animation:pageIn .28s ease}
   @keyframes pageIn{from{opacity:0;transform:translateY(8px)}}
@@ -597,10 +619,15 @@
   .wtag{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.13em;
     text-transform:uppercase;color:var(--ink-soft);line-height:1.6}
   .wpanel{display:flex;flex-direction:column;gap:17px;min-width:0}
-  .wgroup h4{font-family:var(--display);font-weight:600;font-size:15px;margin:0 0 9px}
-  .wopts{display:flex;gap:9px;overflow-x:auto;padding:2px 2px 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-  .wopts::-webkit-scrollbar{display:none}
-  .wopt{flex:none;width:76px;background:#FBFDFE;border:1.5px solid var(--line);border-radius:16px;
+  .wgroup h4{display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+    font-family:var(--display);font-weight:600;font-size:15px;margin:0 0 9px}
+  .wcount{font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--ink-soft);white-space:nowrap}
+  .wempty{margin:2px 0 0;font-size:12.5px;color:var(--ink-soft);background:#F6FAFC;
+    border:1px dashed var(--line);border-radius:14px;padding:11px 14px}
+  /* โชว์เฉพาะของที่มี เลยไม่ต้องเลื่อนแนวนอน จัดเป็นตารางให้เห็นครบ */
+  .wopts{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:9px;padding:2px}
+  .wopts:empty{display:none}
+  .wopt{background:#FBFDFE;border:1.5px solid var(--line);border-radius:16px;
     padding:8px 5px 7px;cursor:pointer;font-family:var(--body);text-align:center;
     transition:transform .14s ease,border-color .2s ease,background .2s ease}
   .wopt:active{transform:scale(.95)}
@@ -1335,7 +1362,6 @@
         <p id="bxStatus">กำลังตรวจสอบกล่อง…</p>
         <div class="bx-prog"><i id="bxBar" style="width:0%"></i></div>
       </div>
-      <button class="btn btn-go bx-open" id="bxOpen">เปิดกล่อง<span class="bx-badge" id="bxCount">0</span></button>
     </div>
 
     <div class="wswitch" role="tablist" aria-label="สลับมุมมอง">
@@ -1376,10 +1402,26 @@
         <span class="wtag" id="wTag">Look · ต้นฉบับ</span>
       </div>
       <div class="wpanel">
-        <div class="wgroup"><h4>สีเปลือกไวนิล</h4><div class="wopts" id="wShell"></div></div>
-        <div class="wgroup"><h4>หมวก</h4><div class="wopts" id="wHat"></div></div>
-        <div class="wgroup"><h4>บนใบหน้า</h4><div class="wopts" id="wFace"></div></div>
-        <div class="wgroup"><h4>ของประดับ</h4><div class="wopts" id="wItem"></div></div>
+        <div class="wgroup">
+          <h4>สีเปลือกไวนิล<span class="wcount" id="cShell">0/0</span></h4>
+          <div class="wopts" id="wShell"></div>
+          <p class="wempty" id="eShell" hidden>ยังไม่มีสีอื่นนอกจากสีเดิม ลองเปิดกล่องดูสิ</p>
+        </div>
+        <div class="wgroup">
+          <h4>หมวก<span class="wcount" id="cHat">0/0</span></h4>
+          <div class="wopts" id="wHat"></div>
+          <p class="wempty" id="eHat" hidden>ยังไม่มีหมวกสักใบ ลองเปิดกล่องดูสิ</p>
+        </div>
+        <div class="wgroup">
+          <h4>บนใบหน้า<span class="wcount" id="cFace"></span></h4>
+          <div class="wopts" id="wFace"></div>
+          <p class="wempty" id="eFace" hidden>ยังไม่มีของใส่บนหน้า ลองเปิดกล่องดูสิ</p>
+        </div>
+        <div class="wgroup">
+          <h4>ของประดับ<span class="wcount" id="cItem"></span></h4>
+          <div class="wopts" id="wItem"></div>
+          <p class="wempty" id="eItem" hidden>ยังไม่มีของประดับ ลองเปิดกล่องดูสิ</p>
+        </div>
         <div class="wbtns">
           <button class="btn btn-go" id="wRandom">🎲 สุ่มลุค</button>
           <button class="btn btn-ghost" id="wReset">ถอดออกทั้งหมด</button>
@@ -1507,6 +1549,16 @@
     </svg></span>
     เกม
   </button>
+  <button class="tabfab" type="button" id="tabBox" aria-label="เปิดกล่องสุ่ม">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3.5 10.5h17V20a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 20z"/>
+      <rect x="2.5" y="6.5" width="19" height="4.5" rx="1.3"/>
+      <path d="M9.8 6.5h4.4v15H9.8z"/>
+      <path d="M12 6.5C10.8 3.4 8.2 2.2 7 3.4s.6 3.1 5 3.1zM12 6.5c1.2-3.1 3.8-4.3 5-3.1s-.6 3.1-5 3.1z"/>
+    </svg>
+    <span class="fabnum" id="bxCount">0</span>
+  </button>
+
   <button class="tabbtn" type="button" data-tab="wear">
     <span class="tico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M9 3.5a3 3 0 0 0 6 0l5.5 3-2 3.5-1.5-.8V20.5h-10V9.2l-1.5.8-2-3.5z"/>
@@ -3161,30 +3213,29 @@ const WEAR = (function(){
   }
 
   let justGot = null;
+  const counts = { shell:document.getElementById('cShell'), hat:document.getElementById('cHat'),
+                   face:document.getElementById('cFace'), item:document.getElementById('cItem') };
+  const empties= { shell:document.getElementById('eShell'), hat:document.getElementById('eHat'),
+                   face:document.getElementById('eFace'), item:document.getElementById('eItem') };
 
+  /* หน้าแต่งตัวโชว์เฉพาะของที่เก็บได้แล้ว ที่ยังไม่มีไปดูในคลังสะสม */
   function render(){
     Object.keys(hosts).forEach((cat) => {
       const host = hosts[cat];
       host.innerHTML = '';
-      LISTS[cat].forEach((o) => {
-        const locked = !WEAR.has(cat, o.id);
+      const mine = LISTS[cat].filter((o) => WEAR.has(cat, o.id));
+      const all  = LISTS[cat].filter((o) => WEAR.RARITY[WEAR.key(cat, o.id)]);
+      const got  = all.filter((o) => WEAR.has(cat, o.id));
+
+      mine.forEach((o) => {
         const secret = WEAR.isSecret(cat, o.id);
         const b = document.createElement('button');
         b.type = 'button';
-        b.className = 'wopt' + (L[cat] === o.id ? ' on' : '') + (locked ? ' lock' : '') +
-                      (secret ? ' secret' : '') + (justGot === WEAR.key(cat, o.id) ? ' fresh' : '');
+        b.className = 'wopt' + (L[cat] === o.id ? ' on' : '') + (secret ? ' secret' : '') +
+                      (justGot === WEAR.key(cat, o.id) ? ' fresh' : '');
         b.setAttribute('aria-pressed', L[cat] === o.id);
-        if (locked) b.setAttribute('aria-label', o.name + ' — ยังไม่ปลดล็อก');
-        b.innerHTML = '<span class="wthumb">' + thumb(cat, o) + '</span><small>' +
-                      (locked ? (secret ? 'ของลับ' : '???') : o.name) + '</small>';
+        b.innerHTML = '<span class="wthumb">' + thumb(cat, o) + '</span><small>' + o.name + '</small>';
         b.addEventListener('click', () => {
-          if (locked){
-            b.classList.remove('deny'); void b.offsetWidth; b.classList.add('deny');
-            status.textContent = secret
-              ? 'ชิ้นนี้เป็นของลับ เจอได้ยากมาก ต้องเปิดกล่องลุ้นเอาเท่านั้น'
-              : 'ชิ้นนี้ยังล็อกอยู่ — เปิดกล่องสุ่มเพื่อลุ้นดูสิ';
-            return;
-          }
           L[cat] = o.id;
           LS.set('baymax.' + cat, o.id);
           WEAR.apply(); render();
@@ -3192,6 +3243,9 @@ const WEAR = (function(){
         });
         host.appendChild(b);
       });
+
+      counts[cat].textContent = got.length + '/' + all.length;
+      empties[cat].hidden = got.length > 0;
     });
     justGot = null;
     label();
@@ -3217,7 +3271,7 @@ const WEAR = (function(){
   /* ============ กล่องสุ่ม ============ */
   const status = document.getElementById('bxStatus');
   const bar    = document.getElementById('bxBar');
-  const openBtn= document.getElementById('bxOpen');
+  const fab    = document.getElementById('tabBox');
   const countEl= document.getElementById('bxCount');
   const scene  = document.getElementById('bxAll');
   const tapBtn = document.getElementById('bxTap');
@@ -3246,15 +3300,16 @@ const WEAR = (function(){
     bar.style.width = (doneN / TOTAL * 100) + '%';
     countEl.textContent = boxes;
 
-    const all = left === 0;
-    openBtn.disabled = all || boxes < 1;
-    openBtn.textContent = all ? 'ครบทุกชิ้นแล้ว' : 'เปิดกล่อง';
-    if (!all) openBtn.appendChild(countEl);
+    const all   = left === 0;
+    const ready = !all && boxes > 0;
+    fab.classList.toggle('has', ready);
+    fab.classList.toggle('empty', !ready);
+    fab.setAttribute('aria-label', ready ? 'เปิดกล่องสุ่ม มี ' + boxes + ' กล่อง' : 'กล่องสุ่ม');
 
     const tail = doneS ? ' · ของลับ ' + doneS + '/' + SECRET : '';
     status.textContent = msg || (
       all   ? 'สุดยอด เก็บครบทุกชิ้นแล้ว รวมของลับด้วย'
-    : boxes ? 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · มีกล่องรออยู่ ' + boxes + ' กล่อง'
+    : boxes ? 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · มีกล่องรออยู่ ' + boxes + ' กล่อง กดปุ่มกลางแถบล่างเพื่อเปิด'
             : 'ปลดล็อกแล้ว ' + doneN + '/' + TOTAL + ' ชิ้น' + tail + ' · เล่นเกมสะสมแต้ม หรือรอกล่องฟรีพรุ่งนี้');
   }
 
@@ -3352,7 +3407,15 @@ const WEAR = (function(){
     prize = null;
   }
 
-  openBtn.addEventListener('click', openScene);
+  /* ปุ่มกลางแถบล่าง — มีกล่องก็เปิดเลย ไม่มีก็พาไปดูว่าหาเพิ่มยังไง */
+  fab.addEventListener('click', () => {
+    if (BOXES.get() > 0 && WEAR.lockedPool().length){ openScene(); return; }
+    TABS.go('wear');
+    setView('dress');
+    paintBox(!WEAR.lockedPool().length
+      ? 'เก็บครบทุกชิ้นแล้ว ไม่มีอะไรให้ลุ้นอีกแล้วครับ'
+      : 'ยังไม่มีกล่องเลย — เล่นเกมสะสมแต้มดูสิ หรือรอกล่องฟรีพรุ่งนี้');
+  });
   tapBtn.addEventListener('click', runOpen);
   document.querySelector('.bx-gift').addEventListener('click', runOpen);
   document.getElementById('bxClose').addEventListener('click', closeScene);
@@ -3485,9 +3548,9 @@ const WEAR = (function(){
 /* =========================================================
    7 · แท็บเมนูล่าง + หน้าเลือกเกม
    ========================================================= */
-(function(){
+const TABS = (function(){
   const bar = document.getElementById('tabbar');
-  if (!bar) return;
+  if (!bar) return { go(){}, game(){} };
   const btns = [...bar.querySelectorAll('.tabbtn')];
   const bestDrill  = document.getElementById('hubBestDrill');
   const bestBattle = document.getElementById('hubBestBattle');
@@ -3540,6 +3603,7 @@ const WEAR = (function(){
   document.querySelectorAll('[data-back]').forEach((b) => b.addEventListener('click', () => setGame('none')));
 
   refreshHub();
+  return { go: setTab, game: setGame };
 })();
 
 /* =========================================================
