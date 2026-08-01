@@ -690,14 +690,15 @@
   body.tab-games .wrap > [data-tab]:not([data-tab="games"]),
   body.tab-wear .wrap > [data-tab]:not([data-tab="wear"]),
   body.tab-chat .wrap > [data-tab]:not([data-tab="chat"]){display:none;animation:none}
-  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #charge,body.tab-games #guard,
+  body.tab-games #gamehub,body.tab-games #drill,body.tab-games #charge,body.tab-games #guard,body.tab-games #boss,
   body.tab-wear #wardrobe,body.tab-chat #chatSec{margin-top:10px}
 
   /* ============ หน้าเลือกเกม ============ */
-  body.game-none   #drill,body.game-none   #charge,body.game-none   #guard,
-  body.game-drill  #gamehub,body.game-drill  #charge,body.game-drill  #guard,
-  body.game-charge #gamehub,body.game-charge #drill,body.game-charge #guard,
-  body.game-guard  #gamehub,body.game-guard  #drill,body.game-guard  #charge{display:none}
+  body.game-none   #drill,body.game-none   #charge,body.game-none   #guard,body.game-none   #boss,
+  body.game-drill  #gamehub,body.game-drill  #charge,body.game-drill  #guard,body.game-drill  #boss,
+  body.game-charge #gamehub,body.game-charge #drill,body.game-charge #guard,body.game-charge #boss,
+  body.game-guard  #gamehub,body.game-guard  #drill,body.game-guard  #charge,body.game-guard  #boss,
+  body.game-boss   #gamehub,body.game-boss   #drill,body.game-boss   #charge,body.game-boss   #guard{display:none}
 
   .gamelist{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
   .carehead{grid-column:1/-1;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
@@ -954,6 +955,76 @@
   .alcard.on{box-shadow:inset 0 0 0 2px var(--red)}
   .alnew{position:absolute;top:6px;left:7px;z-index:2;background:var(--red);color:#fff;border-radius:999px;
     padding:2px 7px;font-family:var(--mono);font-size:8px;letter-spacing:.1em}
+
+  /* ============ บอสไฟต์ ศึกกับมุซัน ============ */
+  .gart.boss{background:radial-gradient(120% 90% at 50% 10%,#3A3F4C,#1C2029)}
+  .gart.boss .artslash{animation:slashPulse 1.6s ease-in-out infinite}
+  @keyframes slashPulse{0%,100%{opacity:.35}50%{opacity:1}}
+  .gcardbtn.boss{border-color:#4A4F5C;background:linear-gradient(180deg,#FFFFFF,#F2F3F6)}
+  .gcardbtn.boss .gplay{background:#1B1E26}
+
+  .bsfield{position:relative;aspect-ratio:16/12;border-radius:20px;overflow:hidden;touch-action:none;
+    -webkit-user-select:none;user-select:none;cursor:crosshair;background:#171A21}
+  .bs-bg{position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(70% 55% at 50% 22%,rgba(224,48,60,.2),transparent 60%),
+               repeating-linear-gradient(115deg,rgba(255,255,255,.03) 0 2px,transparent 2px 26px),
+               linear-gradient(180deg,#20242E 0%,#171A21 55%,#111419 100%)}
+  .bsfield.shake{animation:shake .3s}
+  .bsfield.rage .bs-bg{background:radial-gradient(70% 55% at 50% 22%,rgba(224,48,60,.42),transparent 62%),
+               repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 26px),
+               linear-gradient(180deg,#2A1E24 0%,#1A1219 55%,#120E12 100%)}
+
+  .bs-hpbar{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:46%;z-index:6;text-align:center}
+  .bs-hpbar span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;
+    text-transform:uppercase;color:#C9A0A6;margin-bottom:4px}
+  .bs-hpbar i{display:block;height:9px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden;
+    border:1px solid rgba(255,255,255,.18)}
+  .bs-hpbar b{display:block;height:100%;width:100%;border-radius:999px;
+    background:linear-gradient(90deg,#E0303C,#FF6B72);transition:width .25s ease}
+
+  .bs-hpbar.regen span{color:#FF9BA2}
+  .bs-hpbar.regen b{background:linear-gradient(90deg,#FF6B75,#FFD1D4);animation:hpHeal .7s ease-in-out infinite}
+  @keyframes hpHeal{50%{box-shadow:0 0 12px rgba(255,120,130,.95)}}
+  .bsfield .overlay{z-index:9;background:rgba(18,20,26,.86)}
+  .bsfield .overlay h3{color:#fff}
+  .bsfield .overlay p,.bsfield .overlay .finlab{color:#A7B0BE}
+  .bsfield .btop{top:9px;right:12px}
+  .bsfield .btop b{color:#fff;font-size:19px}
+  .bsfield .btop span{color:#8A93A3}
+  .bsfield .gd-hp{top:14px;left:12px;max-width:24%}
+  .bsfield .gd-hp i{border-color:#5A6172}
+
+  .bs-boss{position:absolute;left:50%;top:31%;width:25%;transform:translate(-50%,-50%);z-index:3;
+    cursor:pointer;transition:left .45s cubic-bezier(.3,1.2,.4,1)}
+  .bs-boss svg{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
+  .bs-boss .bsbody{animation:bossFloat 3.4s ease-in-out infinite;transform-origin:50px 80px}
+  @keyframes bossFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .bs-boss .bshead{animation:bossTilt 5s ease-in-out infinite;transform-origin:50px 44px}
+  @keyframes bossTilt{0%,100%{transform:rotate(0)}30%{transform:rotate(-3deg)}70%{transform:rotate(3deg)}}
+  .bs-boss.ouch svg{animation:bossOuch .2s}
+  @keyframes bossOuch{50%{transform:translateX(-4px) scale(1.05);filter:brightness(2.2)}}
+  .bs-boss.cast svg{animation:bossCast .5s ease-out}
+  @keyframes bossCast{35%{transform:scale(1.08,.94)}70%{transform:scale(.97,1.05)}}
+
+  .bs-hero{position:absolute;left:50%;bottom:5%;width:19%;transform:translateX(-50%);z-index:3;pointer-events:none}
+  .bs-hero svg{width:100%;height:auto;display:block}
+  .bs-hero.hurt .body-sh{fill:#FFDDDF}
+  .bs-hero.hurt{animation:fHurt .42s steps(2) 2}
+  .bs-hero.punch .arm-r{animation:fPunch .3s cubic-bezier(.3,1.4,.4,1);transform-origin:70px 56px}
+
+  .bsshot{position:absolute;width:5%;transform:translate(-50%,-50%);z-index:4;pointer-events:none;
+    filter:drop-shadow(0 0 6px rgba(240,87,95,.5))}
+  .bsshot svg{width:100%;height:auto;display:block;transform:rotate(var(--rot,0deg))}
+  /* นิ้วต้องกดใบมีดให้โดน เลยขยายพื้นที่แตะให้ใหญ่กว่ารูปจริง */
+  .bsblade{position:absolute;width:9%;transform:translate(-50%,-50%);z-index:4;cursor:pointer;
+    padding:2.6%;margin:-2.6%;box-sizing:content-box}
+  .bsblade svg{width:100%;height:auto;display:block;animation:bladeSpin .9s linear infinite}
+  @keyframes bladeSpin{to{transform:rotate(360deg)}}
+  /* ใบที่เล็งมาที่ตัวจริง ๆ จะเรืองแดง ใบที่จะพลาดเองเป็นสีจาง ๆ — ปล่อยผ่านได้ */
+  .bsblade.hot{filter:drop-shadow(0 0 7px rgba(224,48,60,.85));animation:bladeHot 1s ease-in-out infinite}
+  @keyframes bladeHot{50%{transform:translate(-50%,-50%) scale(1.12)}}
+  .bsblade.cold{opacity:.42;width:7.4%}
+  .bsblade.pop svg{animation:foeOuch .16s}
 
   /* ============ เกมปกป้องหัวใจ ============ */
   .gart.guard{background:radial-gradient(120% 90% at 50% 10%,#FFF6F6,#FBE4E6)}
@@ -1509,6 +1580,35 @@
         </span>
       </button>
 
+      <button class="gcardbtn boss" type="button" data-play="boss">
+        <span class="gart boss">
+          <svg viewBox="0 0 120 92" aria-hidden="true">
+            <g transform="translate(4 12) scale(.62)">
+              <path d="M50 46c14 0 22 8 26 22 5 17 4 30 2 40H22c-2-10-3-23 2-40 4-14 12-22 26-22z" fill="#1B1E26" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M41 48 50 60 59 48l-1 24H42z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>
+              <ellipse cx="50" cy="30" rx="14" ry="17" fill="#F6EDE6" stroke="#2B3A47" stroke-width="2.2"/>
+              <path d="M36 28c-3-13 5-22 14-22s17 9 14 22c-2-6-4-9-7-10-4 4-11 5-15 3-3 2-5 4-6 7z" fill="#14161C"/>
+              <path d="M43 30l6-2v3l-6 1zM57 30l-6-2v3l6 1z" fill="#E0303C"/>
+            </g>
+            <g transform="translate(62 26) scale(.42)">
+              <path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
+              <rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/>
+              <circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/>
+              <line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/>
+            </g>
+            <path class="artslash" d="M56 40q6 8 0 16" fill="none" stroke="#E0303C" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="ginfo">
+          <span class="gname">ศึกกับมุซัน</span>
+          <span class="gdesc">บอสไฟต์สามระยะ แตะที่มุซันเพื่อชกหมัดจรวด แตะใบมีดที่พุ่งมาเพื่อสกัด นิ้วมีเดียว หยุดชกเมื่อไหร่เขาฟื้นเลือดทันที</span>
+        </span>
+        <span class="gfoot">
+          <span class="gbest"><b id="hubBestBoss">0</b>Best score</span>
+          <span class="gplay">▶ ท้าสู้</span>
+        </span>
+      </button>
+
       <button class="gcardbtn" type="button" data-play="guard">
         <span class="gart guard">
           <svg viewBox="0 0 120 92" aria-hidden="true">
@@ -1621,6 +1721,86 @@
           <div class="chipgrid" id="chipGrid"></div>
         </div>
         <p class="hint">เล่นด้วยเมาส์ นิ้ว หรือกด Tab แล้ว Enter ก็ได้</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ เกม 4 · ศึกกับมุซัน ============ -->
+  <section id="boss" data-tab="games">
+    <button class="gback" type="button" data-back>← เลือกเกมอื่น</button>
+    <div class="sec-head">
+      <div class="eyebrow">Boss fight</div>
+      <h2>ศึกกับมุซัน</h2>
+      <p>แตะที่ตัวมุซันเพื่อชกหมัดจรวด แตะใบมีดที่พุ่งเข้ามาเพื่อสกัด — แต่นิ้วมีเดียว และถ้าหยุดชกนานเกินไปเขาจะฟื้นเลือดกลับมา มัวแต่ตั้งรับอย่างเดียวไม่มีวันชนะ</p>
+    </div>
+
+    <div class="game2 card">
+      <div class="bsfield" id="bsField" tabindex="0" aria-label="สนามศึกกับมุซัน">
+        <div class="bs-bg"></div>
+
+        <div class="bs-hpbar"><span id="bsPhase">ระยะที่ 1</span><i><b id="bsHp"></b></i></div>
+        <div class="gd-hp" id="bsHearts"></div>
+        <div class="btop"><b id="bsScore">0</b><span>Score</span></div>
+        <div class="wavebig" id="bsBig">ระยะที่ 2</div>
+
+        <div class="bs-boss" id="bsBoss">
+          <svg viewBox="0 0 100 116" aria-hidden="true">
+            <g class="bsbody">
+              <path d="M50 46c14 0 22 8 26 22 5 17 4 34 2 46H22c-2-12-3-29 2-46 4-14 12-22 26-22z"
+                    fill="#1B1E26" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>
+              <path d="M22 68c-8 4-13 12-14 22 6-3 10-3 14-1zM78 68c8 4 13 12 14 22-6-3-10-3-14-1z"
+                    fill="#14161C" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M41 48 50 61 59 48l-1 30H42z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M50 61l-4 4.5 4 5.5 4-5.5z" fill="#2B3A47"/>
+              <path d="M46 78h8v22h-8z" fill="#5A5F6B" opacity=".55"/>
+            </g>
+            <g class="bshead">
+              <ellipse cx="50" cy="30" rx="14.5" ry="17.5" fill="#F6EDE6" stroke="#2B3A47" stroke-width="2.2"/>
+              <path d="M35.5 28c-3-14 5.5-23 14.5-23s17.5 9 14.5 23c-1.5-6.5-4-10-7-11-4.5 4.5-11.5 5.5-16 3.5-3 2-5 4.5-6 7.5z" fill="#14161C"/>
+              <path d="M34 22c-3 6-3 12-2 17 1-5 2-9 4-12zM66 22c3 6 3 12 2 17-1-5-2-9-4-12z" fill="#14161C"/>
+              <path d="M42.5 30.5 49 28l.4 3.4-6.2 1.2zM57.5 30.5 51 28l-.4 3.4 6.2 1.2z" fill="#E0303C"/>
+              <path d="M42 26.5 49 24M58 26.5 51 24" stroke="#2B3A47" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M46 40q4 2.5 8 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="bs-hero" id="bsHero">
+          <svg data-bot viewBox="14 6 72 112" aria-hidden="true"><g class="all">
+            <g class="legs"><path class="leg-out" d="M41 102v12"/><path class="leg-in" d="M41 102v12"/>
+              <path class="leg-out" d="M59 102v12"/><path class="leg-in" d="M59 102v12"/></g>
+            <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/>
+              <path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
+            <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
+              <rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
+            <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/>
+              <path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
+            <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/>
+              <circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/>
+              <line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+          </g></svg>
+        </div>
+
+        <div class="layer" id="bsShots"></div>
+        <div class="layer" id="bsBlades"></div>
+        <div class="layer" id="bsBits"></div>
+
+        <div class="overlay" id="bsOvl">
+          <h3 id="bsTitle">ศึกกับมุซัน</h3>
+          <p id="bsText">แตะที่มุซันเพื่อชกหมัดจรวด แตะใบมีดที่เรืองแดงเพื่อสกัดก่อนถึงตัว ใบสีจางจะพลาดไปเอง ปล่อยได้ · หยุดชกนานเกินไปเขาจะฟื้นเลือด</p>
+          <div id="bsResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="bsFinal">0</div></div>
+          <p class="lowbatt" id="bsLow" hidden><b>แบตไม่พอ</b> — ศึกนี้ใช้ 20% ไปชาร์จก่อนนะครับ</p>
+          <button class="btn btn-go" id="bsPlay">เริ่มศึก</button>
+        </div>
+      </div>
+
+      <div class="brow2">
+        <div class="scores" style="flex:1;max-width:460px">
+          <div class="kpi"><b id="bsBest">0</b><span>Best</span></div>
+          <div class="kpi"><b id="bsHits">0</b><span>Hits</span></div>
+          <div class="kpi"><b id="bsBlock">0</b><span>สกัดได้</span></div>
+        </div>
+        <p class="hint" style="flex:1;min-width:220px">หมัดจรวดพุ่งไปทางที่นิ้วแตะ ต้องเล็งเอง · ระยะที่ 2 มุซันจะย้ายที่ · ระยะที่ 3 ใบมีดมาเป็นชุดและฟื้นเลือดไวขึ้น · โดนห้าครั้งแพ้</p>
       </div>
     </div>
   </section>
@@ -2109,7 +2289,7 @@ const BATT = (function(){
   const MAX = 100;
   const DRAIN_PER_HOUR = 25;         // ลดเองตามเวลา ~4 ชั่วโมงหมดก้อน จะได้กลับมาดูแลบ่อย ๆ
   const PER_TAP = 0.55;              // กดหนึ่งทีได้เท่าไหร่
-  const COST = { drill:12, guard:15 };    // เล่นเกมหนึ่งรอบใช้เท่าไหร่
+  const COST = { drill:12, guard:15, boss:20 };    // เล่นเกมหนึ่งรอบใช้เท่าไหร่
 
   function read(){
     const raw = parseFloat(LS.get('baymax.batt','100'));
@@ -2774,6 +2954,307 @@ if (owner) { closeGate(); } else { openGate('register'); }
   document.getElementById('vcEnd').addEventListener('click', endCall);
   document.getElementById('vcCancel').addEventListener('click', endCall);
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) endCall(); });
+})();
+
+/* =========================================================
+   4.4 · เกม 4 — ศึกกับมุซัน (บอสไฟต์)
+   สนาม 160 x 120 หน่วย นิ้วเดียวสองหน้าที่ แตะบอส = ชก แตะใบมีด = สกัด
+   ========================================================= */
+(function(){
+  const field = document.getElementById('bsField');
+  if (!field) return;
+  const boss   = document.getElementById('bsBoss');
+  const hero   = document.getElementById('bsHero');
+  const sLayer = document.getElementById('bsShots');
+  const bLayer = document.getElementById('bsBlades');
+  const bitL   = document.getElementById('bsBits');
+  const ovl    = document.getElementById('bsOvl');
+  const hpFill = document.getElementById('bsHp');
+  const hpTag  = document.getElementById('bsPhase');
+  const heartsEl = document.getElementById('bsHearts');
+  const elScore= document.getElementById('bsScore');
+  const elHits = document.getElementById('bsHits');
+  const elBlock= document.getElementById('bsBlock');
+  const elBest = document.getElementById('bsBest');
+  const bigTag = document.getElementById('bsBig');
+  const playBtn= document.getElementById('bsPlay');
+  const hpWrap = field.querySelector('.bs-hpbar');
+
+  const W = 160, H = 120, MAX_HP = 5, BOSS_HP = 280, SHOT_GAP = 155;
+  const REGEN_WAIT = 1100;                       // หยุดชกนานเกินนี้ มุซันเริ่มฟื้นตัว
+  const HERO_X = W/2, HERO_Y = 106, HIT_W = 13;
+  const pctX = (x) => (x / W * 100) + '%';
+  const pctY = (y) => (y / H * 100) + '%';
+
+  const FIST =
+    '<svg viewBox="0 0 22 32" aria-hidden="true">' +
+      '<path d="M11 2l-4 6h8z" fill="#F0575F"/>' +
+      '<rect x="3" y="8" width="16" height="22" rx="8" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.2"/>' +
+      '<path d="M7 20h8" stroke="#D3E1EC" stroke-width="2" stroke-linecap="round"/>' +
+    '</svg>';
+  const BLADE =
+    '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+      '<path d="M20 3c7 5 12 10 15 17-6-3-10-4-15-4s-9 1-15 4C8 13 13 8 20 3z" fill="#E0303C" stroke="#7A1620" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M20 37c-7-5-12-10-15-17 6 3 10 4 15 4s9-1 15-4c-3 7-8 12-15 17z" fill="#B8202C" stroke="#7A1620" stroke-width="2" stroke-linejoin="round"/>' +
+      '<circle cx="20" cy="20" r="3.4" fill="#FFD9DC"/>' +
+    '</svg>';
+
+  let best = parseInt(LS.get('baymax.bossBest','0'), 10) || 0;
+  elBest.textContent = best;
+  const hubBest = document.getElementById('hubBestBoss');
+  if (hubBest) hubBest.textContent = best;
+
+  let S = null, raf = 0, lastShot = 0;
+
+  function hearts(n){
+    heartsEl.innerHTML = '';
+    for (let i = 0; i < MAX_HP; i++){
+      const i2 = document.createElement('i');
+      if (i >= n) i2.className = 'gone';
+      heartsEl.appendChild(i2);
+    }
+  }
+  function bits(x, y, color, n){
+    for (let i = 0; i < n; i++){
+      const b = document.createElement('div');
+      b.className = 'bit';
+      b.style.background = color;
+      b.style.left = pctX(x); b.style.top = pctY(y);
+      const a = Math.random()*Math.PI*2, d = 16 + Math.random()*26;
+      b.animate([{ transform:'translate(-50%,-50%) scale(1)', opacity:1 },
+                 { transform:'translate(' + (-50+Math.cos(a)*d) + '%,' + (-50+Math.sin(a)*d) + '%) scale(0)', opacity:0 }],
+                { duration:380 + Math.random()*200, easing:'ease-out' });
+      bitL.appendChild(b);
+      setTimeout(() => b.remove(), 620);
+    }
+  }
+  const bossX = () => S ? S.bx : W/2;
+  const bossY = () => 0.31 * H;      // ต้องตรงกับ .bs-boss{top} ใน CSS
+
+  function paintHp(){
+    hpFill.style.width = Math.max(0, S.boss / BOSS_HP * 100) + '%';
+    hpTag.textContent = S.heal ? 'ระยะที่ ' + S.phase + ' · กำลังฟื้นตัว'
+                               : 'ระยะที่ ' + S.phase + ' · มุซัน';
+  }
+
+  function setPhase(p){
+    S.phase = p;
+    field.classList.toggle('rage', p >= 3);
+    bigTag.textContent = 'ระยะที่ ' + p;
+    bigTag.classList.remove('show'); void bigTag.offsetWidth; bigTag.classList.add('show');
+    boss.classList.remove('cast'); void boss.offsetWidth; boss.classList.add('cast');
+    S.nextCast = performance.now() + 900;
+    paintHp();
+  }
+
+  function moveBoss(){
+    S.bx = 34 + Math.random() * (W - 68);
+    boss.style.left = pctX(S.bx);
+  }
+
+  /* หมัดพุ่งไปทางที่นิ้วแตะ — เล็งเองว่าจะยิงตรงตัวมุซันตรงไหน */
+  function shoot(tx, ty){
+    const now = performance.now();
+    if (now - lastShot < SHOT_GAP) return;
+    lastShot = now;
+    const x = HERO_X, y = HERO_Y - 12;
+    const dx = tx - x, dy = Math.min(ty - y, -14);
+    const d = Math.hypot(dx, dy) || 1;
+    const el = document.createElement('div');
+    el.className = 'bsshot';
+    el.innerHTML = FIST;
+    el.style.setProperty('--rot', (Math.atan2(dy, dx) * 180 / Math.PI + 90) + 'deg');
+    sLayer.appendChild(el);
+    S.shots.push({ el, x, y, vx: dx/d*140, vy: dy/d*140 });
+    hero.classList.remove('punch'); void hero.offsetWidth; hero.classList.add('punch');
+    if (navigator.vibrate) { try { navigator.vibrate(7); } catch(e){} }
+  }
+  function toField(e){
+    const r = field.getBoundingClientRect();
+    return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
+  }
+
+  function castBlades(){
+    const n = S.phase === 1 ? 1 : S.phase === 2 ? 2 : 3;
+    boss.classList.remove('cast'); void boss.offsetWidth; boss.classList.add('cast');
+    for (let i = 0; i < n; i++){
+      const el = document.createElement('div');
+      el.className = 'bsblade';
+      el.innerHTML = BLADE;
+      bLayer.appendChild(el);
+      const x = bossX() + (Math.random()-0.5) * 26;
+      const y = bossY() + 10;
+      /* ครึ่งหนึ่งเล็งมาที่ตัวจริง ๆ อีกครึ่งพุ่งเฉียดไป — ต้องดูให้ออกว่าใบไหนควรเสียนิ้วไปสกัด */
+      const aimed = Math.random() < 0.55;
+      const spread = aimed ? (Math.random()-0.5) * (HIT_W*1.4)
+                           : (Math.random() < 0.5 ? -1 : 1) * (HIT_W + 6 + Math.random()*22);
+      const tx = HERO_X + spread, ty = HERO_Y;
+      const d = Math.hypot(tx-x, ty-y) || 1;
+      const spd = (S.phase === 1 ? 34 : S.phase === 2 ? 42 : 48) + Math.min(12, S.wave*0.6);
+      const b = { el, x, y, vx:(tx-x)/d*spd, vy:(ty-y)/d*spd };
+      el.classList.add(Math.abs(spread) < HIT_W ? 'hot' : 'cold');
+      el.addEventListener('pointerdown', (e) => { e.stopPropagation(); popBlade(b); });
+      S.blades.push(b);
+      el.style.left = pctX(x); el.style.top = pctY(y);
+    }
+    S.wave++;
+  }
+
+  function popBlade(b){
+    if (!S || S.over) return;
+    const i = S.blades.indexOf(b);
+    if (i < 0) return;
+    bits(b.x, b.y, '#E0303C', 7);
+    b.el.remove(); S.blades.splice(i,1);
+    S.block++; S.score += 25;
+    elBlock.textContent = S.block;
+    if (navigator.vibrate) { try { navigator.vibrate(9); } catch(e){} }
+  }
+
+  function hurt(){
+    S.hp--;
+    hearts(S.hp);
+    hero.classList.add('hurt');
+    setTimeout(() => hero.classList.remove('hurt'), 850);
+    field.classList.remove('shake'); void field.offsetWidth; field.classList.add('shake');
+    if (navigator.vibrate) { try { navigator.vibrate([18,40,18]); } catch(e){} }
+    if (S.hp <= 0) end(false);
+  }
+
+  function loop(now){
+    if (!S || S.over || S.paused) return;
+    const dt = Math.min(0.05, (now - S.last)/1000); S.last = now;
+
+    /* อสูรที่ฟื้นตัวได้ไม่รู้จบ — มัวแต่ตั้งรับอย่างเดียวไม่มีวันชนะ */
+    const healing = S.boss < BOSS_HP && (now - S.lastHit) > REGEN_WAIT;
+    if (healing){
+      const rate = S.phase === 1 ? 5 : S.phase === 2 ? 7 : 9;
+      S.boss = Math.min(BOSS_HP, S.boss + rate * dt);
+    }
+    if (healing !== S.heal){
+      S.heal = healing;
+      hpWrap.classList.toggle('regen', healing);
+    }
+    if (healing) paintHp();
+
+    if (now >= S.nextCast){
+      castBlades();
+      const gap = S.phase === 1 ? 1550 : S.phase === 2 ? 1250 : 1050;
+      S.nextCast = now + gap * (0.8 + Math.random()*0.4);
+      if (S.phase >= 2 && Math.random() < 0.55) moveBoss();
+    }
+
+    for (let i = S.shots.length - 1; i >= 0; i--){
+      const s = S.shots[i];
+      s.x += s.vx * dt; s.y += s.vy * dt;
+      if (s.y < -8 || s.x < -8 || s.x > W + 8){ s.el.remove(); S.shots.splice(i,1); continue; }
+      s.el.style.left = pctX(s.x); s.el.style.top = pctY(s.y);
+      if (Math.abs(s.x - bossX()) < 15 && Math.abs(s.y - bossY()) < 20){
+        s.el.remove(); S.shots.splice(i,1);
+        S.boss -= 5; S.hits++; S.score += 18; S.lastHit = now;
+        elHits.textContent = S.hits;
+        bits(s.x, s.y, '#FFD9DC', 6);
+        boss.classList.remove('ouch'); void boss.offsetWidth; boss.classList.add('ouch');
+        paintHp();
+        if (S.boss <= 0){ end(true); return; }
+        if (S.phase === 1 && S.boss <= BOSS_HP*0.66) setPhase(2);
+        else if (S.phase === 2 && S.boss <= BOSS_HP*0.33) setPhase(3);
+      }
+    }
+
+    for (let i = S.blades.length - 1; i >= 0; i--){
+      const b = S.blades[i];
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      b.el.style.left = pctX(b.x); b.el.style.top = pctY(b.y);
+      if (b.y > HERO_Y - 6 && Math.abs(b.x - HERO_X) < HIT_W){
+        bits(b.x, b.y, '#F0575F', 8);
+        b.el.remove(); S.blades.splice(i,1);
+        hurt();
+        if (S.over) return;
+      } else if (b.y > H + 10){
+        b.el.remove(); S.blades.splice(i,1);
+        S.score += 8;                        // ปล่อยใบที่พลาดเองผ่านไป = อ่านเกมถูก
+      }
+    }
+
+    S.score += 4*dt;
+    elScore.textContent = Math.round(S.score);
+    raf = requestAnimationFrame(loop);
+  }
+
+  function clearField(){ sLayer.innerHTML = ''; bLayer.innerHTML = ''; bitL.innerHTML = ''; }
+
+  function end(win){
+    S.over = true;
+    cancelAnimationFrame(raf);
+    clearField();
+    field.classList.remove('rage');
+    hpWrap.classList.remove('regen');
+    S.heal = false; paintHp();
+    if (win) S.score += 900 + S.hp * 220;
+    const sc = Math.round(S.score);
+    const record = sc > best;
+    if (record){ best = sc; LS.set('baymax.bossBest', String(best)); elBest.textContent = best;
+                 if (hubBest) hubBest.textContent = best; }
+    const gotBox = BOXES.add(sc);
+    document.getElementById('bsFinal').textContent = sc;
+    document.getElementById('bsResult').hidden = false;
+    document.getElementById('bsTitle').textContent =
+      win ? 'ปราบมุซันได้แล้ว!' : gotBox ? 'ได้กล่องสุ่ม!' : record ? 'สถิติใหม่' : 'พ่ายให้อสูร';
+    document.getElementById('bsText').textContent =
+      win ? 'อสูรที่ฟื้นตัวได้ไม่รู้จบ ก็ยังแพ้หุ่นพยาบาลที่ไม่ยอมทิ้งใครไว้ข้างหลัง'
+    : gotBox ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
+    : 'ชกโดน ' + S.hits + ' ครั้ง สกัดใบมีดได้ ' + S.block + ' ใบ ลองใหม่อีกรอบไหม';
+    if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
+    playBtn.textContent = 'สู้อีกรอบ';
+    ovl.hidden = false;
+  }
+
+  function start(){
+    if (!BATT.spend('boss')){
+      document.getElementById('bsLow').hidden = false;
+      return;
+    }
+    document.getElementById('bsLow').hidden = true;
+    clearField();
+    const t = performance.now();
+    S = { hp:MAX_HP, boss:BOSS_HP, phase:1, wave:0, score:0, hits:0, block:0, bx:W/2,
+          shots:[], blades:[], over:false, paused:false, heal:false,
+          last:t, lastHit:t, nextCast:t + 1500 };
+    hpWrap.classList.remove('regen');
+    hearts(MAX_HP);
+    boss.style.left = pctX(S.bx);
+    elScore.textContent = '0'; elHits.textContent = '0'; elBlock.textContent = '0';
+    field.classList.remove('rage');
+    paintHp();
+    ovl.hidden = true; document.getElementById('bsResult').hidden = true;
+    field.focus({ preventScroll:true });
+    raf = requestAnimationFrame(loop);
+  }
+
+  playBtn.addEventListener('click', start);
+  /* แตะที่ไหนก็ชกไปทางนั้น ส่วนใบมีดมี handler ของตัวเองที่ stopPropagation ไว้แล้ว */
+  field.addEventListener('pointerdown', (e) => {
+    if (!S || S.over || S.paused) return;
+    const p = toField(e);
+    shoot(p.x, p.y);
+  });
+
+  function pause(){ if (S && !S.over && !S.paused){ S.paused = true; cancelAnimationFrame(raf); } }
+  function resume(){
+    if (!S || S.over || !S.paused) return;
+    const now = performance.now();
+    const gap = now - S.last;
+    S.paused = false; S.last = now; S.lastHit = now;
+    S.nextCast += gap;                          // อย่าให้ใบมีดถล่มทันทีที่กลับมา
+    raf = requestAnimationFrame(loop);
+  }
+  document.addEventListener('visibilitychange', () => { document.hidden ? pause() : resume(); });
+  document.addEventListener('baymax:view', (e) => {
+    if (e.detail.tab === 'games' && e.detail.game === 'boss') resume(); else pause();
+  });
+
+  hearts(MAX_HP);
 })();
 
 /* =========================================================
@@ -4546,6 +5027,8 @@ const TABS = (function(){
     bestDrill.textContent  = parseInt(LS.get('baymax.best','0'), 10) || 0;
     const bg = document.getElementById('hubBestGuard');
     if (bg) bg.textContent = parseInt(LS.get('baymax.guardBest','0'), 10) || 0;
+    const bb = document.getElementById('hubBestBoss');
+    if (bb) bb.textContent = parseInt(LS.get('baymax.bossBest','0'), 10) || 0;
     if (!ptsBar) return;
     const p = BOXES.pts(), n = BOXES.need(), boxes = BOXES.get();
     ptsBar.style.width = Math.min(100, p / n * 100) + '%';
@@ -4558,7 +5041,7 @@ const TABS = (function(){
   function setGame(id){
     if (id === curGame) return;
     curGame = id;
-    document.body.classList.remove('game-none','game-charge','game-drill','game-guard');
+    document.body.classList.remove('game-none','game-charge','game-drill','game-guard','game-boss');
     document.body.classList.add('game-' + id);
     if (id === 'none') refreshHub();
     top(); emit();
