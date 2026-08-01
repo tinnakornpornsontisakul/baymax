@@ -74,7 +74,8 @@
   .btn,.pbtn,.tabbtn,.wopt,.vc-chip,.gcardbtn,.gback,.leak,.bx-open,.bx-gift,.mode{
     -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   body.locked{overflow:hidden}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 24px calc(120px + env(safe-area-inset-bottom))}
+  /* เว้นด้านบนไว้ให้ป้ายแบตที่ลอยอยู่มุมขวา */
+  .wrap{max-width:1000px;margin:0 auto;padding:44px 24px calc(120px + env(safe-area-inset-bottom))}
 
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
   .card{background:var(--vinyl);border:1px solid var(--line);border-radius:26px;box-shadow:0 12px 28px -22px rgba(43,58,71,.55)}
@@ -139,7 +140,7 @@
   .installed-note{background:#EAF9F4;border:1px solid #B7E5D8;border-radius:16px;padding:13px 16px;font-size:13.5px}
 
   /* ============ hero ============ */
-  header{padding-top:44px}
+  header{padding-top:4px}
   .tag{display:inline-flex;align-items:center;gap:8px;background:var(--vinyl);border:1px solid var(--line);border-radius:999px;padding:7px 16px}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(99,205,180,.7);animation:pulse 2.4s infinite}
   @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(99,205,180,0)}100%{box-shadow:0 0 0 0 rgba(99,205,180,0)}}
@@ -631,6 +632,24 @@
   .offline-note b{color:var(--ink);font-family:var(--display);font-weight:600}
   body.is-installed .offline-note{background:#E8F7F3;border-color:#B7E5D8;border-style:solid}
 
+  /* ============ ป้ายแบตเตอรี่ ============ */
+  .battpill{position:fixed;z-index:62;top:calc(10px + env(safe-area-inset-top));right:12px;
+    display:flex;align-items:center;gap:8px;padding:6px 13px 6px 9px;border-radius:999px;cursor:pointer;
+    background:rgba(253,254,255,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border:1px solid var(--line);box-shadow:0 8px 18px -12px rgba(43,58,71,.6);
+    font-family:var(--mono);transition:transform .14s ease,border-color .25s ease}
+  .battpill:active{transform:scale(.94)}
+  .battpill:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .battpill b{font-size:12px;font-weight:500;color:var(--ink)}
+  .bp-ico{position:relative;width:24px;height:12px;border:1.8px solid var(--ink);border-radius:3.5px;
+    padding:1.5px;display:block}
+  .bp-ico::after{content:'';position:absolute;right:-4px;top:3px;width:2.4px;height:4px;border-radius:0 2px 2px 0;background:var(--ink)}
+  .bp-ico i{display:block;height:100%;border-radius:1.5px;background:var(--mint);transition:width .4s ease,background .4s ease}
+  .battpill.warn{border-color:#EAD4A0}
+  .battpill.low{border-color:var(--red);animation:bpLow 1.5s ease-in-out infinite}
+  @keyframes bpLow{0%,100%{box-shadow:0 8px 18px -12px rgba(43,58,71,.6)}50%{box-shadow:0 0 0 4px rgba(240,87,95,.16)}}
+  body.kb-open .battpill{display:none}
+
   /* ============ แท็บเมนูล่าง ============ */
   .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:center;gap:6px;
     transition:transform .22s ease;
@@ -676,7 +695,7 @@
   body.tab-wear .wrap > [data-tab]:not([data-tab="wear"]),
   body.tab-chat .wrap > [data-tab]:not([data-tab="chat"]){display:none;animation:none}
   body.tab-games #gamehub,body.tab-games #drill,body.tab-games #battle,body.tab-games #charge,
-  body.tab-wear #wardrobe,body.tab-chat #chatSec{margin-top:30px}
+  body.tab-wear #wardrobe,body.tab-chat #chatSec{margin-top:10px}
 
   /* ============ หน้าเลือกเกม ============ */
   body.game-none #drill,body.game-none #battle,body.game-none #charge{display:none}
@@ -970,7 +989,8 @@
   .ch-pop{position:absolute;pointer-events:none;z-index:3;font-family:var(--display);font-weight:700;
     font-size:19px;color:#B98A17;text-shadow:0 2px 0 rgba(255,255,255,.7)}
   .ch-spark{position:absolute;pointer-events:none;z-index:2;width:9px;height:9px;border-radius:2px}
-  .ch-stats{display:flex;gap:10px;margin-top:16px}
+  .ch-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px}
+  @media (max-width:520px){ .ch-stats{grid-template-columns:repeat(2,1fr)} }
   .ch-full{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:4px;z-index:4;
     background:rgba(255,250,235,.9);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:24px}
   .ch-full[hidden]{display:none}
@@ -1041,7 +1061,7 @@
     .steps,.modes,footer{grid-template-columns:1fr}
     .game{grid-template-columns:1fr;gap:20px;padding:18px}
     .arena{max-width:330px;margin:0 auto;width:100%}
-    .wrap{padding:0 18px calc(104px + env(safe-area-inset-bottom))}
+    .wrap{padding:42px 18px calc(104px + env(safe-area-inset-bottom))}
     .gcard{padding:28px 22px 24px}
     .grow{grid-template-columns:1fr}
 
@@ -1059,7 +1079,7 @@
     .brow2 .hint{min-width:0!important}
 
     /* หน้าเกม — หัวข้อกระชับ เหลือพื้นที่ให้สนามมากขึ้น */
-    body.tab-games #drill,body.tab-games #battle,body.tab-games #charge{margin-top:18px}
+    body.tab-games #drill,body.tab-games #battle,body.tab-games #charge{margin-top:6px}
     #drill .gback,#battle .gback,#charge .gback{margin-bottom:11px}
     #drill .sec-head,#battle .sec-head,#charge .sec-head{margin-bottom:16px}
     #drill .sec-head p,#battle .sec-head p{display:none}
@@ -1501,9 +1521,10 @@
       <div class="ch-stats">
         <div class="kpi"><b id="chTaps">0</b><span>Taps รอบนี้</span></div>
         <div class="kpi"><b id="chCombo">x1</b><span>Combo</span></div>
+        <div class="kpi"><b id="chPts">0</b><span>แต้มรอบนี้</span></div>
         <div class="kpi"><b id="chTotal">0</b><span>กดสะสม</span></div>
       </div>
-      <p class="hint">แบตลดเองชั่วโมงละ 6% · ซ้อมปะรอยรั่วใช้ 12% · ซ้อมรบใช้ 15%</p>
+      <p class="hint">กดแล้วได้ทั้งแบตและแต้มดูแล · แบตลดเองชั่วโมงละ 25% · ซ้อมปะรอยรั่วใช้ 12% · ซ้อมรบใช้ 15%</p>
     </div>
   </section>
 
@@ -1799,6 +1820,12 @@
 
 </div>
 
+<!-- ===================== แบตเตอรี่ (เห็นตลอดทุกหน้า) ===================== -->
+<button class="battpill" id="battPill" type="button" aria-label="แบตเตอรี่ของ Baymax">
+  <span class="bp-ico"><i id="bpFill"></i></span>
+  <b id="bpPct">100%</b>
+</button>
+
 <!-- ===================== แท็บเมนูล่าง ===================== -->
 <nav class="tabbar" id="tabbar" aria-label="เมนูหลัก">
   <button class="tabbtn active" type="button" data-tab="manual" aria-current="page">
@@ -2035,7 +2062,7 @@ const BOXES = (function(){
    ========================================================= */
 const BATT = (function(){
   const MAX = 100;
-  const DRAIN_PER_HOUR = 6;          // ลดเองตามเวลา
+  const DRAIN_PER_HOUR = 25;         // ลดเองตามเวลา ~4 ชั่วโมงหมดก้อน จะได้กลับมาดูแลบ่อย ๆ
   const PER_TAP = 0.55;              // กดหนึ่งทีได้เท่าไหร่
   const COST = { drill:12, battle:15 };   // เล่นเกมหนึ่งรอบใช้เท่าไหร่
 
@@ -2068,9 +2095,31 @@ const BATT = (function(){
     },
     enough: (kind) => read() >= (COST[kind] || 0)
   };
-  /* ให้ตัวเลขไหลลงเรื่อย ๆ ระหว่างเปิดแอปค้างไว้ */
-  setInterval(emit, 30000);
+  /* ให้ตัวเลขไหลลงเรื่อย ๆ ระหว่างเปิดแอปค้างไว้ แม้ไม่ได้เล่นอะไร */
+  setInterval(emit, 15000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) emit(); });
   return api;
+})();
+
+/* ป้ายแบตมุมขวาบน — เห็นได้ทุกหน้า กดแล้วพาไปชาร์จ */
+(function(){
+  const pill = document.getElementById('battPill');
+  if (!pill) return;
+  const fill = document.getElementById('bpFill');
+  const pct  = document.getElementById('bpPct');
+
+  function paint(){
+    const v = BATT.get(), p = Math.round(v);
+    fill.style.width = v + '%';
+    fill.style.background = v > 55 ? 'var(--mint)' : v > 25 ? '#FFC861' : 'var(--red)';
+    pct.textContent = p + '%';
+    pill.classList.toggle('warn', v <= 55 && v > 25);
+    pill.classList.toggle('low', v <= 25);
+    pill.setAttribute('aria-label', 'แบตเตอรี่ของ Baymax ' + p + ' เปอร์เซ็นต์ กดเพื่อไปชาร์จ');
+  }
+  pill.addEventListener('click', () => { TABS.go('games'); TABS.game('charge'); });
+  document.addEventListener('baymax:batt', paint);
+  paint();
 })();
 
 /* =========================================================
@@ -2206,8 +2255,25 @@ if (owner) { closeGate(); } else { openGate('register'); }
   ];
   let expIdx = 0;
 
+  const ptsEl = document.getElementById('chPts');
   let taps = 0, combo = 1, lastTap = 0, comboTO = 0, poseTO = 0;
   let total = parseInt(LS.get('baymax.taps','0'), 10) || 0;
+  let sessionPts = 0, pending = 0, flushTO = 0;
+
+  /* รวมแต้มก่อนแล้วค่อยส่งทีเดียว จะได้ไม่ยิงอีเวนต์ทุกครั้งที่กด */
+  function earn(n){
+    pending += n;
+    sessionPts += n;
+    ptsEl.textContent = Math.floor(sessionPts).toLocaleString('th-TH');
+    clearTimeout(flushTO);
+    flushTO = setTimeout(() => {
+      const n2 = Math.floor(pending);
+      if (n2 < 1) return;
+      pending -= n2;
+      const got = BOXES.add(n2);
+      if (got) BOXES.toast('🎁 แต้มครบ ได้กล่องสุ่ม ' + got + ' กล่อง!');
+    }, 700);
+  }
 
   const full = () => document.createElement('div');
 
@@ -2251,7 +2317,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   }
 
   function tap(e){
-    if (BATT.get() >= BATT.MAX){ paint(); return; }
+    const wasFull = BATT.get() >= BATT.MAX;   // เต็มแล้วยังกดเล่นได้ แค่ไม่เพิ่มแบต
     const now = performance.now();
     combo = (now - lastTap < 620) ? Math.min(10, combo + 1) : 1;
     lastTap = now;
@@ -2260,8 +2326,8 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
     taps++; total++;
     LS.set('baymax.taps', String(total));
-    const gain = BATT.PER_TAP * (1 + (combo - 1) * 0.12);
-    BATT.add(gain);
+    if (!wasFull) BATT.add(BATT.PER_TAP * (1 + (combo - 1) * 0.12));
+    earn(1 + combo * 0.35);           // ดูแลเขาก็ได้แต้มเหมือนกัน
 
     const r = stage.getBoundingClientRect();
     const x = (e && e.clientX ? e.clientX - r.left : r.width/2);
@@ -2289,7 +2355,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     paint();
 
     if (navigator.vibrate) { try { navigator.vibrate(combo >= 5 ? 14 : 8); } catch(err){} }
-    if (BATT.get() >= BATT.MAX) BOXES.toast('🔋 แบตเต็มแล้ว เขาพร้อมลุยทุกเกมเลยครับ');
+    if (!wasFull && BATT.get() >= BATT.MAX) BOXES.toast('🔋 แบตเต็มแล้ว เขาพร้อมลุยทุกเกมเลยครับ');
   }
 
   stage.addEventListener('pointerdown', tap);
@@ -2299,7 +2365,11 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
   document.addEventListener('baymax:batt', paint);
   document.addEventListener('baymax:view', (e) => {
-    if (e.detail.tab === 'games'){ taps = 0; tapsEl.textContent = '0'; paint(); }
+    if (e.detail.tab === 'games'){
+      taps = 0; sessionPts = 0;
+      tapsEl.textContent = '0'; ptsEl.textContent = '0';
+      paint();
+    }
   });
 
   exp.innerHTML = EXPS[0];
@@ -4010,12 +4080,19 @@ const WEAR = (function(){
   const today = () => { const d = new Date();
     return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); };
 
+  /* ของขวัญประจำเวอร์ชัน — แจกครั้งเดียวต่อรหัสหนึ่งอัน ใครอัปเดตมาก็ได้รับ */
+  const DROP = { id:'v330-street', boxes:30 };
+
   function claimDaily(){
-    let boxes = BOXES.get(), got = 0;
+    let boxes = BOXES.get(), got = 0, drop = 0;
     if (LS.get('baymax.welcomed','') !== '1'){ boxes += 3; got += 3; LS.set('baymax.welcomed','1'); }
+    if (LS.get('baymax.drop','') !== DROP.id){
+      boxes += DROP.boxes; drop = DROP.boxes;
+      LS.set('baymax.drop', DROP.id);
+    }
     if (LS.get('baymax.lastFree','') !== today()){ boxes += 1; got += 1; LS.set('baymax.lastFree', today()); }
-    if (got) BOXES.set(boxes);
-    return got;
+    if (got || drop) BOXES.set(boxes);
+    return { got, drop };
   }
 
   /* ตอนนี้เหลือแค่ปุ่มกลางแถบล่าง ความคืบหน้าไปดูที่คลังสะสมแทน */
@@ -4312,7 +4389,10 @@ const WEAR = (function(){
 
   const fresh = claimDaily();
   render();
-  paintBox(fresh ? (fresh > 1 ? 'ยินดีต้อนรับ! รับไป ' + fresh + ' กล่องเลย' : 'กล่องฟรีประจำวันมาแล้ว เปิดได้เลย') : null);
+  paintBox(
+    fresh.drop ? '🎁 ของขวัญเวอร์ชันใหม่ รับไป ' + fresh.drop + ' กล่องเลยครับ'
+  : fresh.got > 1 ? 'ยินดีต้อนรับ! รับไป ' + fresh.got + ' กล่องเลย'
+  : fresh.got ? 'กล่องฟรีประจำวันมาแล้ว เปิดได้เลย' : null);
 })();
 
 /* =========================================================
