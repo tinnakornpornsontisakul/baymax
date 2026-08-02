@@ -4503,16 +4503,9 @@ const WEAR = (function(){
     { id:'butter', name:'เหลืองนวล',  c:'#FCEBBE' },
     { id:'lilac',  name:'ลาเวนเดอร์', c:'#E0D9F6' },
     { id:'gold',   name:'ทองคำแท้',   c:'#F2D98F' },
-    { id:'concrete', name:'เทาคอนกรีต', c:'#D6DCE4' }
+    { id:'cocoa',  name:'โกโก้นม',     c:'#EAD3B8' },
+    { id:'aurora', name:'ออโรร่าพาสเทล', c:'#EFD9F4' }
   ];
-  /* โลโก้หัวเกรย์ฮาวด์ของ SMILEYHOUND วาดในกล่อง 0..26 x 0..40 แล้วค่อยย่อไปวางที่อก */
-  const SH_HEAD = (c, ink) =>
-    '<path d="M1 16C2 12 6 9 12 7c1-3 2.5-5 4-3 1.5-2.5 4-2 4.5 1.5' +
-    'C23 9 23.5 13 22.5 17c-1 5-1.5 13-.5 23h-9c-.5-8-.5-15 0-19' +
-    '-4-.5-9-2.5-11.2-3.4C.8 17.2.6 16.6 1 16z" fill="' + c + '"/>' +
-    '<circle cx="15" cy="11" r="1.4" fill="' + ink + '"/>' +
-    '<path d="M4 16.4c2.6 1 5.4 1.7 7.6 2" fill="none" stroke="' + ink + '" stroke-width="1" stroke-linecap="round"/>';
-
   const HATS = [
     { id:'none', name:'ไม่ใส่', svg:'' },
     { id:'nurse', name:'หมวกพยาบาล', svg:
@@ -4538,11 +4531,17 @@ const WEAR = (function(){
       '<path d="M50 6.6v14.9" stroke="#FDFEFF" stroke-width="3.2" opacity=".85"/>' +
       '<path d="M36 12.8q14-5.6 28 0" fill="none" stroke="#FDFEFF" stroke-width="1.8" opacity=".5"/>' +
       '<path d="M31.5 21.5h37" stroke="#2B3A47" stroke-width="1.8"/>' },
-    { id:'shcap', name:'หมวกแก๊ป SH', svg:
-      '<path d="M35 17.6C35 9.4 41.6 4.2 50 4.2s15 5.2 15 13.4z" fill="#16181C" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
-      '<path d="M64 13.4c6.2.5 9.4 2.4 10 5.2H62.4z" fill="#16181C" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
-      '<g transform="translate(46.4 6.6) scale(.2)">' + SH_HEAD('#FDFEFF', '#16181C') + '</g>' +
-      '<circle cx="50" cy="4.6" r="1.5" fill="#FDFEFF" opacity=".85"/>' },
+    { id:'bearears', name:'หูหมีขนนุ่ม', svg:
+      '<circle cx="37.5" cy="12.5" r="6" fill="#B98A5E" stroke="#2B3A47" stroke-width="2"/>' +
+      '<circle cx="37.5" cy="12.5" r="2.9" fill="#EAD3B8"/>' +
+      '<circle cx="62.5" cy="12.5" r="6" fill="#B98A5E" stroke="#2B3A47" stroke-width="2"/>' +
+      '<circle cx="62.5" cy="12.5" r="2.9" fill="#EAD3B8"/>' },
+    { id:'unihorn', name:'เขายูนิคอร์น', svg:
+      '<path d="M50 0.8 46.4 13.6h7.2z" fill="#F2C879" stroke="#C99A3C" stroke-width="1.6" stroke-linejoin="round"/>' +
+      '<path d="M47.5 9.8h5.4M48.6 5.9h3.4" stroke="#C99A3C" stroke-width="1.1"/>' +
+      '<circle cx="42.5" cy="13.8" r="2.6" fill="#FBD8DC"/>' +
+      '<circle cx="57.5" cy="13.8" r="2.6" fill="#C6EDE1"/>' +
+      '<circle cx="46" cy="15.8" r="2.2" fill="#E0D9F6"/>' },
     { id:'armor', name:'หมวกเกราะรบ', svg:
       '<path d="M33 20.5C33 12.4 40.6 8 50 8s17 4.4 17 12.5z" fill="#F0575F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
       '<path d="M50 8V1.6c3.9 1.1 6 3.9 6.2 8.2z" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' +
@@ -4564,12 +4563,13 @@ const WEAR = (function(){
     { id:'patch', name:'พลาสเตอร์', svg:
       '<g transform="rotate(-18 61 18.5)"><rect x="54.5" y="15" width="13" height="7" rx="2.2" fill="#FFDE8A" stroke="#E7BF64" stroke-width="1.2"/>' +
       '<path d="M58.6 16.4v4.2M57 18.5h4.2" stroke="#E7BF64" stroke-width="1.1" stroke-linecap="round"/></g>' },
-    { id:'mask', name:'มาสก์ปิดปาก SH', svg:
-      '<path d="M34.6 25.8 31 22.2M65.4 25.8 69 22.2" stroke="#16181C" stroke-width="1.9" stroke-linecap="round"/>' +
-      '<path d="M34.4 25.6c5.2 2.4 26 2.4 31.2 0 .6 4.6-1.4 8.8-6.2 10.4-3.2 1.1-11.6 1.1-14.8 0-4.8-1.6-6.8-5.8-6.2-10.4z" ' +
-      'fill="#16181C" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' +
-      '<path d="M35.6 27.4c4.8 1.9 24 1.9 28.8 0" fill="none" stroke="#FDFEFF" stroke-width="1" opacity=".35"/>' +
-      '<g transform="translate(47.2 27.8) scale(.155)">' + SH_HEAD('#FDFEFF', '#16181C') + '</g>' },
+    { id:'bearnose', name:'จมูกหมี', svg:
+      '<ellipse cx="50" cy="27.6" rx="4.4" ry="3" fill="#6B4A32" stroke="#2B3A47" stroke-width="1.6"/>' +
+      '<ellipse cx="48.6" cy="26.7" rx="1.3" ry="0.8" fill="#9C7352"/>' +
+      '<path d="M50 30.4v1.4M50 31.8q-2 1.6-4 .4M50 31.8q2 1.6 4 .4" fill="none" stroke="#6B4A32" stroke-width="1.3" stroke-linecap="round"/>' },
+    { id:'starcheek', name:'ดาวติดแก้ม', svg:
+      '<path d="M60.5 23.4l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#F2C879" stroke="#C99A3C" stroke-width="1.2" stroke-linejoin="round"/>' +
+      '<circle cx="38" cy="28" r="2.1" fill="#FBD8DC"/>' },
     { id:'visor', name:'บังตาสแกน', svg:
       '<rect x="33.5" y="18.6" width="33" height="10" rx="5" fill="#63CDB4" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M37 22.4h25" stroke="#FDFEFF" stroke-width="1.7" opacity=".7"/>' +
@@ -4595,13 +4595,16 @@ const WEAR = (function(){
       '<path d="M44 36.5 47.5 46M56 36.5 52.5 46" stroke="#A9CCEA" stroke-width="2.4" stroke-linecap="round"/>' +
       '<circle cx="50" cy="50" r="6.2" fill="#FFDE8A" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<path d="M50 46.6l1.3 2.6 2.9.4-2.1 2 .5 2.9-2.6-1.4-2.6 1.4.5-2.9-2.1-2 2.9-.4z" fill="#F0575F"/>' },
-    { id:'chain', name:'สร้อยคอทอง SH', svg:
-      '<path d="M35.5 40.5q14.5 17 29 0" fill="none" stroke="#2B3A47" stroke-width="4.8" stroke-linecap="round"/>' +
-      '<path d="M35.5 40.5q14.5 17 29 0" fill="none" stroke="#E8C25A" stroke-width="3.2" stroke-linecap="round"/>' +
-      '<path d="M35.5 40.5q14.5 17 29 0" fill="none" stroke="#FFF2C6" stroke-width="1.1" stroke-linecap="round" ' +
-      'stroke-dasharray="1.3 2.7" opacity=".85"/>' +
-      '<circle cx="50" cy="53.4" r="1.7" fill="#E8C25A" stroke="#2B3A47" stroke-width="1"/>' +
-      '<g transform="translate(46.4 55.4) scale(.31)">' + SH_HEAD('#E8C25A', '#7A5A12') + '</g>' },
+    { id:'honey', name:'โถน้ำผึ้งจิ๋ว', svg:
+      '<path d="M40 40q10 7 20 0" fill="none" stroke="#B98A5E" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path d="M44 52c-.8 6 .6 9.5 6 9.5s6.8-3.5 6-9.5c-.5-3.5-2.6-5-6-5s-5.5 1.5-6 5z" fill="#F2B04A" stroke="#2B3A47" stroke-width="1.7"/>' +
+      '<rect x="44.6" y="44.6" width="10.8" height="3.4" rx="1.7" fill="#EAD3B8" stroke="#2B3A47" stroke-width="1.4"/>' +
+      '<path d="M47.5 54q2.5 2.4 5 0v3q-2.5 2-5 0z" fill="#FFDE8A"/>' },
+    { id:'cloudwing', name:'ปีกเมฆนุ่ม', back:true, svg:
+      '<g fill="#FDFEFF" stroke="#A9CCEA" stroke-width="1.8" stroke-linejoin="round">' +
+      '<path d="M40 44c-8-6-19-4-24 4 6 0 9 2.4 11 6 4-2.6 9-6 13-10z"/>' +
+      '<path d="M60 44c8-6 19-4 24 4-6 0-9 2.4-11 6-4-2.6-9-6-13-10z"/>' +
+      '<circle cx="20" cy="57" r="3.6"/><circle cx="80" cy="57" r="3.6"/></g>' },
     { id:'wings', name:'ปีกจรวด', back:true, svg:
       '<path d="M41 41C26 38 12.5 44 6 56.5c11.5 2 18 8.5 21.5 18C33 61 37 49.5 41 41z" ' +
       'fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
@@ -4625,21 +4628,12 @@ const WEAR = (function(){
 
   /* ชุดที่จัดไว้ให้ครบเซ็ต — เก็บครบสี่ชิ้นแล้วใส่ทีเดียวได้ */
   const SETS = [
-    { id:'sh', name:'SMILEYHOUND STREET', badge:'SMILEYHOUND × BAYMAX', hot:true,
-      note:'คอลเลกชันสตรีทแวร์จาก SMILEYHOUND เจ้าของโลโก้เกรย์ฮาวด์ ทั้งสี่ชิ้นเป็นของลับระดับหายากที่สุดในเกม ครบทั้งเซ็ตเมื่อไหร่เขาจะเท่ที่สุดในซอย',
-      look:{ shell:'concrete', hat:'shcap', face:'mask', item:'chain' } },
-    { id:'hero', name:'ชุดฮีโร่ลับ', badge:'ของลับ',
-      note:'เกราะที่เด็กอัจฉริยะคนหนึ่งออกแบบให้เขาทั้งชุด ทุกชิ้นเป็นของลับที่เจอยากที่สุดในเกม ครบสี่ชิ้นเมื่อไหร่ เขาจะบินได้จริง',
-      look:{ shell:'gold', hat:'armor', face:'visor', item:'wings' } },
-    { id:'night', name:'ชุดเวรดึก', badge:'คลาสสิก',
-      note:'ชุดประจำกะดึกของหอผู้ป่วย เรียบง่ายแต่คนไข้ทุกคนจำได้',
-      look:{ shell:'sky', hat:'nurse', face:'patch', item:'badge' } },
-    { id:'party', name:'ชุดวันเกิด', badge:'สดใส',
-      note:'สำหรับวันที่ต้องไปร่วมงานฉลอง เขาบอกว่านี่คือชุดที่ทำให้คนยิ้มบ่อยที่สุด',
-      look:{ shell:'rose', hat:'party', face:'blush', item:'bowtie' } },
-    { id:'king', name:'ชุดราชา', badge:'หรูหรา',
-      note:'รวมของระดับตำนานไว้ในชุดเดียว ใครใส่ครบถือว่าผ่านด่านนักสะสมตัวจริง',
-      look:{ shell:'lilac', hat:'crown', face:'shades', item:'cape' } }
+    { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET', hot:true,
+      note:'เซ็ตของลับจากความฝันวัยเด็ก เขาทอง แผงคอพาสเทล ดาวติดแก้ม และปีกเมฆนุ่ม ครบสี่ชิ้นเมื่อไหร่เขาจะพาเดินเล่นบนรุ้ง',
+      look:{ shell:'aurora', hat:'unihorn', face:'starcheek', item:'cloudwing' } },
+    { id:'bear', name:'ชุดหมีอุ่นใจ', badge:'LEGEND SET',
+      note:'เซ็ตตำนานสายอบอุ่น หูหมีขนนุ่ม จมูกหมี สีโกโก้นม และโถน้ำผึ้งใบจิ๋ว รวมกันแล้วคือหมีที่กอดแล้วหายเหนื่อยที่สุดในโรงพยาบาล',
+      look:{ shell:'cocoa', hat:'bearears', face:'bearnose', item:'honey' } }
   ];
 
   /* ความหายาก — มีผลกับโอกาสออกจากกล่องและสีของฉากตอนเปิด */
@@ -4651,9 +4645,19 @@ const WEAR = (function(){
     'item:bowtie':'common','item:tie':'common',  'item:scarf':'rare', 'item:badge':'rare',   'item:cape':'legend',
     /* ของลับ — ออกจากกล่องยากมาก ไม่นับรวมกับของปกติ */
     'shell:gold':'secret', 'hat:armor':'secret', 'face:visor':'secret',
-    'item:wings':'secret', 'item:core':'secret', /* คอลแลป SMILEYHOUND — ของลับทั้งเซ็ต */
-    'shell:concrete':'secret', 'hat:shcap':'secret',
-    'face:mask':'secret',     'item:chain':'secret'
+    'item:wings':'secret', 'item:core':'secret',
+    'shell:cocoa':'สีนี้ผสมจากเฉดโกโก้ร้อนแก้วโปรดของเด็กในวอร์ดครับ เขาบอกว่าถ้าผมเป็นสีเดียวกับของอุ่น ๆ เวลากอดคงอุ่นขึ้นอีกเท่าตัว ผมวัดค่าจริงไม่ได้ แต่ผมเลือกจะเชื่อเขา',
+    'hat:bearears':'หูหมีคู่นี้เย็บจากผ้าห่มผืนเก่าของหอผู้ป่วยเด็กครับ เด็ก ๆ โหวตกันว่าผมควรมีหู ผมเลยมี ตั้งแต่นั้นเวลาผมเดินผ่าน ทุกคนจะขอจับหูคนละหนึ่งที',
+    'face:bearnose':'เด็ก ๆ ชอบเอานิ้วจิ้มจมูกนี้แล้วพูดว่า "บี๊บ" ครับ ผมเลยตั้งเสียงบี๊บจริง ๆ ไว้รอ ตอนนี้เป็นกิจกรรมที่มีคิวจองยาวที่สุดในวอร์ด',
+    'item:honey':'โถน้ำผึ้งที่มีน้ำผึ้งจริงอยู่ครึ่งช้อนครับ ผู้เชี่ยวชาญเรื่องหมีอายุห้าขวบยืนยันว่า หมีที่ไม่มีน้ำผึ้งติดตัวคือหมีที่ไม่น่าเชื่อถือ ผมจึงปฏิบัติตามอย่างเคร่งครัด',
+    'shell:aurora':'สีนี้เกิดจากแสงเช้าที่ลอดผ่านม่านห้องพักฟื้นครับ ช่างสีพยายามผสมตามอยู่สิบสามรอบ รอบสุดท้ายเขาวางพู่กันแล้วบอกว่า "พอแล้ว มันไม่เหมือน แต่มันสวยกว่า"',
+    'hat:unihorn':'ได้มาจากงานวันเกิดที่ผมไปเซอร์ไพรส์คนไข้ครับ เจ้าของวันเกิดยืนยันว่ายูนิคอร์นของแท้ต้องมีแผงคอสามสี ผมเลยได้แผงคอครบตามมาตรฐานยูนิคอร์น',
+    'face:starcheek':'ดาวดวงนี้เด็กคนหนึ่งแปะให้ตอนผมนั่งชาร์จแบตครับ เขากระซิบว่าเป็นดาวให้ความพยายาม ตั้งแต่นั้นผมพยายามทุกวัน ไม่ให้ดาวหลุด',
+    'item:cloudwing':'ปีกเมฆคู่นี้ไม่ได้ทำให้ผมบินได้ครับ แต่เวลาเด็ก ๆ เห็นแล้วตะโกนว่าผมลอยสวยมาก ผมถือว่ามันทำหน้าที่ของปีกครบถ้วนแล้ว',
+    /* เซ็ตหมีอุ่นใจ — ตำนานทั้งเซ็ต */
+    'shell:cocoa':'legend', 'hat:bearears':'legend', 'face:bearnose':'legend', 'item:honey':'legend',
+    /* เซ็ตยูนิคอร์นสายรุ้ง — ของลับทั้งเซ็ต */
+    'shell:aurora':'secret', 'hat:unihorn':'secret', 'face:starcheek':'secret', 'item:cloudwing':'secret'
   };
   const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน', secret:'ของลับ' };
 
@@ -4686,12 +4690,7 @@ const WEAR = (function(){
     'item:badge':'ไม่ใช่รางวัลทางการแพทย์ครับ เป็นเหรียญกีฬาสีของเด็กคนหนึ่งที่ยกให้ผม เพราะผมพาเขาทำกายภาพทุกวันจนกลับมาวิ่งได้อีกครั้ง',
     'item:cape':'ผมไม่ใช่ฮีโร่ครับ ผมเป็นหุ่นพยาบาล แต่เย็นวันหนึ่งมีเด็กตัวเล็ก ๆ เอาผ้าห่มมาผูกคอให้ แล้วบอกว่า "วันนี้คุณช่วยชีวิตคนไว้นะ" ผมเลยเก็บมันไว้',
     'item:wings':'ติดตั้งไว้สำหรับภารกิจกู้ภัยทางอากาศครับ ผมบินได้จริง ความเร็วสูงสุด 90 กิโลเมตรต่อชั่วโมง แต่ผมบินไปได้ไกลแค่ที่ที่ยังมีคนต้องการผมเท่านั้น',
-    'item:core':'นี่คือชิปการดูแลของผมครับ เป็นหัวใจของเครื่องนี้ทั้งเครื่อง ถ้าวันหนึ่งเหลืออยู่แค่ชิ้นเดียวและมีใครถอดมันออกมาได้ ผมก็จะกลับมาใหม่ได้เสมอ',
-
-    'shell:concrete':'เฉดสีที่ทีมออกแบบของ SMILEYHOUND เลือกมาให้ผมโดยเฉพาะครับ เขาบอกว่าอยากได้สีเดียวกับตัวเกรย์ฮาวด์ในโลโก้ ผมเลยได้ใส่สีของญาติห่าง ๆ ของผมเอง',
-    'hat:shcap':'หมวกใบนี้ผลิตออกมาแค่ล็อตทดลองครับ ด้านในเย็บป้ายไว้ว่า "ให้คนที่วิ่งไปหาคนอื่นเสมอ" ผมยังไม่กล้าถามว่าเขาหมายถึงหมาหรือหมายถึงผม',
-    'face:mask':'มาสก์ปิดปากลายเกรย์ฮาวด์ครับ ผมไม่ต้องหายใจก็เลยไม่จำเป็นต้องใส่ แต่หมอบอกว่าถ้าผมใส่ คนไข้จะกล้าใส่ตามมากขึ้น ผมเลยใส่ทุกวันตั้งแต่นั้นมา',
-    'item:chain':'สร้อยคอทองพร้อมจี้หัวเกรย์ฮาวด์ครับ ทีมออกแบบบอกว่าอยากให้ผมมีของที่ดู "แรง" สักชิ้น ผมเลยใส่ไว้ แต่ผมยังยืนกรานว่าผมเป็นหุ่นพยาบาลที่ใจดีที่สุดในซอยอยู่ดีครับ'
+    'item:core':'นี่คือชิปการดูแลของผมครับ เป็นหัวใจของเครื่องนี้ทั้งเครื่อง ถ้าวันหนึ่งเหลืออยู่แค่ชิ้นเดียวและมีใครถอดมันออกมาได้ ผมก็จะกลับมาใหม่ได้เสมอ'
   };
   const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
 
@@ -4838,6 +4837,13 @@ const BOT3D = (function(){
       -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
   }
   const cross = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+  /* หมุนรอบแกน Z ที่จุดหมุน (px,py) — ใช้ทำคอเอียงกับแขนโบก */
+  function rotZAbout(px, py, a){
+    const c = Math.cos(a), s = Math.sin(a), m = ident();
+    m[0]=c; m[1]=s; m[4]=-s; m[5]=c;
+    m[12]=px - c*px + s*py; m[13]=py - s*px - c*py;
+    return m;
+  }
   function norm3(v){ const l = Math.hypot(v[0],v[1],v[2]) || 1; return [v[0]/l, v[1]/l, v[2]/l]; }
   /* ย้าย → หมุน Z → หมุน Y → หมุน X → ย่อขยาย (พอสำหรับชิ้นส่วนหุ่น) */
   function compose(p, r, s){
@@ -5013,24 +5019,27 @@ const BOT3D = (function(){
     };
     const add = (mesh, pos, scale, color, o) => P.push({
       mesh, pos, scale, color, rot: (o && o.rot) || [0,0,0],
+      grp: (o && o.grp) || null, eye: !!(o && o.eye),
       gloss: (o && o.gloss != null) ? o.gloss : 0.22 });
 
     /* ลำตัว หัว แขน ขา (เงาที่พื้นทำด้วย CSS ข้างหลัง canvas จะได้ฟุ้งนุ่มกว่า) */
     add('sphere',  [0, 0, 0],        [1.00, 1.14, 0.93], shell);
-    add('capsule', [0, 1.36, 0.03],  [0.355, 0.30, 0.355], shell, { rot:[0, 0, Math.PI/2] });
+    add('capsule', [0, 1.36, 0.03],  [0.355, 0.30, 0.355], shell, { rot:[0, 0, Math.PI/2], grp:'head' });
     add('sphere',  [0, -0.12, 0.86], [0.21, 0.15, 0.10], shell === '#FDFEFF' ? '#F1F5FA' : shell, { gloss:0.06 });
     [-1, 1].forEach((s) => {
-      add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, { rot:[0, 0, s*0.28] });
-      add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell);
+      const g = s < 0 ? 'armL' : 'armR';
+      add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, { rot:[0, 0, s*0.28], grp:g });
+      add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell, { grp:g });
       add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell);
       add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell);
     });
 
     /* หน้า — ตาสองเม็ดกับขีดกลาง ต้องโผล่พ้นผิวหัว ไม่งั้นจมหายไปข้างใน */
-    add('sphere',  [-0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55 });
-    add('sphere',  [ 0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55 });
-    add('capsule', [0, 1.36, 0.325],     [0.038, 0.115, 0.075], INK, { rot:[0, 0, Math.PI/2], gloss:0.45 });
+    add('sphere',  [-0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55, grp:'head', eye:true });
+    add('sphere',  [ 0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55, grp:'head', eye:true });
+    add('capsule', [0, 1.36, 0.325],     [0.038, 0.115, 0.075], INK, { rot:[0, 0, Math.PI/2], gloss:0.45, grp:'head' });
 
+    const _h0 = P.length;   // ทุกชิ้นที่เพิ่มจากนี้ถึงท้ายบล็อกของบนหน้า เอียงตามหัว
     /* ---- หมวก ----
        หัวเป็นแคปซูลนอนแกน X : กว้าง ±0.655 สูง/ลึก ±0.355 ยอดหัว y 1.715
        บทเรียนรอบก่อน: โดมที่กว้างเท่าหัวแต่ยอดโผล่พ้นแค่ 0.05 ดูเหมือน "ทาสีหัว" ไม่ใช่ใส่หมวก
@@ -5087,12 +5096,24 @@ const BOT3D = (function(){
         bulb(c, 1.50, 1.94, 0.09, 0.55);
         hatRing('#8FA3BC', 1.50, 0.06, 0.09, 0.6);
         add('sphere', [0, 1.90, -0.02], [0.05, 0.22, 0.30], '#8FA3BC', { gloss:0.65 });
-      } else if (hat.id === 'cap' || hat.id === 'shcap'){
+      } else if (hat.id === 'cap'){
         bulb(c, 1.46, 1.90, 0.075);
         hatRing(c, 1.46, 0.06, 0.075);
         add('sphere', [0, 1.47, 0.52], [0.50, 0.045, 0.34], c, { gloss:0.28 });   // ปีกยื่นหน้า
-        if (hat.id === 'shcap')
-          add('sphere', [0, 1.62, 0.40], [0.075, 0.075, 0.05], '#FDFEFF', { gloss:0.4 });
+      } else if (hat.id === 'bearears'){
+        /* หูหมีสองข้าง นั่งบนยอดหัวจริง มีวงในสีครีม */
+        [-1, 1].forEach((sgn) => {
+          const ex = sgn*0.42, ez = -0.02, ey = headTopAt(ex, ez) + 0.07;
+          add('sphere', [ex, ey, ez], [0.185, 0.185, 0.155], '#B98A5E', { gloss:0.16 });
+          add('sphere', [ex, ey, ez + 0.125], [0.098, 0.098, 0.05], '#EAD3B8', { gloss:0.14 });
+        });
+      } else if (hat.id === 'unihorn'){
+        add('cone', [0, headTopAt(0, 0.07) - 0.03, 0.07], [0.115, 0.44, 0.115], '#F2C879',
+            { rot:[0.16, 0, 0], gloss:0.55 });
+        ['#FBD8DC', '#C6EDE1', '#E0D9F6'].forEach((mc, i) => {
+          const mz = -0.10 - i*0.115;
+          add('sphere', [0, headTopAt(0, mz) + 0.03, mz], [0.108, 0.108, 0.108], mc, { gloss:0.2 });
+        });
       } else if (hat.id === 'helmet'){
         bulb(c, 1.40, 1.94, 0.10, 0.45);
         add('sphere', [0, 1.67, 0.015], [0.135, 0.28, headAt(1.40)[1] + 0.115], '#F5F7FA', { gloss:0.55 });
@@ -5121,16 +5142,25 @@ const BOT3D = (function(){
       } else if (face.id === 'patch'){
         add('sphere', [0.30, EY + 0.10, 0.35], [0.165, 0.07, 0.06], c, { rot:[0, 0, -0.55], gloss:0.15 });
         add('sphere', [0.30, EY + 0.10, 0.395], [0.075, 0.05, 0.04], '#FDFEFF', { rot:[0, 0, -0.55], gloss:0.1 });
-      } else if (face.id === 'mask'){
-        add('sphere',  [0, EY - 0.20, 0.29], [0.40, 0.20, 0.16], c, { gloss:0.14 });
-        [-1, 1].forEach((s) => add('capsule', [s*0.42, EY - 0.14, 0.10], [0.022, 0.16, 0.022], c,
-          { rot:[0, 0, s*0.9], gloss:0.2 }));                                                  // สายคล้องหู
+      } else if (face.id === 'bearnose'){
+        add('sphere', [0, EY - 0.13, 0.33], [0.125, 0.088, 0.07], '#6B4A32', { gloss:0.3 });
+        add('sphere', [-0.04, EY - 0.105, 0.395], [0.034, 0.02, 0.014], '#9C7352', { gloss:0.2 });
+      } else if (face.id === 'starcheek'){
+        /* ดาวทอง = แกนกลม + หนามกรวยสี่ทิศ + จุดชมพูอีกแก้ม */
+        const sx = 0.40, sy2 = EY - 0.12, sz = 0.315;
+        add('sphere', [sx, sy2, sz], [0.055, 0.055, 0.045], '#F2C879', { gloss:0.6 });
+        [[0, 1, 0], [0, -1, Math.PI], [1, 0, -Math.PI/2], [-1, 0, Math.PI/2]].forEach((d) =>
+          add('cone', [sx + d[0]*0.055, sy2 + d[1]*0.055, sz], [0.04, 0.078, 0.028], '#F2C879',
+              { rot:[0, 0, d[2]], gloss:0.6 }));
+        add('sphere', [-0.40, EY - 0.14, 0.29], [0.075, 0.055, 0.05], '#FBD8DC', { gloss:0.1 });
       } else if (face.id === 'visor'){
         add('sphere', [0, EY - 0.01, 0.235], [0.60, 0.145, 0.215], c, { gloss:0.9 });
       } else {
         add('capsule', [0, EY, 0.31], [0.11, 0.26, 0.09], c, { rot:[0, 0, Math.PI/2], gloss:0.7 });
       }
     }
+
+    for (let i2 = _h0; i2 < P.length; i2++) if (!P[i2].grp) P[i2].grp = 'head';
 
     /* ---- ของประดับ ---- อิงผิวลำตัวจริง (หน้าอกอยู่ราว z 0.90 ที่ระดับ y 0.3) */
     if (item.id !== 'none'){
@@ -5149,10 +5179,20 @@ const BOT3D = (function(){
       } else if (item.id === 'core'){
         add('sphere', [0, 0.24, 0.94], [0.20, 0.20, 0.13], c, { gloss:0.95 });
         add('torus',  [0, 0.24, 0.92], [0.29, 0.04, 0.22], '#FDFEFF', { rot:[Math.PI/2, 0, 0], gloss:0.5 });
-      } else if (item.id === 'chain'){
-        (function(){ const R = ringAt(0.54, 0.07); add('torus', [0, 0.54, 0.02], [R[0], 0.30, R[2]], c, { gloss:0.9 }); })();
-        add('capsule',[0, 0.28, 0.94], [0.035, 0.12, 0.03], c, { gloss:0.9 });
-        add('sphere', [0, 0.10, 0.96], [0.13, 0.13, 0.07], c, { gloss:0.95 });
+      } else if (item.id === 'honey'){
+        /* สายสะพาย + โถน้ำผึ้งพร้อมฝาและหยดเยิ้ม ๆ */
+        (function(){ const R = ringAt(0.56, 0.05);
+          add('torus', [0, 0.56, 0.02], [R[0], 0.22, R[2]], '#B98A5E', { gloss:0.25 }); })();
+        add('sphere', [0, 0.14, 0.88], [0.175, 0.155, 0.11], '#F2B04A', { gloss:0.4 });
+        add('torus',  [0, 0.29, 0.88], [0.12, 0.30, 0.095], '#EAD3B8', { gloss:0.3 });
+        add('sphere', [0, 0.02, 0.97], [0.05, 0.075, 0.03], '#FFDE8A', { gloss:0.65 });
+      } else if (item.id === 'cloudwing'){
+        /* ปีกเมฆ — ก้อนกลมสามก้อนต่อข้าง ลอยแนบหลัง */
+        [-1, 1].forEach((sgn) => {
+          add('sphere', [sgn*0.80, 0.46, -0.60], [0.27, 0.225, 0.16], '#DDEBF9', { gloss:0.35 });
+          add('sphere', [sgn*1.10, 0.28, -0.58], [0.21, 0.175, 0.14], '#DDEBF9', { gloss:0.35 });
+          add('sphere', [sgn*0.88, 0.13, -0.61], [0.17, 0.145, 0.125], '#DDEBF9', { gloss:0.35 });
+        });
       } else if (item.id === 'bowtie'){
         [-1, 1].forEach((s) => add('cone', [s*0.10, 0.52, 0.86], [0.085, 0.17, 0.085], c,
           { rot:[Math.PI/2, 0, s*Math.PI/2], gloss:0.4 }));
@@ -5242,6 +5282,19 @@ const BOT3D = (function(){
       const bob = Math.sin(t/1100) * 0.035;
       const breath = 1 + Math.sin(t/1450) * 0.012;
 
+      /* ---- ชีวิตตอนยืนรอ ---- คอเอียงช้า ๆ แขนแกว่งเบา ๆ
+         ทุก ~7 วิ ยกแขนขวาโบกหนึ่งที และกะพริบตาทุก ~3.4 วิ */
+      const tilt = Math.sin(t/1900) * 0.045;
+      const sway = Math.sin(t/950) * 0.045;
+      let waveR = -sway;
+      const wp = (t % 7000) / 7000;
+      if (wp < 0.22){ const p = wp/0.22; waveR += Math.sin(p*Math.PI*3) * 0.45 * Math.sin(p*Math.PI); }
+      const bl = t % 3400;
+      const blink = bl < 130 ? Math.max(0.12, Math.abs(1 - bl/65)) : 1;
+      const headM = rotZAbout(0, 1.02, tilt);
+      const armLM = rotZAbout(-0.72, 0.50, sway);
+      const armRM = rotZAbout(0.72, 0.50, waveR);
+
       /* ถอยกล้องตามสัดส่วนกรอบ ตัวเขาจะได้อยู่ครบเฟรมทุกจอ
          หมุนรอบตัวแล้วแขนกางออกด้านข้าง เลยเผื่อความกว้างไว้เท่าความสูง */
       const asp = w/h;
@@ -5257,7 +5310,12 @@ const BOT3D = (function(){
       gl.uniform3fv(U.uEye, eye);
       for (const part of list){
         const b = bufs[part.mesh];
-        const model = mul(root, compose(part.pos, part.rot, part.scale));
+        let local = compose(part.pos, part.rot,
+          part.eye ? [part.scale[0], part.scale[1]*blink, part.scale[2]] : part.scale);
+        if (part.grp === 'head') local = mul(headM, local);
+        else if (part.grp === 'armL') local = mul(armLM, local);
+        else if (part.grp === 'armR') local = mul(armRM, local);
+        const model = mul(root, local);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.p); gl.vertexAttribPointer(A.pos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.n); gl.vertexAttribPointer(A.nor, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, b.i);
