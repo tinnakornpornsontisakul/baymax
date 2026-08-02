@@ -4579,9 +4579,11 @@ const WEAR = (function(){
       '<path d="M50 25.6v1.6M50 27.2q-1.8 1.4-3.4.3M50 27.2q1.8 1.4 3.4.3" fill="none" stroke="#B96A7C" stroke-width="1.1" stroke-linecap="round"/>' +
       '<path d="M40.6 24.4h-5.2M40.8 26.6l-4.8 1.4M59.4 24.4h5.2M59.2 26.6l4.8 1.4" stroke="#2B3A47" stroke-width="1.1" stroke-linecap="round"/>' },
     { id:'beak', name:'จะงอยปากเจี๊ยบ', svg:
-      '<path d="M50 24.8 55.4 28.4 50 31.6 44.6 28.4z" fill="#F0913C" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>' +
-      '<path d="M44.6 28.4h10.8" stroke="#2B3A47" stroke-width="1.2"/>' +
-      '<circle cx="39.5" cy="27.5" r="2.4" fill="#F8C8B0"/><circle cx="60.5" cy="27.5" r="2.4" fill="#F8C8B0"/>' },
+      '<path d="M50 25.4 56 29.2 44 29.2z" fill="#F5A24C"/>' +
+      '<path d="M44 29.2h12L50 32.4z" fill="#D9741F"/>' +
+      '<path d="M50 25.4 56 29.2 50 32.4 44 29.2z" fill="none" stroke="#B85F14" stroke-width="1.4" stroke-linejoin="round"/>' +
+      '<path d="M44.6 29.2h10.8" stroke="#B85F14" stroke-width="1.2"/>' +
+      '<circle cx="38.6" cy="28.6" r="2.4" fill="#F8C8B0"/><circle cx="61.4" cy="28.6" r="2.4" fill="#F8C8B0"/>' },
     { id:'bunnynose', name:'จมูกกระต่าย', svg:
       '<path d="M50 25.4 47.4 23.4h5.2z" fill="#E88A9C" stroke="#2B3A47" stroke-width="1.3" stroke-linejoin="round"/>' +
       '<path d="M50 25.4v1.8" stroke="#B96A7C" stroke-width="1.1" stroke-linecap="round"/>' +
@@ -5318,9 +5320,15 @@ const BOT3D = (function(){
           add('capsule', [sgn*(0.50 + wv[1]*0.22), EY - 0.13 + wv[0], 0.20],
               [0.016, 0.13, 0.016], INK, { rot:[0, 0, sgn*(1.35 + wv[0]*1.6)], gloss:0.2 })));
       } else if (face.id === 'beak'){
-        /* จะงอยสองฝา บนล่างประกบกัน */
-        add('cone', [0, EY - 0.10, 0.36], [0.135, 0.13, 0.10], '#F0913C', { rot:[Math.PI/2, 0, 0], gloss:0.3 });
-        add('cone', [0, EY - 0.185, 0.34], [0.115, 0.10, 0.075], '#D9741F', { rot:[Math.PI/2, 0, 0], gloss:0.25 });
+        /* ของเดิมกว้าง 0.27 แต่ยาวแค่ 0.13 เลยออกมาเป็นลิ่มป้าน ๆ ไม่ใช่จะงอย
+           ทรงใหม่ยาวกว่ากว้าง ฝาบนกดลง ฝาล่างเชิดขึ้น ปลายเลยสอบเข้าหากัน
+           เห็นรอยต่อสองฝาเป็นเส้นคม และมีแก้มพีชสองข้างให้ครบลุคลูกเจี๊ยบ */
+        add('cone', [0, EY - 0.09, 0.325], [0.165, 0.30, 0.075], '#F5A24C',
+            { rot:[Math.PI/2 + 0.20, 0, 0], gloss:0.35 });
+        add('cone', [0, EY - 0.215, 0.325], [0.14, 0.25, 0.058], '#D9741F',
+            { rot:[Math.PI/2 - 0.10, 0, 0], gloss:0.28 });
+        [-1, 1].forEach((sgn) =>
+          add('sphere', [sgn*0.40, EY - 0.16, 0.29], [0.105, 0.07, 0.06], '#F8C8B0', { gloss:0.08 }));
       } else if (face.id === 'bunnynose'){
         add('cone', [0, EY - 0.10, 0.375], [0.085, 0.095, 0.06], '#E88A9C', { rot:[0, 0, Math.PI], gloss:0.3 });
         [-1, 1].forEach((sgn) =>
