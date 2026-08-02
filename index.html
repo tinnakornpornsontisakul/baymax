@@ -5154,11 +5154,12 @@ const BOT3D = (function(){
     if (item.id !== 'none'){
       const c = colorOf(item.svg, '#FFDE8A');
       if (item.id === 'bell'){
-        (function(){ const R = ringAt(0.56, 0.07);
-          add('torus', [0, 0.56, 0.02], [R[0], 0.34, R[2]], '#E88A9C', { gloss:0.25 }); })();
-        add('sphere',  [0, 0.30, 0.90], [0.135, 0.135, 0.10], '#F2C879', { gloss:0.7 });
-        add('capsule', [0, 0.27, 0.98], [0.02, 0.075, 0.018], '#B98A5E', { rot:[0, 0, Math.PI/2], gloss:0.4 });
-        add('sphere',  [0, 0.20, 0.97], [0.038, 0.038, 0.025], '#B98A5E', { gloss:0.4 });
+        /* ปลอกคออยู่แนวคอจริง (y 0.88) แล้วกระดิ่งห้อยลงมาแตะอกบน */
+        (function(){ const R = ringAt(0.88, 0.07);
+          add('torus', [0, 0.88, 0.02], [R[0], 0.34, R[2]], '#E88A9C', { gloss:0.25 }); })();
+        add('sphere',  [0, 0.58, 0.80], [0.135, 0.135, 0.10], '#F2C879', { gloss:0.7 });
+        add('capsule', [0, 0.55, 0.885], [0.02, 0.075, 0.018], '#B98A5E', { rot:[0, 0, Math.PI/2], gloss:0.4 });
+        add('sphere',  [0, 0.45, 0.87], [0.038, 0.038, 0.025], '#B98A5E', { gloss:0.4 });
       } else if (item.id === 'chickwing'){
         /* ปีกจิ๋วสองข้าง กางไม่สุดตามสเปกลูกเจี๊ยบ */
         [-1, 1].forEach((sgn) => {
@@ -5166,11 +5167,11 @@ const BOT3D = (function(){
           add('sphere', [sgn*1.10, -0.38, -0.44], [0.15, 0.21, 0.12], '#FCEBBE', { rot:[0, 0, sgn*0.34], gloss:0.25 });
         });
       } else if (item.id === 'carrot'){
-        (function(){ const R = ringAt(0.56, 0.06);
-          add('torus', [0, 0.56, 0.02], [R[0], 0.26, R[2]], '#D9A88C', { gloss:0.25 }); })();
-        add('cone', [0, 0.36, 0.90], [0.11, 0.42, 0.085], '#F0913C', { rot:[Math.PI, 0, 0], gloss:0.3 });
+        (function(){ const R = ringAt(0.88, 0.06);
+          add('torus', [0, 0.88, 0.02], [R[0], 0.26, R[2]], '#D9A88C', { gloss:0.25 }); })();
+        add('cone', [0, 0.68, 0.83], [0.11, 0.42, 0.085], '#F0913C', { rot:[Math.PI, 0, 0], gloss:0.3 });
         [-0.5, 0, 0.5].forEach((r2) =>
-          add('cone', [Math.sin(r2)*0.06, 0.40, 0.90 - Math.abs(r2)*0.02], [0.045, 0.16, 0.04], '#63CDB4',
+          add('cone', [Math.sin(r2)*0.06, 0.72, 0.82 - Math.abs(r2)*0.02], [0.045, 0.16, 0.04], '#63CDB4',
               { rot:[0, 0, r2], gloss:0.3 }));
       } else if (item.id === 'foxtail'){
         /* หางฟูโค้งขึ้นหลัง ปลายครีม */
@@ -5179,11 +5180,11 @@ const BOT3D = (function(){
         add('sphere', [1.22, -0.20, -0.45], [0.27, 0.31, 0.23], '#D9853F', { rot:[0, 0, -0.6], gloss:0.2 });
         add('sphere', [1.30, 0.18, -0.44], [0.22, 0.24, 0.20], '#FDF6EC', { gloss:0.25 });
       } else if (item.id === 'honey'){
-        (function(){ const R = ringAt(0.56, 0.05);
-          add('torus', [0, 0.56, 0.02], [R[0], 0.22, R[2]], '#B98A5E', { gloss:0.25 }); })();
-        add('sphere', [0, 0.14, 0.88], [0.175, 0.155, 0.11], '#F2B04A', { gloss:0.4 });
-        add('torus',  [0, 0.29, 0.88], [0.12, 0.30, 0.095], '#EAD3B8', { gloss:0.3 });
-        add('sphere', [0, 0.02, 0.97], [0.05, 0.075, 0.03], '#FFDE8A', { gloss:0.65 });
+        (function(){ const R = ringAt(0.88, 0.05);
+          add('torus', [0, 0.88, 0.02], [R[0], 0.22, R[2]], '#B98A5E', { gloss:0.25 }); })();
+        add('sphere', [0, 0.42, 0.855], [0.175, 0.155, 0.11], '#F2B04A', { gloss:0.4 });
+        add('torus',  [0, 0.57, 0.855], [0.12, 0.30, 0.095], '#EAD3B8', { gloss:0.3 });
+        add('sphere', [0, 0.27, 0.92], [0.05, 0.075, 0.03], '#FFDE8A', { gloss:0.65 });
       } else if (item.id === 'cloudwing'){
         [-1, 1].forEach((sgn) => {
           add('sphere', [sgn*0.80, 0.46, -0.60], [0.27, 0.225, 0.16], '#DDEBF9', { gloss:0.35 });
@@ -5191,7 +5192,7 @@ const BOT3D = (function(){
           add('sphere', [sgn*0.88, 0.13, -0.61], [0.17, 0.145, 0.125], '#DDEBF9', { gloss:0.35 });
         });
       } else {
-        (function(){ const R = ringAt(0.56, 0.075); add('torus', [0, 0.56, 0.02], [R[0], 0.34, R[2]], c, { gloss:0.6 }); })();
+        (function(){ const R = ringAt(0.88, 0.075); add('torus', [0, 0.88, 0.02], [R[0], 0.34, R[2]], c, { gloss:0.6 }); })();
       }
     }
     return P;
