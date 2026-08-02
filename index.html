@@ -4531,12 +4531,12 @@ const WEAR = (function(){
     /* grad = ลายไล่สีสามชั้นบนตัว วาดในเชดเดอร์เลยเนียนไปกับผิวไม่มีขอบ
        (ลองใช้ลูกกลมแต้มเป็นลายจุดแล้ว มันนูนขึ้นมาเป็นเม็ด ไม่ใช่ลายบนผิว)
        sw = พื้นหลังปุ่มเลือกสี / svg = ลายของหุ่นสองมิติ ต้องไล่โทนให้ตรงกัน */
-    { id:'pastel',  name:'ขาวไล่สีพาสเทล', c:'#FDFBF4',
-      grad:['#FBCEDE', '#FDF4DC', '#CBE4FA'],
-      sw:'linear-gradient(0deg,#FBCEDE,#FDF4DC 50%,#CBE4FA)',
+    { id:'pastel',  name:'ขาวไล่สีฟ้าสาง', c:'#FDFEFF',
+      grad:['#F7CEE2', '#D8E9FA', '#FDFEFF'],
+      sw:'linear-gradient(0deg,#F7CEE2,#D8E9FA 50%,#FDFEFF)',
       svg:'<defs><linearGradient id="shGrad" x1="0" y1="1" x2="0.18" y2="0">' +
-          '<stop offset="0" stop-color="#FBCEDE"/><stop offset="0.5" stop-color="#FDF4DC"/>' +
-          '<stop offset="1" stop-color="#CBE4FA"/></linearGradient></defs>' +
+          '<stop offset="0" stop-color="#F7CEE2"/><stop offset="0.5" stop-color="#D8E9FA"/>' +
+          '<stop offset="1" stop-color="#FDFEFF"/></linearGradient></defs>' +
           '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="url(#shGrad)" stroke="#2B3A47" stroke-width="2.6"/>' },
     { id:'sky',     name:'ฟ้าสะอาด',     c:'#CFE4F7' }
   ];
@@ -4671,12 +4671,12 @@ const WEAR = (function(){
       '<rect x="44.6" y="44.6" width="10.8" height="3.4" rx="1.7" fill="#EAD3B8" stroke="#2B3A47" stroke-width="1.4"/>' +
       '<path d="M47.5 54q2.5 2.4 5 0v3q-2.5 2-5 0z" fill="#FFDE8A"/>' },
     { id:'scarf', name:'ผ้าพันคอถัก', svg:
+      '<path d="M42.5 47C40.5 57 40 66 41.5 74M57.5 47C59.5 57 60 66 58.5 74" fill="none" stroke="#2B3A47" stroke-width="10" stroke-linecap="round"/>' +
+      '<path d="M42.5 47C40.5 57 40 66 41.5 74M57.5 47C59.5 57 60 66 58.5 74" fill="none" stroke="#AEBFDB" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M38 77.5v4M41.5 78.5v4M45 77.5v4M55 77.5v4M58.5 78.5v4M62 77.5v4" stroke="#FDF6EC" stroke-width="2.2" stroke-linecap="round"/>' +
       '<path d="M33.5 40.5q16.5 9 33 0" fill="none" stroke="#2B3A47" stroke-width="12" stroke-linecap="round"/>' +
-      '<path d="M33.5 40.5q16.5 9 33 0" fill="none" stroke="#6FC2A8" stroke-width="9" stroke-linecap="round"/>' +
-      '<path d="M42 47.5C40 57 39.5 66 41 74" fill="none" stroke="#2B3A47" stroke-width="10" stroke-linecap="round"/>' +
-      '<path d="M42 47.5C40 57 39.5 66 41 74" fill="none" stroke="#5FB198" stroke-width="7" stroke-linecap="round"/>' +
-      '<path d="M37.5 77.5v4M41 78.5v4M44.5 77.5v4" stroke="#FDF6EC" stroke-width="2.2" stroke-linecap="round"/>' +
-      '<path d="M35.5 44h4M60.5 44h4" stroke="#4E9B84" stroke-width="1.8" stroke-linecap="round"/>' },
+      '<path d="M33.5 40.5q16.5 9 33 0" fill="none" stroke="#BCCCE4" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M36 44h4M60 44h4" stroke="#9DAFCC" stroke-width="1.8" stroke-linecap="round"/>' },
     { id:'gloves', name:'ถุงมือยาง', arms:true, vb:'13 60 74 46', svg:
       '<circle cx="22" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<circle cx="78" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
@@ -4734,8 +4734,8 @@ const WEAR = (function(){
     { id:'clean', name:'ชุดแม่บ้านสายฟ้า', badge:'SECRET SET', home:true,
       note:'เซ็ตของลับห้าชิ้น มีเครื่องดูดฝุ่นไร้สายเป็นของใช้ประจำตัว ใส่ครบเมื่อไหร่เขาจะกวาดทั้งวอร์ดเสร็จก่อนคุณตื่น',
       look:{ shell:'sky', hat:'maidband', face:'bubbles', item:'gloves', prop:'vacuum' } },
-    { id:'dev', name:'ชุดนักพัฒนากะดึก', badge:'LEGEND SET', home:true,
-      note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังนุ่มครอบหู แว่นบลูไลต์ ผ้าพันคอถัก และเป็ดยางไว้เล่าบั๊กให้ฟังตอนตีสาม',
+    { id:'dev', name:'ชุดรอฟ้าสาง', badge:'LEGEND SET', home:true,
+      note:'เซ็ตตำนานห้าชิ้นของคนที่นั่งรอจนฟ้าสาง สีตัวไล่จากขาวลงมาเป็นฟ้าและชมพูเหมือนขอบฟ้าตอนตีห้า มาพร้อมผ้าพันคอกันหนาว หูฟัง แว่นบลูไลต์ และเป็ดยางคู่ใจ',
       look:{ shell:'pastel', hat:'headset', face:'bluelight', item:'scarf', prop:'duck' } },
     { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET',
       note:'เซ็ตของลับจากความฝันวัยเด็ก เขาทอง แผงคอพาสเทล ดาวติดแก้ม และปีกเมฆนุ่ม ครบสี่ชิ้นเมื่อไหร่เขาจะพาเดินเล่นบนรุ้ง',
@@ -4772,7 +4772,7 @@ const WEAR = (function(){
     'shell:cocoa':'legend',   'hat:bearears':'legend',  'face:bearnose':'legend',  'item:honey':'legend',
     /* ชุดยูนิคอร์นสายรุ้ง — ของลับทั้งเซ็ต */
     'shell:aurora':'secret',  'hat:unihorn':'secret',   'face:starcheek':'secret', 'item:cloudwing':'secret',
-    /* ชุดนักพัฒนากะดึก — ตำนานทั้งเซ็ต */
+    /* ชุดรอฟ้าสาง — ตำนานทั้งเซ็ต */
     'shell:pastel':'legend',  'hat:headset':'legend',   'face:bluelight':'legend', 'item:scarf':'legend',
     'prop:duck':'legend',
     /* ชุดแม่บ้านสายฟ้า — ของลับทั้งเซ็ต */
@@ -4811,7 +4811,7 @@ const WEAR = (function(){
     'item:cloudwing':'ปีกเมฆคู่นี้ไม่ได้ทำให้ผมบินได้ครับ แต่เวลาเด็ก ๆ เห็นแล้วตะโกนว่าผมลอยสวยมาก ผมถือว่ามันทำหน้าที่ของปีกครบถ้วนแล้ว',
     'prop:plush':'ตุ๊กตาหมีตัวนี้เจ้าของเดิมฝากไว้ก่อนย้ายวอร์ดครับ เขาบอกว่าให้ผมกอดแทนไปก่อน เผื่อมีเด็กคนไหนต้องการมันมากกว่า ตอนนี้มันถูกกอดต่อมาแล้วสิบเอ็ดคน',
     'prop:coffee':'แก้วนี้ไม่มีกาแฟจริงครับ ผมดื่มไม่ได้อยู่แล้ว แต่หมอเวรดึกบอกว่าเห็นผมถือแก้วแล้วรู้สึกว่ามีเพื่อนตื่นอยู่ด้วย ผมเลยถือไว้ทุกกะดึกตั้งแต่นั้น',
-    'shell:pastel':'ลายไล่สีนี้ทีมวิศวกรพ่นให้ตอนตีสี่ครับ เขาบอกว่าอยากได้สีของฟ้าตอนกำลังจะสาง เพราะเป็นสีที่พวกเขาเห็นบ่อยที่สุดในปีนั้น',
+    'shell:pastel':'ลายไล่สีนี้ทีมวิศวกรพ่นให้ตอนตีสี่ครับ ไล่จากขาวบนหัวลงมาเป็นฟ้าแล้วชมพูที่ปลายเท้า เขาบอกว่านี่คือสีของขอบฟ้าตอนตีห้า สีที่พวกเขาเห็นบ่อยที่สุดในปีนั้น',
     'hat:headset':'หูฟังคู่นี้กันเสียงได้ดีมากครับ แต่ผมตั้งค่าให้เสียงเรียกพยาบาลลอดผ่านได้เสมอ เพราะมีเสียงเดียวที่ผมไม่ยอมพลาด',
     'face:bluelight':'แว่นกรองแสงสีฟ้าครับ ผมไม่มีดวงตาที่ล้าได้ แต่คนที่นั่งทำงานข้างผมมี พอเขาเห็นผมใส่ เขาก็ยอมใส่ของเขาบ้าง',
     'item:scarf':'ผ้าพันคอผืนนี้เจ้าของโต๊ะข้าง ๆ ถักเองครับ เขาถักตอนรอโค้ดคอมไพล์ ใช้เวลาสี่เดือน ผมคำนวณแล้วว่าถ้าคอมไพล์เร็วกว่านี้ผมคงไม่ได้ผืนนี้',
@@ -5570,12 +5570,13 @@ const BOT3D = (function(){
         add('sphere', [1.30, 0.18, -0.44], [0.22, 0.24, 0.20], '#FDF6EC', { gloss:0.25 });
       } else if (item.id === 'scarf'){
         /* ผ้าพันคอ: ห่วงพันรอบคอ + ชายผ้าห้อยลงมาหน้าอกข้างหนึ่ง + พู่ปลายผ้า
-           ชายผ้าเดินตามผิวลำตัวจริง แต่ละท่อนหันตามทิศสามมิติ (ไม่ใช่หมุนแค่แกน Z)
+           ชายผ้าห้อยสองข้างยาวใกล้กัน ห้อยข้างเดียวแล้วดูเหมือนผ้าหลุดไหล่
+           แต่ละท่อนหันตามทิศสามมิติ (ไม่ใช่หมุนแค่แกน Z)
            ไม่งั้นรอยต่อจะเป็นสันขั้นบันไดตอนไล่ระดับ z ตามความโค้งของตัว */
         (function(){ const R = ringAt(0.92, 0.055);
           add('torus', [0, 0.92, 0.01], [R[0], 0.125/0.16, R[2]], c, { gloss:0.2 }); })();
         const skin = (x, y) => 0.93*Math.sqrt(Math.max(0.05, 1 - x*x - (y/1.14)*(y/1.14)));
-        [[0.20, 0.80, 0.36, -0.16, 4], [-0.24, 0.80, -0.32, 0.20, 2]].forEach((e) => {
+        [[0.22, 0.80, 0.35, -0.16, 4], [-0.22, 0.80, -0.33, -0.06, 4]].forEach((e) => {
           const at = (t) => { const x = e[0] + (e[2] - e[0])*t, y = e[1] + (e[3] - e[1])*t;
             return [x, y, skin(Math.abs(x), y) + 0.045]; };
           for (let i = 0; i < e[4]; i++){
