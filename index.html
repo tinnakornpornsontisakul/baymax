@@ -214,6 +214,9 @@
   .idcard .btn{margin-top:16px}
 
   /* โปรโมทชุดใหม่ */
+  .setlist{display:grid;gap:16px}
+  .set-intro h3{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.25}
+  .set-intro p{margin-top:5px;font-size:13px;line-height:1.62;color:var(--ink-soft)}
   .setpromo{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;padding:24px;overflow:hidden}
   .set-stage{position:relative;border-radius:22px;display:grid;place-items:center;min-height:230px;
     padding:46px 16px 16px;   /* เว้นที่ด้านบนให้ป้ายคอลแลป ไม่ให้ทับหัว */
@@ -1581,14 +1584,16 @@
   <section id="setSec" data-tab="manual">
     <div class="sec-head">
       <div class="eyebrow">New drop · ชุดใหม่ล่าสุด</div>
-      <h2 id="setTitle">ชุดฮีโร่ลับ</h2>
-      <p id="setNote">เก็บให้ครบทั้งเซ็ตแล้วกดใส่ทีเดียวได้เลย</p>
+      <h2>ชุดที่กำลังมาแรง</h2>
+      <p>เก็บให้ครบทั้งเซ็ตแล้วกดใส่ทีเดียวได้เลย</p>
     </div>
 
+    <!-- การ์ดใบนี้เป็นต้นแบบ สคริปต์จะโคลนเพิ่มให้ครบตามจำนวนชุดที่ปักหมุดไว้ -->
+    <div class="setlist" id="setList">
     <div class="setpromo card">
       <div class="set-stage">
-        <span class="set-badge" id="setBadge">ชุดใหม่ล่าสุด</span>
-        <svg class="setbot" id="setBot" viewBox="-10 0 120 126" aria-hidden="true">
+        <span class="set-badge">ชุดใหม่ล่าสุด</span>
+        <svg class="setbot" viewBox="-10 0 120 126" aria-hidden="true">
           <g class="all">
             <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
             <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
@@ -1600,13 +1605,18 @@
       </div>
 
       <div class="set-side">
-        <div class="set-prog">
-          <div class="meter-lab"><span>เก็บได้แล้ว</span><b id="setCount">0/5</b></div>
-          <div class="bx-prog"><i id="setBar" style="width:0%"></i></div>
+        <div class="set-intro">
+          <h3 class="set-name">ชุดฮีโร่ลับ</h3>
+          <p class="set-note">เก็บให้ครบทั้งเซ็ตแล้วกดใส่ทีเดียวได้เลย</p>
         </div>
-        <div class="set-parts" id="setParts"></div>
-        <button class="btn btn-go set-go" id="setWear">ใส่ทั้งชุด</button>
+        <div class="set-prog">
+          <div class="meter-lab"><span>เก็บได้แล้ว</span><b class="set-count">0/5</b></div>
+          <div class="bx-prog"><i class="set-bar" style="width:0%"></i></div>
+        </div>
+        <div class="set-parts"></div>
+        <button class="btn btn-go set-go">ใส่ทั้งชุด</button>
       </div>
+    </div>
     </div>
   </section>
 
@@ -4706,13 +4716,14 @@ const WEAR = (function(){
 
   /* หกเซ็ตสัตว์น่ากอด ไล่ระดับหายากขึ้นเรื่อย ๆ ทุกเซ็ตมีสี่ชิ้นเท่ากัน */
   const SETS = [
-    { id:'clean', name:'ชุดแม่บ้านสายฟ้า', badge:'SECRET SET', hot:true,
+    /* home:true = ปักหมุดโชว์เป็นการ์ดโปรโมทบนหน้าแรก ใส่กี่ชุดก็ได้ การ์ดจะโคลนตาม */
+    { id:'clean', name:'ชุดแม่บ้านสายฟ้า', badge:'SECRET SET', home:true,
       note:'เซ็ตของลับห้าชิ้น มีเครื่องดูดฝุ่นไร้สายเป็นของใช้ประจำตัว ใส่ครบเมื่อไหร่เขาจะกวาดทั้งวอร์ดเสร็จก่อนคุณตื่น',
       look:{ shell:'sky', hat:'maidband', face:'bubbles', item:'gloves', prop:'vacuum' } },
-    { id:'dev', name:'ชุดนักพัฒนากะดึก', badge:'LEGEND SET',
+    { id:'dev', name:'ชุดนักพัฒนากะดึก', badge:'LEGEND SET', home:true,
       note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังครอบหู แว่นบลูไลต์ บัตรพนักงาน และโน้ตบุ๊กที่เปิดค้างไว้ตั้งแต่เที่ยงคืน',
       look:{ shell:'graphite', hat:'headset', face:'bluelight', item:'lanyard', prop:'macbook' } },
-    { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET', hot:true,
+    { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET',
       note:'เซ็ตของลับจากความฝันวัยเด็ก เขาทอง แผงคอพาสเทล ดาวติดแก้ม และปีกเมฆนุ่ม ครบสี่ชิ้นเมื่อไหร่เขาจะพาเดินเล่นบนรุ้ง',
       look:{ shell:'aurora', hat:'unihorn', face:'starcheek', item:'cloudwing' } },
     { id:'bear', name:'ชุดหมีอุ่นใจ', badge:'LEGEND SET',
@@ -5713,18 +5724,32 @@ const BOT3D = (function(){
   return { mount };
 })();
 
+/* หน้าแรกโชว์ชุดโปรโมทกี่ใบก็ได้ — โคลนการ์ดต้นแบบให้ครบตามจำนวนชุดที่ปักหมุด
+   ต้องทำก่อนติดตั้งหุ่นสามมิติ เพราะบล็อกข้างล่างไล่หาเวทีจาก .set-stage ที่มีอยู่จริงตอนนั้น */
+const HOME_SETS = WEAR.SETS.filter((s) => s.home);
+(function(){
+  const list = document.getElementById('setList');
+  const card = list && list.querySelector('.setpromo');
+  if (!card) return;
+  for (let i = 1; i < HOME_SETS.length; i++) list.appendChild(card.cloneNode(true));
+})();
+
 /* ติดตั้งหุ่นสามมิติในหน้าแรกกับหน้าแต่งตัว */
 (function(){
   const spots = [
     { host:document.querySelector('.lstage'),  flat:document.querySelector('.lstage .lbot'), tab:'manual' },
-    { host:document.querySelector('.wstage'),  flat:document.querySelector('.wstage svg'),   tab:'wear'   },
-    { host:document.querySelector('.set-stage'), flat:document.getElementById('setBot'),     tab:'manual',
-      fixed:(WEAR.SETS[0] && WEAR.SETS[0].look) || WEAR.L }
-  ].filter((s) => s.host && s.flat);
-  if (!spots.length) return;
+    { host:document.querySelector('.wstage'),  flat:document.querySelector('.wstage svg'),   tab:'wear'   }
+  ];
+  /* การ์ดโปรโมทแต่ละใบล็อกลุคของชุดตัวเองไว้ ไม่ตามลุคที่ผู้ใช้ใส่อยู่ */
+  document.querySelectorAll('#setList .set-stage').forEach((host, i) => {
+    if (!HOME_SETS[i]) return;
+    spots.push({ host, flat:host.querySelector('.setbot'), tab:'manual', fixed:HOME_SETS[i].look, feat:i });
+  });
+  const use = spots.filter((s) => s.host && s.flat);
+  if (!use.length) return;
 
   const made = [];
-  spots.forEach((s) => {
+  use.forEach((s) => {
     const wrap = document.createElement('div');
     wrap.className = 'bot3dw';
     s.host.insertBefore(wrap, s.flat);
@@ -5753,9 +5778,11 @@ const BOT3D = (function(){
   if (!made.length) return;
   document.body.classList.add('has3d');
 
-  /* หน้าแรกโปรโมทชุดเซ็ตไหน ก็ให้ตัวสามมิติใส่ชุดนั้นโชว์ */
-  const promo = made.find((m) => m.fixed);
-  if (promo) window.__setPromo3d = (look) => promo.inst.show(look);
+  /* การ์ดโปรโมทใบที่ i ก็ให้หุ่นสามมิติของใบนั้นใส่ชุดของใบนั้นโชว์ */
+  window.__setPromo3d = (i, look) => {
+    const m = made.find((x) => x.feat === i);
+    if (m) m.inst.show(look);
+  };
 
   function sync(tab){
     made.forEach((m) => { m.on = m.tab === tab; m.inst.set(m.on); });
@@ -6277,15 +6304,11 @@ const BOT3D = (function(){
     chips.innerHTML = chip('shell', shell) + worn.map((w) => chip(w.cat, w.o)).join('');
   }
 
-  /* ---------- โปรโมทชุดใหม่ ---------- */
-  const SETS   = WEAR.SETS;
-  const feat   = SETS[0];
-  const setBot = document.getElementById('setBot');
-  const parts  = document.getElementById('setParts');
-  const setGo  = document.getElementById('setWear');
-
-  const SLOTS = WEAR.setSlots(WEAR.SETS[0]);   // ช่องที่ชุดโปรโมทใช้จริง
-  const ownedIn = WEAR.setOwned;
+  /* ---------- โปรโมทชุดที่ปักหมุดไว้หน้าแรก ---------- */
+  /* การ์ดถูกโคลนไว้ให้ครบจำนวนแล้วตอนติดตั้งหุ่นสามมิติ ตรงนี้แค่จับคู่ใบที่ i กับชุดที่ i */
+  const cards = [...document.querySelectorAll('#setList .setpromo')]
+    .map((el, i) => ({ el, set:HOME_SETS[i] }))
+    .filter((c) => c.set);
 
   function partThumb(cat, o){
     if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
@@ -6302,32 +6325,38 @@ const BOT3D = (function(){
     '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>';
 
   function paintSet(){
-    WEAR.preview(setBot, feat.look);
-    if (window.__setPromo3d) window.__setPromo3d(feat.look);
-    document.getElementById('setTitle').textContent = feat.name;
-    document.getElementById('setNote').textContent  = feat.note;
-    document.getElementById('setBadge').textContent = feat.badge;
+    cards.forEach((c, i) => {
+      const set = c.set, q = (sel) => c.el.querySelector(sel);
+      const slots = WEAR.setSlots(set);          // ช่องที่ชุดนี้ใช้จริง บางชุดมีสี่ บางชุดมีห้า
+      WEAR.preview(q('.setbot'), set.look);
+      if (window.__setPromo3d) window.__setPromo3d(i, set.look);
+      q('.set-name').textContent  = set.name;
+      q('.set-note').textContent  = set.note;
+      q('.set-badge').textContent = set.badge;
 
-    const got = ownedIn(feat);
-    document.getElementById('setCount').textContent = got + '/' + SLOTS.length;
-    document.getElementById('setBar').style.width = (got / SLOTS.length * 100) + '%';
+      const got = WEAR.setOwned(set);
+      q('.set-count').textContent = got + '/' + slots.length;
+      q('.set-bar').style.width = (got / slots.length * 100) + '%';
 
-    parts.innerHTML = SLOTS.map((cat) => {
-      const o = WEAR.pick(WEAR.LISTS[cat], feat.look[cat]);
-      const have = WEAR.has(cat, o.id);
-      return '<div class="set-part' + (have ? '' : ' miss') + '">' +
-             '<span class="pthumbs">' + partThumb(cat, o) + '</span>' +
-             '<small>' + (have ? o.name : '???') + '</small></div>';
-    }).join('');
+      q('.set-parts').innerHTML = slots.map((cat) => {
+        const o = WEAR.pick(WEAR.LISTS[cat], set.look[cat]);
+        const have = WEAR.has(cat, o.id);
+        return '<div class="set-part' + (have ? '' : ' miss') + '">' +
+               '<span class="pthumbs">' + partThumb(cat, o) + '</span>' +
+               '<small>' + (have ? o.name : '???') + '</small></div>';
+      }).join('');
 
-    const full = got === SLOTS.length;
-    const worn = SLOTS.every((c) => WEAR.L[c] === feat.look[c]);
-    setGo.disabled = !full || worn;
-    setGo.textContent = worn ? 'ใส่ชุดนี้อยู่'
+      const full = got === slots.length;
+      const worn = slots.every((k) => WEAR.L[k] === set.look[k]);
+      const go = q('.set-go');
+      go.disabled = !full || worn;
+      go.textContent = worn ? 'ใส่ชุดนี้อยู่'
                      : full ? 'ใส่ทั้งชุด'
-                            : 'ยังขาดอีก ' + (SLOTS.length - got) + ' ชิ้น';
+                            : 'ยังขาดอีก ' + (slots.length - got) + ' ชิ้น';
+    });
   }
-  setGo.addEventListener('click', () => WEAR.wearSet(feat));
+  cards.forEach((c) => c.el.querySelector('.set-go')
+    .addEventListener('click', () => WEAR.wearSet(c.set)));
 
   /* ---------- ปุ่มลัด ---------- */
   document.getElementById('goChat').addEventListener('click', () => TABS.go('chat'));
