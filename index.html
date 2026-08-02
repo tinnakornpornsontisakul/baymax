@@ -5020,11 +5020,40 @@ const BOT3D = (function(){
     return build(pos, nor, idx);
   }
 
+  /* ---- เมชเสื้อผ้า ----
+     ขยายทรงกลมให้ใหญ่ขึ้นเฉย ๆ ได้แค่รอยต่อแข็ง ๆ เหมือนทาสีทับ ไม่เหมือนใส่เสื้อ
+     อันนี้ห่อไปตามผิวลำตัวจริงตั้งแต่แนวคอถึงชายเสื้อ มีความหนาให้เห็นขอบผ้าด้วย */
+  const BODY_RX = 1.00, BODY_RY = 1.14, BODY_RZ = 0.93;
+  const bodyProfile = (y) => Math.sqrt(Math.max(0.0001, 1 - (y/BODY_RY)*(y/BODY_RY)));
+  function wrapMesh(top, bot, t, su, sv){
+    su = su || 30; sv = sv || 16;
+    const pos=[], nor=[], idx=[], rings=[];
+    function ring(y, off, flip){
+      const p = bodyProfile(y), s = flip ? -1 : 1;
+      rings.push(1);
+      for (let i = 0; i <= su; i++){
+        const th = i/su*Math.PI*2, ct = Math.cos(th), st = Math.sin(th);
+        pos.push((BODY_RX + off)*p*ct, y, (BODY_RZ + off)*p*st);
+        let nx = ct*p, ny = y/(BODY_RY*BODY_RY), nz = st*p;
+        const l = Math.hypot(nx, ny, nz) || 1;
+        nor.push(s*nx/l, s*ny/l, s*nz/l);
+      }
+    }
+    for (let j = 0; j <= sv; j++) ring(top + (bot-top)*j/sv, t, false);          // ผิวนอก
+    for (let j = 0; j <= sv; j++) ring(bot + (top-bot)*j/sv, t*0.22, true);      // ผิวใน
+    ring(top, t, false);                                                          // ปิดขอบคอ
+    grid(rings, su, pos, nor, idx);
+    return build(pos, nor, idx);
+  }
+
   const MESH = {
     sphere: () => sphereMesh(26, 18),
     capsule:() => capsuleMesh(1, 1, 22, 9),
     torus:  () => torusMesh(1, 0.16, 26, 12),
-    cone:   () => coneMesh(18)
+    cone:   () => coneMesh(18),
+    top:    () => wrapMesh(0.80, -1.05, 0.055),    // เสื้อทั่วไป คอสูงพอให้ไม่เหลือไหล่โล่ง
+    long:   () => wrapMesh(0.88, -1.12, 0.06),     // ตัวยาว เช่นกาวน์หมอ
+    crop:   () => wrapMesh(0.80, -0.42, 0.055)     // ตัวสั้น ใช้ทำเสื้อกั๊ก/ทับ
   };
 
   /* ---------- เชดเดอร์ ---------- */
@@ -5078,6 +5107,12 @@ const BOT3D = (function(){
     const face  = WEAR.pick(WEAR.FACES, look.face);
     const item  = WEAR.pick(WEAR.ITEMS, look.item);
     const P = [];
+    /* วงแหวนรอบตัว/รอบคอต้องคิดรัศมีจากผิวลำตัวที่ความสูงนั้น
+       ก่อนหน้านี้ใส่ตัวเลขตายตัวไว้ เล็กกว่าตัวจริง วงเลยจมอยู่ข้างในมองไม่เห็นสักอัน */
+    const ringAt = (y, pad) => {
+      const r = bodyProfile(y);
+      return [1.00*r + pad, 0, 0.93*r + pad];
+    };
     const add = (mesh, pos, scale, color, o) => P.push({
       mesh, pos, scale, color, rot: (o && o.rot) || [0,0,0],
       gloss: (o && o.gloss != null) ? o.gloss : 0.22 });
@@ -5099,143 +5134,191 @@ const BOT3D = (function(){
     add('capsule', [0, 1.36, 0.325],     [0.038, 0.115, 0.075], INK, { rot:[0, 0, Math.PI/2], gloss:0.45 });
 
     /* ---- ชุด ----
-       ทุกตัวคลุมลำตัวเป็นทรงเดียวกัน แล้วค่อยแต่งรายละเอียดของตัวเองทับลงไป
-       เหลือไหล่กับคอเป็นสีเปลือกไว้ จะได้รู้ว่าใส่เสื้ออยู่ ไม่ใช่เปลี่ยนสีตัว */
+       ใช้เมชผ้าที่ห่อตามผิวลำตัวจริง มีขอบคอกับชายเสื้อ แล้วค่อยแต่งของแต่ละตัวทับ
+       แขนเสื้อเป็นปลอกครอบต้นแขน เหลือปลายแขนกับมือโผล่ ให้เหมือนใส่เสื้อจริง ๆ */
     if (fit.id !== 'none'){
-      const c = colorOf(fit.svg, '#FFFFFF');
-      /* ทรงเสื้อต้องใหญ่กว่าลำตัวจริง ไม่ใช่แค่เลื่อนลง ไม่งั้นมันจมหายไปข้างใน
-         แล้วโผล่แค่ช่วงพุง เหลือแนวคอถึงไหล่เป็นสีเปลือกไว้ให้รู้ว่าใส่เสื้ออยู่ */
-      const shirt = (col) => add('sphere', [0, -0.10, 0], [1.07, 1.17, 1.00], col, { gloss:0.16 });
-      const collar = (col) => add('torus', [0, 0.76, 0.03], [0.455, 0.05, 0.435], col, { gloss:0.3 });
-      /* วงแถบต้องคำนวณรัศมีจากทรงเสื้อที่ความสูงนั้น ๆ ไม่งั้นบานออกเป็นกระโปรง */
+      const wrap   = (mesh, col, g) => add(mesh, [0,0,0], [1,1,1], col, { gloss:g == null ? 0.18 : g });
+      const collar = (col) => { const R = ringAt(0.79, 0.075);
+        add('torus', [0, 0.79, 0], [R[0], 0.06, R[2]], col, { gloss:0.28 }); };
+      /* วงแถบต้องคิดรัศมีจากทรงลำตัวที่ความสูงนั้น ไม่งั้นบานออกเป็นกระโปรง */
       const band = (y, col, w) => {
-        const dy = (y + 0.10) / 1.17;
-        const r = 1.07 * Math.sqrt(Math.max(0.04, 1 - dy*dy));
-        add('torus', [0, y, 0], [r*1.012, w || 0.045, r*0.947], col, { gloss:0.2 });
+        const r = bodyProfile(y);
+        add('torus', [0, y, 0], [r*1.055 + 0.01, w || 0.05, r*0.985 + 0.01], col, { gloss:0.2 });
       };
-      const vneck = (col) => {
-        [-1, 1].forEach((s) => add('capsule', [s*0.15, 0.56, 0.70], [0.05, 0.145, 0.04], col,
-          { rot:[0.3, 0, s*0.6], gloss:0.25 }));
-      };
+      /* แขนเสื้อต้องเลื่อนขึ้นไปตามแนวแขนที่เอียง 0.28 rad ไม่งั้นได้แค่ปุ่มที่ไหล่
+         len ยาวเท่าไหร่คือคลุมลงมาถึงไหน ปลายแขนกับมือปล่อยโผล่ไว้ */
+      const sleeve = (col, len) => [-1, 1].forEach((s) =>
+        add('capsule', [s*0.905, 0.34, 0.02], [0.292, len || 0.26, 0.292], col,
+            { rot:[0, 0, s*0.28], gloss:0.2 }));
+      const placket = (col) =>
+        add('capsule', [0, -0.06, 0.99], [0.05, 0.46, 0.04], col, { gloss:0.2 });
+
       if (fit.id === 'coat'){
-        shirt('#FBFDFE'); collar('#EAF1F7'); vneck('#BFD3E2');
-        add('sphere', [0.34, -0.30, 0.86], [0.17, 0.13, 0.06], '#EAF1F7', { gloss:0.1 });  // กระเป๋าเสื้อ
+        wrap('long', '#FBFDFE'); collar('#DCE7F0'); sleeve('#FBFDFE', 0.30);
+        placket('#C9D9E6');
+        add('sphere', [0.40, -0.42, 0.78], [0.16, 0.13, 0.10], '#EAF1F7', { gloss:0.1 });   // กระเป๋า
+        add('sphere', [-0.40, -0.42, 0.78], [0.16, 0.13, 0.10], '#EAF1F7', { gloss:0.1 });
       } else if (fit.id === 'tee'){
-        shirt('#A9CCEA'); collar('#7FA9CE');
-        [0.26, -0.06, -0.38, -0.70].forEach((y) => band(y, '#FDFEFF'));
+        wrap('top', '#8FB7DC'); collar('#6E9AC4'); sleeve('#8FB7DC', 0.13);
+        [0.34, 0.02, -0.30, -0.62, -0.92].forEach((y) => band(y, '#FDFEFF', 0.075));
       } else if (fit.id === 'hoodie'){
-        shirt('#63CDB4'); collar('#4CB69C');
-        add('sphere', [0, 1.10, -0.42], [0.62, 0.46, 0.42], '#4CB69C', { gloss:0.14 });     // ฮู้ดพาดหลังคอ
-        [-1, 1].forEach((s) => add('capsule', [s*0.14, 0.38, 0.86], [0.035, 0.16, 0.03], '#FDFEFF', { gloss:0.2 }));
-        band(-0.86, '#4CB69C', 0.07);
+        wrap('top', '#57C4AA'); sleeve('#57C4AA', 0.28);
+        add('sphere', [0, 0.94, -0.46], [0.60, 0.40, 0.42], '#3FA88F', { rot:[-0.35, 0, 0], gloss:0.14 });
+        collar('#3FA88F');
+        [-1, 1].forEach((s) => add('capsule', [s*0.13, 0.36, 0.94], [0.032, 0.15, 0.03], '#FDFEFF', { gloss:0.25 }));
+        band(-0.95, '#3FA88F', 0.085);
+        add('sphere', [0, -0.55, 0.90], [0.36, 0.15, 0.12], '#3FA88F', { gloss:0.1 });      // กระเป๋าหน้าท้อง
       } else if (fit.id === 'sweater'){
-        shirt('#FFDE8A'); collar('#E7BF64');
-        band(0.16, '#E7BF64'); band(-0.24, '#E7BF64');
-        band(-0.86, '#E7BF64', 0.07);
+        wrap('top', '#FFD873'); sleeve('#FFD873', 0.28);
+        collar('#E7BF64');
+        [0.30, 0.06, -0.18, -0.42, -0.66].forEach((y) => band(y, '#E7BF64', 0.055));
+        band(-0.95, '#E7BF64', 0.09);
       } else if (fit.id === 'suit'){
-        shirt('#2B3A47'); collar('#FDFEFF');
-        add('sphere',  [0, 0.18, 0.80], [0.19, 0.44, 0.17], '#FDFEFF', { gloss:0.18 });     // แถบเชิ้ตขาว
-        vneck('#4A6076');                                                                   // ปกสูท
-        add('sphere',  [0, 0.50, 0.86], [0.10, 0.075, 0.06], '#F0575F', { gloss:0.4 });     // ปมเนคไท
-        add('capsule', [0, 0.14, 0.86], [0.065, 0.16, 0.045], '#F0575F', { gloss:0.35 });
+        wrap('top', '#26313D'); sleeve('#26313D', 0.28);
+        add('sphere',  [0, 0.36, 0.88], [0.155, 0.30, 0.10], '#FDFEFF', { gloss:0.2 });      // แผ่นอกเชิ้ต
+        collar('#1A222C');
+        [-1, 1].forEach((s) => add('capsule', [s*0.20, 0.44, 0.86], [0.055, 0.22, 0.045], '#38485A',
+          { rot:[0, 0, s*0.44], gloss:0.25 }));                                              // ปกสูท
+        add('sphere',  [0, 0.56, 0.90], [0.075, 0.06, 0.05], '#E0424C', { gloss:0.45 });
+        add('capsule', [0, 0.28, 0.93], [0.045, 0.14, 0.035], '#E0424C', { gloss:0.4 });
       } else if (fit.id === 'track'){
-        /* แถบข้างลำตัวทำเป็นทรงตันจะทิ่มออกมาเหมือนปีก เลยใช้ปลอกแขนกับปกขาวแทน */
-        shirt('#16181C'); collar('#FDFEFF'); vneck('#FDFEFF');
-        [-1, 1].forEach((s) => add('torus', [s*1.10, -0.26, 0.03], [0.30, 0.075, 0.30], '#FDFEFF',
-          { rot:[0, 0, s*0.28], gloss:0.3 }));
+        wrap('top', '#16181C'); sleeve('#16181C', 0.28);
+        collar('#FDFEFF');
+        [-1, 1].forEach((s) => add('torus', [s*1.055, -0.06, 0.02], [0.315, 0.05, 0.315], '#FDFEFF',
+          { rot:[0, 0, s*0.28], gloss:0.3 }));                                               // ขลิบปลายแขน
+        add('capsule', [0, -0.06, 1.00], [0.045, 0.46, 0.035], '#FDFEFF', { gloss:0.25 });   // ซิปหน้า
+        add('sphere',  [-0.34, 0.24, 0.90], [0.115, 0.115, 0.05], '#FDFEFF', { gloss:0.2 }); // โลโก้อก
+      } else if (fit.id === 'astro'){
+        wrap('top', '#F2F5F9'); sleeve('#F2F5F9', 0.28);
+        collar('#C6D3E0');
+        band(-0.20, '#C6D3E0', 0.06); band(-0.62, '#C6D3E0', 0.06);
+        add('sphere', [0, 0.16, 0.96], [0.30, 0.24, 0.12], '#8FB7DC', { gloss:0.5 });        // แผงควบคุมหน้าอก
+        add('torus',  [0, 0.16, 0.97], [0.35, 0.035, 0.28], '#C6D3E0', { rot:[Math.PI/2, 0, 0], gloss:0.4 });
       } else {
-        shirt(c); collar(c);
-        band(-0.20, '#FFFFFF'); band(-0.72, '#FFFFFF');
+        const c = colorOf(fit.svg, '#FFFFFF');
+        wrap('top', c); collar(c); sleeve(c);
       }
     }
 
-    /* ---- หมวก ---- โดมต้องอยู่สูงและถอยไปหลังนิดหนึ่ง ไม่งั้นกลืนหน้าเขาหมด */
+    /* ---- หมวก ----
+       หัวเขากว้าง (ครึ่งกว้าง ~0.66) แต่บาง (ครึ่งสูง ~0.36) หมวกต้องกว้างตาม
+       ไม่งั้นจะเหมือนวางหมวกกลม ๆ ไว้บนหัวเฉย ๆ ทุกใบเลยมีขอบรัดหัวด้วย */
     if (hat.id !== 'none'){
       const c = colorOf(hat.svg, '#F0575F');
-      const dome = (col, y, sc) => add('sphere', [0, y || 1.54, -0.03], sc || [0.40, 0.30, 0.39], col, { gloss:0.34 });
+      const HY = 1.36;
+      const crown = (col, h, up, g) =>
+        add('sphere', [0, HY + (up == null ? 0.12 : up), -0.02], [0.63, h || 0.34, 0.375], col,
+            { gloss:g == null ? 0.3 : g });
+      const brimRing = (col, y, w) =>
+        add('torus', [0, HY + (y == null ? 0.06 : y), -0.02], [0.615, w || 0.055, 0.365], col, { gloss:0.25 });
+
       if (hat.id === 'party'){
-        add('cone',   [0, 1.60, 0.02], [0.27, 0.54, 0.27], c, { gloss:0.3 });
-        add('torus',  [0, 1.84, 0.02], [0.13, 0.035, 0.13], '#FFDE8A', { gloss:0.4 });
-        add('sphere', [0, 2.16, 0.02], [0.10, 0.10, 0.10], '#FFDE8A', { gloss:0.5 });
+        add('cone',   [0, HY + 0.28, 0], [0.30, 0.62, 0.30], c, { gloss:0.3 });
+        brimRing('#FFDE8A', 0.30, 0.05);
+        add('sphere', [0, HY + 0.96, 0], [0.10, 0.10, 0.10], '#FFDE8A', { gloss:0.5 });
       } else if (hat.id === 'crown'){
-        for (let k = 0; k < 5; k++){
-          const a = -0.9 + k*0.45;
-          add('cone', [Math.sin(a)*0.32, 1.58, Math.cos(a)*0.24 + 0.02], [0.078, 0.25, 0.078], c, { gloss:0.5 });
+        for (let k = 0; k < 7; k++){
+          const a2 = -Math.PI/2 + (k/6)*Math.PI;
+          add('cone', [Math.sin(a2)*0.50, HY + 0.28, Math.cos(a2)*0.28 - 0.02],
+              [0.075, 0.26, 0.075], c, { gloss:0.55 });
         }
-        add('torus',  [0, 1.58, 0.02], [0.33, 0.055, 0.26], c, { gloss:0.5 });
-        add('sphere', [0, 1.70, 0.26], [0.065, 0.065, 0.05], '#F0575F', { gloss:0.5 });
+        add('torus',  [0, HY + 0.28, -0.02], [0.50, 0.07, 0.30], c, { gloss:0.55 });
+        add('sphere', [0, HY + 0.34, 0.26], [0.07, 0.07, 0.05], '#F0575F', { gloss:0.5 });
       } else if (hat.id === 'nurse'){
-        add('sphere', [0, 1.60, 0.02], [0.36, 0.14, 0.32], '#FDFEFF', { gloss:0.2 });
-        add('sphere', [0, 1.66, 0.20], [0.13, 0.035, 0.05], '#F0575F', { gloss:0.3 });
-        add('sphere', [0, 1.66, 0.20], [0.035, 0.13, 0.05], '#F0575F', { gloss:0.3 });
+        add('sphere', [0, HY + 0.22, -0.02], [0.58, 0.20, 0.36], '#FDFEFF', { gloss:0.18 });
+        add('sphere', [0, HY + 0.30, 0.20], [0.19, 0.055, 0.10], '#F0575F', { gloss:0.3 });
+        add('sphere', [0, HY + 0.30, 0.20], [0.06, 0.165, 0.10], '#F0575F', { gloss:0.3 });
       } else if (hat.id === 'beanie'){
-        dome(c, 1.56, [0.415, 0.32, 0.405]);
-        add('torus',  [0, 1.38, -0.02], [0.375, 0.075, 0.365], c, { gloss:0.15 });
-        add('sphere', [0, 1.90, -0.03], [0.13, 0.13, 0.13], c, { gloss:0.25 });
+        crown(c, 0.40, 0.16, 0.16);
+        brimRing(c, 0.02, 0.085);
+        add('sphere', [0, HY + 0.62, -0.02], [0.135, 0.135, 0.135], c, { gloss:0.2 });
       } else if (hat.id === 'armor'){
-        dome(c, 1.55, [0.42, 0.33, 0.41]);
-        add('sphere', [0, 1.76, -0.05], [0.055, 0.20, 0.40], '#8FA3BC', { gloss:0.6 });
-      } else {
-        dome(c);
-        if (hat.id === 'cap' || hat.id === 'shcap')
-          add('sphere', [0, 1.45, 0.34], [0.30, 0.045, 0.28], c, { gloss:0.3 });
+        crown(c, 0.36, 0.14, 0.55);
+        brimRing('#8FA3BC', 0.02, 0.06);
+        add('sphere', [0, HY + 0.38, -0.03], [0.05, 0.22, 0.36], '#8FA3BC', { gloss:0.65 });
+      } else if (hat.id === 'cap' || hat.id === 'shcap'){
+        crown(c, 0.33, 0.12);
+        brimRing(c, 0.00, 0.055);
+        add('sphere', [0, HY + 0.02, 0.42], [0.42, 0.05, 0.30], c, { gloss:0.28 });          // ปีกหมวก
         if (hat.id === 'shcap')
-          add('sphere', [0, 1.62, 0.28], [0.065, 0.065, 0.04], '#FDFEFF', { gloss:0.4 });
-        if (hat.id === 'helmet')
-          add('sphere', [0, 1.57, -0.03], [0.115, 0.30, 0.395], '#F5F7FA', { gloss:0.5 });
+          add('sphere', [0, HY + 0.22, 0.26], [0.07, 0.07, 0.045], '#FDFEFF', { gloss:0.4 });
+      } else if (hat.id === 'helmet'){
+        crown(c, 0.40, 0.10, 0.45);
+        add('sphere', [0, HY + 0.14, -0.02], [0.13, 0.40, 0.385], '#F5F7FA', { gloss:0.55 });
+        brimRing('#2B3A47', -0.10, 0.05);
+      } else {
+        crown(c, 0.34, 0.12);
+        brimRing(c, 0.02, 0.06);
       }
     }
 
-    /* ---- ของบนใบหน้า ---- */
+    /* ---- ของบนใบหน้า ----
+       ผิวหน้าอยู่ที่ z ราว 0.355 ทุกชิ้นต้องโผล่พ้นแนวนั้นถึงจะไม่จมหาย */
     if (face.id !== 'none'){
       const c = colorOf(face.svg, INK);
+      const EY = 1.36;
       if (face.id === 'round'){
-        [-1, 1].forEach((s) => add('torus', [s*0.235, 1.36, 0.30], [0.135, 0.028, 0.135], c,
-          { rot:[Math.PI/2, 0, 0], gloss:0.6 }));
-        add('capsule', [0, 1.36, 0.31], [0.026, 0.075, 0.026], c, { rot:[0, 0, Math.PI/2], gloss:0.6 });
+        [-1, 1].forEach((s) => {
+          add('torus',  [s*0.245, EY, 0.30], [0.185, 0.042, 0.185], c, { rot:[Math.PI/2, 0, 0], gloss:0.6 });
+          add('sphere', [s*0.55, EY + 0.03, 0.10], [0.16, 0.022, 0.022], c, { gloss:0.4 });   // ขาแว่น
+        });
+        add('capsule', [0, EY, 0.33], [0.032, 0.07, 0.032], c, { rot:[0, 0, Math.PI/2], gloss:0.6 });
+      } else if (face.id === 'shades'){
+        add('capsule', [0, EY + 0.01, 0.315], [0.115, 0.30, 0.09], c, { rot:[0, 0, Math.PI/2], gloss:0.75 });
+        [-1, 1].forEach((s) => add('sphere', [s*0.56, EY + 0.04, 0.10], [0.16, 0.025, 0.025], c, { gloss:0.4 }));
       } else if (face.id === 'blush'){
-        [-1, 1].forEach((s) => add('sphere', [s*0.40, 1.22, 0.24], [0.105, 0.065, 0.06], c, { gloss:0.1 }));
+        [-1, 1].forEach((s) => add('sphere', [s*0.40, EY - 0.16, 0.27], [0.115, 0.07, 0.055], c, { gloss:0.08 }));
       } else if (face.id === 'patch'){
-        add('sphere', [0.36, 1.46, 0.22], [0.135, 0.06, 0.05], c, { rot:[0, 0, -0.5], gloss:0.15 });
+        add('sphere', [0.30, EY + 0.10, 0.30], [0.165, 0.07, 0.06], c, { rot:[0, 0, -0.55], gloss:0.15 });
+        add('sphere', [0.30, EY + 0.10, 0.34], [0.075, 0.05, 0.04], '#FDFEFF', { rot:[0, 0, -0.55], gloss:0.1 });
       } else if (face.id === 'mask'){
-        /* ต้องอยู่ใต้ตา ไม่งั้นบังหน้าเขาหมด (แคปซูลยาวตามแกน Y ก่อนหมุนไปเป็นแกน X) */
-        add('capsule', [0, 1.10, 0.225], [0.14, 0.235, 0.14], c, { rot:[0, 0, Math.PI/2], gloss:0.15 });
+        add('sphere',  [0, EY - 0.20, 0.26], [0.40, 0.20, 0.16], c, { gloss:0.14 });
+        [-1, 1].forEach((s) => add('capsule', [s*0.42, EY - 0.14, 0.10], [0.022, 0.16, 0.022], c,
+          { rot:[0, 0, s*0.9], gloss:0.2 }));                                                  // สายคล้องหู
       } else if (face.id === 'visor'){
-        add('capsule', [0, 1.36, 0.30], [0.125, 0.30, 0.115], c, { rot:[0, 0, Math.PI/2], gloss:0.85 });
+        add('sphere', [0, EY - 0.01, 0.235], [0.60, 0.145, 0.215], c, { gloss:0.9 });
       } else {
-        add('capsule', [0, 1.36, 0.30], [0.115, 0.245, 0.10], c, { rot:[0, 0, Math.PI/2], gloss:0.7 });
+        add('capsule', [0, EY, 0.31], [0.11, 0.26, 0.09], c, { rot:[0, 0, Math.PI/2], gloss:0.7 });
       }
     }
 
-    /* ---- ของประดับ ---- */
+    /* ---- ของประดับ ---- อิงผิวลำตัวจริง (หน้าอกอยู่ราว z 0.90 ที่ระดับ y 0.3) */
     if (item.id !== 'none'){
       const c = colorOf(item.svg, '#FFDE8A');
       if (item.id === 'cape'){
-        add('sphere', [0, -0.12, -0.72], [1.02, 1.24, 0.30], c, { gloss:0.12 });
-        add('torus',  [0, 0.80, -0.06], [0.47, 0.05, 0.45], c, { gloss:0.2 });
+        add('sphere', [0, -0.16, -0.80], [1.06, 1.20, 0.24], c, { rot:[0.08, 0, 0], gloss:0.12 });
+        (function(){ const R = ringAt(0.62, 0.085); add('torus', [0, 0.62, -0.02], [R[0], 0.065, R[2]], c, { gloss:0.2 }); })();
       } else if (item.id === 'wings'){
-        [-1,1].forEach((s) => add('sphere', [s*0.95, 0.34, -0.60], [0.62, 0.80, 0.14], c, { rot:[0, 0, s*0.4], gloss:0.2 }));
+        /* ทรงรีแบน ๆ ดูเหมือนโล่มากกว่าปีก เลยใช้ใบมีดเรียวกางขึ้นหลังแทน */
+        [-1,1].forEach((s) => {
+          add('cone', [s*0.52, 0.16, -0.72], [0.30, 1.15, 0.10], c,
+              { rot:[0.42, 0, s*(-0.52)], gloss:0.3 });
+          add('cone', [s*0.30, -0.52, -0.80], [0.14, 0.32, 0.14], '#F0575F',
+              { rot:[Math.PI, 0, 0], gloss:0.45 });
+        });
       } else if (item.id === 'core'){
-        add('sphere', [0, 0.28, 0.90], [0.19, 0.19, 0.14], c, { gloss:0.9 });
-        add('torus',  [0, 0.28, 0.88], [0.26, 0.035, 0.20], '#FDFEFF', { rot:[Math.PI/2, 0, 0], gloss:0.5 });
+        add('sphere', [0, 0.24, 0.94], [0.20, 0.20, 0.13], c, { gloss:0.95 });
+        add('torus',  [0, 0.24, 0.92], [0.29, 0.04, 0.22], '#FDFEFF', { rot:[Math.PI/2, 0, 0], gloss:0.5 });
       } else if (item.id === 'chain'){
-        add('torus',  [0, 0.74, 0.10], [0.44, 0.05, 0.40], c, { gloss:0.85 });
-        add('sphere', [0, 0.42, 0.85], [0.10, 0.12, 0.07], c, { gloss:0.9 });
+        (function(){ const R = ringAt(0.54, 0.07); add('torus', [0, 0.54, 0.02], [R[0], 0.055, R[2]], c, { gloss:0.9 }); })();
+        add('capsule',[0, 0.28, 0.94], [0.035, 0.12, 0.03], c, { gloss:0.9 });
+        add('sphere', [0, 0.10, 0.96], [0.13, 0.13, 0.07], c, { gloss:0.95 });
       } else if (item.id === 'bowtie'){
-        [-1, 1].forEach((s) => add('cone', [s*0.09, 0.66, 0.88], [0.075, 0.16, 0.075], c,
+        [-1, 1].forEach((s) => add('cone', [s*0.10, 0.52, 1.00], [0.085, 0.17, 0.085], c,
           { rot:[Math.PI/2, 0, s*Math.PI/2], gloss:0.4 }));
-        add('sphere', [0, 0.66, 0.90], [0.055, 0.055, 0.05], c, { gloss:0.5 });
+        add('sphere', [0, 0.52, 1.02], [0.06, 0.06, 0.05], c, { gloss:0.5 });
       } else if (item.id === 'scarf'){
-        add('torus',  [0, 0.72, 0.04], [0.47, 0.085, 0.45], c, { gloss:0.12 });
-        add('capsule',[0.22, 0.30, 0.86], [0.085, 0.22, 0.055], c, { rot:[0, 0, 0.15], gloss:0.12 });
+        (function(){ const R = ringAt(0.52, 0.10); add('torus', [0, 0.52, 0.02], [R[0], 0.105, R[2]], c, { gloss:0.1 }); })();
+        add('capsule',[0.26, 0.14, 0.94], [0.095, 0.26, 0.05], c, { rot:[0, 0, 0.18], gloss:0.1 });
       } else if (item.id === 'tie'){
-        add('sphere', [0, 0.60, 0.88], [0.075, 0.07, 0.06], c, { gloss:0.4 });
-        add('capsule',[0, 0.20, 0.90], [0.075, 0.20, 0.05], c, { gloss:0.35 });
+        add('sphere', [0, 0.50, 1.00], [0.07, 0.065, 0.055], c, { gloss:0.4 });
+        add('capsule',[0, 0.10, 1.00], [0.07, 0.20, 0.045], c, { gloss:0.35 });
       } else if (item.id === 'badge'){
-        add('torus',  [0.30, 0.30, 0.84], [0.115, 0.035, 0.115], c, { rot:[Math.PI/2, 0, 0], gloss:0.7 });
-        add('sphere', [0.30, 0.30, 0.85], [0.095, 0.095, 0.05], c, { gloss:0.8 });
+        add('torus',  [0.34, 0.22, 0.90], [0.125, 0.032, 0.125], c, { rot:[Math.PI/2, 0, 0], gloss:0.7 });
+        add('sphere', [0.34, 0.22, 0.91], [0.10, 0.10, 0.05], c, { gloss:0.85 });
+        add('capsule',[0.34, 0.44, 0.88], [0.075, 0.07, 0.02], '#E0424C', { gloss:0.2 });
       } else {
-        add('torus', [0, 0.78, 0.08], [0.42, 0.05, 0.38], c, { gloss:0.6 });
+        (function(){ const R = ringAt(0.56, 0.075); add('torus', [0, 0.56, 0.02], [R[0], 0.06, R[2]], c, { gloss:0.6 }); })();
       }
     }
     return P;
