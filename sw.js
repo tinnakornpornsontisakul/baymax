@@ -1,7 +1,7 @@
 /* ไฟล์นี้ "ไม่จำเป็น" — ถ้าไม่วางไว้ index.html ก็ยังทำงานได้ปกติทุกอย่าง
    วางไว้คู่กันเมื่อไหร่ คู่มือจะเปิดอ่านได้ตอนไม่มีเน็ต */
 
-const VERSION = 'v3.7.1';
+const VERSION = 'v3.8.0';
 const CACHE = `baymax-${VERSION}`;
 
 self.addEventListener('install', (e) => {

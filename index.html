@@ -69,6 +69,7 @@
     background:radial-gradient(900px 500px at 80% -10%, #FFFFFF 0%, transparent 60%), var(--bg);
     color:var(--ink);font-family:var(--body);font-weight:300;line-height:1.75;-webkit-font-smoothing:antialiased;
     touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+    overflow-x:hidden;   /* กันของตกขอบจอแคบ ๆ ไม่ให้เลื่อนซ้ายขวาได้ */
   }
   /* ปุ่มกับการ์ดที่กดรัว ๆ — กันไม่ให้เผลอลากเลือกข้อความหรือเด้งเมนู */
   .btn,.pbtn,.tabbtn,.wopt,.vc-chip,.gcardbtn,.gback,.leak,.bx-open,.bx-gift,.mode{
@@ -362,7 +363,8 @@
 
   .hud{display:flex;flex-direction:column;gap:16px;justify-content:center}
   .scores{display:flex;gap:10px}
-  .kpi{flex:1;background:#F4F9FC;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+  /* min-width:0 สำคัญ — ไม่งั้นการ์ดหดต่ำกว่าความกว้างตัวหนังสือไม่ได้ แล้วแถวจะล้นขอบจอ */
+  .kpi{flex:1;min-width:0;overflow:hidden;background:#F4F9FC;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
   .kpi b{display:block;font-family:var(--display);font-weight:700;font-size:26px;line-height:1.2}
   .kpi span{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
   .rank{display:inline-flex;align-self:flex-start;align-items:center;gap:8px;background:#FFF6E0;
@@ -994,8 +996,8 @@
   .bsfield .gd-hp{top:14px;left:12px;max-width:24%}
   .bsfield .gd-hp i{border-color:#5A6172}
 
-  .bs-boss{position:absolute;left:50%;top:31%;width:25%;transform:translate(-50%,-50%);z-index:3;
-    cursor:pointer;transition:left .45s cubic-bezier(.3,1.2,.4,1)}
+  .bs-boss{position:absolute;left:50%;top:22%;width:15%;transform:translate(-50%,-50%);z-index:3;
+    pointer-events:none}
   .bs-boss svg{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
   .bs-boss .bsbody{animation:bossFloat 3.4s ease-in-out infinite;transform-origin:50px 80px}
   @keyframes bossFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -1006,25 +1008,44 @@
   .bs-boss.cast svg{animation:bossCast .5s ease-out}
   @keyframes bossCast{35%{transform:scale(1.08,.94)}70%{transform:scale(.97,1.05)}}
 
-  .bs-hero{position:absolute;left:50%;bottom:5%;width:19%;transform:translateX(-50%);z-index:3;pointer-events:none}
+  .bs-hero{position:absolute;left:50%;top:86%;width:11.5%;transform:translate(-50%,-50%);z-index:3;pointer-events:none}
   .bs-hero svg{width:100%;height:auto;display:block}
   .bs-hero.hurt .body-sh{fill:#FFDDDF}
-  .bs-hero.hurt{animation:fHurt .42s steps(2) 2}
+  .bs-hero.hurt{animation:fHurt .42s steps(2) 3}
   .bs-hero.punch .arm-r{animation:fPunch .3s cubic-bezier(.3,1.4,.4,1);transform-origin:70px 56px}
+  /* โล่ — วงกลมรอบตัว บอกชัดว่าช่วงนี้ใบมีดทำอะไรไม่ได้ */
+  .bs-hero.shield::before{content:'';position:absolute;left:50%;top:52%;width:230%;aspect-ratio:1;
+    transform:translate(-50%,-50%);border-radius:50%;border:2.5px solid #6FD3B4;
+    background:radial-gradient(circle,rgba(111,211,180,.26),transparent 68%);animation:shPulse .9s ease-in-out infinite}
+  @keyframes shPulse{50%{transform:translate(-50%,-50%) scale(1.09);border-color:#B6EDDC}}
+  .bs-hero.od svg{filter:drop-shadow(0 0 9px rgba(255,190,90,.95))}
+
+  .bs-skills{display:flex;gap:10px;margin-top:14px}
+  .bskill{flex:1;min-width:0;position:relative;overflow:hidden;display:flex;align-items:center;gap:9px;
+    padding:11px 12px;border-radius:16px;background:#F4F9FC;border:1.5px solid var(--line);
+    cursor:pointer;text-align:left;font:inherit;color:inherit}
+  .bskill svg{width:21px;height:21px;flex:none}
+  .bskill .sk-t{display:block;font-weight:600;font-size:13.5px;line-height:1.25;white-space:nowrap}
+  .bskill .sk-s{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+  .bskill .cd{position:absolute;left:0;right:0;bottom:0;height:3.5px;background:var(--red);
+    transform-origin:left;transform:scaleX(0);pointer-events:none;transition:transform .12s linear}
+  .bskill.on .cd{background:#3BB58F}
+  .bskill.ready{border-color:#F0575F;background:#FFF1F2}
+  .bskill.on{border-color:#3BB58F;background:#E4F7F0}
+  .bskill.on .sk-s{color:#2E8F71}
+  .bskill:active{transform:scale(.97)}
+  .bskill[disabled]{cursor:default}
 
   .bsshot{position:absolute;width:5%;transform:translate(-50%,-50%);z-index:4;pointer-events:none;
     filter:drop-shadow(0 0 6px rgba(240,87,95,.5))}
   .bsshot svg{width:100%;height:auto;display:block;transform:rotate(var(--rot,0deg))}
-  /* นิ้วต้องกดใบมีดให้โดน เลยขยายพื้นที่แตะให้ใหญ่กว่ารูปจริง */
-  .bsblade{position:absolute;width:9%;transform:translate(-50%,-50%);z-index:4;cursor:pointer;
-    padding:2.6%;margin:-2.6%;box-sizing:content-box}
+  .bsblade{position:absolute;width:7%;transform:translate(-50%,-50%);z-index:4;pointer-events:none;
+    filter:drop-shadow(0 0 6px rgba(224,48,60,.7))}
   .bsblade svg{width:100%;height:auto;display:block;animation:bladeSpin .9s linear infinite}
   @keyframes bladeSpin{to{transform:rotate(360deg)}}
-  /* ใบที่เล็งมาที่ตัวจริง ๆ จะเรืองแดง ใบที่จะพลาดเองเป็นสีจาง ๆ — ปล่อยผ่านได้ */
-  .bsblade.hot{filter:drop-shadow(0 0 7px rgba(224,48,60,.85));animation:bladeHot 1s ease-in-out infinite}
-  @keyframes bladeHot{50%{transform:translate(-50%,-50%) scale(1.12)}}
-  .bsblade.cold{opacity:.42;width:7.4%}
-  .bsblade.pop svg{animation:foeOuch .16s}
+  /* ใบที่ร่วงลงมาตรง ๆ เป็นสีจางกว่า อ่านออกง่ายว่าอันไหนตามตัวเรามา */
+  .bsblade.rain{opacity:.8;width:6%;filter:none}
 
   /* ============ เกมปกป้องหัวใจ ============ */
   .gart.guard{background:radial-gradient(120% 90% at 50% 10%,#FFF6F6,#FBE4E6)}
@@ -1225,15 +1246,28 @@
     .arena{margin:0 auto;max-width:none;
       width:min(100%,max(330px,calc((100dvh - 468px) * .952)))}
     /* เนื้อหาที่ไม่ใช่สนามยังต้องมีขอบของมันเอง */
-    .game .hud,.game2 .brow2,.chargecard .ch-meter,
+    .game .hud,.game2 .brow2,.game2 .bs-skills,.chargecard .ch-meter,
     .chargecard .ch-stats,.chargecard>.hint{margin-inline:16px}
     .game .hud{margin-top:18px}
     .game2 .brow2{margin-top:14px}
     .chargecard .ch-meter{margin-top:16px}
-    /* ศึกกับมุซันยิงจากล่างขึ้นบน เลยปล่อยให้สูงเต็มที่เท่าที่จอเหลือ อ่านใบมีดง่ายขึ้น */
-    .bsfield{aspect-ratio:auto;height:min(calc(100dvh - 432px),470px);min-height:280px}
+    /* ศึกกับมุซันต้องใช้พื้นที่หลบ เลยสูงเต็มที่เท่าที่จอเหลือ (เว้นที่ให้ปุ่มสกิลด้วย) */
+    .bsfield{aspect-ratio:auto;height:min(calc(100dvh - 470px),470px);min-height:270px}
+    .bskill{padding:10px 10px;gap:7px;border-radius:14px}
+    .bskill .sk-t{font-size:12.5px}
     .brow2 .hint{font-size:12.5px;line-height:1.55}
+    /* จอแคบ (Samsung หลายรุ่นกว้าง 360 หรือย่อลงอีกถ้าตั้งขนาดจอใหญ่)
+       — บีบการ์ดคะแนนให้อยู่ในแถวเดียวได้โดยไม่ตกขอบ */
+    .brow2 .scores{gap:6px}
+    .brow2 .kpi{flex:1 1 56px;padding:9px 8px}
+    .brow2 .kpi b{font-size:18px}
+    .brow2 .kpi span{font-size:8px;letter-spacing:.05em}
     .ch-stage{min-height:min(44dvh,312px)}
+    /* สี่ช่องแถวเดียว ไม่งั้นบนจอเตี้ยการ์ดจะไหลลงไปใต้แถบแท็บ */
+    .ch-stats{grid-template-columns:repeat(4,1fr);gap:6px}
+    .ch-stats .kpi{padding:9px 8px}
+    .ch-stats .kpi b{font-size:18px}
+    .ch-stats .kpi span{font-size:8px;letter-spacing:.05em}
     .chbot{width:min(64vw,215px)}
     .gart{height:124px}
     .gart svg{height:100px}
@@ -1756,7 +1790,7 @@
     <div class="sec-head">
       <div class="eyebrow">Boss fight</div>
       <h2>ศึกกับมุซัน</h2>
-      <p>แตะที่ตัวมุซันเพื่อชกหมัดจรวด แตะใบมีดที่พุ่งเข้ามาเพื่อสกัด — แต่นิ้วมีเดียว และถ้าหยุดชกนานเกินไปเขาจะฟื้นเลือดกลับมา มัวแต่ตั้งรับอย่างเดียวไม่มีวันชนะ</p>
+      <p>ลากนิ้วเพื่อพา Baymax หลบใบมีด เขายิงหมัดจรวดขึ้นเองอัตโนมัติ — จะโดนมุซันก็ต่อเมื่อยืนตรงใต้เขา ต้องเลือกเองว่าจะหลบหรือจะเข้าไปยืนยิง</p>
     </div>
 
     <div class="game2 card">
@@ -1812,20 +1846,36 @@
 
         <div class="overlay" id="bsOvl">
           <h3 id="bsTitle">ศึกกับมุซัน</h3>
-          <p id="bsText">แตะที่มุซันเพื่อชกหมัดจรวด แตะใบมีดที่เรืองแดงเพื่อสกัดก่อนถึงตัว ใบสีจางจะพลาดไปเอง ปล่อยได้ · หยุดชกนานเกินไปเขาจะฟื้นเลือด</p>
+          <p id="bsText">ลากนิ้วพา Baymax หลบใบมีด · หมัดยิงขึ้นเองอัตโนมัติ ยืนใต้มุซันถึงจะโดน · หยุดยิงนานเกินไปเขาจะฟื้นเลือด · มีสองสกิลใต้สนามช่วยได้</p>
           <div id="bsResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="bsFinal">0</div></div>
           <p class="lowbatt" id="bsLow" hidden><b>แบตไม่พอ</b> — ศึกนี้ใช้ 20% ไปชาร์จก่อนนะครับ</p>
           <button class="btn btn-go" id="bsPlay">เริ่มศึก</button>
         </div>
       </div>
 
+      <div class="bs-skills">
+        <button class="bskill" id="bsSk1" type="button">
+          <i class="cd" id="bsCd1"></i>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5 20 5v7c0 4.6-3.2 8.2-8 9.5-4.8-1.3-8-4.9-8-9.5V5z"
+            fill="#DFF4EC" stroke="#2E8F71" stroke-width="1.9" stroke-linejoin="round"/>
+            <path d="M8.4 12.2 11 14.8l4.6-5" fill="none" stroke="#2E8F71" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b class="sk-t">โล่พลังงาน</b><span class="sk-s" id="bsSt1">พร้อม</span></span>
+        </button>
+        <button class="bskill" id="bsSk2" type="button">
+          <i class="cd" id="bsCd2"></i>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 2 5 13.4h5.2L9.8 22 19 10.2h-5.4z"
+            fill="#FFE7B4" stroke="#C98A1E" stroke-width="1.9" stroke-linejoin="round"/></svg>
+          <span><b class="sk-t">รัวหมัด</b><span class="sk-s" id="bsSt2">พร้อม</span></span>
+        </button>
+      </div>
+
       <div class="brow2">
         <div class="scores" style="flex:1;max-width:460px">
           <div class="kpi"><b id="bsBest">0</b><span>Best</span></div>
           <div class="kpi"><b id="bsHits">0</b><span>Hits</span></div>
-          <div class="kpi"><b id="bsBlock">0</b><span>สกัดได้</span></div>
+          <div class="kpi"><b id="bsBlock">0</b><span>หลบได้</span></div>
         </div>
-        <p class="hint" style="flex:1;min-width:220px">หมัดจรวดพุ่งไปทางที่นิ้วแตะ ต้องเล็งเอง · ระยะที่ 2 มุซันจะย้ายที่ · ระยะที่ 3 ใบมีดมาเป็นชุดและฟื้นเลือดไวขึ้น · โดนห้าครั้งแพ้</p>
+        <p class="hint" style="flex:1;min-width:220px">ยืนใต้มุซันถึงจะยิงโดน แต่ตรงนั้นก็โดนใบมีดง่ายสุด · ระยะที่ 2 เขาเริ่มขยับไว ระยะที่ 3 ใบมีดมาเป็นชุดและร่วงลงมาทั้งแถว · โดนห้าครั้งแพ้</p>
       </div>
     </div>
   </section>
@@ -2983,7 +3033,8 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
 /* =========================================================
    4.4 · เกม 4 — ศึกกับมุซัน (บอสไฟต์)
-   สนาม 160 x 120 หน่วย นิ้วเดียวสองหน้าที่ แตะบอส = ชก แตะใบมีด = สกัด
+   ลากนิ้วพา Baymax หลบใบมีด หมัดยิงขึ้นเองอัตโนมัติ จะโดนก็ต่อเมื่อยืนใต้บอส
+   สนามกว้าง 160 หน่วย ส่วนความสูงคำนวณจากอัตราส่วนจริงของกล่อง วงกลมจะได้ไม่เบี้ยว
    ========================================================= */
 (function(){
   const field = document.getElementById('bsField');
@@ -3005,11 +3056,31 @@ if (owner) { closeGate(); } else { openGate('register'); }
   const playBtn= document.getElementById('bsPlay');
   const hpWrap = field.querySelector('.bs-hpbar');
 
-  const W = 160, H = 120, MAX_HP = 5, BOSS_HP = 280, SHOT_GAP = 155;
-  const REGEN_WAIT = 1100;                       // หยุดชกนานเกินนี้ มุซันเริ่มฟื้นตัว
-  const HERO_X = W/2, HERO_Y = 106, HIT_W = 13;
+  const sk1 = document.getElementById('bsSk1');
+  const sk2 = document.getElementById('bsSk2');
+  const cd1 = document.getElementById('bsCd1'), cd2 = document.getElementById('bsCd2');
+  const st1 = document.getElementById('bsSt1'), st2 = document.getElementById('bsSt2');
+
+  const W = 160, MAX_HP = 5, BOSS_HP = 250;
+  const REGEN_WAIT = 1900;                 // ไม่ได้ยิงโดนนานเกินนี้ มุซันเริ่มฟื้นตัว
+  const SHOT_GAP = 400, OD_GAP = 130;      // ปกติ / ตอนเปิดสกิลรัวหมัด
+  const DMG = 6, HERO_R = 6.2, BLADE_R = 4.6;
+  const SHIELD_MS = 2300, SHIELD_CD = 13000;
+  const OD_MS = 4500,  OD_CD = 16000;
+  const IFRAME_MS = 900;                   // โดนแล้วอมตะสั้น ๆ กันโดนรัว
+
+  /* ความสูงของสนามเปลี่ยนตามจอ เลยคิดหน่วยแนวตั้งจากอัตราส่วนจริง
+     px ต่อหนึ่งหน่วยจะได้เท่ากันทั้งสองแกน ระยะที่คำนวณถึงจะตรงกับที่ตาเห็น */
+  let H = 120;
+  const BOSS_Y = () => H * 0.22;
+  const HERO_TOP = () => H * 0.50, HERO_BOT = () => H * 0.94;
+  function fitField(){
+    const r = field.getBoundingClientRect();
+    if (r.width > 0) H = W * r.height / r.width;
+  }
   const pctX = (x) => (x / W * 100) + '%';
   const pctY = (y) => (y / H * 100) + '%';
+  const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 
   const FIST =
     '<svg viewBox="0 0 22 32" aria-hidden="true">' +
@@ -3029,7 +3100,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   const hubBest = document.getElementById('hubBestBoss');
   if (hubBest) hubBest.textContent = best;
 
-  let S = null, raf = 0, lastShot = 0;
+  let S = null, raf = 0;
 
   function hearts(n){
     heartsEl.innerHTML = '';
@@ -3053,9 +3124,6 @@ if (owner) { closeGate(); } else { openGate('register'); }
       setTimeout(() => b.remove(), 620);
     }
   }
-  const bossX = () => S ? S.bx : W/2;
-  const bossY = () => 0.31 * H;      // ต้องตรงกับ .bs-boss{top} ใน CSS
-
   function paintHp(){
     hpFill.style.width = Math.max(0, S.boss / BOSS_HP * 100) + '%';
     hpTag.textContent = S.heal ? 'ระยะที่ ' + S.phase + ' · กำลังฟื้นตัว'
@@ -3068,79 +3136,111 @@ if (owner) { closeGate(); } else { openGate('register'); }
     bigTag.textContent = 'ระยะที่ ' + p;
     bigTag.classList.remove('show'); void bigTag.offsetWidth; bigTag.classList.add('show');
     boss.classList.remove('cast'); void boss.offsetWidth; boss.classList.add('cast');
-    S.nextCast = performance.now() + 900;
+    S.nextCast = performance.now() + 1000;
     paintHp();
   }
 
-  function moveBoss(){
-    S.bx = 34 + Math.random() * (W - 68);
-    boss.style.left = pctX(S.bx);
+  /* ---------- สกิล ---------- */
+  function skillReady(k){ return S && !S.over && performance.now() >= S[k + 'Cd']; }
+  function useShield(){
+    if (!skillReady('sh')) return;
+    const now = performance.now();
+    S.shUntil = now + SHIELD_MS; S.shCd = now + SHIELD_CD;
+    hero.classList.add('shield');
+    if (navigator.vibrate) { try { navigator.vibrate(12); } catch(e){} }
+  }
+  function useOverdrive(){
+    if (!skillReady('od')) return;
+    const now = performance.now();
+    S.odUntil = now + OD_MS; S.odCd = now + OD_CD;
+    hero.classList.add('od');
+    if (navigator.vibrate) { try { navigator.vibrate(12); } catch(e){} }
+  }
+  function paintSkill(btn, cdBar, label, until, cdAt, total, onWord, now){
+    const on = now < until;
+    const wait = Math.max(0, cdAt - now);
+    btn.classList.toggle('on', on);
+    btn.classList.toggle('ready', !on && wait <= 0);
+    cdBar.style.transform = 'scaleX(' + (wait / total) + ')';
+    label.textContent = on ? onWord : wait > 0 ? 'อีก ' + Math.ceil(wait/1000) + ' วิ' : 'พร้อม';
+  }
+  function paintSkills(now){
+    paintSkill(sk1, cd1, st1, S.shUntil, S.shCd, SHIELD_CD, 'กำลังกาง', now);
+    paintSkill(sk2, cd2, st2, S.odUntil, S.odCd, OD_CD, 'รัวอยู่', now);
+  }
+  function resetSkills(){
+    [sk1, sk2].forEach((b) => b.classList.remove('on','ready'));
+    cd1.style.transform = cd2.style.transform = 'scaleX(0)';
+    st1.textContent = st2.textContent = 'พร้อม';
+    hero.classList.remove('shield','od');
   }
 
-  /* หมัดพุ่งไปทางที่นิ้วแตะ — เล็งเองว่าจะยิงตรงตัวมุซันตรงไหน */
-  function shoot(tx, ty){
-    const now = performance.now();
-    if (now - lastShot < SHOT_GAP) return;
-    lastShot = now;
-    const x = HERO_X, y = HERO_Y - 12;
-    const dx = tx - x, dy = Math.min(ty - y, -14);
-    const d = Math.hypot(dx, dy) || 1;
+  /* ---------- ยิงเอง ---------- */
+  function shoot(now){
     const el = document.createElement('div');
     el.className = 'bsshot';
     el.innerHTML = FIST;
-    el.style.setProperty('--rot', (Math.atan2(dy, dx) * 180 / Math.PI + 90) + 'deg');
     sLayer.appendChild(el);
-    S.shots.push({ el, x, y, vx: dx/d*140, vy: dy/d*140 });
+    const y = S.hy - 7;
+    S.shots.push({ el, x:S.hx, y, vy:-165 });
+    el.style.left = pctX(S.hx); el.style.top = pctY(y);
     hero.classList.remove('punch'); void hero.offsetWidth; hero.classList.add('punch');
-    if (navigator.vibrate) { try { navigator.vibrate(7); } catch(e){} }
-  }
-  function toField(e){
-    const r = field.getBoundingClientRect();
-    return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
+    S.nextShot = now + (now < S.odUntil ? OD_GAP : SHOT_GAP);
   }
 
-  function castBlades(){
-    const n = S.phase === 1 ? 1 : S.phase === 2 ? 2 : 3;
+  function addBlade(x, y, vx, vy, rain){
+    const el = document.createElement('div');
+    el.className = 'bsblade' + (rain ? ' rain' : '');
+    el.innerHTML = BLADE;
+    el.style.left = pctX(x); el.style.top = pctY(y);
+    bLayer.appendChild(el);
+    S.blades.push({ el, x, y, vx, vy });
+  }
+
+  /* ใบมีดเล็งมาที่ตำแหน่งตอนยิง ขยับหลังจากนั้นก็หลบพ้น */
+  function aimed(spd, offs){
+    const x = S.bx + (Math.random()-0.5) * 10, y = BOSS_Y() + H*0.08;
+    const tx = S.hx + offs, ty = S.hy;
+    const d = Math.hypot(tx-x, ty-y) || 1;
+    addBlade(x, y, (tx-x)/d*spd, (ty-y)/d*spd, false);
+  }
+  function rain(n, spd){
+    const slot = W / n;
+    const jitter = Math.random() * slot;
+    for (let i = 0; i < n; i++) addBlade(clamp(jitter + i*slot, 8, W-8), -6, 0, spd, true);
+  }
+  /* ใบที่ทิ้งลงมาตรง ๆ จากใต้ตัวเอง — จุดที่ยิงโดนที่สุดก็คือจุดที่อันตรายที่สุด */
+  function drop(spd, offs){
+    addBlade(clamp(S.bx + offs, 6, W-6), BOSS_Y() + H*0.09, 0, spd, false);
+  }
+
+  function castBlades(now){
     boss.classList.remove('cast'); void boss.offsetWidth; boss.classList.add('cast');
-    for (let i = 0; i < n; i++){
-      const el = document.createElement('div');
-      el.className = 'bsblade';
-      el.innerHTML = BLADE;
-      bLayer.appendChild(el);
-      const x = bossX() + (Math.random()-0.5) * 26;
-      const y = bossY() + 10;
-      /* ครึ่งหนึ่งเล็งมาที่ตัวจริง ๆ อีกครึ่งพุ่งเฉียดไป — ต้องดูให้ออกว่าใบไหนควรเสียนิ้วไปสกัด */
-      const aimed = Math.random() < 0.55;
-      const spread = aimed ? (Math.random()-0.5) * (HIT_W*1.4)
-                           : (Math.random() < 0.5 ? -1 : 1) * (HIT_W + 6 + Math.random()*22);
-      const tx = HERO_X + spread, ty = HERO_Y;
-      const d = Math.hypot(tx-x, ty-y) || 1;
-      const spd = (S.phase === 1 ? 34 : S.phase === 2 ? 42 : 48) + Math.min(12, S.wave*0.6);
-      const b = { el, x, y, vx:(tx-x)/d*spd, vy:(ty-y)/d*spd };
-      el.classList.add(Math.abs(spread) < HIT_W ? 'hot' : 'cold');
-      el.addEventListener('pointerdown', (e) => { e.stopPropagation(); popBlade(b); });
-      S.blades.push(b);
-      el.style.left = pctX(x); el.style.top = pctY(y);
+    const p = S.phase;
+    const spd = p === 1 ? 44 : p === 2 ? 52 : 60;
+    if (p === 1){
+      aimed(spd, 0);
+      if (S.wave % 3 === 2) drop(spd*0.85, 0);
+    } else if (p === 2){
+      if (S.wave % 3 === 2) rain(4, spd*0.8);
+      else { aimed(spd, -9); aimed(spd, 9); drop(spd*0.9, 0); }
+    } else {
+      const k = S.wave % 3;
+      if (k === 0){ aimed(spd, -13); aimed(spd, 0); aimed(spd, 13); drop(spd*0.9, 0); }
+      else if (k === 1) rain(5, spd*0.85);
+      else { aimed(spd*1.15, -5); aimed(spd*1.15, 5); drop(spd*0.9, 0); }
     }
     S.wave++;
+    const gap = p === 1 ? 1350 : p === 2 ? 1200 : 1000;
+    S.nextCast = now + gap * (0.85 + Math.random()*0.3);
   }
 
-  function popBlade(b){
-    if (!S || S.over) return;
-    const i = S.blades.indexOf(b);
-    if (i < 0) return;
-    bits(b.x, b.y, '#E0303C', 7);
-    b.el.remove(); S.blades.splice(i,1);
-    S.block++; S.score += 25;
-    elBlock.textContent = S.block;
-    if (navigator.vibrate) { try { navigator.vibrate(9); } catch(e){} }
-  }
-
-  function hurt(){
-    S.hp--;
+  function hurt(now){
+    if (now < S.iUntil) return;
+    S.hp--; S.iUntil = now + IFRAME_MS;
     hearts(S.hp);
     hero.classList.add('hurt');
-    setTimeout(() => hero.classList.remove('hurt'), 850);
+    setTimeout(() => hero.classList.remove('hurt'), IFRAME_MS);
     field.classList.remove('shake'); void field.offsetWidth; field.classList.add('shake');
     if (navigator.vibrate) { try { navigator.vibrate([18,40,18]); } catch(e){} }
     if (S.hp <= 0) end(false);
@@ -3150,10 +3250,31 @@ if (owner) { closeGate(); } else { openGate('register'); }
     if (!S || S.over || S.paused) return;
     const dt = Math.min(0.05, (now - S.last)/1000); S.last = now;
 
-    /* อสูรที่ฟื้นตัวได้ไม่รู้จบ — มัวแต่ตั้งรับอย่างเดียวไม่มีวันชนะ */
+    /* --- Baymax ตามนิ้ว --- */
+    const mx = 190 * dt;
+    S.hx += clamp(S.tx - S.hx, -mx, mx);
+    S.hy += clamp(S.ty - S.hy, -mx, mx);
+    S.hx = clamp(S.hx, 9, W-9);
+    S.hy = clamp(S.hy, HERO_TOP(), HERO_BOT());
+    hero.style.left = pctX(S.hx); hero.style.top = pctY(S.hy);
+
+    /* --- มุซันเดินไปมา ยิ่งระยะหลังยิ่งไว --- */
+    const bspd = S.phase === 1 ? 16 : S.phase === 2 ? 24 : 32;
+    S.bx += S.bdir * bspd * dt;
+    if (S.bx < 22){ S.bx = 22; S.bdir = 1; }
+    if (S.bx > W-22){ S.bx = W-22; S.bdir = -1; }
+    if (S.phase >= 2 && Math.random() < dt*0.35) S.bdir *= -1;
+    boss.style.left = pctX(S.bx);
+    boss.style.top  = pctY(BOSS_Y());
+
+    if (now >= S.shUntil) hero.classList.remove('shield');
+    if (now >= S.odUntil) hero.classList.remove('od');
+    paintSkills(now);
+
+    /* --- อสูรที่ฟื้นตัวได้ไม่รู้จบ — เอาแต่หลบไม่ยอมเข้าไปยิงก็ไม่มีวันชนะ --- */
     const healing = S.boss < BOSS_HP && (now - S.lastHit) > REGEN_WAIT;
     if (healing){
-      const rate = S.phase === 1 ? 5 : S.phase === 2 ? 7 : 9;
+      const rate = S.phase === 1 ? 3 : S.phase === 2 ? 4.5 : 6;
       S.boss = Math.min(BOSS_HP, S.boss + rate * dt);
     }
     if (healing !== S.heal){
@@ -3162,23 +3283,19 @@ if (owner) { closeGate(); } else { openGate('register'); }
     }
     if (healing) paintHp();
 
-    if (now >= S.nextCast){
-      castBlades();
-      const gap = S.phase === 1 ? 1550 : S.phase === 2 ? 1250 : 1050;
-      S.nextCast = now + gap * (0.8 + Math.random()*0.4);
-      if (S.phase >= 2 && Math.random() < 0.55) moveBoss();
-    }
+    if (now >= S.nextCast) castBlades(now);
+    if (now >= S.nextShot) shoot(now);
 
     for (let i = S.shots.length - 1; i >= 0; i--){
       const s = S.shots[i];
-      s.x += s.vx * dt; s.y += s.vy * dt;
-      if (s.y < -8 || s.x < -8 || s.x > W + 8){ s.el.remove(); S.shots.splice(i,1); continue; }
-      s.el.style.left = pctX(s.x); s.el.style.top = pctY(s.y);
-      if (Math.abs(s.x - bossX()) < 15 && Math.abs(s.y - bossY()) < 20){
+      s.y += s.vy * dt;
+      if (s.y < -8){ s.el.remove(); S.shots.splice(i,1); continue; }
+      s.el.style.top = pctY(s.y);
+      if (Math.abs(s.x - S.bx) < 11 && Math.abs(s.y - BOSS_Y()) < H*0.12){
         s.el.remove(); S.shots.splice(i,1);
-        S.boss -= 5; S.hits++; S.score += 18; S.lastHit = now;
+        S.boss -= DMG; S.hits++; S.score += 16; S.lastHit = now;
         elHits.textContent = S.hits;
-        bits(s.x, s.y, '#FFD9DC', 6);
+        bits(s.x, s.y, '#FFD9DC', 5);
         boss.classList.remove('ouch'); void boss.offsetWidth; boss.classList.add('ouch');
         paintHp();
         if (S.boss <= 0){ end(true); return; }
@@ -3187,18 +3304,26 @@ if (owner) { closeGate(); } else { openGate('register'); }
       }
     }
 
+    const shieldOn = now < S.shUntil;
     for (let i = S.blades.length - 1; i >= 0; i--){
       const b = S.blades[i];
       b.x += b.vx * dt; b.y += b.vy * dt;
       b.el.style.left = pctX(b.x); b.el.style.top = pctY(b.y);
-      if (b.y > HERO_Y - 6 && Math.abs(b.x - HERO_X) < HIT_W){
-        bits(b.x, b.y, '#F0575F', 8);
+      const near = Math.hypot(b.x - S.hx, b.y - S.hy);
+      if (near < HERO_R + BLADE_R + (shieldOn ? 5 : 0)){
         b.el.remove(); S.blades.splice(i,1);
-        hurt();
-        if (S.over) return;
-      } else if (b.y > H + 10){
+        if (shieldOn){
+          bits(b.x, b.y, '#8FE3C8', 7);
+          S.block++; S.score += 20; elBlock.textContent = S.block;
+        } else {
+          bits(b.x, b.y, '#F0575F', 8);
+          hurt(now);
+          if (S.over) return;
+        }
+      } else if (b.y > H + 10 || b.x < -12 || b.x > W + 12){
         b.el.remove(); S.blades.splice(i,1);
-        S.score += 8;                        // ปล่อยใบที่พลาดเองผ่านไป = อ่านเกมถูก
+        S.block++; S.score += 10;              // หลบพ้นเองก็คือฝีมือ
+        elBlock.textContent = S.block;
       }
     }
 
@@ -3215,6 +3340,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     clearField();
     field.classList.remove('rage');
     hpWrap.classList.remove('regen');
+    resetSkills();
     S.heal = false; paintHp();
     if (win) S.score += 900 + S.hp * 220;
     const sc = Math.round(S.score);
@@ -3229,7 +3355,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     document.getElementById('bsText').textContent =
       win ? 'อสูรที่ฟื้นตัวได้ไม่รู้จบ ก็ยังแพ้หุ่นพยาบาลที่ไม่ยอมทิ้งใครไว้ข้างหลัง'
     : gotBox ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
-    : 'ชกโดน ' + S.hits + ' ครั้ง สกัดใบมีดได้ ' + S.block + ' ใบ ลองใหม่อีกรอบไหม';
+    : 'ชกโดน ' + S.hits + ' ครั้ง หลบใบมีดได้ ' + S.block + ' ใบ ลองใหม่อีกรอบไหม';
     if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
     playBtn.textContent = 'สู้อีกรอบ';
     ovl.hidden = false;
@@ -3242,13 +3368,21 @@ if (owner) { closeGate(); } else { openGate('register'); }
     }
     document.getElementById('bsLow').hidden = true;
     clearField();
+    fitField();
     const t = performance.now();
-    S = { hp:MAX_HP, boss:BOSS_HP, phase:1, wave:0, score:0, hits:0, block:0, bx:W/2,
+    const hy = H * 0.86;
+    S = { hp:MAX_HP, boss:BOSS_HP, phase:1, wave:0, score:0, hits:0, block:0,
+          bx:W/2, bdir: Math.random() < 0.5 ? -1 : 1,
+          hx:W/2, hy, tx:W/2, ty:hy,
           shots:[], blades:[], over:false, paused:false, heal:false,
-          last:t, lastHit:t, nextCast:t + 1500 };
+          last:t, lastHit:t, iUntil:0,
+          shUntil:0, shCd:t, odUntil:0, odCd:t,
+          nextCast:t + 1600, nextShot:t + 500 };
     hpWrap.classList.remove('regen');
+    resetSkills();
     hearts(MAX_HP);
-    boss.style.left = pctX(S.bx);
+    boss.style.left = pctX(S.bx); boss.style.top = pctY(BOSS_Y());
+    hero.style.left = pctX(S.hx); hero.style.top = pctY(S.hy);
     elScore.textContent = '0'; elHits.textContent = '0'; elBlock.textContent = '0';
     field.classList.remove('rage');
     paintHp();
@@ -3258,12 +3392,24 @@ if (owner) { closeGate(); } else { openGate('register'); }
   }
 
   playBtn.addEventListener('click', start);
-  /* แตะที่ไหนก็ชกไปทางนั้น ส่วนใบมีดมี handler ของตัวเองที่ stopPropagation ไว้แล้ว */
-  field.addEventListener('pointerdown', (e) => {
+  sk1.addEventListener('click', useShield);
+  sk2.addEventListener('click', useOverdrive);
+
+  /* ลากนิ้วที่ไหนก็ได้ในสนาม Baymax จะวิ่งตามไป */
+  function aimAt(e){
     if (!S || S.over || S.paused) return;
-    const p = toField(e);
-    shoot(p.x, p.y);
+    const r = field.getBoundingClientRect();
+    S.tx = (e.clientX - r.left) / r.width * W;
+    S.ty = (e.clientY - r.top) / r.height * H;
+  }
+  field.addEventListener('pointerdown', (e) => {
+    aimAt(e);
+    if (field.setPointerCapture && e.pointerId != null){
+      try { field.setPointerCapture(e.pointerId); } catch(err){}
+    }
   });
+  field.addEventListener('pointermove', (e) => { if (e.buttons || e.pointerType !== 'mouse') aimAt(e); });
+  window.addEventListener('resize', () => { if (S && !S.over) fitField(); });
 
   function pause(){ if (S && !S.over && !S.paused){ S.paused = true; cancelAnimationFrame(raf); } }
   function resume(){
@@ -3271,7 +3417,9 @@ if (owner) { closeGate(); } else { openGate('register'); }
     const now = performance.now();
     const gap = now - S.last;
     S.paused = false; S.last = now; S.lastHit = now;
-    S.nextCast += gap;                          // อย่าให้ใบมีดถล่มทันทีที่กลับมา
+    S.nextCast += gap; S.nextShot = now + 200;   // อย่าให้ใบมีดถล่มทันทีที่กลับมา
+    S.shCd += gap; S.odCd += gap;
+    fitField();
     raf = requestAnimationFrame(loop);
   }
   document.addEventListener('visibilitychange', () => { document.hidden ? pause() : resume(); });
