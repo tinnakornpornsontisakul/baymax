@@ -5206,25 +5206,27 @@ const BOT3D = (function(){
       return { armL: 0.06, armR: 0.05 + e*0.82, tilt: -e*0.20, nod: e*0.10, lean: 0 };
     },
     /* กอดตุ๊กตา: แขนโอบเข้าหากัน โยกตัวเบา ๆ */
-    /* กอดตุ๊กตา: หมีวางพิกัดจริงไว้แล้ว กลุ่ม prop เหลือไว้แค่ไกวเบา ๆ
-       ของเดิมใส่ออฟเซ็ต z 0.98 ทับพิกัดจริงอีกที หมีเลยไปลอยห่างพุงเกือบสองหน่วย
-       และแขนหุบถึง 0.62 rad ซึ่งพับเข้าไปจมอยู่ในพุงทั้งแขน เห็นแค่ตอไหล่
-       0.30 rad คือมุมที่แขนยังโผล่พ้นขอบตัวให้เห็นทั้งท่อน และมือไปบรรจบข้างหมีพอดี */
+    /* กอดตุ๊กตา: แขนยื่นไปข้างหน้า -0.95 rad แล้วหุบเข้าอีก 0.10 rad
+       มือทั้งสองข้างเลยไปหยุดหลังข้างลำตัวหมี อ่านเป็นโอบกอดจริง ๆ
+       หุบด้วยแกน Z อย่างเดียวไม่พอ เพราะแขนจะแค่แนบข้างตัวแล้วจมหายเข้าไปในพุง
+       ส่วนหมีก็ต้องกว้างพอให้แขนที่โอบมาไปบรรจบข้างตัวมันได้ */
     plush: (t) => {
       const s = Math.sin(t/1500);
       return {
-        armL: 0.30 + s*0.03, armR: -0.30 - s*0.03,
-        tilt: s*0.06, nod: 0.14, lean: 0,
-        prop: { pos:[0, s*0.022, 0], rot:[0, 0, s*0.05] }
+        armL: 0.13 + s*0.025, armR: -0.13 - s*0.025,
+        armLX: -0.78, armRX: -0.78,
+        tilt: s*0.05, nod: 0.20, lean: 0,
+        prop: { pos:[0, s*0.02, 0], rot:[0, 0, s*0.04] }
       };
     },
-    /* พิมพ์งาน: ยกโน้ตบุ๊กไว้ระดับพุง สองแขนเข้าหากัน ก้มหน้ามองจอ นิ้วเคาะเป็นช่วง */
+    /* นั่งพิมพ์งาน: พับขาไปข้างหน้าแล้วนั่งลง วางโน้ตบุ๊กพิงพุงไว้บนตัก
+       สองแขนเข้าหากัน ก้มหน้ามองจอ นิ้วเคาะเป็นช่วง ๆ */
     macbook: (t) => {
       const tap = Math.sin(t/95) * (((t % 4200) / 4200) < 0.62 ? 1 : 0);
       return {
-        armL: 0.50 + tap*0.03, armR: -0.50 - tap*0.03,
+        armL: 0.50 + tap*0.03, armR: -0.50 - tap*0.03, sit: 1,
         tilt: 0, nod: 0.34 + tap*0.012, lean: 0,
-        prop: { pos:[0, tap*0.006, 0], rot:[0, 0, 0] }
+        prop: { pos:[0, -0.14 + tap*0.006, 0], rot:[0, 0, 0] }
       };
     },
     /* ดูดฝุ่น: มือขวาจับด้ามไว้นิ่ง ๆ แล้วโยก "ทั้งเครื่อง" รอบจุดที่มือจับ หัวดูดเลยกวาดพื้นไปมา
@@ -5287,8 +5289,8 @@ const BOT3D = (function(){
       const g = s < 0 ? 'armL' : 'armR';
       add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, { rot:[0, 0, s*0.28], grp:g });
       add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell, { grp:g });
-      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell);
-      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell);
+      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell, { grp:'leg' });
+      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell, { grp:'leg' });
     });
 
     /* หน้า — ตาสองเม็ดกับขีดกลาง ต้องโผล่พ้นผิวหัว ไม่งั้นจมหายไปข้างใน */
@@ -5552,18 +5554,17 @@ const BOT3D = (function(){
     /* ---- ของใช้ ---- ชิ้นที่ติดแท็ก armR จะถือติดมือขวาไปเลย
        ส่วนกลุ่ม 'prop' ขยับตามท่าทางประจำของชิ้นนั้น */
     if (prop.id === 'plush'){
-      /* หมีต้องใหญ่พอที่ข้างลำตัวหมีจะไปบรรจบกับมือทั้งสองข้างพอดี
-         ตัวเก่ากว้าง 0.40 ซึ่งแคบกว่าช่วงมือ เลยเห็นเป็นหมีแปะอยู่บนพุงเฉย ๆ ไม่ใช่กอด
-         หลังหมีจมเข้าไปในพุงราว 0.2 หน่วย ให้อ่านเป็นกอดแนบอก ไม่ใช่ลอยห่างตัว */
-      const py = -0.34, pz = 1.08;
-      add('sphere', [0, py, pz], [0.50, 0.50, 0.425], '#C99A6B', { grp:'prop', gloss:0.2 });
+      /* หมีกว้าง 0.84 เพื่อให้ขอบข้างลำตัวหมีไปบรรจบกับมือที่โอบมาข้างหน้าพอดี
+         หลังหมีจมเข้าไปในพุงราว 0.2 หน่วย จะได้อ่านเป็นกอดแนบอก ไม่ใช่ถือลอยไว้ */
+      const py = -0.26, pz = 1.20;
+      add('sphere', [0, py, pz], [0.76, 0.68, 0.48], '#C99A6B', { grp:'prop', gloss:0.2 });
       [-1, 1].forEach((sgn) => {
-        add('sphere', [sgn*0.375, py + 0.44, pz - 0.04], [0.194, 0.194, 0.163], '#C99A6B', { grp:'prop', gloss:0.2 });
-        add('sphere', [sgn*0.375, py + 0.44, pz + 0.10], [0.098, 0.098, 0.063], '#EAD3B8', { grp:'prop', gloss:0.15 });
-        add('sphere', [sgn*0.181, py + 0.125, pz + 0.363], [0.069, 0.069, 0.044], '#2B3A47', { grp:'prop', gloss:0.5 });
+        add('sphere', [sgn*0.545, py + 0.57, pz - 0.055], [0.255, 0.255, 0.185], '#C99A6B', { grp:'prop', gloss:0.2 });
+        add('sphere', [sgn*0.545, py + 0.57, pz + 0.09], [0.132, 0.132, 0.075], '#EAD3B8', { grp:'prop', gloss:0.15 });
+        add('sphere', [sgn*0.235, py + 0.18, pz + 0.415], [0.09, 0.09, 0.055], '#2B3A47', { grp:'prop', gloss:0.5 });
       });
-      add('sphere', [0, py - 0.113, pz + 0.35], [0.231, 0.181, 0.125], '#EAD3B8', { grp:'prop', gloss:0.15 });
-      add('sphere', [0, py - 0.05, pz + 0.45], [0.088, 0.063, 0.044], '#6B4A32', { grp:'prop', gloss:0.3 });
+      add('sphere', [0, py - 0.02, pz + 0.405], [0.31, 0.24, 0.15], '#EAD3B8', { grp:'prop', gloss:0.15 });
+      add('sphere', [0, py + 0.055, pz + 0.52], [0.12, 0.082, 0.055], '#6B4A32', { grp:'prop', gloss:0.3 });
     } else if (prop.id === 'coffee'){
       /* แก้วอยู่ในมือขวา ติดแท็ก armR เลยยกขึ้นลงตามแขนตอนจิบเอง */
       const hx = 1.24, hy = -0.40, hz = 0.24;
@@ -5675,6 +5676,7 @@ const BOT3D = (function(){
       let tilt = Math.sin(t/1900) * 0.045;
       const sway = Math.sin(t/950) * 0.045;
       let armLa = sway, armRa = -sway, nod = 0, lean = 0;
+      let armLx = 0, armRx = 0, sit = 0;
       const wp = (t % 7000) / 7000;
       if (wp < 0.22){ const p = wp/0.22; armRa += Math.sin(p*Math.PI*3) * 0.45 * Math.sin(p*Math.PI); }
 
@@ -5683,6 +5685,7 @@ const BOT3D = (function(){
       if (pa){
         const A = pa(t);
         armLa = A.armL; armRa = A.armR;
+        armLx = A.armLX || 0; armRx = A.armRX || 0; sit = A.sit || 0;
         tilt = A.tilt || 0; nod = A.nod || 0; lean = A.lean || 0;
         propM = A.prop ? compose(A.prop.pos, A.prop.rot || [0,0,0], [1,1,1]) : ident();
       } else propM = ident();
@@ -5690,18 +5693,23 @@ const BOT3D = (function(){
       const bl = t % 3400;
       const blink = bl < 130 ? Math.max(0.12, Math.abs(1 - bl/65)) : 1;
       const headM = mul(rotZAbout(0, 1.02, tilt), rotXAbout(1.02, 0, nod));
-      const armLM = rotZAbout(-0.72, 0.50, armLa);
-      const armRM = rotZAbout(0.72, 0.50, armRa);
+      /* แขนหมุนรอบแกน X ที่หัวไหล่ได้ด้วย (ค่าติดลบ = ยื่นไปข้างหน้า)
+         มีแต่แกน Z อย่างเดียวแขนจะหุบได้แค่แนบข้างตัว โอบไปข้างหน้าไม่ได้เลย */
+      const armLM = mul(rotZAbout(-0.72, 0.50, armLa), rotXAbout(0.50, 0.02, armLx));
+      const armRM = mul(rotZAbout(0.72, 0.50, armRa), rotXAbout(0.50, 0.02, armRx));
+      /* ท่านั่ง: พับขาไปข้างหน้าที่สะโพก แล้วลดทั้งตัวลงมาให้ก้นลงไปอยู่ระดับพื้น */
+      const legM = sit ? rotXAbout(-1.05, 0.05, -Math.PI/2*sit) : ident();
 
       /* ถอยกล้องตามสัดส่วนกรอบ ตัวเขาจะได้อยู่ครบเฟรมทุกจอ
          หมุนรอบตัวแล้วแขนกางออกด้านข้าง เลยเผื่อความกว้างไว้เท่าความสูง */
       const asp = w/h;
       const span = 4.5;
       const dist = Math.max(span, span/asp) / 2 / Math.tan(FOV/2);
-      const eye = [0, MID + 0.10, dist];
+      const mid = MID - 0.26*sit;              // นั่งแล้วตัวเตี้ยลง เลื่อนกล้องตามไม่ให้ลอยอยู่กลางเฟรม
+      const eye = [0, mid + 0.10, dist];
       const proj = persp(FOV, asp, 0.1, 60);
-      const view = lookAt(eye, [0, MID, 0], [0,1,0]);
-      const root = mul(mul(compose([0, bob, 0], [pitch, yaw, 0], [1, 1, 1]),
+      const view = lookAt(eye, [0, mid, 0], [0,1,0]);
+      const root = mul(mul(compose([0, bob - 0.50*sit, 0], [pitch, yaw, 0], [1, 1, 1]),
                            rotZAbout(0, -1.90, lean)),
                        compose([0, 0, 0], [0, 0, 0], [breath, 2 - breath, breath]));
       const vp = mul(proj, view);
@@ -5715,6 +5723,7 @@ const BOT3D = (function(){
         else if (part.grp === 'armL') local = mul(armLM, local);
         else if (part.grp === 'armR') local = mul(armRM, local);
         else if (part.grp === 'prop') local = mul(propM, local);
+        else if (part.grp === 'leg' && sit) local = mul(legM, local);
         const model = mul(root, local);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.p); gl.vertexAttribPointer(A.pos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.n); gl.vertexAttribPointer(A.nor, 3, gl.FLOAT, false, 0, 0);
