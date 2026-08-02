@@ -2121,11 +2121,6 @@
           <p class="wempty" id="eShell" hidden>ยังไม่มีสีอื่นนอกจากสีเดิม ลองเปิดกล่องดูสิ</p>
         </div>
         <div class="wgroup">
-          <h4>ชุด<span class="wcount" id="cOutfit">0/0</span></h4>
-          <div class="wopts" id="wOutfit"></div>
-          <p class="wempty" id="eOutfit" hidden>ยังไม่มีชุดสักตัว ลองเปิดกล่องดูสิ</p>
-        </div>
-        <div class="wgroup">
           <h4>หมวก<span class="wcount" id="cHat">0/0</span></h4>
           <div class="wopts" id="wHat"></div>
           <p class="wempty" id="eHat" hidden>ยังไม่มีหมวกสักใบ ลองเปิดกล่องดูสิ</p>
@@ -4626,80 +4621,25 @@ const WEAR = (function(){
     face: { head:'translate(50 28) scale(2.706) translate(-50 -23.5)', body:null }
   };
 
-  /* ชุด — ใส่คลุมลำตัว ตัดตามทรงด้วย clipTorso ให้ไม่ล้นออกนอกตัว */
-  const FIT = (inner) => '<g clip-path="url(#clipTorso)">' + inner + '</g>';
-
-  const OUTFITS = [
-    { id:'none', name:'ไม่ใส่', svg:'' },
-    { id:'coat', name:'เสื้อกาวน์หมอ', svg: FIT(
-      '<path d="M18 47h64v66H18z" fill="#FBFDFE"/>' +
-      '<path d="M36 44 50 58 64 44" fill="none" stroke="#BFD3E2" stroke-width="2" stroke-linejoin="round"/>' +
-      '<path d="M50 58v55" stroke="#BFD3E2" stroke-width="1.5"/>' +
-      '<rect x="56" y="75" width="13" height="10" rx="1.6" fill="none" stroke="#BFD3E2" stroke-width="1.5"/>' +
-      '<path d="M18 47h64" stroke="#BFD3E2" stroke-width="2"/>') },
-    { id:'tee', name:'เสื้อยืดลายทาง', svg: FIT(
-      '<path d="M18 50h64v63H18z" fill="#A9CCEA"/>' +
-      '<path d="M18 59h64M18 69h64M18 79h64M18 89h64" stroke="#FDFEFF" stroke-width="4.2" opacity=".9"/>' +
-      '<path d="M38 48q12 8 24 0" fill="none" stroke="#7FA9CE" stroke-width="2.2"/>' +
-      '<path d="M18 50h64" stroke="#7FA9CE" stroke-width="2"/>') },
-    { id:'hoodie', name:'เสื้อฮู้ด', svg: FIT(
-      '<path d="M18 48h64v65H18z" fill="#63CDB4"/>' +
-      '<path d="M33 45q17 15 34 0" fill="#4CB69C" stroke="#2E8A73" stroke-width="1.7"/>' +
-      '<path d="M44 59v9M56 59v9" stroke="#FDFEFF" stroke-width="2.2" stroke-linecap="round"/>' +
-      '<circle cx="44" cy="70" r="1.9" fill="#FDFEFF"/><circle cx="56" cy="70" r="1.9" fill="#FDFEFF"/>' +
-      '<path d="M30 87h40" stroke="#4CB69C" stroke-width="2.4"/>') },
-    { id:'sweater', name:'เสื้อไหมพรม', svg: FIT(
-      '<path d="M18 48h64v65H18z" fill="#FFDE8A"/>' +
-      '<path d="M16 63l8 6 8-6 8 6 8-6 8 6 8-6 8 6 8-6" fill="none" stroke="#E7BF64" stroke-width="2.6"/>' +
-      '<path d="M16 78l8 6 8-6 8 6 8-6 8 6 8-6 8 6 8-6" fill="none" stroke="#E7BF64" stroke-width="2.6"/>' +
-      '<path d="M18 48h64" stroke="#E7BF64" stroke-width="2.2"/>' +
-      '<path d="M18 97h64" stroke="#E7BF64" stroke-width="3.4"/>') },
-    { id:'suit', name:'สูททักซิโด้', svg: FIT(
-      '<path d="M18 46h64v67H18z" fill="#2B3A47"/>' +
-      '<path d="M38 43 50 60 62 43v70H38z" fill="#FDFEFF"/>' +
-      '<path d="M38 43 50 60 62 43" fill="none" stroke="#1B2733" stroke-width="2" stroke-linejoin="round"/>' +
-      '<path d="M50 60l-4.5 5 4.5 6 4.5-6z" fill="#F0575F"/>' +
-      '<path d="M50 71.5l-3 4.5 1.5 15h3l1.5-15z" fill="#F0575F"/>') },
-    /* SMILEYHOUND — แจ็คเก็ตวอร์มกรมท่า สกรีนโลโก้หัวเกรย์ฮาวด์กับเวิร์ดมาร์กเต็มหน้าอก */
-    { id:'track', name:'เสื้อ SMILEYHOUND', svg: FIT(
-      '<path d="M18 44h64v69H18z" fill="#16181C"/>' +
-      '<path d="M21 44v69M79 44v69" stroke="#FDFEFF" stroke-width="2.2" opacity=".85"/>' +
-      '<path d="M37.5 42 50 55.5 62.5 42" fill="none" stroke="#FDFEFF" stroke-width="2" stroke-linejoin="round"/>' +
-      '<g transform="translate(29.5 53) scale(.3)">' + SH_HEAD('#FDFEFF', '#16181C') + '</g>' +
-      '<text x="50" y="76" text-anchor="middle" fill="#FDFEFF" font-family="Helvetica,Arial,sans-serif" ' +
-      'font-weight="700" font-size="5.6" letter-spacing=".4">SMILEYHOUND</text>' +
-      '<text x="50" y="84" text-anchor="middle" fill="#FDFEFF" font-family="Helvetica,Arial,sans-serif" ' +
-      'font-weight="700" font-size="3.6" letter-spacing="1.1" opacity=".9">GREYHOUND</text>' +
-      '<path d="M18 100h64" stroke="#FDFEFF" stroke-width="2" opacity=".75"/>') },
-    { id:'astro', name:'ชุดนักบินอวกาศ', svg: FIT(
-      '<path d="M18 46h64v67H18z" fill="#FDFEFF"/>' +
-      '<path d="M18 61h64v9H18z" fill="#F58B4C"/>' +
-      '<path d="M18 88h64v6H18z" fill="#F58B4C"/>' +
-      '<rect x="39" y="72" width="22" height="13" rx="2.4" fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.6"/>' +
-      '<circle cx="45" cy="78.5" r="1.9" fill="#F0575F"/><circle cx="50" cy="78.5" r="1.9" fill="#63CDB4"/>' +
-      '<circle cx="55" cy="78.5" r="1.9" fill="#FFDE8A"/>' +
-      '<path d="M18 46h64" stroke="#C3D5E3" stroke-width="2"/>') }
-  ];
-
-  const LISTS = { shell:SHELLS, outfit:OUTFITS, hat:HATS, face:FACES, item:ITEMS };
+  const LISTS = { shell:SHELLS, hat:HATS, face:FACES, item:ITEMS };
 
   /* ชุดที่จัดไว้ให้ครบเซ็ต — เก็บครบสี่ชิ้นแล้วใส่ทีเดียวได้ */
   const SETS = [
     { id:'sh', name:'SMILEYHOUND STREET', badge:'SMILEYHOUND × BAYMAX', hot:true,
-      note:'คอลเลกชันสตรีทแวร์จาก SMILEYHOUND เจ้าของโลโก้เกรย์ฮาวด์ ทั้งห้าชิ้นเป็นของลับระดับหายากที่สุดในเกม ครบทั้งเซ็ตเมื่อไหร่เขาจะเท่ที่สุดในซอย',
-      look:{ shell:'concrete', outfit:'track', hat:'shcap', face:'mask', item:'chain' } },
+      note:'คอลเลกชันสตรีทแวร์จาก SMILEYHOUND เจ้าของโลโก้เกรย์ฮาวด์ ทั้งสี่ชิ้นเป็นของลับระดับหายากที่สุดในเกม ครบทั้งเซ็ตเมื่อไหร่เขาจะเท่ที่สุดในซอย',
+      look:{ shell:'concrete', hat:'shcap', face:'mask', item:'chain' } },
     { id:'hero', name:'ชุดฮีโร่ลับ', badge:'ของลับ',
       note:'เกราะที่เด็กอัจฉริยะคนหนึ่งออกแบบให้เขาทั้งชุด ทุกชิ้นเป็นของลับที่เจอยากที่สุดในเกม ครบสี่ชิ้นเมื่อไหร่ เขาจะบินได้จริง',
-      look:{ shell:'gold', outfit:'astro', hat:'armor', face:'visor', item:'wings' } },
+      look:{ shell:'gold', hat:'armor', face:'visor', item:'wings' } },
     { id:'night', name:'ชุดเวรดึก', badge:'คลาสสิก',
       note:'ชุดประจำกะดึกของหอผู้ป่วย เรียบง่ายแต่คนไข้ทุกคนจำได้',
-      look:{ shell:'sky', outfit:'coat', hat:'nurse', face:'patch', item:'badge' } },
+      look:{ shell:'sky', hat:'nurse', face:'patch', item:'badge' } },
     { id:'party', name:'ชุดวันเกิด', badge:'สดใส',
       note:'สำหรับวันที่ต้องไปร่วมงานฉลอง เขาบอกว่านี่คือชุดที่ทำให้คนยิ้มบ่อยที่สุด',
-      look:{ shell:'rose', outfit:'tee', hat:'party', face:'blush', item:'bowtie' } },
+      look:{ shell:'rose', hat:'party', face:'blush', item:'bowtie' } },
     { id:'king', name:'ชุดราชา', badge:'หรูหรา',
       note:'รวมของระดับตำนานไว้ในชุดเดียว ใครใส่ครบถือว่าผ่านด่านนักสะสมตัวจริง',
-      look:{ shell:'lilac', outfit:'suit', hat:'crown', face:'shades', item:'cape' } }
+      look:{ shell:'lilac', hat:'crown', face:'shades', item:'cape' } }
   ];
 
   /* ความหายาก — มีผลกับโอกาสออกจากกล่องและสีของฉากตอนเปิด */
@@ -4709,12 +4649,10 @@ const WEAR = (function(){
     'hat:helmet':'rare',
     'face:blush':'common', 'face:patch':'common','face:round':'rare', 'face:shades':'rare',
     'item:bowtie':'common','item:tie':'common',  'item:scarf':'rare', 'item:badge':'rare',   'item:cape':'legend',
-    'outfit:coat':'common','outfit:tee':'common','outfit:hoodie':'rare','outfit:sweater':'rare','outfit:suit':'legend',
     /* ของลับ — ออกจากกล่องยากมาก ไม่นับรวมกับของปกติ */
     'shell:gold':'secret', 'hat:armor':'secret', 'face:visor':'secret',
-    'item:wings':'secret', 'item:core':'secret', 'outfit:astro':'secret',
-    /* คอลแลป SMILEYHOUND — ของลับทั้งเซ็ต */
-    'shell:concrete':'secret', 'outfit:track':'secret', 'hat:shcap':'secret',
+    'item:wings':'secret', 'item:core':'secret', /* คอลแลป SMILEYHOUND — ของลับทั้งเซ็ต */
+    'shell:concrete':'secret', 'hat:shcap':'secret',
     'face:mask':'secret',     'item:chain':'secret'
   };
   const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน', secret:'ของลับ' };
@@ -4750,22 +4688,14 @@ const WEAR = (function(){
     'item:wings':'ติดตั้งไว้สำหรับภารกิจกู้ภัยทางอากาศครับ ผมบินได้จริง ความเร็วสูงสุด 90 กิโลเมตรต่อชั่วโมง แต่ผมบินไปได้ไกลแค่ที่ที่ยังมีคนต้องการผมเท่านั้น',
     'item:core':'นี่คือชิปการดูแลของผมครับ เป็นหัวใจของเครื่องนี้ทั้งเครื่อง ถ้าวันหนึ่งเหลืออยู่แค่ชิ้นเดียวและมีใครถอดมันออกมาได้ ผมก็จะกลับมาใหม่ได้เสมอ',
 
-    'outfit:coat':'เสื้อกาวน์ตัวแรกที่มีคนตัดให้ผมโดยเฉพาะครับ ช่างเย็บบ่นว่าไม่เคยวัดตัวหุ่นลมมาก่อน สุดท้ายต้องรื้อสามรอบกว่าจะพอดี',
-    'outfit:tee':'ได้มาจากค่ายอาสาสมัครโรงพยาบาลครับ ทุกคนในทีมใส่เหมือนกันหมด วันนั้นเป็นวันแรกที่ผมรู้สึกว่าผมเป็นส่วนหนึ่งของทีมจริง ๆ',
-    'outfit:hoodie':'ตัวนี้เจ้าของเดิมใส่ตอนอ่านหนังสือดึก ๆ ครับ เขาบอกว่าให้ผมไว้เพราะ "เธอน่าจะได้ใส่อะไรที่อุ่นบ้าง" ทั้งที่ผมไม่รู้สึกหนาวเลย',
-    'outfit:sweater':'ถักด้วยไหมพรมเหลือจากผ้าพันคอผืนนั้นครับ คนถักบอกว่าคราวนี้จะถักให้เสร็จ แล้วเธอก็ทำได้จริง ๆ ใช้เวลาหนึ่งปีเต็ม',
-    'outfit:suit':'ใส่ครั้งเดียวในงานเปิดตัวศูนย์ดูแลผู้ป่วยแห่งใหม่ครับ ผมยืนอยู่บนเวทีข้างคนที่สร้างผมขึ้นมา วันนั้นเขาบอกว่าภูมิใจในตัวผม',
-    'outfit:astro':'ชุดสำรองจากภารกิจทดสอบสภาวะไร้แรงโน้มถ่วงครับ ผมถูกส่งขึ้นไปดูแลนักบินสี่คนเป็นเวลาสิบเอ็ดวัน และผมพาพวกเขากลับมาครบทุกคน',
-
     'shell:concrete':'เฉดสีที่ทีมออกแบบของ SMILEYHOUND เลือกมาให้ผมโดยเฉพาะครับ เขาบอกว่าอยากได้สีเดียวกับตัวเกรย์ฮาวด์ในโลโก้ ผมเลยได้ใส่สีของญาติห่าง ๆ ของผมเอง',
-    'outfit:track':'ตัวอย่างชิ้นแรกจากคอลเลกชันคอลแลปครับ ที่อกปักหัวเกรย์ฮาวด์ไว้ ช่างปักบอกว่าใช้เวลาเก้าชั่วโมงกับลายเล็ก ๆ ลายเดียว เพราะเส้นมันต้องเป๊ะ',
     'hat:shcap':'หมวกใบนี้ผลิตออกมาแค่ล็อตทดลองครับ ด้านในเย็บป้ายไว้ว่า "ให้คนที่วิ่งไปหาคนอื่นเสมอ" ผมยังไม่กล้าถามว่าเขาหมายถึงหมาหรือหมายถึงผม',
     'face:mask':'มาสก์ปิดปากลายเกรย์ฮาวด์ครับ ผมไม่ต้องหายใจก็เลยไม่จำเป็นต้องใส่ แต่หมอบอกว่าถ้าผมใส่ คนไข้จะกล้าใส่ตามมากขึ้น ผมเลยใส่ทุกวันตั้งแต่นั้นมา',
     'item:chain':'สร้อยคอทองพร้อมจี้หัวเกรย์ฮาวด์ครับ ทีมออกแบบบอกว่าอยากให้ผมมีของที่ดู "แรง" สักชิ้น ผมเลยใส่ไว้ แต่ผมยังยืนกรานว่าผมเป็นหุ่นพยาบาลที่ใจดีที่สุดในซอยอยู่ดีครับ'
   };
-  const CAT_TH  = { shell:'สีเปลือกไวนิล', outfit:'ชุด', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
+  const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
 
-  const L = { shell:'vinyl', outfit:'none', hat:'none', face:'none', item:'none' };
+  const L = { shell:'vinyl', hat:'none', face:'none', item:'none' };
   const pick = (arr, id) => arr.find((o) => o.id === id) || arr[0];
   const key = (cat, id) => cat + ':' + id;
 
@@ -4804,7 +4734,6 @@ const WEAR = (function(){
     const K = look || L;
     svg.querySelectorAll('.wear').forEach((el) => el.remove());
     const onHead = pick(HATS, K.hat).svg + pick(FACES, K.face).svg;
-    const fit = pick(OUTFITS, K.outfit).svg;
     const it  = pick(ITEMS, K.item);
     const kind = svg.getAttribute('data-bot');
     const put = (host, node, behind) => behind ? host.insertBefore(node, host.firstChild) : host.appendChild(node);
@@ -4814,17 +4743,13 @@ const WEAR = (function(){
       // ภาพโคลสอัพใบหน้ามีที่ไม่พอใส่หมวก ใส่แค่ของบนหน้าพอ
       const bits = kind === 'face' ? pick(FACES, K.face).svg : onHead;
       if (bits) svg.appendChild(frag('<g class="wear" transform="' + t.head + '">' + bits + '</g>'));
-      if (t.body){
-        if (fit)    svg.appendChild(frag('<g class="wear" transform="' + t.body + '">' + fit + '</g>'));
-        if (it.svg) put(svg, frag('<g class="wear" transform="' + t.body + '">' + it.svg + '</g>'), it.back);
-      }
+      if (t.body && it.svg)
+        put(svg, frag('<g class="wear" transform="' + t.body + '">' + it.svg + '</g>'), it.back);
       return;
     }
     // หุ่นมาตรฐาน — ยัดเข้าไปในกลุ่มหัว/ตัว ของจะได้ขยับตามท่าทางไปด้วย
     const head = svg.querySelector('.head'), torso = svg.querySelector('.torso');
     if (head && onHead) head.appendChild(frag('<g class="wear">' + onHead + '</g>'));
-    // ชุดก่อน แล้วค่อยของประดับ จะได้ทับอยู่บนเสื้อ
-    if (torso && fit) torso.appendChild(frag('<g class="wear">' + fit + '</g>'));
     if (it.svg){
       // ของที่ต้องอยู่ข้างหลัง ไปไว้หลังสุดของทั้งตัว ไม่งั้นมันจะทับแขน
       const host = it.back ? (svg.querySelector('.all') || torso) : torso;
@@ -4833,7 +4758,7 @@ const WEAR = (function(){
   }
 
   /* ---------- ชุดจัดเซ็ต ---------- */
-  const SLOTS = Object.keys(LISTS);                                  // shell, outfit, hat, face, item
+  const SLOTS = Object.keys(LISTS);                                  // shell, hat, face, item
   const setOwned = (s) => SLOTS.filter((c) => has(c, s.look[c])).length;
   const setWorn  = (s) => SLOTS.every((c) => L[c] === s.look[c]);
   function wearSet(s){
@@ -4861,7 +4786,6 @@ const WEAR = (function(){
 
   function load(){
     L.shell  = pick(SHELLS,  LS.get('baymax.shell','vinyl')).id;
-    L.outfit = pick(OUTFITS, LS.get('baymax.outfit','none')).id;
     L.hat    = pick(HATS,    LS.get('baymax.hat','none')).id;
     L.face   = pick(FACES,   LS.get('baymax.face','none')).id;
     L.item   = pick(ITEMS,   LS.get('baymax.item','none')).id;
@@ -4878,7 +4802,7 @@ const WEAR = (function(){
   }
 
   load(); apply();
-  return { L, LISTS, SHELLS, OUTFITS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS,
+  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS,
            apply, preview, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf,
            setOwned, setWorn, wearSet };
 })();
@@ -5020,40 +4944,15 @@ const BOT3D = (function(){
     return build(pos, nor, idx);
   }
 
-  /* ---- เมชเสื้อผ้า ----
-     ขยายทรงกลมให้ใหญ่ขึ้นเฉย ๆ ได้แค่รอยต่อแข็ง ๆ เหมือนทาสีทับ ไม่เหมือนใส่เสื้อ
-     อันนี้ห่อไปตามผิวลำตัวจริงตั้งแต่แนวคอถึงชายเสื้อ มีความหนาให้เห็นขอบผ้าด้วย */
-  const BODY_RX = 1.00, BODY_RY = 1.14, BODY_RZ = 0.93;
+  /* หน้าตัดลำตัวที่ความสูง y — ใช้คำนวณวงรอบตัวของของประดับ */
+  const BODY_RY = 1.14;
   const bodyProfile = (y) => Math.sqrt(Math.max(0.0001, 1 - (y/BODY_RY)*(y/BODY_RY)));
-  function wrapMesh(top, bot, t, su, sv){
-    su = su || 30; sv = sv || 16;
-    const pos=[], nor=[], idx=[], rings=[];
-    function ring(y, off, flip){
-      const p = bodyProfile(y), s = flip ? -1 : 1;
-      rings.push(1);
-      for (let i = 0; i <= su; i++){
-        const th = i/su*Math.PI*2, ct = Math.cos(th), st = Math.sin(th);
-        pos.push((BODY_RX + off)*p*ct, y, (BODY_RZ + off)*p*st);
-        let nx = ct*p, ny = y/(BODY_RY*BODY_RY), nz = st*p;
-        const l = Math.hypot(nx, ny, nz) || 1;
-        nor.push(s*nx/l, s*ny/l, s*nz/l);
-      }
-    }
-    for (let j = 0; j <= sv; j++) ring(top + (bot-top)*j/sv, t, false);          // ผิวนอก
-    for (let j = 0; j <= sv; j++) ring(bot + (top-bot)*j/sv, t*0.22, true);      // ผิวใน
-    ring(top, t, false);                                                          // ปิดขอบคอ
-    grid(rings, su, pos, nor, idx);
-    return build(pos, nor, idx);
-  }
 
   const MESH = {
     sphere: () => sphereMesh(26, 18),
     capsule:() => capsuleMesh(1, 1, 22, 9),
     torus:  () => torusMesh(1, 0.16, 26, 12),
-    cone:   () => coneMesh(18),
-    top:    () => wrapMesh(0.80, -1.05, 0.055),    // เสื้อทั่วไป คอสูงพอให้ไม่เหลือไหล่โล่ง
-    long:   () => wrapMesh(0.88, -1.12, 0.06),     // ตัวยาว เช่นกาวน์หมอ
-    crop:   () => wrapMesh(0.80, -0.42, 0.055)     // ตัวสั้น ใช้ทำเสื้อกั๊ก/ทับ
+    cone:   () => coneMesh(18)
   };
 
   /* ---------- เชดเดอร์ ---------- */
@@ -5102,7 +5001,6 @@ const BOT3D = (function(){
 
   function parts(look){
     const shell = WEAR.pick(WEAR.SHELLS, look.shell).c;
-    const fit   = WEAR.pick(WEAR.OUTFITS, look.outfit);
     const hat   = WEAR.pick(WEAR.HATS,  look.hat);
     const face  = WEAR.pick(WEAR.FACES, look.face);
     const item  = WEAR.pick(WEAR.ITEMS, look.item);
@@ -5132,90 +5030,6 @@ const BOT3D = (function(){
     add('sphere',  [-0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55 });
     add('sphere',  [ 0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55 });
     add('capsule', [0, 1.36, 0.325],     [0.038, 0.115, 0.075], INK, { rot:[0, 0, Math.PI/2], gloss:0.45 });
-
-    /* ---- ชุด ----
-       ดีไซน์ใหม่ยกตู้ ภาษาเดียวกันทุกตัวแบบของเล่นน่ากอด:
-       ผ้าหนาห่อตามตัว + ปกม้วนอ้วน + แขนพองมีข้อมือ + ชายเสื้อเก็บขอบ
-       แล้วปิดท้ายด้วยของเด่นชิ้นเดียวต่อชุด (หัวใจ กากบาท หูกระต่าย ช่องกระจก)
-       รายละเอียดทุกชิ้นใหญ่และมน ไม่มีเส้นบางหรือชิ้นจิ๋วที่มองไม่เห็น */
-    if (fit.id !== 'none'){
-      const body = (mesh, col, g) => add(mesh, [0,0,0], [1,1,1], col, { gloss:g == null ? 0.17 : g });
-      const collar = (col) => { const R = ringAt(0.79, 0.09);
-        add('torus', [0, 0.79, 0], [R[0], 0.44, R[2]], col, { gloss:0.25 }); };
-      const hem = (col) => { const R = ringAt(-1.01, 0.08);
-        add('torus', [0, -1.01, 0], [R[0], 0.42, R[2]], col, { gloss:0.2 }); };
-      /* แขนพอง + วงข้อมือสีตัด ให้เห็นว่าเป็นแขนเสื้อจริง ไม่ใช่ก้อนที่ไหล่ */
-      const puff = (col, cuff) => [-1, 1].forEach((s) => {
-        add('capsule', [s*0.90, 0.33, 0.02], [0.30, 0.24, 0.30], col, { rot:[0, 0, s*0.28], gloss:0.2 });
-        add('torus',   [s*1.03, 0.02, 0.02], [0.295, 0.36, 0.295], cuff || col, { rot:[0, 0, s*0.28], gloss:0.28 });
-      });
-      /* แถบรอบตัวคิดรัศมีจากทรงลำตัวที่ความสูงนั้น นูนออกมาแบบห่วงของเล่น */
-      const stripe = (y, col) => { const r = bodyProfile(y);
-        add('torus', [0, y, 0], [r*1.055 + 0.012, 0.34, r*0.985 + 0.012], col, { gloss:0.18 }); };
-      /* z ผิวเสื้อตรงตำแหน่งนั้น เอาไว้แปะของเด่นให้แนบผ้าพอดี */
-      const onFit = (x, y) => { const k = Math.max(0, 1 - x*x - (y/1.14)*(y/1.14));
-        return 0.93*Math.sqrt(k) + 0.075; };
-      const heart = (x, y, col) => { const z = onFit(x, y);
-        add('sphere', [x - 0.048, y + 0.045, z], [0.062, 0.062, 0.05], col, { gloss:0.4 });
-        add('sphere', [x + 0.048, y + 0.045, z], [0.062, 0.062, 0.05], col, { gloss:0.4 });
-        add('cone',   [x, y + 0.035, z], [0.098, 0.16, 0.05], col, { rot:[0, 0, Math.PI], gloss:0.4 });
-      };
-      const dot = (x, y, col, r) =>
-        add('sphere', [x, y, onFit(x, y)], [r || 0.06, r || 0.06, (r || 0.06)*0.75], col, { gloss:0.5 });
-
-      if (fit.id === 'coat'){
-        body('long', '#FBFDFF', 0.2); collar('#CDE1F0'); puff('#FBFDFF', '#CDE1F0');
-        add('capsule', [0, -0.10, 0.99], [0.045, 0.50, 0.04], '#CDE1F0', { gloss:0.2 });
-        [-1, 1].forEach((s) => add('sphere', [s*0.42, -0.50, 0.76], [0.17, 0.13, 0.09], '#E9F1F8', { gloss:0.12 }));
-        const cz = onFit(0.36, 0.30);
-        add('capsule', [0.36, 0.30, cz], [0.045, 0.10, 0.04], '#F0575F', { gloss:0.35 });
-        add('capsule', [0.36, 0.30, cz], [0.045, 0.10, 0.04], '#F0575F', { rot:[0, 0, Math.PI/2], gloss:0.35 });
-      } else if (fit.id === 'tee'){
-        body('top', '#9CC7EE'); collar('#FDFEFF'); puff('#9CC7EE', '#FDFEFF');
-        stripe(0.28, '#FDFEFF'); stripe(-0.14, '#FDFEFF'); stripe(-0.56, '#FDFEFF');
-        hem('#9CC7EE');
-      } else if (fit.id === 'hoodie'){
-        body('top', '#5FC9B0'); puff('#5FC9B0', '#46B098');
-        add('sphere', [0, 0.92, -0.44], [0.62, 0.38, 0.40], '#46B098', { rot:[-0.35, 0, 0], gloss:0.14 });
-        collar('#46B098');
-        [-1, 1].forEach((s) => {
-          add('capsule', [s*0.14, 0.42, 0.95], [0.03, 0.17, 0.028], '#FDFEFF', { gloss:0.3 });
-          add('sphere',  [s*0.14, 0.20, 0.97], [0.055, 0.055, 0.05], '#FDFEFF', { gloss:0.45 });
-        });
-        add('sphere', [0, -0.56, 0.88], [0.36, 0.16, 0.11], '#46B098', { gloss:0.1 });
-        hem('#46B098');
-      } else if (fit.id === 'sweater'){
-        body('top', '#FFD980'); collar('#E8B95C'); puff('#FFD980', '#E8B95C');
-        stripe(0.06, '#E8B95C'); stripe(-0.38, '#E8B95C');
-        hem('#E8B95C');
-        heart(0.34, 0.38, '#F0575F');
-      } else if (fit.id === 'suit'){
-        body('top', '#2E3B4A'); puff('#2E3B4A', '#1F2935');
-        add('sphere', [0, 0.30, 0.87], [0.17, 0.34, 0.10], '#FDFEFF', { gloss:0.2 });
-        collar('#1F2935');
-        [-1, 1].forEach((s) => add('cone', [s*0.095, 0.56, 0.99], [0.08, 0.15, 0.06], '#E0424C',
-          { rot:[Math.PI/2, 0, s*Math.PI/2], gloss:0.4 }));
-        add('sphere', [0, 0.56, 1.01], [0.052, 0.052, 0.045], '#E0424C', { gloss:0.5 });
-        dot(0, 0.12, '#F2C879', 0.05);
-        hem('#1F2935');
-      } else if (fit.id === 'track'){
-        body('top', '#17191E'); collar('#FDFEFF'); puff('#17191E', '#FDFEFF');
-        add('capsule', [0, -0.08, 0.99], [0.04, 0.48, 0.035], '#FDFEFF', { gloss:0.3 });
-        add('sphere', [-0.36, 0.28, onFit(0.36, 0.28)], [0.115, 0.115, 0.05], '#FDFEFF', { gloss:0.25 });
-        add('sphere', [-0.36, 0.28, onFit(0.36, 0.28) + 0.04], [0.05, 0.05, 0.03], '#17191E', { gloss:0.3 });
-        dot(-0.36, 0.08, '#F2C879', 0.045);
-        hem('#FDFEFF');
-      } else if (fit.id === 'astro'){
-        body('top', '#F4F7FB', 0.24); collar('#C3D0DE'); puff('#F4F7FB', '#C3D0DE');
-        add('sphere', [0, 0.14, 0.93], [0.30, 0.26, 0.13], '#8FB7DC', { gloss:0.75 });
-        add('torus',  [0, 0.14, 0.94], [0.345, 0.05, 0.30], '#FDFEFF', { rot:[Math.PI/2, 0, 0], gloss:0.4 });
-        dot(0.44, -0.28, '#F0575F', 0.05); dot(0.30, -0.44, '#F2C879', 0.05);
-        hem('#C3D0DE');
-      } else {
-        const c = colorOf(fit.svg, '#FFFFFF');
-        body('top', c); collar(c); puff(c); hem(c);
-      }
-    }
 
     /* ---- หมวก ----
        หัวเป็นแคปซูลนอนแกน X : กว้าง ±0.655 สูง/ลึก ±0.355 ยอดหัว y 1.715
@@ -5529,7 +5343,7 @@ const BOT3D = (function(){
 
 /* หน้าตู้เสื้อผ้า */
 (function(){
-  const hosts = { shell:document.getElementById('wShell'), outfit:document.getElementById('wOutfit'),
+  const hosts = { shell:document.getElementById('wShell'),
                   hat:document.getElementById('wHat'), face:document.getElementById('wFace'),
                   item:document.getElementById('wItem') };
   if (!hosts.shell) return;
@@ -5546,14 +5360,14 @@ const BOT3D = (function(){
 
   function thumb(cat, o){
     if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
-    if (cat === 'item' || cat === 'outfit')
+    if (cat === 'item')
       return '<svg viewBox="14 31 72 44" aria-hidden="true">' +
         (o.back ? o.svg + BODY_ART : BODY_ART + o.svg) + '</svg>';
     const vb = cat === 'hat' ? '31 0 38 35' : '32 12 36 23';
     return '<svg viewBox="' + vb + '" aria-hidden="true">' + HEAD_ART + o.svg + '</svg>';
   }
 
-  const WEARABLE = ['outfit','hat','face','item'];
+  const WEARABLE = ['hat','face','item'];
   function label(){
     const parts = WEARABLE.filter((c) => L[c] !== 'none')
                           .map((c) => WEAR.pick(LISTS[c], L[c]).name);
@@ -6018,7 +5832,7 @@ const BOT3D = (function(){
   const collEl = document.getElementById('specColl');
   const boxEl  = document.getElementById('idBoxes');
   const chips  = document.getElementById('wornChips');
-  const WEARABLE = ['outfit','hat','face','item'];
+  const WEARABLE = ['hat','face','item'];
   const TOTAL = WEAR.countOf('normal') + WEAR.countOf('secret');
 
   const chip = (cat, o) =>
@@ -6050,7 +5864,7 @@ const BOT3D = (function(){
 
   function partThumb(cat, o){
     if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
-    if (cat === 'item' || cat === 'outfit')
+    if (cat === 'item')
       return '<svg viewBox="14 31 72 44">' +
         (o.back ? o.svg + PBODY : PBODY + o.svg) + '</svg>';
     return '<svg viewBox="' + (cat === 'hat' ? '31 0 38 35' : '32 12 36 23') + '">' + PHEAD + o.svg + '</svg>';
