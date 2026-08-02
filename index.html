@@ -4562,12 +4562,14 @@ const WEAR = (function(){
       '<circle cx="37.5" cy="12.5" r="2.9" fill="#EAD3B8"/>' +
       '<circle cx="62.5" cy="12.5" r="6" fill="#B98A5E" stroke="#2B3A47" stroke-width="2"/>' +
       '<circle cx="62.5" cy="12.5" r="2.9" fill="#EAD3B8"/>' },
-    { id:'headset', name:'หูฟังครอบหู', svg:
-      '<path d="M33.5 20.5c0-9 7.4-15 16.5-15s16.5 6 16.5 15" fill="none" stroke="#39424E" stroke-width="4.2" stroke-linecap="round"/>' +
-      '<rect x="28.5" y="16" width="9.5" height="13" rx="4.2" fill="#39424E" stroke="#2B3A47" stroke-width="1.8"/>' +
-      '<rect x="62" y="16" width="9.5" height="13" rx="4.2" fill="#39424E" stroke="#2B3A47" stroke-width="1.8"/>' +
-      '<rect x="30.8" y="19" width="4.9" height="7" rx="2.4" fill="#8FB7DC"/>' +
-      '<rect x="64.3" y="19" width="4.9" height="7" rx="2.4" fill="#8FB7DC"/>' },
+    { id:'headset', name:'หูฟังนุ่มครอบหู', vb:'22 0 56 36', svg:
+      '<path d="M32 21c0-9.6 8-15.6 18-15.6S68 11.4 68 21" fill="none" stroke="#5A6B7D" stroke-width="6.4" stroke-linecap="round"/>' +
+      '<path d="M40.5 8.4q9.5-3.2 19 0" fill="none" stroke="#A9CCEA" stroke-width="4.6" stroke-linecap="round"/>' +
+      '<ellipse cx="28.4" cy="22.4" rx="7.4" ry="8.6" fill="#5A6B7D" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<ellipse cx="71.6" cy="22.4" rx="7.4" ry="8.6" fill="#5A6B7D" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<ellipse cx="28.4" cy="22.4" rx="4.2" ry="5.2" fill="#A9CCEA"/>' +
+      '<ellipse cx="71.6" cy="22.4" rx="4.2" ry="5.2" fill="#A9CCEA"/>' +
+      '<circle cx="28.4" cy="22.4" r="1.5" fill="#FDFEFF"/><circle cx="71.6" cy="22.4" r="1.5" fill="#FDFEFF"/>' },
     { id:'maidband', name:'ที่คาดผมลูกไม้', svg:
       '<circle cx="35.2" cy="14.6" r="3" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.5"/>' +
       '<circle cx="39.8" cy="10.6" r="3" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.5"/>' +
@@ -4659,11 +4661,12 @@ const WEAR = (function(){
       '<path d="M44 52c-.8 6 .6 9.5 6 9.5s6.8-3.5 6-9.5c-.5-3.5-2.6-5-6-5s-5.5 1.5-6 5z" fill="#F2B04A" stroke="#2B3A47" stroke-width="1.7"/>' +
       '<rect x="44.6" y="44.6" width="10.8" height="3.4" rx="1.7" fill="#EAD3B8" stroke="#2B3A47" stroke-width="1.4"/>' +
       '<path d="M47.5 54q2.5 2.4 5 0v3q-2.5 2-5 0z" fill="#FFDE8A"/>' },
-    { id:'lanyard', name:'สายคล้องบัตร', svg:
-      '<path d="M36 40.5 47 60M64 40.5 53 60" fill="none" stroke="#39424E" stroke-width="3.2" stroke-linecap="round"/>' +
-      '<rect x="43.5" y="59" width="13" height="16" rx="2" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8"/>' +
-      '<rect x="45.5" y="61.5" width="9" height="5.4" rx="1.2" fill="#8FB7DC"/>' +
-      '<path d="M45.5 69.5h9M45.5 72h6" stroke="#BFD3E2" stroke-width="1.5" stroke-linecap="round"/>' },
+    { id:'neckpillow', name:'หมอนรองคอนุ่ม', svg:
+      '<path d="M34.5 41q2.5 11.5 12.5 13" fill="none" stroke="#2B3A47" stroke-width="11" stroke-linecap="round"/>' +
+      '<path d="M65.5 41q-2.5 11.5-12.5 13" fill="none" stroke="#2B3A47" stroke-width="11" stroke-linecap="round"/>' +
+      '<path d="M34.5 41q2.5 11.5 12.5 13" fill="none" stroke="#A9CCEA" stroke-width="8" stroke-linecap="round"/>' +
+      '<path d="M65.5 41q-2.5 11.5-12.5 13" fill="none" stroke="#A9CCEA" stroke-width="8" stroke-linecap="round"/>' +
+      '<path d="M37.5 44.5q1.4 6 6.5 8M62.5 44.5q-1.4 6-6.5 8" fill="none" stroke="#CFE8F6" stroke-width="2" stroke-linecap="round"/>' },
     { id:'gloves', name:'ถุงมือยาง', arms:true, vb:'13 60 74 46', svg:
       '<circle cx="22" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<circle cx="78" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
@@ -4691,12 +4694,13 @@ const WEAR = (function(){
       '<path d="M70.2 77.6h12.6" stroke="#C9AE8E" stroke-width="3.4"/>' +
       '<path d="M83.4 78c3.4-.6 5 .8 4.6 3.2-.4 2.2-2.2 3-4.8 2.6" fill="none" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<path d="M73.5 70.5q1.6-2.4 0-4.8M79.5 70.5q1.6-2.4 0-4.8" fill="none" stroke="#A9CCEA" stroke-width="1.6" stroke-linecap="round"/>' },
-    { id:'macbook', name:'โน้ตบุ๊กบางเฉียบ', arms:true, vb:'13 60 74 46', svg:
-      '<path d="M31 92h38l4 9H27z" fill="#D3D8E0" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
-      '<rect x="32.5" y="68" width="35" height="24" rx="2.4" fill="#39424E" stroke="#2B3A47" stroke-width="1.9"/>' +
-      '<rect x="35.5" y="71" width="29" height="18" rx="1.4" fill="#7FC7E8"/>' +
-      '<path d="M38.5 75h16M38.5 79h22M38.5 83h12" stroke="#FDFEFF" stroke-width="1.6" stroke-linecap="round" opacity=".9"/>' +
-      '<circle cx="50" cy="96.4" r="1.7" fill="#8F9AA8"/>' },
+    { id:'duck', name:'เป็ดยางดีบัก', arms:true, vb:'16 44 74 46', svg:
+      '<ellipse cx="75" cy="72" rx="11" ry="8.6" fill="#F2C879" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M84.5 66.5q4.6 3.4 3 8.4" fill="none" stroke="#2B3A47" stroke-width="1.9" stroke-linecap="round"/>' +
+      '<circle cx="68.5" cy="61.5" r="6.8" fill="#F2C879" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M62 60q-5.4 1-5.4 3.8 2.8 2.2 5.8.4z" fill="#F0913C" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>' +
+      '<circle cx="67.6" cy="59.4" r="1.6" fill="#2B3A47"/>' +
+      '<path d="M71.5 71q4.6-2.6 8.4.6-3.2 3.2-8.4-.6z" fill="#E0AE5E"/>' },
     { id:'vacuum', name:'เครื่องดูดฝุ่นไร้สาย', arms:true, vb:'16 58 74 48', svg:
       '<path d="M77 56c2.6 0 4 1.6 4 4v22c0 2.4-1.4 4-4 4s-4-1.6-4-4V60c0-2.4 1.4-4 4-4z" fill="#8FD6E8" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M75.4 86h3.2v14h-3.2z" fill="#C6D3E0" stroke="#2B3A47" stroke-width="1.7"/>' +
@@ -4721,8 +4725,8 @@ const WEAR = (function(){
       note:'เซ็ตของลับห้าชิ้น มีเครื่องดูดฝุ่นไร้สายเป็นของใช้ประจำตัว ใส่ครบเมื่อไหร่เขาจะกวาดทั้งวอร์ดเสร็จก่อนคุณตื่น',
       look:{ shell:'sky', hat:'maidband', face:'bubbles', item:'gloves', prop:'vacuum' } },
     { id:'dev', name:'ชุดนักพัฒนากะดึก', badge:'LEGEND SET', home:true,
-      note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังครอบหู แว่นบลูไลต์ บัตรพนักงาน และโน้ตบุ๊กที่เปิดค้างไว้ตั้งแต่เที่ยงคืน',
-      look:{ shell:'graphite', hat:'headset', face:'bluelight', item:'lanyard', prop:'macbook' } },
+      note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังนุ่มครอบหู แว่นบลูไลต์ หมอนรองคอ และเป็ดยางไว้เล่าบั๊กให้ฟังตอนตีสาม',
+      look:{ shell:'graphite', hat:'headset', face:'bluelight', item:'neckpillow', prop:'duck' } },
     { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET',
       note:'เซ็ตของลับจากความฝันวัยเด็ก เขาทอง แผงคอพาสเทล ดาวติดแก้ม และปีกเมฆนุ่ม ครบสี่ชิ้นเมื่อไหร่เขาจะพาเดินเล่นบนรุ้ง',
       look:{ shell:'aurora', hat:'unihorn', face:'starcheek', item:'cloudwing' } },
@@ -4759,8 +4763,8 @@ const WEAR = (function(){
     /* ชุดยูนิคอร์นสายรุ้ง — ของลับทั้งเซ็ต */
     'shell:aurora':'secret',  'hat:unihorn':'secret',   'face:starcheek':'secret', 'item:cloudwing':'secret',
     /* ชุดนักพัฒนากะดึก — ตำนานทั้งเซ็ต */
-    'shell:graphite':'legend','hat:headset':'legend',   'face:bluelight':'legend', 'item:lanyard':'legend',
-    'prop:macbook':'legend',
+    'shell:graphite':'legend','hat:headset':'legend',   'face:bluelight':'legend', 'item:neckpillow':'legend',
+    'prop:duck':'legend',
     /* ชุดแม่บ้านสายฟ้า — ของลับทั้งเซ็ต */
     'shell:sky':'secret',     'hat:maidband':'secret',  'face:bubbles':'secret',   'item:gloves':'secret',
     'prop:vacuum':'secret',
@@ -4800,8 +4804,8 @@ const WEAR = (function(){
     'shell:graphite':'สีนี้ทีมวิศวกรเลือกเองครับ เขาบอกว่าอยากได้สีเดียวกับฝาเครื่องที่ใช้เขียนโปรแกรมผมขึ้นมา ผมเลยได้ใส่สีของบ้านเกิดตัวเอง',
     'hat:headset':'หูฟังคู่นี้กันเสียงได้ดีมากครับ แต่ผมตั้งค่าให้เสียงเรียกพยาบาลลอดผ่านได้เสมอ เพราะมีเสียงเดียวที่ผมไม่ยอมพลาด',
     'face:bluelight':'แว่นกรองแสงสีฟ้าครับ ผมไม่มีดวงตาที่ล้าได้ แต่คนที่นั่งทำงานข้างผมมี พอเขาเห็นผมใส่ เขาก็ยอมใส่ของเขาบ้าง',
-    'item:lanyard':'บัตรพนักงานใบแรกของผมครับ ในช่องตำแหน่งเขาพิมพ์ว่า "เพื่อนร่วมทีม" ไม่ใช่ "อุปกรณ์" ผมเก็บใบนี้ไว้ดีที่สุดในบรรดาของทั้งหมด',
-    'prop:macbook':'เครื่องนี้เปิดค้างไว้ตั้งแต่เที่ยงคืนครับ ในนั้นมีโค้ดที่ยังไม่เสร็จกับโน้ตที่เขียนว่า "พรุ่งนี้ค่อยทำ" อยู่สิบสี่บรรทัด ผมถือไว้เฉย ๆ ไม่กล้าปิด',
+    'item:neckpillow':'หมอนรองคอครับ พี่เขาซื้อมาให้ตอนผมยืนเฝ้าจอทั้งคืนเป็นคืนที่เก้า บอกว่า "ถึงนายไม่เมื่อยก็ใส่ไว้เถอะ ฉันจะได้ไม่เมื่อยแทน"',
+    'prop:duck':'เป็ดยางประจำโต๊ะครับ เวลาโค้ดพัง เขาจะเล่าให้เป็ดฟังทีละบรรทัดจนเจอที่ผิดเอง ผมยังไม่เข้าใจว่าเป็ดช่วยยังไง แต่ผมจดสถิติไว้แล้ว มันได้ผลสิบเอ็ดครั้งจากสิบสาม',
     'shell:sky':'สีฟ้าสะอาดจากป้ายห้องเก็บของชั้นล่างครับ แม่บ้านประจำตึกบอกว่าถ้าจะมาช่วยเธอทำความสะอาด ก็ต้องใส่สีประจำหน่วยให้ถูก ผมจึงเปลี่ยนสีทั้งตัว',
     'hat:maidband':'ที่คาดผมลูกไม้ของพี่แม่บ้านครับ วันเกษียณเธอวางไว้บนหัวผมแล้วบอกว่า "ฝากวอร์ดนี้ด้วยนะ" ผมยังไม่ได้ถอดออกเลยสักวันเดียว',
     'face:bubbles':'ฟองสบู่จากถังถูพื้นครับ ผมคำนวณแล้วว่ามันจะแตกภายในสิบเอ็ดวินาที แต่ระหว่างนั้นเด็ก ๆ ในวอร์ดจะวิ่งไล่ตบมันแล้วหัวเราะ ผมเลยตีฟองเพิ่มทุกครั้งที่ถูพื้น',
@@ -4901,7 +4905,7 @@ const WEAR = (function(){
       return '<svg viewBox="' + (o.vb || T_VB) + '" aria-hidden="true">' +
         (o.back ? o.svg + body : body + o.svg) + '</svg>';
     }
-    return '<svg viewBox="' + (cat === 'hat' ? '31 0 38 35' : '32 12 36 23') + '" aria-hidden="true">' +
+    return '<svg viewBox="' + (o.vb || (cat === 'hat' ? '31 0 38 35' : '32 12 36 23')) + '" aria-hidden="true">' +
       T_HEAD + o.svg + '</svg>';
   }
 
@@ -4937,7 +4941,8 @@ const WEAR = (function(){
   function load(){
     /* เซ็ตแม่บ้านเปลี่ยนดีไซน์หมวกกับของบนหน้าใหม่ id เลยเปลี่ยนตาม
        ต้องย้ายสิทธิ์ของเก่ามาให้ก่อนอ่านลุค ไม่งั้นคนที่เคยเปิดได้แล้วจะเห็นมันกลับไปล็อก */
-    const RENAMED = { hat:{ bandana:'maidband' }, face:{ dustmask:'bubbles' } };
+    const RENAMED = { hat:{ bandana:'maidband' }, face:{ dustmask:'bubbles' },
+                      item:{ lanyard:'neckpillow' }, prop:{ macbook:'duck' } };
     Object.keys(RENAMED).forEach((cat) => Object.keys(RENAMED[cat]).forEach((old) => {
       const nu = RENAMED[cat][old];
       if (owned.delete(key(cat, old))){ owned.add(key(cat, nu)); saveOwned(); }
@@ -5219,17 +5224,21 @@ const BOT3D = (function(){
         prop: { pos:[0, s*0.02, 0], rot:[0, 0, s*0.04] }
       };
     },
-    /* นั่งพิมพ์งาน: พับขาไปข้างหน้าแล้วนั่งลง วางโน้ตบุ๊กพิงพุงไว้บนตัก
-       สองแขนเข้าหากัน ก้มหน้ามองจอ นิ้วเคาะเป็นช่วง ๆ */
-    macbook: (t) => {
-      const tap = Math.sin(t/95) * (((t % 4200) / 4200) < 0.62 ? 1 : 0);
-      /* แขนต้องยื่นไปข้างหน้าด้วย ไม่งั้นมือจะจมอยู่ข้างพุงห่างคีย์บอร์ดครึ่งหน่วย
-         กลายเป็นโน้ตบุ๊กลอยอยู่เฉย ๆ ไม่มีใครถือ */
+    /* คุยกับเป็ด: ยกเป็ดขึ้นมาระดับหน้า เอียงหัวเข้าหามัน แล้วผงกหัวเป็นจังหวะ
+       เป็ดอยู่กลุ่ม prop เลยต้องคำนวณตำแหน่งมือขวาหลังหมุน (X ก่อน แล้ว Z) เอง
+       แล้วเลื่อนเป็ดไปเท่ากัน เป็ดจะได้ติดมือแต่ยังตั้งตรงไม่เอียงตามแขน */
+    duck: (t) => {
+      const s = Math.sin(t/700);
+      const ax = -0.85, az = -0.32 + s*0.045;
+      const HX = 1.17, HY = -0.48, HZ = 0.03, SY = 0.50, SZ = 0.02, PX = 0.72;
+      const y1 = SY + (HY - SY)*Math.cos(ax) - (HZ - SZ)*Math.sin(ax);
+      const z1 = SZ + (HY - SY)*Math.sin(ax) + (HZ - SZ)*Math.cos(ax);
+      const r = Math.hypot(HX - PX, y1 - SY), th = Math.atan2(y1 - SY, HX - PX);
       return {
-        armL: 0.60 + tap*0.03, armR: -0.60 - tap*0.03, sit: 1,
-        armLX: -0.785, armRX: -0.785,
-        tilt: 0, nod: 0.34 + tap*0.012, lean: 0,
-        prop: { pos:[0, tap*0.006, 0], rot:[0, 0, 0] }
+        armL: 0.10, armLX: -0.25, armR: az, armRX: ax,
+        tilt: -0.10, nod: 0.20 + s*0.04, lean: 0,
+        prop: { pos:[PX + r*Math.cos(th + az) - HX, SY + r*Math.sin(th + az) - HY, z1 - HZ],
+                rot:[0, 0, 0] }
       };
     },
     /* ดูดฝุ่น: มือขวาจับด้ามไว้นิ่ง ๆ แล้วโยก "ทั้งเครื่อง" รอบจุดที่มือจับ หัวดูดเลยกวาดพื้นไปมา
@@ -5292,8 +5301,8 @@ const BOT3D = (function(){
       const g = s < 0 ? 'armL' : 'armR';
       add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, { rot:[0, 0, s*0.28], grp:g });
       add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell, { grp:g });
-      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell, { grp:'leg' });
-      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell, { grp:'leg' });
+      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell);
+      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell);
     });
 
     /* หน้า — ตาสองเม็ดกับขีดกลาง ต้องโผล่พ้นผิวหัว ไม่งั้นจมหายไปข้างใน */
@@ -5330,6 +5339,25 @@ const BOT3D = (function(){
         const a2 = headAt(y0);
         add('torus', [0, y0, 0.015], [a2[0] + pad, hh/0.16, a2[1] + pad], col,
             { gloss:g == null ? 0.28 : g });
+      };
+
+      /* เส้นที่เดินตามขอบหัวจริง (หัวเป็นแคปซูลนอน: ช่วงกลางแบนราบ ปลายโค้งลงสองข้าง)
+         u = -1..1 ไล่จากข้างซ้าย ข้ามยอดหัว ไปข้างขวา / out = ระยะห่างจากผิวหัว
+         ใช้วงแหวนวงเดียวไม่ได้ เพราะวงรีมันเลยหัวลงมาถึงแก้ม เห็นเป็นกรอบรูปรอบหน้า */
+      const headBand = (u, out) => {
+        const R = HR + out, FLAT = 0.34, SWEEP = 1.30;
+        if (Math.abs(u) <= FLAT) return [u/FLAT*HHW, HY + R];
+        const f = (Math.abs(u) - FLAT)/(1 - FLAT)*SWEEP;
+        return [(u < 0 ? -1 : 1)*(HHW + R*Math.sin(f)), HY + R*Math.cos(f)];
+      };
+      const bandRun = (segs, out, rad, depth, col, gl) => {
+        for (let i = 0; i < segs; i++){
+          const p1 = headBand(-1 + 2*i/segs, out), p2 = headBand(-1 + 2*(i + 1)/segs, out);
+          const dx = p2[0] - p1[0], dy = p2[1] - p1[1];
+          add('capsule', [(p1[0] + p2[0])/2, (p1[1] + p2[1])/2, 0.02],
+              [rad, Math.sqrt(dx*dx + dy*dy)/3, depth], col,
+              { rot:[0, 0, Math.atan2(-dx, dy)], gloss:gl });
+        }
       };
 
       if (hat.id === 'catears'){
@@ -5378,35 +5406,25 @@ const BOT3D = (function(){
           add('sphere', [ex, ey, ez + 0.125], [0.098, 0.098, 0.05], '#EAD3B8', { gloss:0.14 });
         });
       } else if (hat.id === 'headset'){
-        /* คาดหัวโค้งข้ามยอดหัว + ครอบหูสองข้างที่ระดับตา */
-        /* rot X 90 องศาเพื่อพลิกวงแหวนให้ตั้งขึ้นเป็นคาดหัว ไม่ใช่นอนเป็นวงเวียนรอบหัว */
-        add('torus', [0, 1.36, -0.06], [0.72, 0.40, 0.56], '#39424E', { rot:[Math.PI/2, 0, 0], gloss:0.35 });
+        /* ของเดิมเป็นวงแหวนบางกับจานแบนสองข้าง อ่านเป็นอุปกรณ์มากกว่าของน่ารัก
+           ทรงใหม่: คาดหัวหนาเดินตามขอบหัว มีเบาะนุ่มพาดบนกระหม่อม
+           ครอบหูเป็นกระบอกอ้วนบุฟองน้ำฟ้าอ่อน (rot z 90 พลิกแคปซูลให้นอนตามแกน X) */
+        bandRun(12, 0.085, 0.062, 0.115, '#5A6B7D', 0.35);
+        (function(){ const top = headBand(0, 0.085);
+          add('sphere', [0, top[1] + 0.045, 0.02], [0.30, 0.075, 0.135], '#A9CCEA', { gloss:0.25 }); })();
         [-1, 1].forEach((sgn) => {
-          add('sphere', [sgn*0.72, 1.32, -0.02], [0.125, 0.22, 0.22], '#39424E', { gloss:0.35 });
-          add('sphere', [sgn*0.63, 1.32, -0.02], [0.06, 0.145, 0.145], '#8FB7DC', { gloss:0.45 });
+          add('capsule', [sgn*0.68, 1.30, 0.02], [0.245, 0.062, 0.245], '#5A6B7D',
+              { rot:[0, 0, Math.PI/2], gloss:0.35 });
+          add('torus',   [sgn*0.80, 1.30, 0.02], [0.20, 0.50, 0.20], '#A9CCEA',
+              { rot:[0, 0, Math.PI/2], gloss:0.3 });
+          add('sphere',  [sgn*0.815, 1.30, 0.02], [0.035, 0.075, 0.075], '#FDFEFF', { gloss:0.6 });
         });
       } else if (hat.id === 'maidband'){
-        /* ที่คาดผมลูกไม้ — เดินเส้นตามผิวหัวจริง (หัวเป็นแคปซูลนอน: กลางแบนราบ ปลายโค้งลงสองข้าง)
-           รอบแรกใช้วงแหวนวงเดียวครอบหัว แต่วงรีมันเลยหัวลงมาถึงแก้ม เห็นเป็นกรอบรูปรอบหน้า
-           ไม่ใช่ที่คาดผม เลยเปลี่ยนมาต่อแคปซูลสั้น ๆ ตามเส้นขอบหัวที่เว้นระยะ 0.055 เท่ากันทุกจุด */
-        const PAD = 0.055, RR = HR + PAD, FLAT = 0.34, SWEEP = 1.30;
-        const bandPt = (u, out) => {          // u = -1..1 ไล่จากข้างซ้าย ข้ามยอดหัว ไปข้างขวา
-          const R = RR + (out || 0);
-          if (Math.abs(u) <= FLAT) return [u/FLAT*HHW, HY + R];
-          const f = (Math.abs(u) - FLAT)/(1 - FLAT)*SWEEP;
-          return [(u < 0 ? -1 : 1)*(HHW + R*Math.sin(f)), HY + R*Math.cos(f)];
-        };
-        const SEG = 12;
-        for (let i = 0; i < SEG; i++){
-          const p1 = bandPt(-1 + 2*i/SEG), p2 = bandPt(-1 + 2*(i + 1)/SEG);
-          const dx = p2[0] - p1[0], dy = p2[1] - p1[1];
-          add('capsule', [(p1[0] + p2[0])/2, (p1[1] + p2[1])/2, 0.02],
-              [0.048, Math.sqrt(dx*dx + dy*dy)/3, 0.088], '#FDFEFF',
-              { rot:[0, 0, Math.atan2(-dx, dy)], gloss:0.3 });
-        }
-        /* ระบายลูกไม้เกาะขอบนอกของเส้นคาด เว้นช่องกลางไว้ให้โบว์ */
+        /* ที่คาดผมลูกไม้: เส้นคาดเดินตามขอบหัว + ระบายลูกไม้เกาะขอบนอก + โบว์กลาง */
+        const PAD = 0.055, RR = HR + PAD;
+        bandRun(12, PAD, 0.048, 0.088, '#FDFEFF', 0.3);
         [-0.88, -0.64, -0.40, 0.40, 0.64, 0.88].forEach((u) => {
-          const p = bandPt(u, 0.052), r = 0.088 - Math.abs(u)*0.026;
+          const p = headBand(u, PAD + 0.052), r = 0.088 - Math.abs(u)*0.026;
           add('sphere', [p[0], p[1], 0.02], [r, r, r*0.92], '#FDFEFF', { gloss:0.22 });
         });
         /* โบว์วางเยื้องมาด้านหน้าเล็กน้อย จะได้เห็นเต็ม ๆ จากมุมกล้อง ไม่ใช่ซ่อนอยู่บนกระหม่อม */
@@ -5523,12 +5541,16 @@ const BOT3D = (function(){
         add('sphere', [1.02, -0.62, -0.44], [0.31, 0.31, 0.26], '#D9853F', { rot:[0, 0, -0.4], gloss:0.2 });
         add('sphere', [1.22, -0.20, -0.45], [0.27, 0.31, 0.23], '#D9853F', { rot:[0, 0, -0.6], gloss:0.2 });
         add('sphere', [1.30, 0.18, -0.44], [0.22, 0.24, 0.20], '#FDF6EC', { gloss:0.25 });
-      } else if (item.id === 'lanyard'){
-        /* สายคล้องสองเส้นสอบเข้าหากัน + บัตรห้อยกลางอก */
-        [-1, 1].forEach((sgn) => add('capsule', [sgn*0.24, 0.62, 0.80], [0.028, 0.24, 0.026], '#39424E',
-          { rot:[0, 0, sgn*0.42], gloss:0.3 }));
-        add('box', [0, 0.30, 0.90], [0.155, 0.20, 0.022], '#FDFEFF', { gloss:0.35 });
-        add('box', [0, 0.36, 0.925], [0.095, 0.075, 0.008], '#8FB7DC', { gloss:0.4 });
+      } else if (item.id === 'neckpillow'){
+        /* หมอนรองคอทรงเกือกม้า วางรอบคอแต่เว้นช่องด้านหน้าไว้ ไม่ใช่โดนัทปิดรอบ
+           ปั้นจากลูกกลมสิบลูกเรียงตามวงคอ ระยะห่างน้อยกว่ารัศมีลูก ผิวเลยกลืนเป็นก้อนเดียว */
+        (function(){ const R = ringAt(0.90, 0.05), N = 14;
+          for (let i = 0; i < N; i++){
+            const a = 0.72 + i*(2*Math.PI - 1.44)/(N - 1);
+            add('sphere', [Math.sin(a)*R[0], 0.90 + Math.cos(a)*0.05, Math.cos(a)*R[2]],
+                [0.205, 0.185, 0.205], c, { gloss:0.2 });
+          }
+        })();
       } else if (item.id === 'gloves'){
         /* ครอบทับมือทั้งสองข้าง ติดแท็กกลุ่มแขนเลยขยับตามแขนไปด้วย */
         [-1, 1].forEach((sgn) => {
@@ -5579,14 +5601,19 @@ const BOT3D = (function(){
       add('torus',   [hx + 0.20, hy - 0.02, hz], [0.10, 0.22, 0.10], '#FDFEFF',
           { rot:[0, Math.PI/2, 0], grp:'armR', gloss:0.35 });
       add('torus',   [hx, hy - 0.05, hz], [0.182, 0.16, 0.182], '#C9AE8E', { grp:'armR', gloss:0.3 });
-    } else if (prop.id === 'macbook'){
-      /* วางพิกัดจริงไปเลย กลุ่ม prop เหลือไว้ขยับตอนเคาะคีย์เท่านั้น
-         จอเอนมาทางตัวเขา คนดูเลยเห็นหน้าจอเรืองแสงจากมุมหน้า */
-      add('box', [0, -0.34, 1.14], [0.50, 0.032, 0.34], '#D3D8E0', { grp:'prop', gloss:0.5 });
-      add('box', [0, -0.30, 1.14], [0.40, 0.008, 0.24], '#AEB8C6', { grp:'prop', gloss:0.3 });
-      /* จอเอนมาทางตัวเขา ตัวเรืองแสงเลื่อนตามแกน Z ของจอ (sin/cos ของมุมเอน) */
-      add('box', [0, 0.06, 0.98], [0.50, 0.34, 0.026], '#39424E', { rot:[-0.42, 0, 0], grp:'prop', gloss:0.4 });
-      add('box', [0, 0.077, 1.016], [0.43, 0.28, 0.006], '#7FC7E8', { rot:[-0.42, 0, 0], grp:'prop', gloss:0.85 });
+    } else if (prop.id === 'duck'){
+      /* เป็ดวางพิกัดไว้ที่ตำแหน่งมือขวาตอนอยู่ท่าปกติ แล้วให้ PROP_ANIM เลื่อนไปตามมือ
+         อยู่กลุ่ม prop ไม่ใช่ armR เพราะกลุ่มแขนจะหมุนเป็ดเอียงตามไปด้วย 66 องศา
+         เป็ดหันหน้าไปทาง -x คือหันเข้าหาหน้าเขา จะได้เป็นท่าคุยกับเป็ด */
+      add('sphere', [1.17, -0.16, 0.05], [0.26, 0.22, 0.24], '#F2C879', { grp:'prop', gloss:0.3 });
+      add('sphere', [1.05, 0.13, 0.02],  [0.155, 0.155, 0.15], '#F2C879', { grp:'prop', gloss:0.3 });
+      /* กรวยหมุน z 90 องศา ปลายจะชี้ไปทาง -x (ทิศปลาย = -sin, cos ของมุม) */
+      add('cone',   [0.90, 0.11, 0.03],  [0.075, 0.135, 0.055], '#F0913C',
+          { rot:[0, 0, Math.PI/2], grp:'prop', gloss:0.35 });
+      add('sphere', [1.02, 0.175, 0.125], [0.033, 0.033, 0.028], INK, { grp:'prop', gloss:0.55 });
+      add('sphere', [1.21, -0.16, 0.185], [0.10, 0.125, 0.05], '#E0AE5E', { grp:'prop', gloss:0.25 });
+      add('cone',   [1.39, -0.09, 0.02],  [0.085, 0.15, 0.07], '#F2C879',
+          { rot:[0, 0, -0.64], grp:'prop', gloss:0.3 });
     } else if (prop.id === 'vacuum'){
       /* ทั้งเครื่องอยู่ในกลุ่ม prop แล้วให้ PROP_ANIM โยกรอบจุดที่มือขวาจับ
          ด้ามเอนไปข้างหน้า (rot X -0.30) หัวดูดเลยไปอยู่หน้าปลายเท้า ตอนกวาดเข้าในจะได้ไม่ชนเท้า */
@@ -5682,7 +5709,7 @@ const BOT3D = (function(){
       let tilt = Math.sin(t/1900) * 0.045;
       const sway = Math.sin(t/950) * 0.045;
       let armLa = sway, armRa = -sway, nod = 0, lean = 0;
-      let armLx = 0, armRx = 0, sit = 0;
+      let armLx = 0, armRx = 0;
       const wp = (t % 7000) / 7000;
       if (wp < 0.22){ const p = wp/0.22; armRa += Math.sin(p*Math.PI*3) * 0.45 * Math.sin(p*Math.PI); }
 
@@ -5691,7 +5718,7 @@ const BOT3D = (function(){
       if (pa){
         const A = pa(t);
         armLa = A.armL; armRa = A.armR;
-        armLx = A.armLX || 0; armRx = A.armRX || 0; sit = A.sit || 0;
+        armLx = A.armLX || 0; armRx = A.armRX || 0;
         tilt = A.tilt || 0; nod = A.nod || 0; lean = A.lean || 0;
         propM = A.prop ? compose(A.prop.pos, A.prop.rot || [0,0,0], [1,1,1]) : ident();
       } else propM = ident();
@@ -5703,19 +5730,16 @@ const BOT3D = (function(){
          มีแต่แกน Z อย่างเดียวแขนจะหุบได้แค่แนบข้างตัว โอบไปข้างหน้าไม่ได้เลย */
       const armLM = mul(rotZAbout(-0.72, 0.50, armLa), rotXAbout(0.50, 0.02, armLx));
       const armRM = mul(rotZAbout(0.72, 0.50, armRa), rotXAbout(0.50, 0.02, armRx));
-      /* ท่านั่ง: พับขาไปข้างหน้าที่สะโพก แล้วลดทั้งตัวลงมาให้ก้นลงไปอยู่ระดับพื้น */
-      const legM = sit ? rotXAbout(-1.05, 0.05, -Math.PI/2*sit) : ident();
 
       /* ถอยกล้องตามสัดส่วนกรอบ ตัวเขาจะได้อยู่ครบเฟรมทุกจอ
          หมุนรอบตัวแล้วแขนกางออกด้านข้าง เลยเผื่อความกว้างไว้เท่าความสูง */
       const asp = w/h;
       const span = 4.5;
       const dist = Math.max(span, span/asp) / 2 / Math.tan(FOV/2);
-      const mid = MID - 0.26*sit;              // นั่งแล้วตัวเตี้ยลง เลื่อนกล้องตามไม่ให้ลอยอยู่กลางเฟรม
-      const eye = [0, mid + 0.10, dist];
+      const eye = [0, MID + 0.10, dist];
       const proj = persp(FOV, asp, 0.1, 60);
-      const view = lookAt(eye, [0, mid, 0], [0,1,0]);
-      const root = mul(mul(compose([0, bob - 0.50*sit, 0], [pitch, yaw, 0], [1, 1, 1]),
+      const view = lookAt(eye, [0, MID, 0], [0,1,0]);
+      const root = mul(mul(compose([0, bob, 0], [pitch, yaw, 0], [1, 1, 1]),
                            rotZAbout(0, -1.90, lean)),
                        compose([0, 0, 0], [0, 0, 0], [breath, 2 - breath, breath]));
       const vp = mul(proj, view);
@@ -5729,7 +5753,6 @@ const BOT3D = (function(){
         else if (part.grp === 'armL') local = mul(armLM, local);
         else if (part.grp === 'armR') local = mul(armRM, local);
         else if (part.grp === 'prop') local = mul(propM, local);
-        else if (part.grp === 'leg' && sit) local = mul(legM, local);
         const model = mul(root, local);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.p); gl.vertexAttribPointer(A.pos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.n); gl.vertexAttribPointer(A.nor, 3, gl.FLOAT, false, 0, 0);
