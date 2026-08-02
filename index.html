@@ -74,6 +74,10 @@
   /* ปุ่มกับการ์ดที่กดรัว ๆ — กันไม่ให้เผลอลากเลือกข้อความหรือเด้งเมนู */
   .btn,.pbtn,.tabbtn,.wopt,.vc-chip,.gcardbtn,.gback,.leak,.bx-open,.bx-gift,.mode{
     -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  /* แม่กุญแจวาดเป็น mask เอง อีโมจิ 🔒 หน้าตาต่างกันทุกแพลตฟอร์มและสีคุมไม่ได้ */
+  :root{--lockmask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.6A5.4 5.4 0 0 0 6.6 7v2.6h3.2V7a2.2 2.2 0 0 1 4.4 0v2.6h3.2V7A5.4 5.4 0 0 0 12 1.6z'/%3E%3Crect x='3.9' y='9.3' width='16.2' height='12.9' rx='3.9'/%3E%3C/svg%3E")}
+  .lockmark{position:absolute;background:currentColor;opacity:.55;pointer-events:none;
+    -webkit-mask:var(--lockmask) center/contain no-repeat;mask:var(--lockmask) center/contain no-repeat}
   body.locked{overflow:hidden}
   /* เว้นด้านบนไว้ให้ป้ายแบตที่ลอยอยู่มุมขวา */
   .wrap{max-width:1000px;margin:0 auto;padding:44px 24px calc(120px + env(safe-area-inset-bottom))}
@@ -234,7 +238,9 @@
   .set-part.miss{background:#F4F8FB;border-style:dashed}
   .set-part.miss .pthumbs{filter:grayscale(1) opacity(.22)}
   .set-part.miss small{color:#A5B8C7}
-  .set-part.miss::after{content:'🔒';position:absolute;top:4px;right:6px;font-size:10px}
+  .set-part.miss::after{content:'';position:absolute;top:5px;right:6px;width:11px;height:11px;
+    background:var(--ink-soft);opacity:.6;
+    -webkit-mask:var(--lockmask) center/contain no-repeat;mask:var(--lockmask) center/contain no-repeat}
   .set-go[disabled]{opacity:.45;cursor:not-allowed}
 
   .wgroup-set{padding-bottom:16px;border-bottom:1px dashed var(--line)}
@@ -937,7 +943,9 @@
   .wopt.lock{cursor:default;opacity:.62}
   .wopt.lock .wthumb{filter:grayscale(1) contrast(.85)}
   .wopt.lock small{color:#9DB0C0}
-  .wopt.lock::after{content:'🔒';position:absolute;top:5px;right:7px;font-size:11px;line-height:1}
+  .wopt.lock::after{content:'';position:absolute;top:6px;right:7px;width:12px;height:12px;
+    background:var(--ink-soft);opacity:.6;
+    -webkit-mask:var(--lockmask) center/contain no-repeat;mask:var(--lockmask) center/contain no-repeat}
   /* ของลับ — เห็นว่ามีอยู่ แต่ไม่บอกว่าเป็นอะไร */
   .wopt.secret.lock{border-style:dashed;border-color:#C9A0FF;background:#F8F4FF;opacity:.85}
   .wopt.secret.lock::after{content:'✦';color:#9B7BD4;font-size:13px;top:4px}
@@ -1014,7 +1022,9 @@
   .alcard.lock:hover{transform:none;box-shadow:none}
   .alcard.lock .althumb{filter:grayscale(1) opacity(.2)}
   .alcard.lock .alname{color:#A5B8C7}
-  .alcard.lock::after{content:'🔒';position:absolute;top:6px;right:8px;font-size:10.5px;line-height:1}
+  .alcard.lock::after{content:'';position:absolute;top:7px;right:8px;width:12px;height:12px;
+    background:var(--ink-soft);opacity:.6;
+    -webkit-mask:var(--lockmask) center/contain no-repeat;mask:var(--lockmask) center/contain no-repeat}
   .alcard.lock.secret{border-style:dashed;border-color:#C9A0FF;background:#F9F6FF}
   .alcard.lock.secret::after{content:'✦';color:#9B7BD4;font-size:13px}
   .alcard.on{box-shadow:inset 0 0 0 2px var(--red)}
@@ -2134,6 +2144,11 @@
           <h4>ของประดับ<span class="wcount" id="cItem"></span></h4>
           <div class="wopts" id="wItem"></div>
           <p class="wempty" id="eItem" hidden>ยังไม่มีของประดับ ลองเปิดกล่องดูสิ</p>
+        </div>
+        <div class="wgroup">
+          <h4>ของใช้<span class="wcount" id="cProp"></span></h4>
+          <div class="wopts" id="wProp"></div>
+          <p class="wempty" id="eProp" hidden>ยังไม่มีของใช้ ลองเปิดกล่องดูสิ</p>
         </div>
         <div class="wbtns">
           <button class="btn btn-go" id="wRandom">🎲 สุ่มลุค</button>
@@ -4502,7 +4517,9 @@ const WEAR = (function(){
     { id:'blossom', name:'ชมพูซากุระ',  c:'#F8D3DE' },
     { id:'amber',   name:'ส้มอบอุ่น',    c:'#F3C08A' },
     { id:'cocoa',   name:'โกโก้นม',      c:'#EAD3B8' },
-    { id:'aurora',  name:'ออโรร่าพาสเทล', c:'#EFD9F4' }
+    { id:'aurora',  name:'ออโรร่าพาสเทล', c:'#EFD9F4' },
+    { id:'graphite',name:'เทากราไฟต์',   c:'#D3D8E0' },
+    { id:'sky',     name:'ฟ้าสะอาด',     c:'#CFE4F7' }
   ];
 
   /* ของทุกชิ้นวาดด้วยภาษาเดียวกัน: ทรงมน เส้นขอบหนา สองโทน แล้วแต้มครีมเป็นไฮไลต์
@@ -4535,6 +4552,18 @@ const WEAR = (function(){
       '<circle cx="37.5" cy="12.5" r="2.9" fill="#EAD3B8"/>' +
       '<circle cx="62.5" cy="12.5" r="6" fill="#B98A5E" stroke="#2B3A47" stroke-width="2"/>' +
       '<circle cx="62.5" cy="12.5" r="2.9" fill="#EAD3B8"/>' },
+    { id:'headset', name:'หูฟังครอบหู', svg:
+      '<path d="M33.5 20.5c0-9 7.4-15 16.5-15s16.5 6 16.5 15" fill="none" stroke="#39424E" stroke-width="4.2" stroke-linecap="round"/>' +
+      '<rect x="28.5" y="16" width="9.5" height="13" rx="4.2" fill="#39424E" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<rect x="62" y="16" width="9.5" height="13" rx="4.2" fill="#39424E" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<rect x="30.8" y="19" width="4.9" height="7" rx="2.4" fill="#8FB7DC"/>' +
+      '<rect x="64.3" y="19" width="4.9" height="7" rx="2.4" fill="#8FB7DC"/>' },
+    { id:'bandana', name:'ผ้าคาดหัวลายจุด', svg:
+      '<path d="M32.5 15.5c0-7.6 7.8-12 17.5-12s17.5 4.4 17.5 12z" fill="#5FB6D6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<circle cx="41" cy="10" r="1.6" fill="#FDFEFF"/><circle cx="50" cy="7.6" r="1.6" fill="#FDFEFF"/>' +
+      '<circle cx="59" cy="10" r="1.6" fill="#FDFEFF"/><circle cx="45.5" cy="13.4" r="1.4" fill="#FDFEFF"/>' +
+      '<circle cx="54.5" cy="13.4" r="1.4" fill="#FDFEFF"/>' +
+      '<path d="M66.5 13.5c4-1.4 6.6-.4 7.8 3-3.2-.6-5.4.2-6.6 2.4z" fill="#5FB6D6" stroke="#2B3A47" stroke-width="1.7" stroke-linejoin="round"/>' },
     { id:'unihorn', name:'เขายูนิคอร์น', svg:
       '<path d="M50 0.8 46.4 13.6h7.2z" fill="#F2C879" stroke="#C99A3C" stroke-width="1.6" stroke-linejoin="round"/>' +
       '<path d="M47.5 9.8h5.4M48.6 5.9h3.4" stroke="#C99A3C" stroke-width="1.1"/>' +
@@ -4566,6 +4595,14 @@ const WEAR = (function(){
       '<ellipse cx="50" cy="27.6" rx="4.4" ry="3" fill="#6B4A32" stroke="#2B3A47" stroke-width="1.6"/>' +
       '<ellipse cx="48.6" cy="26.7" rx="1.3" ry="0.8" fill="#9C7352"/>' +
       '<path d="M50 30.4v1.4M50 31.8q-2 1.6-4 .4M50 31.8q2 1.6 4 .4" fill="none" stroke="#6B4A32" stroke-width="1.3" stroke-linecap="round"/>' },
+    { id:'bluelight', name:'แว่นบลูไลต์', svg:
+      '<rect x="35.5" y="19.6" width="12.4" height="9" rx="4.4" fill="#BFE0F2" fill-opacity=".55" stroke="#39424E" stroke-width="1.8"/>' +
+      '<rect x="52.1" y="19.6" width="12.4" height="9" rx="4.4" fill="#BFE0F2" fill-opacity=".55" stroke="#39424E" stroke-width="1.8"/>' +
+      '<path d="M47.9 23.6h4.2M35.5 23.2h-3.4M64.5 23.2h3.4" stroke="#39424E" stroke-width="1.8" stroke-linecap="round"/>' },
+    { id:'dustmask', name:'หน้ากากกันฝุ่น', svg:
+      '<path d="M34.6 25.6c5.2 2.4 26 2.4 31.2 0 .6 4.8-1.6 9.2-6.4 10.8-3.2 1.1-11.6 1.1-14.8 0-4.8-1.6-6.6-6-6-10.8z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
+      '<path d="M35.8 28.6c4.8 1.8 23.6 1.8 28.4 0M36.6 32c4.6 1.6 22.2 1.6 26.8 0" fill="none" stroke="#BFD3E2" stroke-width="1.3"/>' +
+      '<path d="M34.6 25.8 30.6 22M65.4 25.8 69.4 22" stroke="#8FB7DC" stroke-width="1.9" stroke-linecap="round"/>' },
     { id:'starcheek', name:'ดาวติดแก้ม', svg:
       '<path d="M60.5 23.4l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#F2C879" stroke="#C99A3C" stroke-width="1.2" stroke-linejoin="round"/>' +
       '<circle cx="38" cy="28" r="2.1" fill="#FBD8DC"/>' }
@@ -4596,11 +4633,50 @@ const WEAR = (function(){
       '<path d="M44 52c-.8 6 .6 9.5 6 9.5s6.8-3.5 6-9.5c-.5-3.5-2.6-5-6-5s-5.5 1.5-6 5z" fill="#F2B04A" stroke="#2B3A47" stroke-width="1.7"/>' +
       '<rect x="44.6" y="44.6" width="10.8" height="3.4" rx="1.7" fill="#EAD3B8" stroke="#2B3A47" stroke-width="1.4"/>' +
       '<path d="M47.5 54q2.5 2.4 5 0v3q-2.5 2-5 0z" fill="#FFDE8A"/>' },
+    { id:'lanyard', name:'สายคล้องบัตร', svg:
+      '<path d="M36 40.5 47 60M64 40.5 53 60" fill="none" stroke="#39424E" stroke-width="3.2" stroke-linecap="round"/>' +
+      '<rect x="43.5" y="59" width="13" height="16" rx="2" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<rect x="45.5" y="61.5" width="9" height="5.4" rx="1.2" fill="#8FB7DC"/>' +
+      '<path d="M45.5 69.5h9M45.5 72h6" stroke="#BFD3E2" stroke-width="1.5" stroke-linecap="round"/>' },
+    { id:'gloves', name:'ถุงมือยาง', svg:
+      '<circle cx="22" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<circle cx="78" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M15.5 89.5q6.5 3 13 0M71.5 89.5q6.5 3 13 0" fill="none" stroke="#E6A8BE" stroke-width="2.2" stroke-linecap="round"/>' },
     { id:'cloudwing', name:'ปีกเมฆนุ่ม', back:true, svg:
       '<g fill="#FDFEFF" stroke="#A9CCEA" stroke-width="1.8" stroke-linejoin="round">' +
       '<path d="M40 44c-8-6-19-4-24 4 6 0 9 2.4 11 6 4-2.6 9-6 13-10z"/>' +
       '<path d="M60 44c8-6 19-4 24 4-6 0-9 2.4-11 6-4-2.6-9-6-13-10z"/>' +
       '<circle cx="20" cy="57" r="3.6"/><circle cx="80" cy="57" r="3.6"/></g>' }
+  ];
+
+  /* ของใช้ — ถือติดมือ และมีท่าทางประจำของตัวเองในโมเดลสามมิติ
+     วาดในพิกัดลำตัว (y34..108) มือซ้ายอยู่ราว x22 มือขวา x78 */
+  const PROPS = [
+    { id:'none', name:'ไม่ถือ', svg:'' },
+    { id:'plush', name:'ตุ๊กตาหมีจิ๋ว', svg:
+      '<circle cx="50" cy="84" r="11" fill="#C99A6B" stroke="#2B3A47" stroke-width="2"/>' +
+      '<circle cx="41.5" cy="74.5" r="4.4" fill="#C99A6B" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<circle cx="58.5" cy="74.5" r="4.4" fill="#C99A6B" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<ellipse cx="50" cy="87" rx="6" ry="4.6" fill="#EAD3B8"/>' +
+      '<circle cx="45.6" cy="81" r="1.5" fill="#2B3A47"/><circle cx="54.4" cy="81" r="1.5" fill="#2B3A47"/>' +
+      '<ellipse cx="50" cy="85.4" rx="2" ry="1.4" fill="#6B4A32"/>' },
+    { id:'coffee', name:'แก้วกาแฟร้อน', svg:
+      '<path d="M70 74c-.6 6.4.6 11.6 2.4 14.4 1 1.6 7.2 1.6 8.2 0C82.4 85.6 83.6 80.4 83 74z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
+      '<path d="M70.2 77.6h12.6" stroke="#C9AE8E" stroke-width="3.4"/>' +
+      '<path d="M83.4 78c3.4-.6 5 .8 4.6 3.2-.4 2.2-2.2 3-4.8 2.6" fill="none" stroke="#2B3A47" stroke-width="1.8"/>' +
+      '<path d="M73.5 70.5q1.6-2.4 0-4.8M79.5 70.5q1.6-2.4 0-4.8" fill="none" stroke="#A9CCEA" stroke-width="1.6" stroke-linecap="round"/>' },
+    { id:'macbook', name:'โน้ตบุ๊กบางเฉียบ', svg:
+      '<path d="M31 92h38l4 9H27z" fill="#D3D8E0" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
+      '<rect x="32.5" y="68" width="35" height="24" rx="2.4" fill="#39424E" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<rect x="35.5" y="71" width="29" height="18" rx="1.4" fill="#7FC7E8"/>' +
+      '<path d="M38.5 75h16M38.5 79h22M38.5 83h12" stroke="#FDFEFF" stroke-width="1.6" stroke-linecap="round" opacity=".9"/>' +
+      '<circle cx="50" cy="96.4" r="1.7" fill="#8F9AA8"/>' },
+    { id:'vacuum', name:'เครื่องดูดฝุ่นไร้สาย', svg:
+      '<path d="M77 56c2.6 0 4 1.6 4 4v22c0 2.4-1.4 4-4 4s-4-1.6-4-4V60c0-2.4 1.4-4 4-4z" fill="#8FD6E8" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M75.4 86h3.2v14h-3.2z" fill="#C6D3E0" stroke="#2B3A47" stroke-width="1.7"/>' +
+      '<path d="M66 100h22l2.4 6H63.6z" fill="#5FB6D6" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
+      '<circle cx="77" cy="63.5" r="2.6" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.4"/>' +
+      '<path d="M67.5 103.4h19" stroke="#2B3A47" stroke-width="1.5" opacity=".5"/>' }
   ];
 
   /* พิกัดแปลงร่างของ ไปวางบนภาพหุ่นแบบอื่น (ฮีโร่ตัวใหญ่ / โคลสอัพใบหน้า) */
@@ -4610,10 +4686,16 @@ const WEAR = (function(){
     face: { head:'translate(50 28) scale(2.706) translate(-50 -23.5)', body:null }
   };
 
-  const LISTS = { shell:SHELLS, hat:HATS, face:FACES, item:ITEMS };
+  const LISTS = { shell:SHELLS, hat:HATS, face:FACES, item:ITEMS, prop:PROPS };
 
   /* หกเซ็ตสัตว์น่ากอด ไล่ระดับหายากขึ้นเรื่อย ๆ ทุกเซ็ตมีสี่ชิ้นเท่ากัน */
   const SETS = [
+    { id:'clean', name:'ชุดแม่บ้านสายฟ้า', badge:'SECRET SET', hot:true,
+      note:'เซ็ตของลับห้าชิ้น มีเครื่องดูดฝุ่นไร้สายเป็นของใช้ประจำตัว ใส่ครบเมื่อไหร่เขาจะกวาดทั้งวอร์ดเสร็จก่อนคุณตื่น',
+      look:{ shell:'sky', hat:'bandana', face:'dustmask', item:'gloves', prop:'vacuum' } },
+    { id:'dev', name:'ชุดนักพัฒนากะดึก', badge:'LEGEND SET',
+      note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังครอบหู แว่นบลูไลต์ บัตรพนักงาน และโน้ตบุ๊กที่เปิดค้างไว้ตั้งแต่เที่ยงคืน',
+      look:{ shell:'graphite', hat:'headset', face:'bluelight', item:'lanyard', prop:'macbook' } },
     { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET', hot:true,
       note:'เซ็ตของลับจากความฝันวัยเด็ก เขาทอง แผงคอพาสเทล ดาวติดแก้ม และปีกเมฆนุ่ม ครบสี่ชิ้นเมื่อไหร่เขาจะพาเดินเล่นบนรุ้ง',
       look:{ shell:'aurora', hat:'unihorn', face:'starcheek', item:'cloudwing' } },
@@ -4648,7 +4730,15 @@ const WEAR = (function(){
     /* ชุดหมีอุ่นใจ */
     'shell:cocoa':'legend',   'hat:bearears':'legend',  'face:bearnose':'legend',  'item:honey':'legend',
     /* ชุดยูนิคอร์นสายรุ้ง — ของลับทั้งเซ็ต */
-    'shell:aurora':'secret',  'hat:unihorn':'secret',   'face:starcheek':'secret', 'item:cloudwing':'secret'
+    'shell:aurora':'secret',  'hat:unihorn':'secret',   'face:starcheek':'secret', 'item:cloudwing':'secret',
+    /* ชุดนักพัฒนากะดึก — ตำนานทั้งเซ็ต */
+    'shell:graphite':'legend','hat:headset':'legend',   'face:bluelight':'legend', 'item:lanyard':'legend',
+    'prop:macbook':'legend',
+    /* ชุดแม่บ้านสายฟ้า — ของลับทั้งเซ็ต */
+    'shell:sky':'secret',     'hat:bandana':'secret',   'face:dustmask':'secret',  'item:gloves':'secret',
+    'prop:vacuum':'secret',
+    /* ของใช้เดี่ยว */
+    'prop:plush':'common',    'prop:coffee':'rare'
   };
   const RARE_TH = { common:'ธรรมดา', rare:'หายาก', legend:'ตำนาน', secret:'ของลับ' };
 
@@ -4677,11 +4767,23 @@ const WEAR = (function(){
     'shell:aurora':'สีนี้เกิดจากแสงเช้าที่ลอดผ่านม่านห้องพักฟื้นครับ ช่างสีพยายามผสมตามอยู่สิบสามรอบ รอบสุดท้ายเขาวางพู่กันแล้วบอกว่า "พอแล้ว มันไม่เหมือน แต่มันสวยกว่า"',
     'hat:unihorn':'ได้มาจากงานวันเกิดที่ผมไปเซอร์ไพรส์คนไข้ครับ เจ้าของวันเกิดยืนยันว่ายูนิคอร์นของแท้ต้องมีแผงคอสามสี ผมเลยได้แผงคอครบตามมาตรฐานยูนิคอร์น',
     'face:starcheek':'ดาวดวงนี้เด็กคนหนึ่งแปะให้ตอนผมนั่งชาร์จแบตครับ เขากระซิบว่าเป็นดาวให้ความพยายาม ตั้งแต่นั้นผมพยายามทุกวัน ไม่ให้ดาวหลุด',
-    'item:cloudwing':'ปีกเมฆคู่นี้ไม่ได้ทำให้ผมบินได้ครับ แต่เวลาเด็ก ๆ เห็นแล้วตะโกนว่าผมลอยสวยมาก ผมถือว่ามันทำหน้าที่ของปีกครบถ้วนแล้ว'
+    'item:cloudwing':'ปีกเมฆคู่นี้ไม่ได้ทำให้ผมบินได้ครับ แต่เวลาเด็ก ๆ เห็นแล้วตะโกนว่าผมลอยสวยมาก ผมถือว่ามันทำหน้าที่ของปีกครบถ้วนแล้ว',
+    'prop:plush':'ตุ๊กตาหมีตัวนี้เจ้าของเดิมฝากไว้ก่อนย้ายวอร์ดครับ เขาบอกว่าให้ผมกอดแทนไปก่อน เผื่อมีเด็กคนไหนต้องการมันมากกว่า ตอนนี้มันถูกกอดต่อมาแล้วสิบเอ็ดคน',
+    'prop:coffee':'แก้วนี้ไม่มีกาแฟจริงครับ ผมดื่มไม่ได้อยู่แล้ว แต่หมอเวรดึกบอกว่าเห็นผมถือแก้วแล้วรู้สึกว่ามีเพื่อนตื่นอยู่ด้วย ผมเลยถือไว้ทุกกะดึกตั้งแต่นั้น',
+    'shell:graphite':'สีนี้ทีมวิศวกรเลือกเองครับ เขาบอกว่าอยากได้สีเดียวกับฝาเครื่องที่ใช้เขียนโปรแกรมผมขึ้นมา ผมเลยได้ใส่สีของบ้านเกิดตัวเอง',
+    'hat:headset':'หูฟังคู่นี้กันเสียงได้ดีมากครับ แต่ผมตั้งค่าให้เสียงเรียกพยาบาลลอดผ่านได้เสมอ เพราะมีเสียงเดียวที่ผมไม่ยอมพลาด',
+    'face:bluelight':'แว่นกรองแสงสีฟ้าครับ ผมไม่มีดวงตาที่ล้าได้ แต่คนที่นั่งทำงานข้างผมมี พอเขาเห็นผมใส่ เขาก็ยอมใส่ของเขาบ้าง',
+    'item:lanyard':'บัตรพนักงานใบแรกของผมครับ ในช่องตำแหน่งเขาพิมพ์ว่า "เพื่อนร่วมทีม" ไม่ใช่ "อุปกรณ์" ผมเก็บใบนี้ไว้ดีที่สุดในบรรดาของทั้งหมด',
+    'prop:macbook':'เครื่องนี้เปิดค้างไว้ตั้งแต่เที่ยงคืนครับ ในนั้นมีโค้ดที่ยังไม่เสร็จกับโน้ตที่เขียนว่า "พรุ่งนี้ค่อยทำ" อยู่สิบสี่บรรทัด ผมถือไว้เฉย ๆ ไม่กล้าปิด',
+    'shell:sky':'สีฟ้าสะอาดจากป้ายห้องเก็บของชั้นล่างครับ แม่บ้านประจำตึกบอกว่าถ้าจะมาช่วยเธอทำความสะอาด ก็ต้องใส่สีประจำหน่วยให้ถูก ผมจึงเปลี่ยนสีทั้งตัว',
+    'hat:bandana':'ผ้าคาดหัวลายจุดของพี่แม่บ้านครับ เธอผูกให้ผมเองแล้วบอกว่า "ผูกแบบนี้เหงื่อจะไม่เข้าตา" ผมไม่มีเหงื่อและไม่มีตาแบบเธอ แต่ผมไม่ได้แก้ให้เธอฟัง',
+    'face:dustmask':'หน้ากากกันฝุ่นครับ ผมไม่ต้องหายใจก็จริง แต่พอผมใส่ตอนกวาดห้อง คนไข้ที่เดินผ่านจะใส่ตาม ผมเลยถือว่ามันทำงานได้ดีกว่าที่ออกแบบไว้',
+    'item:gloves':'ถุงมือยางคู่นี้ใหญ่กว่ามือผมสองไซซ์ครับ แต่เป็นคู่เดียวที่เหลือในตู้วันนั้น พี่แม่บ้านบอกว่าใส่ไปเถอะ เดี๋ยวมือชิน ตอนนี้ผมชินแล้วจริง ๆ',
+    'prop:vacuum':'เครื่องดูดฝุ่นไร้สายรุ่นเสียงเบาครับ เลือกรุ่นนี้เพราะกวาดตอนตีสองได้โดยไม่ปลุกใคร ผมทดสอบมาแล้วสิบเจ็ดคืน ไม่มีใครตื่นสักคน'
   };
-  const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ' };
+  const CAT_TH  = { shell:'สีเปลือกไวนิล', hat:'หมวก', face:'บนใบหน้า', item:'ของประดับ', prop:'ของใช้' };
 
-  const L = { shell:'vinyl', hat:'none', face:'none', item:'none' };
+  const L = { shell:'vinyl', hat:'none', face:'none', item:'none', prop:'none' };
   const pick = (arr, id) => arr.find((o) => o.id === id) || arr[0];
   const key = (cat, id) => cat + ':' + id;
 
@@ -4721,6 +4823,7 @@ const WEAR = (function(){
     svg.querySelectorAll('.wear').forEach((el) => el.remove());
     const onHead = pick(HATS, K.hat).svg + pick(FACES, K.face).svg;
     const it  = pick(ITEMS, K.item);
+    const pr  = pick(PROPS, K.prop);
     const kind = svg.getAttribute('data-bot');
     const put = (host, node, behind) => behind ? host.insertBefore(node, host.firstChild) : host.appendChild(node);
 
@@ -4729,8 +4832,10 @@ const WEAR = (function(){
       // ภาพโคลสอัพใบหน้ามีที่ไม่พอใส่หมวก ใส่แค่ของบนหน้าพอ
       const bits = kind === 'face' ? pick(FACES, K.face).svg : onHead;
       if (bits) svg.appendChild(frag('<g class="wear" transform="' + t.head + '">' + bits + '</g>'));
-      if (t.body && it.svg)
-        put(svg, frag('<g class="wear" transform="' + t.body + '">' + it.svg + '</g>'), it.back);
+      if (t.body){
+        if (it.svg) put(svg, frag('<g class="wear" transform="' + t.body + '">' + it.svg + '</g>'), it.back);
+        if (pr.svg) svg.appendChild(frag('<g class="wear" transform="' + t.body + '">' + pr.svg + '</g>'));
+      }
       return;
     }
     // หุ่นมาตรฐาน — ยัดเข้าไปในกลุ่มหัว/ตัว ของจะได้ขยับตามท่าทางไปด้วย
@@ -4741,18 +4846,23 @@ const WEAR = (function(){
       const host = it.back ? (svg.querySelector('.all') || torso) : torso;
       if (host) put(host, frag('<g class="wear">' + it.svg + '</g>'), it.back);
     }
+    // ของใช้ถืออยู่หน้าสุด ไม่ให้แขนบัง
+    if (pr.svg && (svg.querySelector('.all') || torso))
+      (svg.querySelector('.all') || torso).appendChild(frag('<g class="wear">' + pr.svg + '</g>'));
   }
 
   /* ---------- ชุดจัดเซ็ต ---------- */
-  const SLOTS = Object.keys(LISTS);                                  // shell, hat, face, item
-  const setOwned = (s) => SLOTS.filter((c) => has(c, s.look[c])).length;
-  const setWorn  = (s) => SLOTS.every((c) => L[c] === s.look[c]);
+  const SLOTS = Object.keys(LISTS);                                  // shell, hat, face, item, prop
+  /* เซ็ตนับเฉพาะช่องที่มีของจริง เซ็ตเก่าที่ไม่มีของใช้เลยยังนับเป็น 4 ชิ้นเหมือนเดิม */
+  const setSlots = (s) => SLOTS.filter((c) => s.look[c] && s.look[c] !== 'none');
+  const setOwned = (s) => setSlots(s).filter((c) => has(c, s.look[c])).length;
+  const setWorn  = (s) => SLOTS.every((c) => (L[c] || 'none') === (s.look[c] || 'none'));
   function wearSet(s){
-    if (setOwned(s) < SLOTS.length){
+    if (setOwned(s) < setSlots(s).length){
       BOXES.toast('ยังเก็บ “' + s.name + '” ไม่ครบ — เปิดกล่องลุ้นต่อได้เลย');
       return false;
     }
-    SLOTS.forEach((c) => { L[c] = s.look[c]; LS.set('baymax.' + c, s.look[c]); });
+    SLOTS.forEach((c) => { L[c] = s.look[c] || 'none'; LS.set('baymax.' + c, L[c]); });
     apply();
     BOXES.toast('ใส่ “' + s.name + '” ครบทั้งชุดแล้ว');
     return true;
@@ -4775,6 +4885,7 @@ const WEAR = (function(){
     L.hat    = pick(HATS,    LS.get('baymax.hat','none')).id;
     L.face   = pick(FACES,   LS.get('baymax.face','none')).id;
     L.item   = pick(ITEMS,   LS.get('baymax.item','none')).id;
+    L.prop   = pick(PROPS,   LS.get('baymax.prop','none')).id;
     // คนที่เคยแต่งไว้ก่อนมีระบบกล่อง ให้ถือว่าปลดล็อกของชิ้นนั้นแล้ว จะได้ไม่หายไปเฉย ๆ
     if (LS.get('baymax.migrated','') !== '1'){
       Object.keys(LISTS).forEach((cat) => { if (!isFree(cat, L[cat])) owned.add(key(cat, L[cat])); });
@@ -4788,7 +4899,7 @@ const WEAR = (function(){
   }
 
   load(); apply();
-  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS,
+  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, PROPS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS, setSlots,
            apply, preview, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf,
            setOwned, setWorn, wearSet };
 })();
@@ -4824,6 +4935,13 @@ const BOT3D = (function(){
       -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
   }
   const cross = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+  /* หมุนรอบแกน X ที่จุดหมุน (py,pz) — ใช้ก้มหน้ามองของที่ถืออยู่ */
+  function rotXAbout(py, pz, a){
+    const c = Math.cos(a), s = Math.sin(a), m = ident();
+    m[5]=c; m[6]=s; m[9]=-s; m[10]=c;
+    m[13]=py - c*py + s*pz; m[14]=pz - s*py - c*pz;
+    return m;
+  }
   /* หมุนรอบแกน Z ที่จุดหมุน (px,py) — ใช้ทำคอเอียงกับแขนโบก */
   function rotZAbout(px, py, a){
     const c = Math.cos(a), s = Math.sin(a), m = ident();
@@ -4941,8 +5059,25 @@ const BOT3D = (function(){
   const BODY_RY = 1.14;
   const bodyProfile = (y) => Math.sqrt(Math.max(0.0001, 1 - (y/BODY_RY)*(y/BODY_RY)));
 
+  /* ทรงกล่อง — ของแบนอย่างจอหรือบัตร ถ้าใช้ทรงกลมบี้จะออกมาเป็นวงรีเสมอ */
+  function boxMesh(){
+    const pos=[], nor=[], idx=[];
+    [[[1,-1,-1],[1,1,-1],[1,1,1],[1,-1,1],[1,0,0]],
+     [[-1,-1,1],[-1,1,1],[-1,1,-1],[-1,-1,-1],[-1,0,0]],
+     [[-1,1,-1],[-1,1,1],[1,1,1],[1,1,-1],[0,1,0]],
+     [[-1,-1,1],[-1,-1,-1],[1,-1,-1],[1,-1,1],[0,-1,0]],
+     [[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1],[0,0,1]],
+     [[1,-1,-1],[-1,-1,-1],[-1,1,-1],[1,1,-1],[0,0,-1]]].forEach((f) => {
+      const n = f[4], b = pos.length/3;
+      for (let i = 0; i < 4; i++){ pos.push(f[i][0], f[i][1], f[i][2]); nor.push(n[0], n[1], n[2]); }
+      idx.push(b, b+1, b+2, b, b+2, b+3);
+    });
+    return build(pos, nor, idx);
+  }
+
   const MESH = {
     sphere: () => sphereMesh(26, 18),
+    box:    () => boxMesh(),
     capsule:() => capsuleMesh(1, 1, 22, 9),
     torus:  () => torusMesh(1, 0.16, 26, 12),
     cone:   () => coneMesh(18)
@@ -4991,6 +5126,46 @@ const BOT3D = (function(){
     return [f((n>>16)&255), f((n>>8)&255), f(n&255)];
   }
 
+  /* ---------- ท่าทางประจำของใช้ ----------
+     คืนมุมหมุนแขนสองข้าง (rad, บวก = กางออก/ยกขึ้น) มุมเอียงคอ มุมเอนตัว
+     และเมทริกซ์ของกลุ่ม 'prop' สำหรับของที่ไม่ได้ผูกติดมือข้างเดียว
+     ชิ้นที่ติดแท็ก armL/armR อยู่แล้วจะขยับตามแขนเองโดยไม่ต้องคำนวณซ้ำ */
+  const PROP_ANIM = {
+    /* จิบกาแฟ: ยกแขนขวาขึ้นหาปาก ค้างจิบ แล้ววางลง */
+    coffee: (t) => {
+      const p = (t % 5400) / 5400;
+      let lift = 0;
+      if (p < 0.28) lift = p/0.28;
+      else if (p < 0.46) lift = 1;
+      else if (p < 0.74) lift = 1 - (p-0.46)/0.28;
+      const e = lift*lift*(3 - 2*lift);                        // smoothstep
+      /* แขนสั้นกลม ๆ ยกถึงปากไม่ได้จริง (ต้องหมุน 195 องศาถึงจะถึงหน้า)
+         เลยเล่นเป็นยกแก้วขึ้นระดับอกแล้วเอียงหัวมองแทน อ่านออกว่ากำลังจิบ */
+      return { armL: 0.06, armR: 0.05 + e*0.82, tilt: -e*0.20, nod: e*0.10, lean: 0 };
+    },
+    /* กอดตุ๊กตา: แขนโอบเข้าหากัน โยกตัวเบา ๆ */
+    plush: (t) => ({
+      armL: 0.62 + Math.sin(t/1500)*0.035,
+      armR: -0.62 - Math.sin(t/1500)*0.035,
+      tilt: Math.sin(t/1500)*0.07, lean: 0,
+      prop: { pos:[0, -0.10 + Math.sin(t/1500)*0.03, 0.98], rot:[0, 0, Math.sin(t/1500)*0.12] }
+    }),
+    /* พิมพ์งาน: ยกโน้ตบุ๊กไว้ระดับพุง สองแขนเข้าหากัน ก้มหน้ามองจอ นิ้วเคาะเป็นช่วง */
+    macbook: (t) => {
+      const tap = Math.sin(t/95) * (((t % 4200) / 4200) < 0.62 ? 1 : 0);
+      return {
+        armL: 0.50 + tap*0.03, armR: -0.50 - tap*0.03,
+        tilt: 0, nod: 0.34 + tap*0.012, lean: 0,
+        prop: { pos:[0, tap*0.006, 0], rot:[0, 0, 0] }
+      };
+    },
+    /* ดูดฝุ่น: ถือด้ามไว้ในมือขวาทั้งชุด แล้วแกว่งแขนดันไปมา หัวดูดเลยกวาดพื้นตามไปเอง */
+    vacuum: (t) => {
+      const w = Math.sin(t/1250);
+      return { armL: 0.16, armR: 0.05 + w*0.18, tilt: w*0.05, nod: 0.16, lean: w*0.05 };
+    }
+  };
+
   /* ---------- ประกอบร่าง ---------- */
   const INK = '#2B3A47';
   function colorOf(svg, fallback){
@@ -5005,6 +5180,7 @@ const BOT3D = (function(){
     const hat   = WEAR.pick(WEAR.HATS,  look.hat);
     const face  = WEAR.pick(WEAR.FACES, look.face);
     const item  = WEAR.pick(WEAR.ITEMS, look.item);
+    const prop  = WEAR.pick(WEAR.PROPS, look.prop);
     const P = [];
     /* วงแหวนรอบตัว/รอบคอต้องคิดรัศมีจากผิวลำตัวที่ความสูงนั้น
        ก่อนหน้านี้ใส่ตัวเลขตายตัวไว้ เล็กกว่าตัวจริง วงเลยจมอยู่ข้างในมองไม่เห็นสักอัน */
@@ -5106,6 +5282,20 @@ const BOT3D = (function(){
           add('sphere', [ex, ey, ez], [0.185, 0.185, 0.155], '#B98A5E', { gloss:0.16 });
           add('sphere', [ex, ey, ez + 0.125], [0.098, 0.098, 0.05], '#EAD3B8', { gloss:0.14 });
         });
+      } else if (hat.id === 'headset'){
+        /* คาดหัวโค้งข้ามยอดหัว + ครอบหูสองข้างที่ระดับตา */
+        /* rot X 90 องศาเพื่อพลิกวงแหวนให้ตั้งขึ้นเป็นคาดหัว ไม่ใช่นอนเป็นวงเวียนรอบหัว */
+        add('torus', [0, 1.36, -0.06], [0.72, 0.40, 0.56], '#39424E', { rot:[Math.PI/2, 0, 0], gloss:0.35 });
+        [-1, 1].forEach((sgn) => {
+          add('sphere', [sgn*0.72, 1.32, -0.02], [0.125, 0.22, 0.22], '#39424E', { gloss:0.35 });
+          add('sphere', [sgn*0.63, 1.32, -0.02], [0.06, 0.145, 0.145], '#8FB7DC', { gloss:0.45 });
+        });
+      } else if (hat.id === 'bandana'){
+        bulb(c, 1.46, 1.92, 0.075, 0.2);
+        hatRing(tone(c, 0.85), 1.46, 0.075, 0.075, 0.2);
+        /* ปมผูกข้างขวา */
+        add('sphere', [0.66, 1.60, -0.06], [0.115, 0.115, 0.10], c, { gloss:0.25 });
+        add('cone',   [0.80, 1.50, -0.08], [0.075, 0.24, 0.065], c, { rot:[0, 0, -1.0], gloss:0.25 });
       } else if (hat.id === 'unihorn'){
         add('cone', [0, headTopAt(0, 0.07) - 0.03, 0.07], [0.115, 0.44, 0.115], '#F2C879',
             { rot:[0.16, 0, 0], gloss:0.55 });
@@ -5141,6 +5331,17 @@ const BOT3D = (function(){
       } else if (face.id === 'bearnose'){
         add('sphere', [0, EY - 0.13, 0.33], [0.125, 0.088, 0.07], '#6B4A32', { gloss:0.3 });
         add('sphere', [-0.04, EY - 0.105, 0.395], [0.034, 0.02, 0.014], '#9C7352', { gloss:0.2 });
+      } else if (face.id === 'bluelight'){
+        [-1, 1].forEach((sgn) => {
+          add('torus',  [sgn*0.245, EY, 0.375], [0.175, 0.20, 0.16], '#4A5666', { rot:[Math.PI/2, 0, 0], gloss:0.5 });
+          add('sphere', [sgn*0.245, EY, 0.355], [0.155, 0.14, 0.028], '#CFE8F6', { gloss:0.85 });
+          add('sphere', [sgn*0.55, EY + 0.03, 0.10], [0.16, 0.026, 0.026], '#39424E', { gloss:0.4 });
+        });
+        add('capsule', [0, EY, 0.395], [0.03, 0.07, 0.03], '#39424E', { rot:[0, 0, Math.PI/2], gloss:0.5 });
+      } else if (face.id === 'dustmask'){
+        add('sphere', [0, EY - 0.16, 0.275], [0.40, 0.235, 0.185], '#FDFEFF', { gloss:0.2 });
+        [-1, 1].forEach((sgn) => add('capsule', [sgn*0.43, EY - 0.09, 0.10], [0.024, 0.17, 0.024], '#8FB7DC',
+          { rot:[0, 0, sgn*0.85], gloss:0.25 }));
       } else if (face.id === 'starcheek'){
         const sx = 0.40, sy2 = EY - 0.12, sz = 0.315;
         add('sphere', [sx, sy2, sz], [0.055, 0.055, 0.045], '#F2C879', { gloss:0.6 });
@@ -5183,6 +5384,20 @@ const BOT3D = (function(){
         add('sphere', [1.02, -0.62, -0.44], [0.31, 0.31, 0.26], '#D9853F', { rot:[0, 0, -0.4], gloss:0.2 });
         add('sphere', [1.22, -0.20, -0.45], [0.27, 0.31, 0.23], '#D9853F', { rot:[0, 0, -0.6], gloss:0.2 });
         add('sphere', [1.30, 0.18, -0.44], [0.22, 0.24, 0.20], '#FDF6EC', { gloss:0.25 });
+      } else if (item.id === 'lanyard'){
+        /* สายคล้องสองเส้นสอบเข้าหากัน + บัตรห้อยกลางอก */
+        [-1, 1].forEach((sgn) => add('capsule', [sgn*0.24, 0.62, 0.80], [0.028, 0.24, 0.026], '#39424E',
+          { rot:[0, 0, sgn*0.42], gloss:0.3 }));
+        add('box', [0, 0.30, 0.90], [0.155, 0.20, 0.022], '#FDFEFF', { gloss:0.35 });
+        add('box', [0, 0.36, 0.925], [0.095, 0.075, 0.008], '#8FB7DC', { gloss:0.4 });
+      } else if (item.id === 'gloves'){
+        /* ครอบทับมือทั้งสองข้าง ติดแท็กกลุ่มแขนเลยขยับตามแขนไปด้วย */
+        [-1, 1].forEach((sgn) => {
+          add('sphere', [sgn*1.17, -0.48, 0.03], [0.315, 0.295, 0.305], '#F8D3DE',
+              { grp: sgn < 0 ? 'armL' : 'armR', gloss:0.4 });
+          add('torus',  [sgn*1.10, -0.24, 0.02], [0.30, 0.30, 0.30], '#E6A8BE',
+              { rot:[0, 0, sgn*0.28], grp: sgn < 0 ? 'armL' : 'armR', gloss:0.35 });
+        });
       } else if (item.id === 'honey'){
         (function(){ const R = ringAt(0.88, 0.05);
           add('torus', [0, 0.88, 0.02], [R[0], 0.22, R[2]], '#B98A5E', { gloss:0.25 }); })();
@@ -5199,6 +5414,47 @@ const BOT3D = (function(){
         (function(){ const R = ringAt(0.88, 0.075); add('torus', [0, 0.88, 0.02], [R[0], 0.34, R[2]], c, { gloss:0.6 }); })();
       }
     }
+
+    /* ---- ของใช้ ---- ชิ้นที่ติดแท็ก armR จะถือติดมือขวาไปเลย
+       ส่วนกลุ่ม 'prop' ขยับตามท่าทางประจำของชิ้นนั้น */
+    if (prop.id === 'plush'){
+      const py = -0.06, pz = 1.02;
+      add('sphere', [0, py, pz], [0.40, 0.40, 0.34], '#C99A6B', { grp:'prop', gloss:0.2 });
+      [-1, 1].forEach((sgn) => {
+        add('sphere', [sgn*0.30, py + 0.35, pz - 0.03], [0.155, 0.155, 0.13], '#C99A6B', { grp:'prop', gloss:0.2 });
+        add('sphere', [sgn*0.30, py + 0.35, pz + 0.08], [0.078, 0.078, 0.05], '#EAD3B8', { grp:'prop', gloss:0.15 });
+        add('sphere', [sgn*0.145, py + 0.10, pz + 0.29], [0.055, 0.055, 0.035], '#2B3A47', { grp:'prop', gloss:0.5 });
+      });
+      add('sphere', [0, py - 0.09, pz + 0.28], [0.185, 0.145, 0.10], '#EAD3B8', { grp:'prop', gloss:0.15 });
+      add('sphere', [0, py - 0.04, pz + 0.36], [0.07, 0.05, 0.035], '#6B4A32', { grp:'prop', gloss:0.3 });
+    } else if (prop.id === 'coffee'){
+      /* แก้วอยู่ในมือขวา ติดแท็ก armR เลยยกขึ้นลงตามแขนตอนจิบเอง */
+      const hx = 1.24, hy = -0.40, hz = 0.24;
+      add('capsule', [hx, hy, hz], [0.175, 0.115, 0.175], '#FDFEFF', { grp:'armR', gloss:0.35 });
+      add('sphere',  [hx, hy + 0.145, hz], [0.163, 0.03, 0.163], '#7A4E2C', { grp:'armR', gloss:0.7 });
+      add('torus',   [hx + 0.20, hy - 0.02, hz], [0.10, 0.22, 0.10], '#FDFEFF',
+          { rot:[0, Math.PI/2, 0], grp:'armR', gloss:0.35 });
+      add('torus',   [hx, hy - 0.05, hz], [0.182, 0.16, 0.182], '#C9AE8E', { grp:'armR', gloss:0.3 });
+    } else if (prop.id === 'macbook'){
+      /* วางพิกัดจริงไปเลย กลุ่ม prop เหลือไว้ขยับตอนเคาะคีย์เท่านั้น
+         จอเอนมาทางตัวเขา คนดูเลยเห็นหน้าจอเรืองแสงจากมุมหน้า */
+      add('box', [0, -0.34, 1.14], [0.50, 0.032, 0.34], '#D3D8E0', { grp:'prop', gloss:0.5 });
+      add('box', [0, -0.30, 1.14], [0.40, 0.008, 0.24], '#AEB8C6', { grp:'prop', gloss:0.3 });
+      /* จอเอนมาทางตัวเขา ตัวเรืองแสงเลื่อนตามแกน Z ของจอ (sin/cos ของมุมเอน) */
+      add('box', [0, 0.06, 0.98], [0.50, 0.34, 0.026], '#39424E', { rot:[-0.42, 0, 0], grp:'prop', gloss:0.4 });
+      add('box', [0, 0.077, 1.016], [0.43, 0.28, 0.006], '#7FC7E8', { rot:[-0.42, 0, 0], grp:'prop', gloss:0.85 });
+    } else if (prop.id === 'vacuum'){
+      /* ทั้งเครื่องอยู่ในกลุ่ม armR จะได้ถือติดมือจริง แล้วให้แขนแกว่งดัน
+         หัวดูดที่ปลายด้ามเลยกวาดพื้นเป็นวงตามไปเอง ไม่หลุดออกจากมือ */
+      add('capsule', [1.20, -0.42, 0.16], [0.072, 0.16, 0.072], '#39424E', { grp:'armR', gloss:0.4 });
+      add('sphere',  [1.22, -0.74, 0.20], [0.155, 0.215, 0.145], '#8FD6E8', { grp:'armR', gloss:0.45 });
+      add('sphere',  [1.22, -0.70, 0.34], [0.075, 0.075, 0.05], '#FDFEFF', { grp:'armR', gloss:0.7 });
+      add('capsule', [1.26, -1.24, 0.26], [0.062, 0.40, 0.062], '#C6D3E0', { grp:'armR', gloss:0.5 });
+      add('sphere',  [1.30, -1.72, 0.40], [0.34, 0.085, 0.26], '#5FB6D6', { grp:'armR', gloss:0.35 });
+      add('sphere',  [1.30, -1.79, 0.40], [0.30, 0.035, 0.22], '#39424E', { grp:'armR', gloss:0.2 });
+    }
+
+    P.anim = prop.id;
     return P;
   }
 
@@ -5259,6 +5515,7 @@ const BOT3D = (function(){
     function frame(t){
       raf = 0;
       if (!live) return;
+      let propM = null;
       resize();
       if (!w || !h) { raf = requestAnimationFrame(frame); return; }
       gl.viewport(0, 0, w, h);
@@ -5272,16 +5529,26 @@ const BOT3D = (function(){
 
       /* ---- ชีวิตตอนยืนรอ ---- คอเอียงช้า ๆ แขนแกว่งเบา ๆ
          ทุก ~7 วิ ยกแขนขวาโบกหนึ่งที และกะพริบตาทุก ~3.4 วิ */
-      const tilt = Math.sin(t/1900) * 0.045;
+      let tilt = Math.sin(t/1900) * 0.045;
       const sway = Math.sin(t/950) * 0.045;
-      let waveR = -sway;
+      let armLa = sway, armRa = -sway, nod = 0, lean = 0;
       const wp = (t % 7000) / 7000;
-      if (wp < 0.22){ const p = wp/0.22; waveR += Math.sin(p*Math.PI*3) * 0.45 * Math.sin(p*Math.PI); }
+      if (wp < 0.22){ const p = wp/0.22; armRa += Math.sin(p*Math.PI*3) * 0.45 * Math.sin(p*Math.PI); }
+
+      /* ถือของอยู่ก็เล่นท่าประจำของชิ้นนั้นแทนท่ายืนเปล่า */
+      const pa = PROP_ANIM[list.anim];
+      if (pa){
+        const A = pa(t);
+        armLa = A.armL; armRa = A.armR;
+        tilt = A.tilt || 0; nod = A.nod || 0; lean = A.lean || 0;
+        propM = A.prop ? compose(A.prop.pos, A.prop.rot || [0,0,0], [1,1,1]) : ident();
+      } else propM = ident();
+
       const bl = t % 3400;
       const blink = bl < 130 ? Math.max(0.12, Math.abs(1 - bl/65)) : 1;
-      const headM = rotZAbout(0, 1.02, tilt);
-      const armLM = rotZAbout(-0.72, 0.50, sway);
-      const armRM = rotZAbout(0.72, 0.50, waveR);
+      const headM = mul(rotZAbout(0, 1.02, tilt), rotXAbout(1.02, 0, nod));
+      const armLM = rotZAbout(-0.72, 0.50, armLa);
+      const armRM = rotZAbout(0.72, 0.50, armRa);
 
       /* ถอยกล้องตามสัดส่วนกรอบ ตัวเขาจะได้อยู่ครบเฟรมทุกจอ
          หมุนรอบตัวแล้วแขนกางออกด้านข้าง เลยเผื่อความกว้างไว้เท่าความสูง */
@@ -5291,7 +5558,8 @@ const BOT3D = (function(){
       const eye = [0, MID + 0.10, dist];
       const proj = persp(FOV, asp, 0.1, 60);
       const view = lookAt(eye, [0, MID, 0], [0,1,0]);
-      const root = mul(compose([0, bob, 0], [pitch, yaw, 0], [1, 1, 1]),
+      const root = mul(mul(compose([0, bob, 0], [pitch, yaw, 0], [1, 1, 1]),
+                           rotZAbout(0, -1.90, lean)),
                        compose([0, 0, 0], [0, 0, 0], [breath, 2 - breath, breath]));
       const vp = mul(proj, view);
 
@@ -5303,6 +5571,7 @@ const BOT3D = (function(){
         if (part.grp === 'head') local = mul(headM, local);
         else if (part.grp === 'armL') local = mul(armLM, local);
         else if (part.grp === 'armR') local = mul(armRM, local);
+        else if (part.grp === 'prop') local = mul(propM, local);
         const model = mul(root, local);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.p); gl.vertexAttribPointer(A.pos, 3, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, b.n); gl.vertexAttribPointer(A.nor, 3, gl.FLOAT, false, 0, 0);
@@ -5404,7 +5673,7 @@ const BOT3D = (function(){
 (function(){
   const hosts = { shell:document.getElementById('wShell'),
                   hat:document.getElementById('wHat'), face:document.getElementById('wFace'),
-                  item:document.getElementById('wItem') };
+                  item:document.getElementById('wItem'), prop:document.getElementById('wProp') };
   if (!hosts.shell) return;
   const tag = document.getElementById('wTag');
   const L = WEAR.L;
@@ -5419,14 +5688,14 @@ const BOT3D = (function(){
 
   function thumb(cat, o){
     if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
-    if (cat === 'item')
+    if (cat === 'item' || cat === 'prop')
       return '<svg viewBox="14 31 72 44" aria-hidden="true">' +
         (o.back ? o.svg + BODY_ART : BODY_ART + o.svg) + '</svg>';
     const vb = cat === 'hat' ? '31 0 38 35' : '32 12 36 23';
     return '<svg viewBox="' + vb + '" aria-hidden="true">' + HEAD_ART + o.svg + '</svg>';
   }
 
-  const WEARABLE = ['hat','face','item'];
+  const WEARABLE = ['hat','face','item','prop'];
   function label(){
     const parts = WEARABLE.filter((c) => L[c] !== 'none')
                           .map((c) => WEAR.pick(LISTS[c], L[c]).name);
@@ -5489,13 +5758,14 @@ const BOT3D = (function(){
     setRowW.innerHTML = '';
     let done = 0;
     WEAR.SETS.forEach((s) => {
-      const n = WEAR.setOwned(s), full = n === WEAR.SLOTS.length, worn = WEAR.setWorn(s);
+      const need = WEAR.setSlots(s).length;
+      const n = WEAR.setOwned(s), full = n === need, worn = WEAR.setWorn(s);
       if (full) done++;
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'setmini' + (full ? ' done' : '') + (worn ? ' on' : '');
       b.innerHTML = '<span class="sm-art">' + MINI_BOT + '</span><span><b>' + s.name + '</b><small>' +
-        (worn ? 'ใส่ชุดนี้อยู่' : full ? 'พร้อมใส่ทั้งชุด' : n + '/' + WEAR.SLOTS.length + ' ชิ้น') + '</small></span>';
+        (worn ? 'ใส่ชุดนี้อยู่' : full ? 'พร้อมใส่ทั้งชุด' : n + '/' + need + ' ชิ้น') + '</small></span>';
       WEAR.preview(b.querySelector('svg'), s.look);
       if (worn) b.disabled = true;
       else b.addEventListener('click', () => WEAR.wearSet(s));
@@ -5891,7 +6161,7 @@ const BOT3D = (function(){
   const collEl = document.getElementById('specColl');
   const boxEl  = document.getElementById('idBoxes');
   const chips  = document.getElementById('wornChips');
-  const WEARABLE = ['hat','face','item'];
+  const WEARABLE = ['hat','face','item','prop'];
   const TOTAL = WEAR.countOf('normal') + WEAR.countOf('secret');
 
   const chip = (cat, o) =>
@@ -5918,12 +6188,12 @@ const BOT3D = (function(){
   const parts  = document.getElementById('setParts');
   const setGo  = document.getElementById('setWear');
 
-  const SLOTS = WEAR.SLOTS;
+  const SLOTS = WEAR.setSlots(WEAR.SETS[0]);   // ช่องที่ชุดโปรโมทใช้จริง
   const ownedIn = WEAR.setOwned;
 
   function partThumb(cat, o){
     if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
-    if (cat === 'item')
+    if (cat === 'item' || cat === 'prop')
       return '<svg viewBox="14 31 72 44">' +
         (o.back ? o.svg + PBODY : PBODY + o.svg) + '</svg>';
     return '<svg viewBox="' + (cat === 'hat' ? '31 0 38 35' : '32 12 36 23') + '">' + PHEAD + o.svg + '</svg>';
