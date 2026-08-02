@@ -218,13 +218,32 @@
   .set-intro h3{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.25}
   .set-intro p{margin-top:5px;font-size:13px;line-height:1.62;color:var(--ink-soft)}
   .setpromo{display:grid;grid-template-columns:.85fr 1.15fr;gap:24px;padding:24px;overflow:hidden}
+  /* เวทีโปรโมท — ฟ้าสางอ่อน ๆ ชมพูบน ฟ้ากลาง เขียวมิ้นต์ล่าง
+     ตัวหุ่นเป็นพาสเทลซีดอยู่แล้ว พื้นเลยต้องมีสีจริงพอที่ขอบตัวจะไม่กลืนไปกับพื้น
+     แล้วเปิดวงสว่างไว้ตรงกลางให้เขายืนอยู่ในแสง */
   .set-stage{position:relative;border-radius:22px;display:grid;place-items:center;min-height:230px;
     padding:46px 16px 16px;   /* เว้นที่ด้านบนให้ป้ายคอลแลป ไม่ให้ทับหัว */
-    background:radial-gradient(120% 90% at 50% 0%,#2F4256,#1D2A36)}
+    background:
+      radial-gradient(60% 52% at 50% 54%,rgba(255,255,255,.62),rgba(255,255,255,0) 74%),
+      radial-gradient(125% 105% at 50% -8%,#FBD9EA 0%,#D9E5FF 48%,#C8EEDE 100%)}
+  /* แฉกแสงหมุนช้า ๆ เป็นสีขาวบนพื้นสว่าง เห็นเป็นประกายบาง ๆ ไม่ใช่เส้นทึบ */
   .set-stage::before{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
-    background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.07) 0 3deg,transparent 3deg 26deg);
-    -webkit-mask:radial-gradient(circle,transparent 20%,#000 46%,transparent 88%);
-    mask:radial-gradient(circle,transparent 20%,#000 46%,transparent 88%);animation:bxSpin 22s linear infinite}
+    background:repeating-conic-gradient(from 0deg,rgba(255,255,255,.5) 0 2.5deg,transparent 2.5deg 30deg);
+    -webkit-mask:radial-gradient(circle,transparent 24%,#000 50%,transparent 86%);
+    mask:radial-gradient(circle,transparent 24%,#000 50%,transparent 86%);animation:bxSpin 22s linear infinite}
+  /* เม็ดฟองลอยขึ้นช้า ๆ ให้เวทีไม่นิ่งสนิท */
+  .set-stage::after{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
+    background:
+      radial-gradient(circle 5px at 13% 26%,rgba(255,255,255,.95),transparent 100%),
+      radial-gradient(circle 3px at 27% 68%,rgba(255,255,255,.8),transparent 100%),
+      radial-gradient(circle 6px at 84% 20%,rgba(255,255,255,.9),transparent 100%),
+      radial-gradient(circle 4px at 73% 76%,rgba(255,255,255,.8),transparent 100%),
+      radial-gradient(circle 3px at 91% 52%,rgba(255,255,255,.85),transparent 100%),
+      radial-gradient(circle 4px at 8% 54%,rgba(255,255,255,.8),transparent 100%);
+    animation:setDrift 9s ease-in-out infinite alternate}
+  @keyframes setDrift{from{transform:translateY(4px);opacity:.75}to{transform:translateY(-6px);opacity:1}}
+  @media (prefers-reduced-motion:reduce){
+    .set-stage::before,.set-stage::after{animation:none}}
   .set-badge{position:absolute;top:13px;left:13px;z-index:2;border-radius:999px;padding:5px 13px;
     font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
     background:linear-gradient(90deg,#FFDE8A,#F0575F);color:#3A2410;font-weight:600}
@@ -782,12 +801,12 @@
   /* เวทีนี้ถูกยืดตามความสูงของแผงเลือกของ ต้องจัดกลางเองไม่งั้นหุ่นไปกองอยู่ขอบ */
   .wstage.is3d{position:relative;align-content:center;justify-content:center}
   .wstage.is3d .bot3dw{width:min(100%,260px);height:min(40vh,270px)}
-  /* เวทีโปรโมทชุดใหม่ — พื้นหลังเข้ม เงาที่พื้นเลยต้องสว่างขึ้นถึงจะเห็น */
+  /* เวทีโปรโมทชุดใหม่ — พื้นสว่าง เงาที่พื้นเลยกลับมาใช้โทนหมึกเหมือนเวทีอื่น */
   .set-stage.is3d{align-content:center}
   .set-stage.is3d .setbot{display:none}
   .set-stage.is3d .bot3dw{width:min(100%,230px);height:min(34vh,244px)}
   .set-stage.is3d .bot3dw::before{
-    background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,.22) 55%,transparent 78%)}
+    background:radial-gradient(closest-side,rgba(43,58,71,.26),rgba(43,58,71,.10) 55%,transparent 78%)}
   .lstage.is3d::after{content:'ลากเพื่อหมุนดู';position:absolute;left:50%;bottom:10px;transform:translateX(-50%);
     font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
     opacity:.55;pointer-events:none}
