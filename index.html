@@ -2509,19 +2509,20 @@ const MOOD = (function(){
 
 /* =========================================================
    0.6 · กล่องสุ่ม + แต้มดูแลที่ได้จากการเล่นเกม
-   ยิ่งได้กล่องจากเกมมาแล้วมาก กล่องถัดไปยิ่งต้องใช้แต้มเยอะขึ้น
+   ค่ากล่องคงที่ 2500 แต้มต่อหนึ่งกล่อง ไม่แพงขึ้นตามจำนวนกล่องที่เคยได้แล้ว
+   (ของเดิมไล่จาก 2200 ขึ้นทีละ 1000 จนถึง 10200 เล่นไปนาน ๆ แล้วแทบไม่ได้กล่องอีกเลย)
    ========================================================= */
 const BOXES = (function(){
-  const BASE = 2200, STEP = 1000, CAP = 8;  // 2200 → 10200 แล้วคงที่
+  const COST = 2500;
   const num = (k) => parseInt(LS.get(k,'0'), 10) || 0;
-  const need = (e) => BASE + Math.min(e, CAP) * STEP;
+  const need = () => COST;
 
   const api = {
     get:   () => num('baymax.boxes'),
     set:   (n) => LS.set('baymax.boxes', String(Math.max(0, n))),
     pts:   () => num('baymax.pts'),
     earned:() => num('baymax.earned'),
-    need:  () => need(num('baymax.earned')),
+    need:  () => COST,
     spend(){ api.set(api.get() - 1); },
 
     /* เอาคะแนนจบเกมมาแปลงเป็นแต้ม ครบเมื่อไหร่ได้กล่อง */
@@ -2529,12 +2530,23 @@ const BOXES = (function(){
       const s = Math.round(score || 0);
       if (s <= 0) return 0;
       let p = api.pts() + s, e = api.earned(), got = 0;
-      while (p >= need(e)){ p -= need(e); e++; got++; }
+      while (p >= COST){ p -= COST; e++; got++; }
       LS.set('baymax.pts', String(p));
       LS.set('baymax.earned', String(e));
       if (got) api.set(api.get() + got);
       document.dispatchEvent(new CustomEvent('baymax:boxes', { detail:{ got } }));
       return got;
+    },
+
+    /* แจกกล่องให้รอบเดียวต่อเครื่อง ผูกกับคีย์ของรอบนั้น ๆ
+       เปิดแอปซ้ำกี่รอบก็ได้แค่ครั้งเดียว */
+    drop(key, n){
+      const k = 'baymax.drop.' + key;
+      if (LS.get(k, '') === '1') return 0;
+      LS.set(k, '1');
+      api.set(api.get() + n);
+      document.dispatchEvent(new CustomEvent('baymax:boxes', { detail:{ got:n } }));
+      return n;
     },
 
     toast(text){
@@ -2547,6 +2559,13 @@ const BOXES = (function(){
     }
   };
   return api;
+})();
+
+/* กล่องแจกรอบพิเศษ — ให้ครั้งเดียวต่อเครื่อง ต้องอยู่ก่อนส่วนที่วาดเลขบนปุ่มกล่อง
+   ไม่งั้นเลขบนปุ่มจะเป็นของก่อนแจกจนกว่าจะรีเฟรชอีกรอบ */
+(function(){
+  const got = BOXES.drop('gift500', 500);
+  if (got) setTimeout(() => BOXES.toast('ได้กล่องสุ่มเพิ่ม ' + got + ' กล่องแล้วครับ เปิดเล่นได้เลย'), 1400);
 })();
 
 /* =========================================================
