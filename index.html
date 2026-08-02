@@ -427,7 +427,9 @@
   .wavetag{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;
     font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
   .wavebig{position:absolute;inset:0;display:grid;place-content:center;z-index:5;pointer-events:none;
+    padding-inline:18px;text-align:center;text-wrap:balance;line-height:1.25;
     font-family:var(--display);font-weight:700;font-size:34px;color:var(--red);opacity:0}
+  .bsfield .wavebig{font-size:clamp(20px,6.4vw,30px)}
   .wavebig.show{animation:waveIn 1.2s ease-out}
   @keyframes waveIn{0%{opacity:0;transform:scale(.7)}25%{opacity:1;transform:scale(1)}75%{opacity:1}100%{opacity:0;transform:scale(1.1)}}
 
@@ -976,7 +978,8 @@
                repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 26px),
                linear-gradient(180deg,#2A1E24 0%,#1A1219 55%,#120E12 100%)}
 
-  .bs-hpbar{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:46%;z-index:6;text-align:center}
+  .bs-hpbar{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:54%;z-index:6;text-align:center}
+  .bs-hpbar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .bs-hpbar span{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.16em;
     text-transform:uppercase;color:#C9A0A6;margin-bottom:4px}
   .bs-hpbar i{display:block;height:9px;border-radius:999px;background:rgba(255,255,255,.13);overflow:hidden;
@@ -1006,6 +1009,8 @@
   .bs-boss.ouch svg{animation:bossOuch .2s}
   @keyframes bossOuch{50%{transform:translateX(-4px) scale(1.05);filter:brightness(2.2)}}
   .bs-boss.cast svg{animation:bossCast .5s ease-out}
+  .bs-boss{transition:opacity .45s ease,transform .45s ease}
+  .bs-boss.gone{opacity:0;transform:translate(-50%,-50%) scale(.55) rotate(8deg)}
   @keyframes bossCast{35%{transform:scale(1.08,.94)}70%{transform:scale(.97,1.05)}}
 
   .bs-hero{position:absolute;left:50%;top:86%;width:11.5%;transform:translate(-50%,-50%);z-index:3;pointer-events:none}
@@ -1660,7 +1665,7 @@
         </span>
         <span class="ginfo">
           <span class="gname">ศึกกับมุซัน</span>
-          <span class="gdesc">บอสไฟต์สามระยะ แตะที่มุซันเพื่อชกหมัดจรวด แตะใบมีดที่พุ่งมาเพื่อสกัด นิ้วมีเดียว หยุดชกเมื่อไหร่เขาฟื้นเลือดทันที</span>
+          <span class="gdesc">ด่านยาวหกตัวรวด ข้างแรมสาม ข้างขึ้นสอง แล้วค่อยถึงมุซัน ลากนิ้วหลบใบมีด หมัดยิงเอง มีโล่กับรัวหมัดช่วย</span>
         </span>
         <span class="gfoot">
           <span class="gbest"><b id="hubBestBoss">0</b>Best score</span>
@@ -1790,7 +1795,7 @@
     <div class="sec-head">
       <div class="eyebrow">Boss fight</div>
       <h2>ศึกกับมุซัน</h2>
-      <p>ลากนิ้วเพื่อพา Baymax หลบใบมีด เขายิงหมัดจรวดขึ้นเองอัตโนมัติ — จะโดนมุซันก็ต่อเมื่อยืนตรงใต้เขา ต้องเลือกเองว่าจะหลบหรือจะเข้าไปยืนยิง</p>
+      <p>ด่านยาวหกตัวรวด — ข้างแรมสามตัว ข้างขึ้นสองตัว แล้วค่อยถึงมุซัน ลากนิ้วพา Baymax หลบใบมีด เขายิงหมัดจรวดขึ้นเองอัตโนมัติ แต่จะโดนก็ต่อเมื่อยืนตรงใต้ศัตรู</p>
     </div>
 
     <div class="game2 card">
@@ -1802,27 +1807,8 @@
         <div class="btop"><b id="bsScore">0</b><span>Score</span></div>
         <div class="wavebig" id="bsBig">ระยะที่ 2</div>
 
-        <div class="bs-boss" id="bsBoss">
-          <svg viewBox="0 0 100 116" aria-hidden="true">
-            <g class="bsbody">
-              <path d="M50 46c14 0 22 8 26 22 5 17 4 34 2 46H22c-2-12-3-29 2-46 4-14 12-22 26-22z"
-                    fill="#1B1E26" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>
-              <path d="M22 68c-8 4-13 12-14 22 6-3 10-3 14-1zM78 68c8 4 13 12 14 22-6-3-10-3-14-1z"
-                    fill="#14161C" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>
-              <path d="M41 48 50 61 59 48l-1 30H42z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>
-              <path d="M50 61l-4 4.5 4 5.5 4-5.5z" fill="#2B3A47"/>
-              <path d="M46 78h8v22h-8z" fill="#5A5F6B" opacity=".55"/>
-            </g>
-            <g class="bshead">
-              <ellipse cx="50" cy="30" rx="14.5" ry="17.5" fill="#F6EDE6" stroke="#2B3A47" stroke-width="2.2"/>
-              <path d="M35.5 28c-3-14 5.5-23 14.5-23s17.5 9 14.5 23c-1.5-6.5-4-10-7-11-4.5 4.5-11.5 5.5-16 3.5-3 2-5 4.5-6 7.5z" fill="#14161C"/>
-              <path d="M34 22c-3 6-3 12-2 17 1-5 2-9 4-12zM66 22c3 6 3 12 2 17-1-5-2-9-4-12z" fill="#14161C"/>
-              <path d="M42.5 30.5 49 28l.4 3.4-6.2 1.2zM57.5 30.5 51 28l-.4 3.4 6.2 1.2z" fill="#E0303C"/>
-              <path d="M42 26.5 49 24M58 26.5 51 24" stroke="#2B3A47" stroke-width="1.6" stroke-linecap="round"/>
-              <path d="M46 40q4 2.5 8 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>
-            </g>
-          </svg>
-        </div>
+        <!-- ตัวศัตรูวาดจาก JS เปลี่ยนไปตามด่าน -->
+        <div class="bs-boss" id="bsBoss"></div>
 
         <div class="bs-hero" id="bsHero">
           <svg data-bot viewBox="14 6 72 112" aria-hidden="true"><g class="all">
@@ -1846,7 +1832,7 @@
 
         <div class="overlay" id="bsOvl">
           <h3 id="bsTitle">ศึกกับมุซัน</h3>
-          <p id="bsText">ลากนิ้วพา Baymax หลบใบมีด · หมัดยิงขึ้นเองอัตโนมัติ ยืนใต้มุซันถึงจะโดน · หยุดยิงนานเกินไปเขาจะฟื้นเลือด · มีสองสกิลใต้สนามช่วยได้</p>
+          <p id="bsText">ต้องผ่านหกตัวรวด — ข้างแรม 3 · ข้างขึ้น 2 · มุซัน · ลากนิ้วพา Baymax หลบ หมัดยิงขึ้นเองอัตโนมัติ ยืนใต้ศัตรูถึงจะโดน · ล้มได้ตัวหนึ่งคืนหัวใจให้ดวงหนึ่ง</p>
           <div id="bsResult" hidden><div class="finlab">คะแนนรอบนี้</div><div class="final" id="bsFinal">0</div></div>
           <p class="lowbatt" id="bsLow" hidden><b>แบตไม่พอ</b> — ศึกนี้ใช้ 20% ไปชาร์จก่อนนะครับ</p>
           <button class="btn btn-go" id="bsPlay">เริ่มศึก</button>
@@ -1875,7 +1861,7 @@
           <div class="kpi"><b id="bsHits">0</b><span>Hits</span></div>
           <div class="kpi"><b id="bsBlock">0</b><span>หลบได้</span></div>
         </div>
-        <p class="hint" style="flex:1;min-width:220px">ยืนใต้มุซันถึงจะยิงโดน แต่ตรงนั้นก็โดนใบมีดง่ายสุด · ระยะที่ 2 เขาเริ่มขยับไว ระยะที่ 3 ใบมีดมาเป็นชุดและร่วงลงมาทั้งแถว · โดนห้าครั้งแพ้</p>
+        <p class="hint" style="flex:1;min-width:220px">ยืนใต้ศัตรูถึงจะยิงโดน แต่ตรงนั้นก็โดนใบมีดง่ายสุด · ยิ่งตัวหลังยิ่งขยับไวและซัดมาเป็นชุด · มุซันตัวสุดท้ายฟื้นเลือดได้ถ้าหยุดยิงนาน · หัวใจหมดห้าดวงจบรอบ</p>
       </div>
     </div>
   </section>
@@ -2319,7 +2305,7 @@ const VOICE = (function(){
    ยิ่งได้กล่องจากเกมมาแล้วมาก กล่องถัดไปยิ่งต้องใช้แต้มเยอะขึ้น
    ========================================================= */
 const BOXES = (function(){
-  const BASE = 5000, STEP = 2500, CAP = 8;  // 5000 → 25000 แล้วคงที่ ตั้งใจให้ต้องเล่นเยอะจริง ๆ
+  const BASE = 2200, STEP = 1000, CAP = 8;  // 2200 → 10200 แล้วคงที่
   const num = (k) => parseInt(LS.get(k,'0'), 10) || 0;
   const need = (e) => BASE + Math.min(e, CAP) * STEP;
 
@@ -3061,7 +3047,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   const cd1 = document.getElementById('bsCd1'), cd2 = document.getElementById('bsCd2');
   const st1 = document.getElementById('bsSt1'), st2 = document.getElementById('bsSt2');
 
-  const W = 160, MAX_HP = 5, BOSS_HP = 250;
+  const W = 160, MAX_HP = 5;               // เลือดของศัตรูแต่ละตัวอยู่ใน FOES
   const REGEN_WAIT = 1900;                 // ไม่ได้ยิงโดนนานเกินนี้ มุซันเริ่มฟื้นตัว
   const SHOT_GAP = 400, OD_GAP = 130;      // ปกติ / ตอนเปิดสกิลรัวหมัด
   const DMG = 6, HERO_R = 6.2, BLADE_R = 4.6;
@@ -3095,6 +3081,97 @@ if (owner) { closeGate(); } else { openGate('register'); }
       '<circle cx="20" cy="20" r="3.4" fill="#FFD9DC"/>' +
     '</svg>';
 
+  /* ---------- ขบวนศัตรู : ข้างแรมสามตัว ข้างขึ้นสองตัว แล้วค่อยถึงมุซัน ----------
+     ตัวอสูรทั้งห้าเป็นภาพที่วาดขึ้นเองในสไตล์เส้นเดียวกับแอป ไม่ได้ลอกจากตัวละครจริง */
+  const D_BODY = 'M50 46c14 0 22 8 26 22 5 17 4 34 2 46H22c-2-12-3-29 2-46 4-14 12-22 26-22z';
+  const D_ARMS = 'M22 68c-8 4-13 12-14 22 6-3 10-3 14-1zM78 68c8 4 13 12 14 22-6-3-10-3-14-1z';
+  function DEMON(o){
+    return '<svg viewBox="0 0 100 116" aria-hidden="true">' +
+      '<g class="bsbody">' +
+        '<path d="' + D_BODY + '" fill="' + o.body + '" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>' +
+        '<path d="' + D_ARMS + '" fill="' + o.dark + '" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+        (o.chest || '') +
+      '</g><g class="bshead">' +
+        (o.horns || '') +
+        '<ellipse cx="50" cy="30" rx="14.5" ry="17" fill="' + o.skin + '" stroke="#2B3A47" stroke-width="2.2"/>' +
+        (o.face || '') +
+      '</g></svg>';
+  }
+  const SLIT = (c) => '<path d="M42.5 30.5 49 28l.4 3.4-6.2 1.2zM57.5 30.5 51 28l-.4 3.4 6.2 1.2z" fill="' + c + '"/>';
+  const FANGS = '<path d="M43 38h14l-2.5 4-2.3-3-2.2 3-2.3-3-2.2 3z" fill="#FFF" stroke="#2B3A47" stroke-width="1.2" stroke-linejoin="round"/>';
+
+  const FOES = [
+    { name:'ข้างแรมที่ 3', hp:60,  gap:1600, spd:40, move:14, bonus:150,
+      art: DEMON({ body:'#3E7F73', dark:'#2E6259', skin:'#CFE9E2',
+        horns:'<path d="M46 15 50 -1 55 15z" fill="#DDE9E6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
+        face:'<circle cx="50" cy="29" r="5.6" fill="#FFF" stroke="#2B3A47" stroke-width="1.8"/>' +
+             '<circle cx="50" cy="29" r="2.6" fill="#E0303C"/>' +
+             '<path d="M45 39q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>' }),
+      cast(w){ aimed(this.spd, 0); } },
+
+    { name:'ข้างแรมที่ 2', hp:78,  gap:1500, spd:44, move:18, bonus:200,
+      art: DEMON({ body:'#6B4F94', dark:'#523A75', skin:'#E4DAF2',
+        horns:'<path d="M39 16 33 0 44 13zM61 16 67 0 56 13z" fill="#CDBEE6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
+        face: SLIT('#FFC861') + '<path d="M45 39q5 2 10 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>',
+        chest:'<path d="M42 54h16v10H42z" fill="#8E6FBE" opacity=".7"/>' }),
+      cast(w){ aimed(this.spd, 0); if (w % 3 === 2) drop(this.spd*0.9, 0); } },
+
+    { name:'ข้างแรมที่ 1', hp:95,  gap:1400, spd:46, move:22, bonus:260,
+      art: DEMON({ body:'#2F4A86', dark:'#22376A', skin:'#D6E0F5',
+        horns:'<path d="M36 15 30 3 43 12zM64 15 70 3 57 12zM50 12 47 -1 53 -1z" fill="#B9C8E8" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
+        face:'<circle cx="43" cy="30" r="2.7" fill="#E0303C"/><circle cx="57" cy="30" r="2.7" fill="#E0303C"/>' +
+             '<circle cx="50" cy="21" r="2.2" fill="#FFC861"/>' + FANGS }),
+      cast(w){ if (w % 3 === 2) rain(3, this.spd*0.8); else { aimed(this.spd, -8); aimed(this.spd, 8); } } },
+
+    { name:'ข้างขึ้นที่ 2', hp:135, gap:1250, spd:52, move:27, bonus:420,
+      art: DEMON({ body:'#B4571F', dark:'#8C3F14', skin:'#FBE2C2',
+        horns:'<path d="M34 14C28 4 37 -3 44 7l-4 6zM66 14C72 4 63 -3 56 7l4 6z" fill="#F0B267" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
+        face:'<path d="M41 28l8 1.5-.5 3.5-7.5-1.5zM59 28l-8 1.5.5 3.5 7.5-1.5z" fill="#E0303C"/>' + FANGS,
+        chest:'<path d="M38 56q12 8 24 0" fill="none" stroke="#8C3F14" stroke-width="3" stroke-linecap="round"/>' }),
+      cast(w){ if (w % 3 === 2) rain(4, this.spd*0.8);
+               else { aimed(this.spd, -9); aimed(this.spd, 9); drop(this.spd*0.9, 0); } } },
+
+    { name:'ข้างขึ้นที่ 1', hp:165, gap:1100, spd:58, move:32, bonus:600, rage:true,
+      art: DEMON({ body:'#1D3A5C', dark:'#132840', skin:'#CBDAEA',
+        horns:'<path d="M38 14 32 -2 44 11zM62 14 68 -2 56 11zM50 10 45 -5 55 -5z" fill="#7FA9D6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
+        face:'<path d="M41.5 29l8 1v3.6l-8-1zM58.5 29l-8 1v3.6l8-1z" fill="#7FE3FF"/>' + FANGS,
+        chest:'<path d="M50 50 40 68h20z" fill="#7FA9D6" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' }),
+      cast(w){ const k = w % 3;
+               if (k === 0){ aimed(this.spd, -12); aimed(this.spd, 0); aimed(this.spd, 12); }
+               else if (k === 1) rain(5, this.spd*0.85);
+               else { aimed(this.spd*1.1, -5); aimed(this.spd*1.1, 5); drop(this.spd*0.9, 0); } } },
+
+    { name:'มุซัน', hp:230, gap:1400, spd:52, move:24, bonus:900, phases:true, regen:true,
+      art:'<svg viewBox="0 0 100 116" aria-hidden="true">' +
+        '<g class="bsbody">' +
+          '<path d="' + D_BODY + '" fill="#1B1E26" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>' +
+          '<path d="' + D_ARMS + '" fill="#14161C" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+          '<path d="M41 48 50 61 59 48l-1 30H42z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
+          '<path d="M50 61l-4 4.5 4 5.5 4-5.5z" fill="#2B3A47"/>' +
+          '<path d="M46 78h8v22h-8z" fill="#5A5F6B" opacity=".55"/>' +
+        '</g><g class="bshead">' +
+          '<ellipse cx="50" cy="30" rx="14.5" ry="17.5" fill="#F6EDE6" stroke="#2B3A47" stroke-width="2.2"/>' +
+          '<path d="M35.5 28c-3-14 5.5-23 14.5-23s17.5 9 14.5 23c-1.5-6.5-4-10-7-11-4.5 4.5-11.5 5.5-16 3.5-3 2-5 4.5-6 7.5z" fill="#14161C"/>' +
+          '<path d="M34 22c-3 6-3 12-2 17 1-5 2-9 4-12zM66 22c3 6 3 12 2 17-1-5-2-9-4-12z" fill="#14161C"/>' +
+          SLIT('#E0303C') +
+          '<path d="M42 26.5 49 24M58 26.5 51 24" stroke="#2B3A47" stroke-width="1.6" stroke-linecap="round"/>' +
+          '<path d="M46 40q4 2.5 8 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>' +
+        '</g></svg>',
+      cast(w){
+        const p = S.phase, spd = p === 1 ? 46 : p === 2 ? 54 : 62;
+        if (p === 1){ aimed(spd, 0); if (w % 3 === 2) drop(spd*0.85, 0); }
+        else if (p === 2){
+          if (w % 3 === 2) rain(4, spd*0.8);
+          else { aimed(spd, -9); aimed(spd, 9); drop(spd*0.9, 0); }
+        } else {
+          const k = w % 3;
+          if (k === 0){ aimed(spd, -13); aimed(spd, 0); aimed(spd, 13); drop(spd*0.9, 0); }
+          else if (k === 1) rain(5, spd*0.85);
+          else { aimed(spd*1.15, -5); aimed(spd*1.15, 5); drop(spd*0.9, 0); }
+        }
+      } }
+  ];
+
   let best = parseInt(LS.get('baymax.bossBest','0'), 10) || 0;
   elBest.textContent = best;
   const hubBest = document.getElementById('hubBestBoss');
@@ -3125,19 +3202,55 @@ if (owner) { closeGate(); } else { openGate('register'); }
     }
   }
   function paintHp(){
-    hpFill.style.width = Math.max(0, S.boss / BOSS_HP * 100) + '%';
-    hpTag.textContent = S.heal ? 'ระยะที่ ' + S.phase + ' · กำลังฟื้นตัว'
-                               : 'ระยะที่ ' + S.phase + ' · มุซัน';
+    hpFill.style.width = Math.max(0, S.boss / S.maxHp * 100) + '%';
+    const f = S.foe;
+    const tail = S.heal ? ' · กำลังฟื้นตัว' : f.phases ? ' · ระยะที่ ' + S.phase : '';
+    hpTag.textContent = (S.stage + 1) + '/' + FOES.length + ' · ' + f.name + tail;
+  }
+
+  function banner(text){
+    bigTag.textContent = text;
+    bigTag.classList.remove('show'); void bigTag.offsetWidth; bigTag.classList.add('show');
+  }
+
+  function setFoe(i, now){
+    S.stage = i;
+    S.foe = FOES[i];
+    S.maxHp = S.foe.hp; S.boss = S.foe.hp;
+    S.phase = 1; S.wave = 0; S.heal = false;
+    hpWrap.classList.remove('regen');
+    boss.innerHTML = S.foe.art;
+    boss.classList.remove('gone');
+    boss.style.left = pctX(S.bx); boss.style.top = pctY(BOSS_Y());
+    field.classList.toggle('rage', S.foe.rage === true);
+    S.nextCast = now + 1400;
+    S.lastHit = now;
+    banner(S.foe.name);
+    paintHp();
   }
 
   function setPhase(p){
     S.phase = p;
     field.classList.toggle('rage', p >= 3);
-    bigTag.textContent = 'ระยะที่ ' + p;
-    bigTag.classList.remove('show'); void bigTag.offsetWidth; bigTag.classList.add('show');
+    banner('ระยะที่ ' + p);
     boss.classList.remove('cast'); void boss.offsetWidth; boss.classList.add('cast');
     S.nextCast = performance.now() + 1000;
     paintHp();
+  }
+
+  /* ล้มไปหนึ่งตัว — พักสั้น ๆ คืนหัวใจให้ดวงหนึ่ง แล้วตัวถัดไปค่อยโผล่ */
+  function foeDown(now){
+    bits(S.bx, BOSS_Y(), '#FFD9DC', 18);
+    S.score += S.foe.bonus;
+    S.blades.forEach((b) => b.el.remove()); S.blades.length = 0;
+    field.classList.remove('shake'); void field.offsetWidth; field.classList.add('shake');
+    if (S.stage >= FOES.length - 1){ end(true); return; }
+    boss.classList.add('gone');
+    field.classList.remove('rage');
+    S.hp = Math.min(MAX_HP, S.hp + 1); hearts(S.hp);
+    S.pending = S.stage + 1;
+    S.inter = now + 1600;
+    banner('ล้มได้! คืนพลังหนึ่งดวง');
   }
 
   /* ---------- สกิล ---------- */
@@ -3216,22 +3329,10 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
   function castBlades(now){
     boss.classList.remove('cast'); void boss.offsetWidth; boss.classList.add('cast');
-    const p = S.phase;
-    const spd = p === 1 ? 44 : p === 2 ? 52 : 60;
-    if (p === 1){
-      aimed(spd, 0);
-      if (S.wave % 3 === 2) drop(spd*0.85, 0);
-    } else if (p === 2){
-      if (S.wave % 3 === 2) rain(4, spd*0.8);
-      else { aimed(spd, -9); aimed(spd, 9); drop(spd*0.9, 0); }
-    } else {
-      const k = S.wave % 3;
-      if (k === 0){ aimed(spd, -13); aimed(spd, 0); aimed(spd, 13); drop(spd*0.9, 0); }
-      else if (k === 1) rain(5, spd*0.85);
-      else { aimed(spd*1.15, -5); aimed(spd*1.15, 5); drop(spd*0.9, 0); }
-    }
+    S.foe.cast(S.wave);
     S.wave++;
-    const gap = p === 1 ? 1350 : p === 2 ? 1200 : 1000;
+    const f = S.foe;
+    const gap = f.phases ? (S.phase === 1 ? f.gap : S.phase === 2 ? f.gap*0.9 : f.gap*0.8) : f.gap;
     S.nextCast = now + gap * (0.85 + Math.random()*0.3);
   }
 
@@ -3258,24 +3359,33 @@ if (owner) { closeGate(); } else { openGate('register'); }
     S.hy = clamp(S.hy, HERO_TOP(), HERO_BOT());
     hero.style.left = pctX(S.hx); hero.style.top = pctY(S.hy);
 
-    /* --- มุซันเดินไปมา ยิ่งระยะหลังยิ่งไว --- */
-    const bspd = S.phase === 1 ? 16 : S.phase === 2 ? 24 : 32;
-    S.bx += S.bdir * bspd * dt;
-    if (S.bx < 22){ S.bx = 22; S.bdir = 1; }
-    if (S.bx > W-22){ S.bx = W-22; S.bdir = -1; }
-    if (S.phase >= 2 && Math.random() < dt*0.35) S.bdir *= -1;
-    boss.style.left = pctX(S.bx);
-    boss.style.top  = pctY(BOSS_Y());
+    /* --- ช่วงพักระหว่างตัว --- */
+    if (S.pending != null){
+      if (now >= S.inter){ const i = S.pending; S.pending = null; setFoe(i, now); }
+    }
+    const fighting = S.pending == null;
+
+    /* --- ศัตรูเดินไปมา ตัวหลัง ๆ ไวขึ้น --- */
+    if (fighting){
+      const bspd = S.foe.move * (S.foe.phases ? (S.phase === 1 ? 0.7 : S.phase === 2 ? 1 : 1.3) : 1);
+      S.bx += S.bdir * bspd * dt;
+      if (S.bx < 22){ S.bx = 22; S.bdir = 1; }
+      if (S.bx > W-22){ S.bx = W-22; S.bdir = -1; }
+      if (Math.random() < dt*0.3) S.bdir *= -1;
+      boss.style.left = pctX(S.bx);
+      boss.style.top  = pctY(BOSS_Y());
+    }
 
     if (now >= S.shUntil) hero.classList.remove('shield');
     if (now >= S.odUntil) hero.classList.remove('od');
     paintSkills(now);
 
     /* --- อสูรที่ฟื้นตัวได้ไม่รู้จบ — เอาแต่หลบไม่ยอมเข้าไปยิงก็ไม่มีวันชนะ --- */
-    const healing = S.boss < BOSS_HP && (now - S.lastHit) > REGEN_WAIT;
+    const healing = fighting && S.foe.regen === true &&
+                    S.boss < S.maxHp && (now - S.lastHit) > REGEN_WAIT;
     if (healing){
-      const rate = S.phase === 1 ? 3 : S.phase === 2 ? 4.5 : 6;
-      S.boss = Math.min(BOSS_HP, S.boss + rate * dt);
+      const rate = S.phase === 1 ? 2.5 : S.phase === 2 ? 3.5 : 4.5;
+      S.boss = Math.min(S.maxHp, S.boss + rate * dt);
     }
     if (healing !== S.heal){
       S.heal = healing;
@@ -3283,7 +3393,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     }
     if (healing) paintHp();
 
-    if (now >= S.nextCast) castBlades(now);
+    if (fighting && now >= S.nextCast) castBlades(now);
     if (now >= S.nextShot) shoot(now);
 
     for (let i = S.shots.length - 1; i >= 0; i--){
@@ -3291,16 +3401,18 @@ if (owner) { closeGate(); } else { openGate('register'); }
       s.y += s.vy * dt;
       if (s.y < -8){ s.el.remove(); S.shots.splice(i,1); continue; }
       s.el.style.top = pctY(s.y);
-      if (Math.abs(s.x - S.bx) < 11 && Math.abs(s.y - BOSS_Y()) < H*0.12){
+      if (fighting && Math.abs(s.x - S.bx) < 11 && Math.abs(s.y - BOSS_Y()) < H*0.12){
         s.el.remove(); S.shots.splice(i,1);
         S.boss -= DMG; S.hits++; S.score += 16; S.lastHit = now;
         elHits.textContent = S.hits;
         bits(s.x, s.y, '#FFD9DC', 5);
         boss.classList.remove('ouch'); void boss.offsetWidth; boss.classList.add('ouch');
         paintHp();
-        if (S.boss <= 0){ end(true); return; }
-        if (S.phase === 1 && S.boss <= BOSS_HP*0.66) setPhase(2);
-        else if (S.phase === 2 && S.boss <= BOSS_HP*0.33) setPhase(3);
+        if (S.boss <= 0){ foeDown(now); if (S.over) return; break; }
+        if (S.foe.phases){
+          if (S.phase === 1 && S.boss <= S.maxHp*0.66) setPhase(2);
+          else if (S.phase === 2 && S.boss <= S.maxHp*0.33) setPhase(3);
+        }
       }
     }
 
@@ -3351,11 +3463,12 @@ if (owner) { closeGate(); } else { openGate('register'); }
     document.getElementById('bsFinal').textContent = sc;
     document.getElementById('bsResult').hidden = false;
     document.getElementById('bsTitle').textContent =
-      win ? 'ปราบมุซันได้แล้ว!' : gotBox ? 'ได้กล่องสุ่ม!' : record ? 'สถิติใหม่' : 'พ่ายให้อสูร';
+      win ? 'ล้มครบทั้งขบวน!' : gotBox ? 'ได้กล่องสุ่ม!' : record ? 'สถิติใหม่' : 'พ่ายให้อสูร';
     document.getElementById('bsText').textContent =
-      win ? 'อสูรที่ฟื้นตัวได้ไม่รู้จบ ก็ยังแพ้หุ่นพยาบาลที่ไม่ยอมทิ้งใครไว้ข้างหลัง'
+      win ? 'ข้างแรมสาม ข้างขึ้นสอง แล้วก็มุซัน — หุ่นพยาบาลที่ไม่ยอมทิ้งใครไว้ข้างหลังผ่านมาได้หมด'
     : gotBox ? 'แต้มดูแลครบแล้ว รับไป ' + gotBox + ' กล่อง เอาไปเปิดที่แท็บแต่งตัวได้เลย'
-    : 'ชกโดน ' + S.hits + ' ครั้ง หลบใบมีดได้ ' + S.block + ' ใบ ลองใหม่อีกรอบไหม';
+    : 'ไปไม่รอดตรง ' + S.foe.name + ' (ตัวที่ ' + (S.stage+1) + ' จาก ' + FOES.length + ') · ชกโดน ' +
+      S.hits + ' ครั้ง หลบได้ ' + S.block + ' ใบ ลองใหม่อีกรอบไหม';
     if (gotBox) BOXES.toast('🎁 ได้กล่องสุ่ม ' + gotBox + ' กล่อง!');
     playBtn.textContent = 'สู้อีกรอบ';
     ovl.hidden = false;
@@ -3371,17 +3484,19 @@ if (owner) { closeGate(); } else { openGate('register'); }
     fitField();
     const t = performance.now();
     const hy = H * 0.86;
-    S = { hp:MAX_HP, boss:BOSS_HP, phase:1, wave:0, score:0, hits:0, block:0,
+    S = { hp:MAX_HP, stage:0, foe:FOES[0], boss:FOES[0].hp, maxHp:FOES[0].hp,
+          phase:1, wave:0, score:0, hits:0, block:0,
           bx:W/2, bdir: Math.random() < 0.5 ? -1 : 1,
           hx:W/2, hy, tx:W/2, ty:hy,
           shots:[], blades:[], over:false, paused:false, heal:false,
+          pending:null, inter:0,
           last:t, lastHit:t, iUntil:0,
           shUntil:0, shCd:t, odUntil:0, odCd:t,
           nextCast:t + 1600, nextShot:t + 500 };
     hpWrap.classList.remove('regen');
     resetSkills();
     hearts(MAX_HP);
-    boss.style.left = pctX(S.bx); boss.style.top = pctY(BOSS_Y());
+    setFoe(0, t);
     hero.style.left = pctX(S.hx); hero.style.top = pctY(S.hy);
     elScore.textContent = '0'; elHits.textContent = '0'; elBlock.textContent = '0';
     field.classList.remove('rage');
