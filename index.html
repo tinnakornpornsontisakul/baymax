@@ -4664,7 +4664,7 @@ const WEAR = (function(){
       '<rect x="43.5" y="59" width="13" height="16" rx="2" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<rect x="45.5" y="61.5" width="9" height="5.4" rx="1.2" fill="#8FB7DC"/>' +
       '<path d="M45.5 69.5h9M45.5 72h6" stroke="#BFD3E2" stroke-width="1.5" stroke-linecap="round"/>' },
-    { id:'gloves', name:'ถุงมือยาง', svg:
+    { id:'gloves', name:'ถุงมือยาง', arms:true, vb:'13 60 74 46', svg:
       '<circle cx="22" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<circle cx="78" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M15.5 89.5q6.5 3 13 0M71.5 89.5q6.5 3 13 0" fill="none" stroke="#E6A8BE" stroke-width="2.2" stroke-linecap="round"/>' },
@@ -4679,25 +4679,25 @@ const WEAR = (function(){
      วาดในพิกัดลำตัว (y34..108) มือซ้ายอยู่ราว x22 มือขวา x78 */
   const PROPS = [
     { id:'none', name:'ไม่ถือ', svg:'' },
-    { id:'plush', name:'ตุ๊กตาหมีจิ๋ว', svg:
+    { id:'plush', name:'ตุ๊กตาหมีจิ๋ว', arms:true, vb:'13 56 74 46', svg:
       '<circle cx="50" cy="84" r="11" fill="#C99A6B" stroke="#2B3A47" stroke-width="2"/>' +
       '<circle cx="41.5" cy="74.5" r="4.4" fill="#C99A6B" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<circle cx="58.5" cy="74.5" r="4.4" fill="#C99A6B" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<ellipse cx="50" cy="87" rx="6" ry="4.6" fill="#EAD3B8"/>' +
       '<circle cx="45.6" cy="81" r="1.5" fill="#2B3A47"/><circle cx="54.4" cy="81" r="1.5" fill="#2B3A47"/>' +
       '<ellipse cx="50" cy="85.4" rx="2" ry="1.4" fill="#6B4A32"/>' },
-    { id:'coffee', name:'แก้วกาแฟร้อน', svg:
+    { id:'coffee', name:'แก้วกาแฟร้อน', arms:true, vb:'16 52 74 46', svg:
       '<path d="M70 74c-.6 6.4.6 11.6 2.4 14.4 1 1.6 7.2 1.6 8.2 0C82.4 85.6 83.6 80.4 83 74z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
       '<path d="M70.2 77.6h12.6" stroke="#C9AE8E" stroke-width="3.4"/>' +
       '<path d="M83.4 78c3.4-.6 5 .8 4.6 3.2-.4 2.2-2.2 3-4.8 2.6" fill="none" stroke="#2B3A47" stroke-width="1.8"/>' +
       '<path d="M73.5 70.5q1.6-2.4 0-4.8M79.5 70.5q1.6-2.4 0-4.8" fill="none" stroke="#A9CCEA" stroke-width="1.6" stroke-linecap="round"/>' },
-    { id:'macbook', name:'โน้ตบุ๊กบางเฉียบ', svg:
+    { id:'macbook', name:'โน้ตบุ๊กบางเฉียบ', arms:true, vb:'13 60 74 46', svg:
       '<path d="M31 92h38l4 9H27z" fill="#D3D8E0" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
       '<rect x="32.5" y="68" width="35" height="24" rx="2.4" fill="#39424E" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<rect x="35.5" y="71" width="29" height="18" rx="1.4" fill="#7FC7E8"/>' +
       '<path d="M38.5 75h16M38.5 79h22M38.5 83h12" stroke="#FDFEFF" stroke-width="1.6" stroke-linecap="round" opacity=".9"/>' +
       '<circle cx="50" cy="96.4" r="1.7" fill="#8F9AA8"/>' },
-    { id:'vacuum', name:'เครื่องดูดฝุ่นไร้สาย', svg:
+    { id:'vacuum', name:'เครื่องดูดฝุ่นไร้สาย', arms:true, vb:'16 58 74 48', svg:
       '<path d="M77 56c2.6 0 4 1.6 4 4v22c0 2.4-1.4 4-4 4s-4-1.6-4-4V60c0-2.4 1.4-4 4-4z" fill="#8FD6E8" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M75.4 86h3.2v14h-3.2z" fill="#C6D3E0" stroke="#2B3A47" stroke-width="1.7"/>' +
       '<path d="M66 100h22l2.4 6H63.6z" fill="#5FB6D6" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
@@ -4878,6 +4878,33 @@ const WEAR = (function(){
       (svg.querySelector('.all') || torso).appendChild(frag('<g class="wear">' + pr.svg + '</g>'));
   }
 
+  /* ---------- ภาพย่อของแต่ละชิ้น ---------- */
+  /* กรอบมาตรฐานของ 'ของประดับ/ของใช้' เล็งไว้ที่ระดับอก ชิ้นที่ห้อยต่ำกว่านั้น
+     (ถุงมือ ของที่ถืออยู่ในมือ) เลยหลุดกรอบจนมองไม่เห็นอะไรเลย
+     ชิ้นพวกนั้นประกาศ vb ของตัวเองไว้ และสั่ง arms ให้วาดแขนด้วย
+     ไม่งั้นถุงมือกับของที่ถือจะลอยเท้งเต้งอยู่ข้างตัวโดยไม่มีมือมารับ */
+  const T_HEAD =
+    '<rect x="33" y="14" width="34" height="19" rx="9.5" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>' +
+    '<circle cx="43" cy="23.5" r="2.6" fill="#2B3A47"/><circle cx="57" cy="23.5" r="2.6" fill="#2B3A47"/>' +
+    '<line x1="45.6" y1="23.5" x2="54.4" y2="23.5" stroke="#2B3A47" stroke-width="2.4"/>';
+  const T_BODY =
+    '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>';
+  const T_ARM = (d) => '<path class="limb-out" d="' + d + '"/><path class="limb-in" d="' + d + '"/>';
+  const T_ARM_L = T_ARM('M30 56C20 62 16 74 18 84c1 6 4 9 7 10');
+  const T_ARM_R = T_ARM('M70 56c10 6 14 18 12 28-1 6-4 9-7 10');
+  const T_VB = '13 33 74 46';
+
+  function thumb(cat, o){
+    if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
+    if (cat === 'item' || cat === 'prop'){
+      const body = o.arms ? T_ARM_L + T_BODY + T_ARM_R : T_BODY;
+      return '<svg viewBox="' + (o.vb || T_VB) + '" aria-hidden="true">' +
+        (o.back ? o.svg + body : body + o.svg) + '</svg>';
+    }
+    return '<svg viewBox="' + (cat === 'hat' ? '31 0 38 35' : '32 12 36 23') + '" aria-hidden="true">' +
+      T_HEAD + o.svg + '</svg>';
+  }
+
   /* ---------- ชุดจัดเซ็ต ---------- */
   const SLOTS = Object.keys(LISTS);                                  // shell, hat, face, item, prop
   /* เซ็ตนับเฉพาะช่องที่มีของจริง เซ็ตเก่าที่ไม่มีของใช้เลยยังนับเป็น 4 ชิ้นเหมือนเดิม */
@@ -4934,7 +4961,7 @@ const WEAR = (function(){
   }
 
   load(); apply();
-  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, PROPS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS, setSlots,
+  return { L, LISTS, SHELLS, HATS, FACES, ITEMS, PROPS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS, setSlots, thumb,
            apply, preview, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf,
            setOwned, setWorn, wearSet };
 })();
@@ -5179,12 +5206,18 @@ const BOT3D = (function(){
       return { armL: 0.06, armR: 0.05 + e*0.82, tilt: -e*0.20, nod: e*0.10, lean: 0 };
     },
     /* กอดตุ๊กตา: แขนโอบเข้าหากัน โยกตัวเบา ๆ */
-    plush: (t) => ({
-      armL: 0.62 + Math.sin(t/1500)*0.035,
-      armR: -0.62 - Math.sin(t/1500)*0.035,
-      tilt: Math.sin(t/1500)*0.07, lean: 0,
-      prop: { pos:[0, -0.10 + Math.sin(t/1500)*0.03, 0.98], rot:[0, 0, Math.sin(t/1500)*0.12] }
-    }),
+    /* กอดตุ๊กตา: หมีวางพิกัดจริงไว้แล้ว กลุ่ม prop เหลือไว้แค่ไกวเบา ๆ
+       ของเดิมใส่ออฟเซ็ต z 0.98 ทับพิกัดจริงอีกที หมีเลยไปลอยห่างพุงเกือบสองหน่วย
+       และแขนหุบถึง 0.62 rad ซึ่งพับเข้าไปจมอยู่ในพุงทั้งแขน เห็นแค่ตอไหล่
+       0.30 rad คือมุมที่แขนยังโผล่พ้นขอบตัวให้เห็นทั้งท่อน และมือไปบรรจบข้างหมีพอดี */
+    plush: (t) => {
+      const s = Math.sin(t/1500);
+      return {
+        armL: 0.30 + s*0.03, armR: -0.30 - s*0.03,
+        tilt: s*0.06, nod: 0.14, lean: 0,
+        prop: { pos:[0, s*0.022, 0], rot:[0, 0, s*0.05] }
+      };
+    },
     /* พิมพ์งาน: ยกโน้ตบุ๊กไว้ระดับพุง สองแขนเข้าหากัน ก้มหน้ามองจอ นิ้วเคาะเป็นช่วง */
     macbook: (t) => {
       const tap = Math.sin(t/95) * (((t % 4200) / 4200) < 0.62 ? 1 : 0);
@@ -5519,15 +5552,18 @@ const BOT3D = (function(){
     /* ---- ของใช้ ---- ชิ้นที่ติดแท็ก armR จะถือติดมือขวาไปเลย
        ส่วนกลุ่ม 'prop' ขยับตามท่าทางประจำของชิ้นนั้น */
     if (prop.id === 'plush'){
-      const py = -0.06, pz = 1.02;
-      add('sphere', [0, py, pz], [0.40, 0.40, 0.34], '#C99A6B', { grp:'prop', gloss:0.2 });
+      /* หมีต้องใหญ่พอที่ข้างลำตัวหมีจะไปบรรจบกับมือทั้งสองข้างพอดี
+         ตัวเก่ากว้าง 0.40 ซึ่งแคบกว่าช่วงมือ เลยเห็นเป็นหมีแปะอยู่บนพุงเฉย ๆ ไม่ใช่กอด
+         หลังหมีจมเข้าไปในพุงราว 0.2 หน่วย ให้อ่านเป็นกอดแนบอก ไม่ใช่ลอยห่างตัว */
+      const py = -0.34, pz = 1.08;
+      add('sphere', [0, py, pz], [0.50, 0.50, 0.425], '#C99A6B', { grp:'prop', gloss:0.2 });
       [-1, 1].forEach((sgn) => {
-        add('sphere', [sgn*0.30, py + 0.35, pz - 0.03], [0.155, 0.155, 0.13], '#C99A6B', { grp:'prop', gloss:0.2 });
-        add('sphere', [sgn*0.30, py + 0.35, pz + 0.08], [0.078, 0.078, 0.05], '#EAD3B8', { grp:'prop', gloss:0.15 });
-        add('sphere', [sgn*0.145, py + 0.10, pz + 0.29], [0.055, 0.055, 0.035], '#2B3A47', { grp:'prop', gloss:0.5 });
+        add('sphere', [sgn*0.375, py + 0.44, pz - 0.04], [0.194, 0.194, 0.163], '#C99A6B', { grp:'prop', gloss:0.2 });
+        add('sphere', [sgn*0.375, py + 0.44, pz + 0.10], [0.098, 0.098, 0.063], '#EAD3B8', { grp:'prop', gloss:0.15 });
+        add('sphere', [sgn*0.181, py + 0.125, pz + 0.363], [0.069, 0.069, 0.044], '#2B3A47', { grp:'prop', gloss:0.5 });
       });
-      add('sphere', [0, py - 0.09, pz + 0.28], [0.185, 0.145, 0.10], '#EAD3B8', { grp:'prop', gloss:0.15 });
-      add('sphere', [0, py - 0.04, pz + 0.36], [0.07, 0.05, 0.035], '#6B4A32', { grp:'prop', gloss:0.3 });
+      add('sphere', [0, py - 0.113, pz + 0.35], [0.231, 0.181, 0.125], '#EAD3B8', { grp:'prop', gloss:0.15 });
+      add('sphere', [0, py - 0.05, pz + 0.45], [0.088, 0.063, 0.044], '#6B4A32', { grp:'prop', gloss:0.3 });
     } else if (prop.id === 'coffee'){
       /* แก้วอยู่ในมือขวา ติดแท็ก armR เลยยกขึ้นลงตามแขนตอนจิบเอง */
       const hx = 1.24, hy = -0.40, hz = 0.24;
@@ -5802,21 +5838,9 @@ const HOME_SETS = WEAR.SETS.filter((s) => s.home);
   const L = WEAR.L;
   const LISTS = WEAR.LISTS;
 
-  const HEAD_ART =
-    '<rect x="33" y="14" width="34" height="19" rx="9.5" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>' +
-    '<circle cx="43" cy="23.5" r="2.6" fill="#2B3A47"/><circle cx="57" cy="23.5" r="2.6" fill="#2B3A47"/>' +
-    '<line x1="45.6" y1="23.5" x2="54.4" y2="23.5" stroke="#2B3A47" stroke-width="2.4"/>';
   const BODY_ART =
     '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>';
-
-  function thumb(cat, o){
-    if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
-    if (cat === 'item' || cat === 'prop')
-      return '<svg viewBox="14 31 72 44" aria-hidden="true">' +
-        (o.back ? o.svg + BODY_ART : BODY_ART + o.svg) + '</svg>';
-    const vb = cat === 'hat' ? '31 0 38 35' : '32 12 36 23';
-    return '<svg viewBox="' + vb + '" aria-hidden="true">' + HEAD_ART + o.svg + '</svg>';
-  }
+  const thumb = WEAR.thumb;
 
   const WEARABLE = ['hat','face','item','prop'];
   function label(){
@@ -6310,20 +6334,6 @@ const HOME_SETS = WEAR.SETS.filter((s) => s.home);
     .map((el, i) => ({ el, set:HOME_SETS[i] }))
     .filter((c) => c.set);
 
-  function partThumb(cat, o){
-    if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
-    if (cat === 'item' || cat === 'prop')
-      return '<svg viewBox="14 31 72 44">' +
-        (o.back ? o.svg + PBODY : PBODY + o.svg) + '</svg>';
-    return '<svg viewBox="' + (cat === 'hat' ? '31 0 38 35' : '32 12 36 23') + '">' + PHEAD + o.svg + '</svg>';
-  }
-  const PHEAD =
-    '<rect x="33" y="14" width="34" height="19" rx="9.5" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>' +
-    '<circle cx="43" cy="23.5" r="2.6" fill="#2B3A47"/><circle cx="57" cy="23.5" r="2.6" fill="#2B3A47"/>' +
-    '<line x1="45.6" y1="23.5" x2="54.4" y2="23.5" stroke="#2B3A47" stroke-width="2.4"/>';
-  const PBODY =
-    '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="var(--shell)" stroke="#2B3A47" stroke-width="2.6"/>';
-
   function paintSet(){
     cards.forEach((c, i) => {
       const set = c.set, q = (sel) => c.el.querySelector(sel);
@@ -6342,7 +6352,7 @@ const HOME_SETS = WEAR.SETS.filter((s) => s.home);
         const o = WEAR.pick(WEAR.LISTS[cat], set.look[cat]);
         const have = WEAR.has(cat, o.id);
         return '<div class="set-part' + (have ? '' : ' miss') + '">' +
-               '<span class="pthumbs">' + partThumb(cat, o) + '</span>' +
+               '<span class="pthumbs">' + WEAR.thumb(cat, o) + '</span>' +
                '<small>' + (have ? o.name : '???') + '</small></div>';
       }).join('');
 
