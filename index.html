@@ -5201,54 +5201,78 @@ const BOT3D = (function(){
     }
 
     /* ---- หมวก ----
-       หัวเขากว้าง (ครึ่งกว้าง ~0.66) แต่บาง (ครึ่งสูง ~0.36) หมวกต้องกว้างตาม
-       ไม่งั้นจะเหมือนวางหมวกกลม ๆ ไว้บนหัวเฉย ๆ ทุกใบเลยมีขอบรัดหัวด้วย */
+       หัวเป็นแคปซูลนอนแกน X : กว้าง ±0.655 สูง/ลึก ±0.355 ยอดหัวอยู่ที่ y 1.715
+       ก่อนหน้านี้ใส่รัศมีเป็นเลขตายตัวซึ่งแคบกว่าหัวจริง หมวกเลยจมเข้าไปข้างใน
+       ตอนนี้คิดจากผิวหัวจริงทั้งหมด — วงรัดหัวใช้ headAt() ของที่ปักบนหัวใช้ headTopAt() */
     if (hat.id !== 'none'){
       const c = colorOf(hat.svg, '#F0575F');
-      const HY = 1.36;
-      const crown = (col, h, up, g) =>
-        add('sphere', [0, HY + (up == null ? 0.12 : up), -0.02], [0.63, h || 0.34, 0.375], col,
+      const HY = 1.36, HR = 0.355, HHW = 0.30, HTOP = HY + HR;
+      /* หน้าตัดของหัวที่ความสูง y → [ครึ่งกว้าง, ครึ่งลึก] */
+      const headAt = (y) => {
+        const d = Math.min(0.995, Math.abs(y - HY) / HR), k = Math.sqrt(1 - d*d);
+        return [HHW + HR*k, HR*k];
+      };
+      /* ความสูงของผิวหัวตรงตำแหน่ง (x,z) — ใช้วางของให้นั่งบนหัวพอดี ไม่จม ไม่ลอย */
+      const headTopAt = (x, z) => {
+        const dx = Math.max(0, Math.abs(x) - HHW) / HR, dz = z / HR;
+        const k = 1 - dx*dx - dz*dz;
+        return k <= 0 ? HY : HY + HR*Math.sqrt(k);
+      };
+      /* โดมหมวก — ฐานอยู่ที่ y0 (กว้างเท่าหัวตรงนั้น) แล้วโค้งขึ้นไปคลุมยอดหัว */
+      const dome = (col, y0, lift, g) => {
+        const a2 = headAt(y0), h = (HTOP + (lift == null ? 0.05 : lift)) - y0;
+        add('sphere', [0, y0, 0.015], [a2[0] + 0.05, h, a2[1] + 0.05], col,
             { gloss:g == null ? 0.3 : g });
-      const brimRing = (col, y, w) =>
-        add('torus', [0, HY + (y == null ? 0.06 : y), -0.02], [0.615, w || 0.055, 0.365], col, { gloss:0.25 });
+      };
+      /* วงรัดหัว */
+      const hatRing = (col, y0, w, pad, g) => {
+        const a2 = headAt(y0);
+        add('torus', [0, y0, 0.015], [a2[0] + (pad == null ? 0.055 : pad), w || 0.06,
+            a2[1] + (pad == null ? 0.055 : pad)], col, { gloss:g == null ? 0.28 : g });
+      };
 
       if (hat.id === 'party'){
-        add('cone',   [0, HY + 0.28, 0], [0.30, 0.62, 0.30], c, { gloss:0.3 });
-        brimRing('#FFDE8A', 0.30, 0.05);
-        add('sphere', [0, HY + 0.96, 0], [0.10, 0.10, 0.10], '#FFDE8A', { gloss:0.5 });
+        const base = headTopAt(0, 0) - 0.05;
+        add('cone',   [0, base, 0.02], [0.30, 0.62, 0.30], c, { gloss:0.3 });
+        add('torus',  [0, base + 0.05, 0.02], [0.29, 0.045, 0.29], '#FFDE8A', { gloss:0.45 });
+        add('sphere', [0, base + 0.68, 0.02], [0.11, 0.11, 0.11], '#FFDE8A', { gloss:0.5 });
       } else if (hat.id === 'crown'){
+        hatRing(c, 1.57, 0.075, 0.06, 0.55);
         for (let k = 0; k < 7; k++){
-          const a2 = -Math.PI/2 + (k/6)*Math.PI;
-          add('cone', [Math.sin(a2)*0.50, HY + 0.28, Math.cos(a2)*0.28 - 0.02],
-              [0.075, 0.26, 0.075], c, { gloss:0.55 });
+          const t2 = k/6, ang = -1.15 + t2*2.30;
+          const px = Math.sin(ang)*0.46, pz = Math.cos(ang)*0.20 + 0.015;
+          add('cone', [px, headTopAt(px, pz) - 0.05, pz], [0.072, 0.27, 0.072], c, { gloss:0.55 });
         }
-        add('torus',  [0, HY + 0.28, -0.02], [0.50, 0.07, 0.30], c, { gloss:0.55 });
-        add('sphere', [0, HY + 0.34, 0.26], [0.07, 0.07, 0.05], '#F0575F', { gloss:0.5 });
+        add('sphere', [0, headTopAt(0, 0.22) - 0.02, 0.30], [0.07, 0.07, 0.05], '#F0575F', { gloss:0.5 });
       } else if (hat.id === 'nurse'){
-        add('sphere', [0, HY + 0.22, -0.02], [0.58, 0.20, 0.36], '#FDFEFF', { gloss:0.18 });
-        add('sphere', [0, HY + 0.30, 0.20], [0.19, 0.055, 0.10], '#F0575F', { gloss:0.3 });
-        add('sphere', [0, HY + 0.30, 0.20], [0.06, 0.165, 0.10], '#F0575F', { gloss:0.3 });
+        dome('#FDFEFF', 1.56, 0.02, 0.18);
+        hatRing('#FDFEFF', 1.56, 0.05, 0.05, 0.18);
+        const cy = headTopAt(0, 0.14) + 0.01;
+        add('sphere', [0, cy, 0.20], [0.155, 0.05, 0.09], '#F0575F', { gloss:0.3 });
+        add('sphere', [0, cy, 0.20], [0.05, 0.145, 0.09], '#F0575F', { gloss:0.3 });
       } else if (hat.id === 'beanie'){
-        crown(c, 0.40, 0.16, 0.16);
-        brimRing(c, 0.02, 0.085);
-        add('sphere', [0, HY + 0.62, -0.02], [0.135, 0.135, 0.135], c, { gloss:0.2 });
+        dome(c, 1.40, 0.16, 0.16);
+        hatRing(c, 1.40, 0.10, 0.06, 0.14);
+        add('sphere', [0, HTOP + 0.26, 0.015], [0.14, 0.14, 0.14], c, { gloss:0.2 });
       } else if (hat.id === 'armor'){
-        crown(c, 0.36, 0.14, 0.55);
-        brimRing('#8FA3BC', 0.02, 0.06);
-        add('sphere', [0, HY + 0.38, -0.03], [0.05, 0.22, 0.36], '#8FA3BC', { gloss:0.65 });
+        dome(c, 1.34, 0.07, 0.55);
+        hatRing('#8FA3BC', 1.34, 0.065, 0.06, 0.6);
+        add('sphere', [0, HTOP + 0.02, -0.04], [0.055, 0.24, 0.30], '#8FA3BC', { gloss:0.65 });
       } else if (hat.id === 'cap' || hat.id === 'shcap'){
-        crown(c, 0.33, 0.12);
-        brimRing(c, 0.00, 0.055);
-        add('sphere', [0, HY + 0.02, 0.42], [0.42, 0.05, 0.30], c, { gloss:0.28 });          // ปีกหมวก
+        dome(c, 1.47, 0.05);
+        hatRing(c, 1.47, 0.06, 0.06);
+        const a2 = headAt(1.47);
+        add('sphere', [0, 1.46, a2[1] + 0.24], [a2[0]*0.86, 0.05, 0.32], c, { gloss:0.28 });  // ปีกหมวก
         if (hat.id === 'shcap')
-          add('sphere', [0, HY + 0.22, 0.26], [0.07, 0.07, 0.045], '#FDFEFF', { gloss:0.4 });
+          add('sphere', [0, headTopAt(0, 0.20) - 0.02, 0.28], [0.075, 0.075, 0.05], '#FDFEFF', { gloss:0.4 });
       } else if (hat.id === 'helmet'){
-        crown(c, 0.40, 0.10, 0.45);
-        add('sphere', [0, HY + 0.14, -0.02], [0.13, 0.40, 0.385], '#F5F7FA', { gloss:0.55 });
-        brimRing('#2B3A47', -0.10, 0.05);
+        dome(c, 1.22, 0.07, 0.45);
+        add('sphere', [0, 1.22, 0.015], [0.135, (HTOP + 0.07) - 1.22, headAt(1.22)[1] + 0.06],
+            '#F5F7FA', { gloss:0.55 });                                                        // แถบกลางหมวก
+        hatRing('#2B3A47', 1.22, 0.055, 0.06, 0.4);
       } else {
-        crown(c, 0.34, 0.12);
-        brimRing(c, 0.02, 0.06);
+        dome(c, 1.38, 0.05);
+        hatRing(c, 1.38, 0.06, 0.06);
       }
     }
 
