@@ -4528,7 +4528,16 @@ const WEAR = (function(){
     { id:'amber',   name:'ส้มอบอุ่น',    c:'#F3C08A' },
     { id:'cocoa',   name:'โกโก้นม',      c:'#EAD3B8' },
     { id:'aurora',  name:'ออโรร่าพาสเทล', c:'#EFD9F4' },
-    { id:'graphite',name:'เทากราไฟต์',   c:'#D3D8E0' },
+    /* grad = ลายไล่สีสามชั้นบนตัว วาดในเชดเดอร์เลยเนียนไปกับผิวไม่มีขอบ
+       (ลองใช้ลูกกลมแต้มเป็นลายจุดแล้ว มันนูนขึ้นมาเป็นเม็ด ไม่ใช่ลายบนผิว)
+       sw = พื้นหลังปุ่มเลือกสี / svg = ลายของหุ่นสองมิติ ต้องไล่โทนให้ตรงกัน */
+    { id:'pastel',  name:'ขาวไล่สีพาสเทล', c:'#FDFBF4',
+      grad:['#FBCEDE', '#FDF4DC', '#CBE4FA'],
+      sw:'linear-gradient(0deg,#FBCEDE,#FDF4DC 50%,#CBE4FA)',
+      svg:'<defs><linearGradient id="shGrad" x1="0" y1="1" x2="0.18" y2="0">' +
+          '<stop offset="0" stop-color="#FBCEDE"/><stop offset="0.5" stop-color="#FDF4DC"/>' +
+          '<stop offset="1" stop-color="#CBE4FA"/></linearGradient></defs>' +
+          '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="url(#shGrad)" stroke="#2B3A47" stroke-width="2.6"/>' },
     { id:'sky',     name:'ฟ้าสะอาด',     c:'#CFE4F7' }
   ];
 
@@ -4661,12 +4670,13 @@ const WEAR = (function(){
       '<path d="M44 52c-.8 6 .6 9.5 6 9.5s6.8-3.5 6-9.5c-.5-3.5-2.6-5-6-5s-5.5 1.5-6 5z" fill="#F2B04A" stroke="#2B3A47" stroke-width="1.7"/>' +
       '<rect x="44.6" y="44.6" width="10.8" height="3.4" rx="1.7" fill="#EAD3B8" stroke="#2B3A47" stroke-width="1.4"/>' +
       '<path d="M47.5 54q2.5 2.4 5 0v3q-2.5 2-5 0z" fill="#FFDE8A"/>' },
-    { id:'neckpillow', name:'หมอนรองคอนุ่ม', svg:
-      '<path d="M34.5 41q2.5 11.5 12.5 13" fill="none" stroke="#2B3A47" stroke-width="11" stroke-linecap="round"/>' +
-      '<path d="M65.5 41q-2.5 11.5-12.5 13" fill="none" stroke="#2B3A47" stroke-width="11" stroke-linecap="round"/>' +
-      '<path d="M34.5 41q2.5 11.5 12.5 13" fill="none" stroke="#A9CCEA" stroke-width="8" stroke-linecap="round"/>' +
-      '<path d="M65.5 41q-2.5 11.5-12.5 13" fill="none" stroke="#A9CCEA" stroke-width="8" stroke-linecap="round"/>' +
-      '<path d="M37.5 44.5q1.4 6 6.5 8M62.5 44.5q-1.4 6-6.5 8" fill="none" stroke="#CFE8F6" stroke-width="2" stroke-linecap="round"/>' },
+    { id:'scarf', name:'ผ้าพันคอถัก', svg:
+      '<path d="M33.5 40.5q16.5 9 33 0" fill="none" stroke="#2B3A47" stroke-width="12" stroke-linecap="round"/>' +
+      '<path d="M33.5 40.5q16.5 9 33 0" fill="none" stroke="#6FC2A8" stroke-width="9" stroke-linecap="round"/>' +
+      '<path d="M42 47.5C40 57 39.5 66 41 74" fill="none" stroke="#2B3A47" stroke-width="10" stroke-linecap="round"/>' +
+      '<path d="M42 47.5C40 57 39.5 66 41 74" fill="none" stroke="#5FB198" stroke-width="7" stroke-linecap="round"/>' +
+      '<path d="M37.5 77.5v4M41 78.5v4M44.5 77.5v4" stroke="#FDF6EC" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path d="M35.5 44h4M60.5 44h4" stroke="#4E9B84" stroke-width="1.8" stroke-linecap="round"/>' },
     { id:'gloves', name:'ถุงมือยาง', arms:true, vb:'13 60 74 46', svg:
       '<circle cx="22" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<circle cx="78" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
@@ -4725,8 +4735,8 @@ const WEAR = (function(){
       note:'เซ็ตของลับห้าชิ้น มีเครื่องดูดฝุ่นไร้สายเป็นของใช้ประจำตัว ใส่ครบเมื่อไหร่เขาจะกวาดทั้งวอร์ดเสร็จก่อนคุณตื่น',
       look:{ shell:'sky', hat:'maidband', face:'bubbles', item:'gloves', prop:'vacuum' } },
     { id:'dev', name:'ชุดนักพัฒนากะดึก', badge:'LEGEND SET', home:true,
-      note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังนุ่มครอบหู แว่นบลูไลต์ หมอนรองคอ และเป็ดยางไว้เล่าบั๊กให้ฟังตอนตีสาม',
-      look:{ shell:'graphite', hat:'headset', face:'bluelight', item:'neckpillow', prop:'duck' } },
+      note:'เซ็ตตำนานห้าชิ้นของสายโค้ด หูฟังนุ่มครอบหู แว่นบลูไลต์ ผ้าพันคอถัก และเป็ดยางไว้เล่าบั๊กให้ฟังตอนตีสาม',
+      look:{ shell:'pastel', hat:'headset', face:'bluelight', item:'scarf', prop:'duck' } },
     { id:'uni', name:'ชุดยูนิคอร์นสายรุ้ง', badge:'SECRET SET',
       note:'เซ็ตของลับจากความฝันวัยเด็ก เขาทอง แผงคอพาสเทล ดาวติดแก้ม และปีกเมฆนุ่ม ครบสี่ชิ้นเมื่อไหร่เขาจะพาเดินเล่นบนรุ้ง',
       look:{ shell:'aurora', hat:'unihorn', face:'starcheek', item:'cloudwing' } },
@@ -4763,7 +4773,7 @@ const WEAR = (function(){
     /* ชุดยูนิคอร์นสายรุ้ง — ของลับทั้งเซ็ต */
     'shell:aurora':'secret',  'hat:unihorn':'secret',   'face:starcheek':'secret', 'item:cloudwing':'secret',
     /* ชุดนักพัฒนากะดึก — ตำนานทั้งเซ็ต */
-    'shell:graphite':'legend','hat:headset':'legend',   'face:bluelight':'legend', 'item:neckpillow':'legend',
+    'shell:pastel':'legend',  'hat:headset':'legend',   'face:bluelight':'legend', 'item:scarf':'legend',
     'prop:duck':'legend',
     /* ชุดแม่บ้านสายฟ้า — ของลับทั้งเซ็ต */
     'shell:sky':'secret',     'hat:maidband':'secret',  'face:bubbles':'secret',   'item:gloves':'secret',
@@ -4801,10 +4811,10 @@ const WEAR = (function(){
     'item:cloudwing':'ปีกเมฆคู่นี้ไม่ได้ทำให้ผมบินได้ครับ แต่เวลาเด็ก ๆ เห็นแล้วตะโกนว่าผมลอยสวยมาก ผมถือว่ามันทำหน้าที่ของปีกครบถ้วนแล้ว',
     'prop:plush':'ตุ๊กตาหมีตัวนี้เจ้าของเดิมฝากไว้ก่อนย้ายวอร์ดครับ เขาบอกว่าให้ผมกอดแทนไปก่อน เผื่อมีเด็กคนไหนต้องการมันมากกว่า ตอนนี้มันถูกกอดต่อมาแล้วสิบเอ็ดคน',
     'prop:coffee':'แก้วนี้ไม่มีกาแฟจริงครับ ผมดื่มไม่ได้อยู่แล้ว แต่หมอเวรดึกบอกว่าเห็นผมถือแก้วแล้วรู้สึกว่ามีเพื่อนตื่นอยู่ด้วย ผมเลยถือไว้ทุกกะดึกตั้งแต่นั้น',
-    'shell:graphite':'สีนี้ทีมวิศวกรเลือกเองครับ เขาบอกว่าอยากได้สีเดียวกับฝาเครื่องที่ใช้เขียนโปรแกรมผมขึ้นมา ผมเลยได้ใส่สีของบ้านเกิดตัวเอง',
+    'shell:pastel':'ลายไล่สีนี้ทีมวิศวกรพ่นให้ตอนตีสี่ครับ เขาบอกว่าอยากได้สีของฟ้าตอนกำลังจะสาง เพราะเป็นสีที่พวกเขาเห็นบ่อยที่สุดในปีนั้น',
     'hat:headset':'หูฟังคู่นี้กันเสียงได้ดีมากครับ แต่ผมตั้งค่าให้เสียงเรียกพยาบาลลอดผ่านได้เสมอ เพราะมีเสียงเดียวที่ผมไม่ยอมพลาด',
     'face:bluelight':'แว่นกรองแสงสีฟ้าครับ ผมไม่มีดวงตาที่ล้าได้ แต่คนที่นั่งทำงานข้างผมมี พอเขาเห็นผมใส่ เขาก็ยอมใส่ของเขาบ้าง',
-    'item:neckpillow':'หมอนรองคอครับ พี่เขาซื้อมาให้ตอนผมยืนเฝ้าจอทั้งคืนเป็นคืนที่เก้า บอกว่า "ถึงนายไม่เมื่อยก็ใส่ไว้เถอะ ฉันจะได้ไม่เมื่อยแทน"',
+    'item:scarf':'ผ้าพันคอผืนนี้เจ้าของโต๊ะข้าง ๆ ถักเองครับ เขาถักตอนรอโค้ดคอมไพล์ ใช้เวลาสี่เดือน ผมคำนวณแล้วว่าถ้าคอมไพล์เร็วกว่านี้ผมคงไม่ได้ผืนนี้',
     'prop:duck':'เป็ดยางประจำโต๊ะครับ เวลาโค้ดพัง เขาจะเล่าให้เป็ดฟังทีละบรรทัดจนเจอที่ผิดเอง ผมยังไม่เข้าใจว่าเป็ดช่วยยังไง แต่ผมจดสถิติไว้แล้ว มันได้ผลสิบเอ็ดครั้งจากสิบสาม',
     'shell:sky':'สีฟ้าสะอาดจากป้ายห้องเก็บของชั้นล่างครับ แม่บ้านประจำตึกบอกว่าถ้าจะมาช่วยเธอทำความสะอาด ก็ต้องใส่สีประจำหน่วยให้ถูก ผมจึงเปลี่ยนสีทั้งตัว',
     'hat:maidband':'ที่คาดผมลูกไม้ของพี่แม่บ้านครับ วันเกษียณเธอวางไว้บนหัวผมแล้วบอกว่า "ฝากวอร์ดนี้ด้วยนะ" ผมยังไม่ได้ถอดออกเลยสักวันเดียว',
@@ -4871,6 +4881,9 @@ const WEAR = (function(){
     }
     // หุ่นมาตรฐาน — ยัดเข้าไปในกลุ่มหัว/ตัว ของจะได้ขยับตามท่าทางไปด้วย
     const head = svg.querySelector('.head'), torso = svg.querySelector('.torso');
+    // ลวดลายของสีเปลือกอยู่ชั้นล่างสุดของลำตัว ของประดับต้องทับลายได้
+    const sh = pick(SHELLS, K.shell);
+    if (sh.svg && torso) put(torso, frag('<g class="wear">' + sh.svg + '</g>'), false);
     if (head && onHead) head.appendChild(frag('<g class="wear">' + onHead + '</g>'));
     if (it.svg){
       // ของที่ต้องอยู่ข้างหลัง ไปไว้หลังสุดของทั้งตัว ไม่งั้นมันจะทับแขน
@@ -4899,7 +4912,7 @@ const WEAR = (function(){
   const T_VB = '13 33 74 46';
 
   function thumb(cat, o){
-    if (cat === 'shell') return '<span class="wsw" style="background:' + o.c + '"></span>';
+    if (cat === 'shell') return '<span class="wsw" style="background:' + (o.sw || o.c) + '"></span>';
     if (cat === 'item' || cat === 'prop'){
       const body = o.arms ? T_ARM_L + T_BODY + T_ARM_R : T_BODY;
       return '<svg viewBox="' + (o.vb || T_VB) + '" aria-hidden="true">' +
@@ -4942,7 +4955,8 @@ const WEAR = (function(){
     /* เซ็ตแม่บ้านเปลี่ยนดีไซน์หมวกกับของบนหน้าใหม่ id เลยเปลี่ยนตาม
        ต้องย้ายสิทธิ์ของเก่ามาให้ก่อนอ่านลุค ไม่งั้นคนที่เคยเปิดได้แล้วจะเห็นมันกลับไปล็อก */
     const RENAMED = { hat:{ bandana:'maidband' }, face:{ dustmask:'bubbles' },
-                      item:{ lanyard:'neckpillow' }, prop:{ macbook:'duck' } };
+                      shell:{ graphite:'pastel', mint:'pastel', dotty:'pastel' }, prop:{ macbook:'duck' },
+                      item:{ lanyard:'scarf', neckpillow:'scarf', coat:'scarf' } };
     Object.keys(RENAMED).forEach((cat) => Object.keys(RENAMED[cat]).forEach((old) => {
       const nu = RENAMED[cat][old];
       if (owned.delete(key(cat, old))){ owned.add(key(cat, nu)); saveOwned(); }
@@ -5161,7 +5175,7 @@ const BOT3D = (function(){
   const FS = [
     'precision mediump float;',
     'varying vec3 vN, vP;',
-    'uniform vec3 uCol, uEye; uniform float uGloss;',
+    'uniform vec3 uCol, uCol2, uCol3, uEye; uniform float uGloss, uGrad;',
     'void main(){',
     '  vec3 N = normalize(vN);',
     '  vec3 L = normalize(vec3(-0.42, 0.86, 0.72));',
@@ -5169,8 +5183,15 @@ const BOT3D = (function(){
     '  float d = pow(dot(N,L)*0.5+0.5, 1.45);',            // half-lambert นุ่ม ๆ แบบของเล่น
     '  float rim = pow(1.0 - max(dot(N,V),0.0), 2.8);',
     '  float spec = pow(max(dot(N, normalize(L+V)), 0.0), 46.0) * uGloss;',
-    '  vec3 c = uCol * (0.32 + 0.82*d);',
-    '  c += uCol * max(-N.y, 0.0) * 0.12;',                 // แสงสะท้อนจากพื้น
+    /* ลายบนตัวไล่สีไปตามความสูง (เอียงตาม x นิดหน่อยจะได้ไม่เป็นแถบขวางตรง ๆ)
+       คิดจากพิกัดโลก ลายเลยต่อเนื่องข้ามหัว แขน ขา เป็นผืนเดียวกันแบบไร้รอยต่อ */
+    '  vec3 base = uCol;',
+    '  if (uGrad > 0.5){',
+    '    float t = clamp((vP.y + 0.30*vP.x + 1.85) / 3.60, 0.0, 1.0);',
+    '    base = t < 0.5 ? mix(uCol, uCol2, t*2.0) : mix(uCol2, uCol3, (t - 0.5)*2.0);',
+    '  }',
+    '  vec3 c = base * (0.32 + 0.82*d);',
+    '  c += base * max(-N.y, 0.0) * 0.12;',                 // แสงสะท้อนจากพื้น
     '  c += vec3(0.62,0.70,0.82) * rim * 0.30;',
     '  c += vec3(spec);',
     '  gl_FragColor = vec4(c, 1.0);',
@@ -5276,7 +5297,8 @@ const BOT3D = (function(){
   }
 
   function parts(look){
-    const shell = WEAR.pick(WEAR.SHELLS, look.shell).c;
+    const shellO = WEAR.pick(WEAR.SHELLS, look.shell);
+    const shell = shellO.c;
     const hat   = WEAR.pick(WEAR.HATS,  look.hat);
     const face  = WEAR.pick(WEAR.FACES, look.face);
     const item  = WEAR.pick(WEAR.ITEMS, look.item);
@@ -5290,19 +5312,24 @@ const BOT3D = (function(){
     };
     const add = (mesh, pos, scale, color, o) => P.push({
       mesh, pos, scale, color, rot: (o && o.rot) || [0,0,0],
-      grp: (o && o.grp) || null, eye: !!(o && o.eye),
+      grp: (o && o.grp) || null, eye: !!(o && o.eye), grad: (o && o.grad) || null,
       gloss: (o && o.gloss != null) ? o.gloss : 0.22 });
 
     /* ลำตัว หัว แขน ขา (เงาที่พื้นทำด้วย CSS ข้างหลัง canvas จะได้ฟุ้งนุ่มกว่า) */
-    add('sphere',  [0, 0, 0],        [1.00, 1.14, 0.93], shell);
-    add('capsule', [0, 1.36, 0.03],  [0.355, 0.30, 0.355], shell, { rot:[0, 0, Math.PI/2], grp:'head' });
-    add('sphere',  [0, -0.12, 0.86], [0.21, 0.15, 0.10], shell === '#FDFEFF' ? '#F1F5FA' : shell, { gloss:0.06 });
+    /* ชิ้นที่เป็นสีเปลือกส่ง grad ไปด้วย ถ้าสีนั้นมีลายไล่สี เชดเดอร์จะไล่ให้เอง
+       ลายคิดจากพิกัดโลก เลยต่อเนื่องข้ามหัว แขน ขา เป็นผืนเดียวไม่มีรอยต่อ */
+    const G = shellO.grad ? { grad:shellO.grad } : null;
+    const gp = (o) => Object.assign({}, o, G);
+    add('sphere',  [0, 0, 0],        [1.00, 1.14, 0.93], shell, gp());
+    add('capsule', [0, 1.36, 0.03],  [0.355, 0.30, 0.355], shell, gp({ rot:[0, 0, Math.PI/2], grp:'head' }));
+    add('sphere',  [0, -0.12, 0.86], [0.21, 0.15, 0.10],
+        shellO.grad ? tone(shellO.grad[1], 0.95) : (shell === '#FDFEFF' ? '#F1F5FA' : shell), { gloss:0.06 });
     [-1, 1].forEach((s) => {
       const g = s < 0 ? 'armL' : 'armR';
-      add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, { rot:[0, 0, s*0.28], grp:g });
-      add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell, { grp:g });
-      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell);
-      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell);
+      add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, gp({ rot:[0, 0, s*0.28], grp:g }));
+      add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell, gp({ grp:g }));
+      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell, gp());
+      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell, gp());
     });
 
     /* หน้า — ตาสองเม็ดกับขีดกลาง ต้องโผล่พ้นผิวหัว ไม่งั้นจมหายไปข้างใน */
@@ -5541,16 +5568,30 @@ const BOT3D = (function(){
         add('sphere', [1.02, -0.62, -0.44], [0.31, 0.31, 0.26], '#D9853F', { rot:[0, 0, -0.4], gloss:0.2 });
         add('sphere', [1.22, -0.20, -0.45], [0.27, 0.31, 0.23], '#D9853F', { rot:[0, 0, -0.6], gloss:0.2 });
         add('sphere', [1.30, 0.18, -0.44], [0.22, 0.24, 0.20], '#FDF6EC', { gloss:0.25 });
-      } else if (item.id === 'neckpillow'){
-        /* หมอนรองคอทรงเกือกม้า วางรอบคอแต่เว้นช่องด้านหน้าไว้ ไม่ใช่โดนัทปิดรอบ
-           ปั้นจากลูกกลมสิบลูกเรียงตามวงคอ ระยะห่างน้อยกว่ารัศมีลูก ผิวเลยกลืนเป็นก้อนเดียว */
-        (function(){ const R = ringAt(0.90, 0.05), N = 14;
-          for (let i = 0; i < N; i++){
-            const a = 0.72 + i*(2*Math.PI - 1.44)/(N - 1);
-            add('sphere', [Math.sin(a)*R[0], 0.90 + Math.cos(a)*0.05, Math.cos(a)*R[2]],
-                [0.205, 0.185, 0.205], c, { gloss:0.2 });
+      } else if (item.id === 'scarf'){
+        /* ผ้าพันคอ: ห่วงพันรอบคอ + ชายผ้าห้อยลงมาหน้าอกข้างหนึ่ง + พู่ปลายผ้า
+           ชายผ้าเดินตามผิวลำตัวจริง แต่ละท่อนหันตามทิศสามมิติ (ไม่ใช่หมุนแค่แกน Z)
+           ไม่งั้นรอยต่อจะเป็นสันขั้นบันไดตอนไล่ระดับ z ตามความโค้งของตัว */
+        (function(){ const R = ringAt(0.92, 0.055);
+          add('torus', [0, 0.92, 0.01], [R[0], 0.125/0.16, R[2]], c, { gloss:0.2 }); })();
+        const skin = (x, y) => 0.93*Math.sqrt(Math.max(0.05, 1 - x*x - (y/1.14)*(y/1.14)));
+        [[0.20, 0.80, 0.36, -0.16, 4], [-0.24, 0.80, -0.32, 0.20, 2]].forEach((e) => {
+          const at = (t) => { const x = e[0] + (e[2] - e[0])*t, y = e[1] + (e[3] - e[1])*t;
+            return [x, y, skin(Math.abs(x), y) + 0.045]; };
+          for (let i = 0; i < e[4]; i++){
+            const p0 = at(i/e[4]), p1 = at((i + 1)/e[4]);
+            const d = [p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]];
+            const len = Math.hypot(d[0], d[1], d[2]);
+            add('capsule', [(p0[0] + p1[0])/2, (p0[1] + p1[1])/2, (p0[2] + p1[2])/2],
+                [0.155, len/2.6, 0.068], tone(c, 0.92),
+                { rot:[Math.atan2(d[2], d[1]), 0, Math.asin(-d[0]/len)], gloss:0.2 });
           }
-        })();
+          /* พู่ปลายผ้าสามเส้น */
+          const tip = at(1);
+          [-1, 0, 1].forEach((j) =>
+            add('capsule', [tip[0] + j*0.075, tip[1] - 0.10, tip[2]], [0.028, 0.045, 0.028],
+                '#FDF6EC', { gloss:0.18 }));
+        });
       } else if (item.id === 'gloves'){
         /* ครอบทับมือทั้งสองข้าง ติดแท็กกลุ่มแขนเลยขยับตามแขนไปด้วย */
         [-1, 1].forEach((sgn) => {
@@ -5660,7 +5701,8 @@ const BOT3D = (function(){
 
     const A = { pos: gl.getAttribLocation(prog,'aPos'), nor: gl.getAttribLocation(prog,'aNor') };
     const U = {};
-    ['uMVP','uModel','uNor','uCol','uEye','uGloss'].forEach((k) => U[k] = gl.getUniformLocation(prog, k));
+    ['uMVP','uModel','uNor','uCol','uCol2','uCol3','uEye','uGloss','uGrad']
+      .forEach((k) => U[k] = gl.getUniformLocation(prog, k));
     gl.enableVertexAttribArray(A.pos); gl.enableVertexAttribArray(A.nor);
 
     const bufs = {};
@@ -5760,7 +5802,12 @@ const BOT3D = (function(){
         gl.uniformMatrix4fv(U.uMVP, false, mul(vp, model));
         gl.uniformMatrix4fv(U.uModel, false, model);
         gl.uniformMatrix3fv(U.uNor, false, normalMat(model));
-        gl.uniform3fv(U.uCol, hex(part.color));
+        if (part.grad){
+          gl.uniform3fv(U.uCol,  hex(part.grad[0]));
+          gl.uniform3fv(U.uCol2, hex(part.grad[1]));
+          gl.uniform3fv(U.uCol3, hex(part.grad[2]));
+        } else gl.uniform3fv(U.uCol, hex(part.color));
+        gl.uniform1f(U.uGrad, part.grad ? 1 : 0);
         gl.uniform1f(U.uGloss, part.gloss);
         gl.drawElements(gl.TRIANGLES, b.count, gl.UNSIGNED_SHORT, 0);
       }
