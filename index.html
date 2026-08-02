@@ -352,8 +352,14 @@
   .pop{position:absolute;font-family:var(--mono);font-size:12px;color:var(--mint);font-weight:500;
     transform:translate(-50%,-50%);animation:popUp .75s ease-out forwards}
   @keyframes popUp{to{transform:translate(-50%,-190%);opacity:0}}
-  .overlay{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:2px;
-    background:rgba(240,245,249,.84);backdrop-filter:blur(3px);padding:24px;z-index:5}
+  /* จัดกึ่งกลางแบบ "ปลอดภัย" — ถ้าเนื้อหาสูงกว่ากรอบ (จอเตี้ย หรือผู้ใช้ตั้งตัวอักษรใหญ่)
+     ต้องเลื่อนดูได้และปุ่มต้องกดถึงเสมอ ไม่ใช่โดนตัดหายไปนอกกรอบ */
+  .overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    text-align:center;gap:2px;overflow-y:auto;overscroll-behavior:contain;
+    background:rgba(240,245,249,.84);backdrop-filter:blur(3px);padding:18px 20px;z-index:5}
+  .overlay::before{content:'';margin-top:auto}
+  .overlay::after{content:'';margin-bottom:auto}
+  .overlay > *{flex:none;max-width:100%}
   .overlay[hidden]{display:none}
   .overlay h3{font-family:var(--display);font-weight:700;font-size:22px;margin:0}
   .overlay p{margin:6px auto 8px;font-size:14px;color:var(--ink-soft);max-width:28ch}
@@ -740,6 +746,32 @@
   .wstage svg{width:min(100%,235px);height:auto;overflow:visible}
   .wstage .torso{animation:breathe 3.6s ease-in-out infinite;transform-origin:50px 108px}
   .wstage .head{transform-origin:50px 33px;animation:wNod 6s ease-in-out infinite}
+
+  /* ============ หุ่นตัวใหญ่แบบตุ๊กตานุ่ม ๆ ============
+     ไล่แสงเงาทับบนตัว ไม่ได้แตะ fill เดิม สีเปลือกจากตู้เสื้อผ้าเลยยังคุมได้เหมือนเดิม */
+  .plush{filter:drop-shadow(0 16px 20px rgba(43,58,71,.16));overflow:visible}
+  .plush .all{animation:plFloat 5.2s ease-in-out infinite;transform-origin:50px 118px}
+  @keyframes plFloat{0%,100%{transform:translateY(0) scale(1,1)}
+    45%{transform:translateY(-2.2px) scale(.995,1.008)}}
+  /* multiply สร้างมิติได้กับเปลือกสีอ่อน ส่วนไฮไลต์ขาวธรรมดาไว้ช่วยตอนเปลือกสีเข้ม
+     ใช้คู่กันเลยได้ทรงนูน ๆ เหมือนตุ๊กตายางไม่ว่าจะเปลี่ยนสีเป็นอะไร */
+  /* ถ้าเบราว์เซอร์ผสมสีไม่ได้ ซ่อนชั้นแสงเงาไปเลย ดีกว่าโผล่เป็นคราบเทา ๆ */
+  .plush .pl-lit{display:none;pointer-events:none}
+  @supports (mix-blend-mode:multiply){ .plush .pl-lit{display:block} }
+  .plush .pl-shade{mix-blend-mode:multiply;opacity:.9}
+  .plush .pl-light{mix-blend-mode:normal;opacity:.42}
+  .plush .pl-spec{fill:#fff;opacity:.72}
+  /* ลากเส้นแขนขาซ้ำแบบเลื่อนลงขวานิดหน่อย ได้เงาโค้งใต้ท่อ แขนขาเลยดูกลมไม่แบน */
+  .plush .pl-limb{mix-blend-mode:multiply;opacity:.34}
+  .plush .pl-limb path{fill:none;stroke:#8FA3BC;stroke-linecap:round}
+  .plush .pl-limb .lb{stroke-width:5.5;transform:translate(1.8px,1.4px)}
+  .plush .pl-limb .lg{stroke-width:7.5;transform:translate(2px,.6px)}
+  .plush .pl-floor{animation:plFloorPulse 5.2s ease-in-out infinite}
+  @keyframes plFloorPulse{0%,100%{opacity:1;transform:scale(1)}45%{opacity:.82;transform:scale(.94)}}
+  .plush .pl-floor{transform-origin:50px 119px}
+  /* soft-light ทำให้ไฮไลต์บนเปลือกสีอ่อนจางไป เลยแยกดวงสะท้อนออกมาทับปกติ */
+  .plush .pl-spec{mix-blend-mode:normal}
+  @media (prefers-reduced-motion:reduce){ .plush .all,.plush .pl-floor{animation:none} }
   @keyframes wNod{0%,84%,100%{transform:rotate(0)}90%{transform:rotate(-5deg)}95%{transform:rotate(3deg)}}
   .wtag{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.13em;
     text-transform:uppercase;color:var(--ink-soft);line-height:1.6}
@@ -999,7 +1031,7 @@
   .bsfield .gd-hp{top:14px;left:12px;max-width:24%}
   .bsfield .gd-hp i{border-color:#5A6172}
 
-  .bs-boss{position:absolute;left:50%;top:22%;width:15%;transform:translate(-50%,-50%);z-index:3;
+  .bs-boss{position:absolute;left:50%;top:22%;width:17%;transform:translate(-50%,-50%);z-index:3;
     pointer-events:none}
   .bs-boss svg{width:100%;height:auto;display:block;filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
   .bs-boss .bsbody{animation:bossFloat 3.4s ease-in-out infinite;transform-origin:50px 80px}
@@ -1261,6 +1293,12 @@
     .bskill{padding:10px 10px;gap:7px;border-radius:14px}
     .bskill .sk-t{font-size:12.5px}
     .brow2 .hint{font-size:12.5px;line-height:1.55}
+    /* กรอบเกมบนมือถือเตี้ย — ย่อข้อความในหน้าจบให้ปุ่มไม่ถูกดันตกกรอบ */
+    .overlay{padding:14px 16px}
+    .overlay h3{font-size:19px}
+    .overlay p{font-size:13px;margin:4px auto 6px;max-width:30ch}
+    .overlay .final{font-size:34px}
+    .lowbatt{margin-bottom:10px;font-size:12.5px}
     /* จอแคบ (Samsung หลายรุ่นกว้าง 360 หรือย่อลงอีกถ้าตั้งขนาดจอใหญ่)
        — บีบการ์ดคะแนนให้อยู่ในแถวเดียวได้โดยไม่ตกขอบ */
     .brow2 .scores{gap:6px}
@@ -1322,7 +1360,34 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs><clipPath id="clipTorso">
     <path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
-  </clipPath></defs>
+  </clipPath>
+
+  <!-- ชั้นแสงเงาสำหรับหุ่นตัวใหญ่ในหน้าแรกกับหน้าแต่งตัว
+       ทำให้ดูเป็นตุ๊กตานุ่ม ๆ สามมิติ โดยไม่แตะสีเปลือกที่ตู้เสื้อผ้าคุมอยู่ -->
+  <clipPath id="plTorso">
+    <path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/>
+  </clipPath>
+  <clipPath id="plHead"><rect x="33" y="14" width="34" height="19" rx="9.5"/></clipPath>
+  <radialGradient id="plLite" cx="34%" cy="24%" r="64%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+    <stop offset="42%" stop-color="#fff" stop-opacity=".30"/>
+    <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="plShade" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#8FA3BC" stop-opacity=".78"/>
+    <stop offset="55%" stop-color="#A9BACE" stop-opacity=".34"/>
+    <stop offset="100%" stop-color="#C6D3E0" stop-opacity="0"/>
+  </radialGradient>
+  <radialGradient id="plRim" cx="50%" cy="50%" r="50%">
+    <stop offset="82%" stop-color="#B9C9DA" stop-opacity="0"/>
+    <stop offset="100%" stop-color="#8FA3BC" stop-opacity=".45"/>
+  </radialGradient>
+  <radialGradient id="plFloor" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#41566A" stop-opacity=".34"/>
+    <stop offset="60%" stop-color="#41566A" stop-opacity=".12"/>
+    <stop offset="100%" stop-color="#41566A" stop-opacity="0"/>
+  </radialGradient>
+  </defs>
 </svg>
 
 <!-- ===================== หน้าลงทะเบียน ===================== -->
@@ -1395,13 +1460,37 @@
     <div class="lhero">
       <div class="lstage">
         <div class="lglow"></div>
-        <svg class="lbot" data-bot viewBox="-10 0 120 126" role="img" aria-label="Baymax ในลุคปัจจุบัน">
+        <svg class="lbot plush" data-bot viewBox="-10 0 120 126" role="img" aria-label="Baymax ในลุคปัจจุบัน">
+          <ellipse class="pl-floor" cx="50" cy="119" rx="31" ry="6" fill="url(#plFloor)"/>
           <g class="all">
             <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
             <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
             <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
             <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
             <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+            <g class="pl-lit" aria-hidden="true">
+              <g class="pl-shade" clip-path="url(#plTorso)">
+                <ellipse cx="72" cy="92" rx="33" ry="30" fill="url(#plShade)"/>
+                <ellipse cx="50" cy="116" rx="33" ry="17" fill="url(#plShade)"/>
+                <ellipse cx="50" cy="31" rx="27" ry="10" fill="url(#plShade)"/>
+                <ellipse cx="50" cy="71" rx="31" ry="38" fill="url(#plRim)"/>
+              </g>
+              <g class="pl-shade" clip-path="url(#plHead)">
+                <ellipse cx="59" cy="35" rx="19" ry="8" fill="url(#plShade)"/>
+              </g>
+              <g class="pl-light" clip-path="url(#plTorso)">
+                <ellipse cx="35" cy="52" rx="25" ry="23" fill="url(#plLite)"/>
+              </g>
+              <g class="pl-light" clip-path="url(#plHead)">
+                <ellipse cx="43" cy="16.5" rx="12" ry="5" fill="url(#plLite)"/>
+              </g>
+              <g class="pl-limb">
+                <path class="lb" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/>
+                <path class="lb" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/>
+                <path class="lg" d="M41 102v13"/><path class="lg" d="M59 102v13"/>
+              </g>
+              <ellipse class="pl-spec" cx="40" cy="17.6" rx="4.2" ry="2.3" transform="rotate(-10 40 17.6)"/>
+            </g>
           </g>
         </svg>
       </div>
@@ -1916,9 +2005,9 @@
           <div class="kpi"><b id="gdKills">0</b><span>Kills</span></div>
           <div class="kpi"><b id="gdWave">1</b><span>Wave</span></div>
           <div class="kpi"><b id="gdCells">5/5</b><span>Cells</span></div>
-          <div class="kpi"><b id="gdUnitCount">0/8</b><span>Baymax</span></div>
+          <div class="kpi"><b id="gdUnitCount">0/10</b><span>Baymax</span></div>
         </div>
-        <p class="hint" style="flex:1;min-width:220px">วางหนึ่งตัวใช้หนึ่งเซลล์ เซลล์เติมเองช้า ๆ · เขาจะยันอยู่แถวจุดที่วาง ไม่ไล่ข้ามสนาม เลือกตำแหน่งให้ดี · แต่ละเวฟมาจากทิศต่างกัน · ม่วงหนาสุด แดงชนสามที เหลืองเร็ว · หัวใจโดนหกครั้งจบ</p>
+        <p class="hint" style="flex:1;min-width:220px">วางหนึ่งตัวใช้หนึ่งเซลล์ เซลล์เติมไวขึ้นทุกเวฟ และ Baymax แกร่งขึ้นทุกสี่เวฟ · เขาจะยันอยู่แถวจุดที่วาง ไม่ไล่ข้ามสนาม เลือกตำแหน่งให้ดี · แต่ละเวฟมาจากทิศต่างกัน · ม่วงหนาสุด แดงชนสามที เหลืองเร็ว</p>
       </div>
     </div>
   </section>
@@ -1957,13 +2046,37 @@
 
     <div class="wcard card" id="wDress">
       <div class="wstage">
-        <svg data-bot viewBox="-10 0 120 126" aria-label="ตัวอย่างลุคของ Baymax" role="img">
+        <svg class="plush" data-bot viewBox="-10 0 120 126" aria-label="ตัวอย่างลุคของ Baymax" role="img">
+          <ellipse class="pl-floor" cx="50" cy="119" rx="31" ry="6" fill="url(#plFloor)"/>
           <g class="all">
             <g class="legs"><path class="leg-out" d="M41 102v13"/><path class="leg-in" d="M41 102v13"/><path class="leg-out" d="M59 102v13"/><path class="leg-in" d="M59 102v13"/></g>
             <g class="arm arm-l"><path class="limb-out" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/><path class="limb-in" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/></g>
             <g class="torso"><path class="body-sh" d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z"/><rect class="belly" x="41" y="58" width="18" height="13" rx="4"/></g>
             <g class="arm arm-r"><path class="limb-out" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/><path class="limb-in" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/></g>
             <g class="head"><rect class="body-sh" x="33" y="14" width="34" height="19" rx="9.5"/><circle class="eye" cx="43" cy="23.5" r="2.6"/><circle class="eye" cx="57" cy="23.5" r="2.6"/><line class="brow" x1="45.6" y1="23.5" x2="54.4" y2="23.5"/></g>
+            <g class="pl-lit" aria-hidden="true">
+              <g class="pl-shade" clip-path="url(#plTorso)">
+                <ellipse cx="72" cy="92" rx="33" ry="30" fill="url(#plShade)"/>
+                <ellipse cx="50" cy="116" rx="33" ry="17" fill="url(#plShade)"/>
+                <ellipse cx="50" cy="31" rx="27" ry="10" fill="url(#plShade)"/>
+                <ellipse cx="50" cy="71" rx="31" ry="38" fill="url(#plRim)"/>
+              </g>
+              <g class="pl-shade" clip-path="url(#plHead)">
+                <ellipse cx="59" cy="35" rx="19" ry="8" fill="url(#plShade)"/>
+              </g>
+              <g class="pl-light" clip-path="url(#plTorso)">
+                <ellipse cx="35" cy="52" rx="25" ry="23" fill="url(#plLite)"/>
+              </g>
+              <g class="pl-light" clip-path="url(#plHead)">
+                <ellipse cx="43" cy="16.5" rx="12" ry="5" fill="url(#plLite)"/>
+              </g>
+              <g class="pl-limb">
+                <path class="lb" d="M30 56C20 62 16 74 18 84c1 6 4 9 7 10"/>
+                <path class="lb" d="M70 56c10 6 14 18 12 28-1 6-4 9-7 10"/>
+                <path class="lg" d="M41 102v13"/><path class="lg" d="M59 102v13"/>
+              </g>
+              <ellipse class="pl-spec" cx="40" cy="17.6" rx="4.2" ry="2.3" transform="rotate(-10 40 17.6)"/>
+            </g>
           </g>
         </svg>
         <span class="wtag" id="wTag">Look · ต้นฉบับ</span>
@@ -3083,59 +3196,76 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
   /* ---------- ขบวนศัตรู : ข้างแรมสามตัว ข้างขึ้นสองตัว แล้วค่อยถึงมุซัน ----------
      ตัวอสูรทั้งห้าเป็นภาพที่วาดขึ้นเองในสไตล์เส้นเดียวกับแอป ไม่ได้ลอกจากตัวละครจริง */
-  const D_BODY = 'M50 46c14 0 22 8 26 22 5 17 4 34 2 46H22c-2-12-3-29 2-46 4-14 12-22 26-22z';
-  const D_ARMS = 'M22 68c-8 4-13 12-14 22 6-3 10-3 14-1zM78 68c8 4 13 12 14 22-6-3-10-3-14-1z';
+  /* เงาทะมึน — ไหล่มีหนาม ผ้าคลุมขาดรุ่ง ชายล่างเป็นฟันเลื่อย ไม่ใช่ทรงกลมน่ากอด */
+  const D_BODY = 'M50 42c11 0 18 5 22 14l6 16c3 9 3 26 2 38H20c-1-12-1-29 2-38l6-16c4-9 11-14 22-14z';
+  const D_HEM  = 'M20 106l6 10 6-10 6 10 6-10 6 10 6-10 6 10 6-10 6 10 6-10z';
+  const D_CLAW = 'M28 52 4 76l9 2-7 13 10-3-3 13 14-11 5-32z' +
+                 'M72 52 96 76l-9 2 7 13-10-3 3 13-14-11-5-32z';
+  const D_SPIKE = 'M31 50 20 34l16 8zM69 50 80 34l-16 8zM50 40 44 56h12z';
   function DEMON(o){
     return '<svg viewBox="0 0 100 116" aria-hidden="true">' +
       '<g class="bsbody">' +
-        '<path d="' + D_BODY + '" fill="' + o.body + '" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>' +
-        '<path d="' + D_ARMS + '" fill="' + o.dark + '" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+        '<path d="' + D_CLAW + '" fill="' + o.dark + '" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>' +
+        '<path d="' + D_HEM + '" fill="' + o.body + '" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>' +
+        '<path d="' + D_BODY + '" fill="' + o.body + '" stroke="#161A20" stroke-width="2.6" stroke-linejoin="round"/>' +
+        '<path d="' + D_SPIKE + '" fill="' + o.dark + '" stroke="#161A20" stroke-width="1.8" stroke-linejoin="round"/>' +
         (o.chest || '') +
       '</g><g class="bshead">' +
         (o.horns || '') +
-        '<ellipse cx="50" cy="30" rx="14.5" ry="17" fill="' + o.skin + '" stroke="#2B3A47" stroke-width="2.2"/>' +
+        '<path d="M50 11c9 0 15 7 15 16 0 10-6 20-15 24-9-4-15-14-15-24 0-9 6-16 15-16z" ' +
+          'fill="' + o.skin + '" stroke="#161A20" stroke-width="2.4" stroke-linejoin="round"/>' +
         (o.face || '') +
       '</g></svg>';
   }
-  const SLIT = (c) => '<path d="M42.5 30.5 49 28l.4 3.4-6.2 1.2zM57.5 30.5 51 28l-.4 3.4 6.2 1.2z" fill="' + c + '"/>';
-  const FANGS = '<path d="M43 38h14l-2.5 4-2.3-3-2.2 3-2.3-3-2.2 3z" fill="#FFF" stroke="#2B3A47" stroke-width="1.2" stroke-linejoin="round"/>';
+  /* ตาเฉียงลงหากันตรงกลาง = หน้าโกรธ ยิ่งเฉียงยิ่งดุ */
+  const GLARE = (c, glow) =>
+    '<path d="M38 26 48 31l-1.5 4.5L37 32z" fill="' + c + '"/>' +
+    '<path d="M62 26 52 31l1.5 4.5L63 32z" fill="' + c + '"/>' +
+    (glow ? '<path d="M38 26 48 31l-1.5 4.5L37 32zM62 26 52 31l1.5 4.5L63 32z" fill="' + c +
+            '" opacity=".55" filter="blur(2px)"/>' : '') +
+    '<path d="M36 22.5 48 27M64 22.5 52 27" stroke="#161A20" stroke-width="2.2" stroke-linecap="round"/>';
+  /* ปากฉีกถึงหู ฟันแหลมเรียงเต็มแถว */
+  const MAW =
+    '<path d="M40 41q10 8 20 0-4 8-10 8t-10-8z" fill="#2A0C12" stroke="#161A20" stroke-width="1.6" stroke-linejoin="round"/>' +
+    '<path d="M41.5 42.2 43 46l1.8-3.2L46.5 46l1.8-3.4L50 46l1.7-3.4L53.5 46l1.8-3.2L57 46l1.5-3.8z" fill="#FFF"/>';
 
   const FOES = [
     { name:'ข้างแรมที่ 3', hp:60,  gap:1600, spd:40, move:14, bonus:150,
-      art: DEMON({ body:'#3E7F73', dark:'#2E6259', skin:'#CFE9E2',
-        horns:'<path d="M46 15 50 -1 55 15z" fill="#DDE9E6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
-        face:'<circle cx="50" cy="29" r="5.6" fill="#FFF" stroke="#2B3A47" stroke-width="1.8"/>' +
-             '<circle cx="50" cy="29" r="2.6" fill="#E0303C"/>' +
-             '<path d="M45 39q5 3 10 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>' }),
+      art: DEMON({ body:'#255B52', dark:'#123029', skin:'#8FBDB2',
+        horns:'<path d="M41 18 33 -2 47 14zM59 18 67 -2 53 14z" fill="#123029" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>',
+        face: GLARE('#FF4A3D') + MAW,
+        chest:'<path d="M40 60q10 5 20 0M40 68q10 5 20 0" fill="none" stroke="#123029" stroke-width="2.4" stroke-linecap="round"/>' }),
       cast(w){ aimed(this.spd, 0); } },
 
     { name:'ข้างแรมที่ 2', hp:78,  gap:1500, spd:44, move:18, bonus:200,
-      art: DEMON({ body:'#6B4F94', dark:'#523A75', skin:'#E4DAF2',
-        horns:'<path d="M39 16 33 0 44 13zM61 16 67 0 56 13z" fill="#CDBEE6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
-        face: SLIT('#FFC861') + '<path d="M45 39q5 2 10 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>',
-        chest:'<path d="M42 54h16v10H42z" fill="#8E6FBE" opacity=".7"/>' }),
+      art: DEMON({ body:'#4A2D6E', dark:'#26123D', skin:'#B79BE8',
+        horns:'<path d="M39 17 26 -4 46 12zM61 17 74 -4 54 12z" fill="#26123D" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>',
+        face: GLARE('#FFC02E') + MAW,
+        chest:'<path d="M50 58 41 74h18z" fill="#26123D" stroke="#161A20" stroke-width="1.8" stroke-linejoin="round"/>' }),
       cast(w){ aimed(this.spd, 0); if (w % 3 === 2) drop(this.spd*0.9, 0); } },
 
     { name:'ข้างแรมที่ 1', hp:95,  gap:1400, spd:46, move:22, bonus:260,
-      art: DEMON({ body:'#2F4A86', dark:'#22376A', skin:'#D6E0F5',
-        horns:'<path d="M36 15 30 3 43 12zM64 15 70 3 57 12zM50 12 47 -1 53 -1z" fill="#B9C8E8" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
-        face:'<circle cx="43" cy="30" r="2.7" fill="#E0303C"/><circle cx="57" cy="30" r="2.7" fill="#E0303C"/>' +
-             '<circle cx="50" cy="21" r="2.2" fill="#FFC861"/>' + FANGS }),
+      art: DEMON({ body:'#1E3566', dark:'#0E1B3A', skin:'#8FA8D8',
+        horns:'<path d="M37 16 22 -3 45 12zM63 16 78 -3 55 12zM50 9 44 -8 56 -8z" fill="#0E1B3A" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>',
+        face: GLARE('#FF3B4E', true) + '<path d="M46 17 50 12 54 17 50 21z" fill="#FFC02E"/>' + MAW,
+        chest:'<path d="M38 58q12 7 24 0M38 68q12 7 24 0" fill="none" stroke="#0E1B3A" stroke-width="2.4" stroke-linecap="round"/>' }),
       cast(w){ if (w % 3 === 2) rain(3, this.spd*0.8); else { aimed(this.spd, -8); aimed(this.spd, 8); } } },
 
     { name:'ข้างขึ้นที่ 2', hp:135, gap:1250, spd:52, move:27, bonus:420,
-      art: DEMON({ body:'#B4571F', dark:'#8C3F14', skin:'#FBE2C2',
-        horns:'<path d="M34 14C28 4 37 -3 44 7l-4 6zM66 14C72 4 63 -3 56 7l4 6z" fill="#F0B267" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
-        face:'<path d="M41 28l8 1.5-.5 3.5-7.5-1.5zM59 28l-8 1.5.5 3.5 7.5-1.5z" fill="#E0303C"/>' + FANGS,
-        chest:'<path d="M38 56q12 8 24 0" fill="none" stroke="#8C3F14" stroke-width="3" stroke-linecap="round"/>' }),
+      art: DEMON({ body:'#8E3A10', dark:'#4A1A06', skin:'#E8A05C',
+        horns:'<path d="M36 16C20 12 16 -4 30 -8c-4 8 2 14 12 16zM64 16C80 12 84 -4 70 -8c4 8-2 14-12 16z" fill="#4A1A06" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>',
+        face: GLARE('#FFD84A', true) + MAW,
+        chest:'<path d="M36 56 50 76 64 56" fill="none" stroke="#4A1A06" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>' }),
       cast(w){ if (w % 3 === 2) rain(4, this.spd*0.8);
                else { aimed(this.spd, -9); aimed(this.spd, 9); drop(this.spd*0.9, 0); } } },
 
     { name:'ข้างขึ้นที่ 1', hp:165, gap:1100, spd:58, move:32, bonus:600, rage:true,
-      art: DEMON({ body:'#1D3A5C', dark:'#132840', skin:'#CBDAEA',
-        horns:'<path d="M38 14 32 -2 44 11zM62 14 68 -2 56 11zM50 10 45 -5 55 -5z" fill="#7FA9D6" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>',
-        face:'<path d="M41.5 29l8 1v3.6l-8-1zM58.5 29l-8 1v3.6l8-1z" fill="#7FE3FF"/>' + FANGS,
-        chest:'<path d="M50 50 40 68h20z" fill="#7FA9D6" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' }),
+      art: DEMON({ body:'#12233D', dark:'#050C18', skin:'#6E8BB0',
+        horns:'<path d="M38 14 24 -10 46 10zM62 14 76 -10 54 10zM50 8 42 -14 58 -14z" fill="#050C18" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>',
+        face: GLARE('#4DF0FF', true) + MAW +
+              '<path d="M36 33 32 44M64 33 68 44" stroke="#050C18" stroke-width="2" stroke-linecap="round"/>',
+        chest:'<path d="M50 50 38 74h24z" fill="#050C18" stroke="#161A20" stroke-width="1.8" stroke-linejoin="round"/>' +
+              '<path d="M50 56 45 68h10z" fill="#4DF0FF" opacity=".8"/>' }),
       cast(w){ const k = w % 3;
                if (k === 0){ aimed(this.spd, -12); aimed(this.spd, 0); aimed(this.spd, 12); }
                else if (k === 1) rain(5, this.spd*0.85);
@@ -3144,18 +3274,19 @@ if (owner) { closeGate(); } else { openGate('register'); }
     { name:'มุซัน', hp:230, gap:1400, spd:52, move:24, bonus:900, phases:true, regen:true,
       art:'<svg viewBox="0 0 100 116" aria-hidden="true">' +
         '<g class="bsbody">' +
-          '<path d="' + D_BODY + '" fill="#1B1E26" stroke="#2B3A47" stroke-width="2.4" stroke-linejoin="round"/>' +
-          '<path d="' + D_ARMS + '" fill="#14161C" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
-          '<path d="M41 48 50 61 59 48l-1 30H42z" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.8" stroke-linejoin="round"/>' +
-          '<path d="M50 61l-4 4.5 4 5.5 4-5.5z" fill="#2B3A47"/>' +
-          '<path d="M46 78h8v22h-8z" fill="#5A5F6B" opacity=".55"/>' +
+          '<path d="' + D_CLAW + '" fill="#0A0C11" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>' +
+          '<path d="' + D_HEM + '" fill="#14161C" stroke="#161A20" stroke-width="2" stroke-linejoin="round"/>' +
+          '<path d="' + D_BODY + '" fill="#14161C" stroke="#161A20" stroke-width="2.6" stroke-linejoin="round"/>' +
+          '<path d="M31 50 20 34l16 8zM69 50 80 34l-16 8z" fill="#0A0C11" stroke="#161A20" stroke-width="1.8" stroke-linejoin="round"/>' +
+          '<path d="M41 46 50 60 59 46l-1 32H42z" fill="#FDFEFF" stroke="#161A20" stroke-width="1.8" stroke-linejoin="round"/>' +
+          '<path d="M50 60l-4 4.5 4 5.5 4-5.5z" fill="#8A1220"/>' +
+          '<path d="M46 78h8v22h-8z" fill="#5A5F6B" opacity=".5"/>' +
         '</g><g class="bshead">' +
-          '<ellipse cx="50" cy="30" rx="14.5" ry="17.5" fill="#F6EDE6" stroke="#2B3A47" stroke-width="2.2"/>' +
-          '<path d="M35.5 28c-3-14 5.5-23 14.5-23s17.5 9 14.5 23c-1.5-6.5-4-10-7-11-4.5 4.5-11.5 5.5-16 3.5-3 2-5 4.5-6 7.5z" fill="#14161C"/>' +
-          '<path d="M34 22c-3 6-3 12-2 17 1-5 2-9 4-12zM66 22c3 6 3 12 2 17-1-5-2-9-4-12z" fill="#14161C"/>' +
-          SLIT('#E0303C') +
-          '<path d="M42 26.5 49 24M58 26.5 51 24" stroke="#2B3A47" stroke-width="1.6" stroke-linecap="round"/>' +
-          '<path d="M46 40q4 2.5 8 0" fill="none" stroke="#2B3A47" stroke-width="1.5" stroke-linecap="round"/>' +
+          '<path d="M50 11c9.5 0 15.5 7 15.5 16.5 0 10.5-6.5 20.5-15.5 24.5-9-4-15.5-14-15.5-24.5C34.5 18 40.5 11 50 11z" ' +
+            'fill="#F6EDE6" stroke="#161A20" stroke-width="2.4" stroke-linejoin="round"/>' +
+          '<path d="M35 27c-3.5-15 5.5-24.5 15-24.5S68.5 12 65 27c-1.5-7-4-10.5-7-11.5-4.5 5-12 6-16.5 4-3 2-5.5 4.5-6.5 7.5z" fill="#0A0C11"/>' +
+          '<path d="M33.5 21c-3.5 7-3.5 13.5-2.5 19 1-5.5 2-10 4.5-13.5zM66.5 21c3.5 7 3.5 13.5 2.5 19-1-5.5-2-10-4.5-13.5z" fill="#0A0C11"/>' +
+          GLARE('#FF1E33', true) + MAW +
         '</g></svg>',
       cast(w){
         const p = S.phase, spd = p === 1 ? 46 : p === 2 ? 54 : 62;
@@ -3572,10 +3703,13 @@ if (owner) { closeGate(); } else { openGate('register'); }
   const warn   = document.getElementById('gdWarn');
 
   const W = 160, H = 120, CX = W/2, CY = H/2;
-  const CORE_R = 9, MAX_HP = 8, MAX_UNITS = 8, TAP_GAP = 90;
+  const CORE_R = 9, MAX_HP = 8, MAX_UNITS = 10, TAP_GAP = 90;
   const UNIT_LIFE = 11, UNIT_SPD = 44, FOE_R = 5.5, BIG_R = 8;
-  /* เซลล์พลังงาน — ตัวจำกัดการวาง ต้องเลือกจังหวะและตำแหน่งเอง */
-  const CELL_MAX = 5, CELL_COST = 1, CELL_REGEN = 0.42;   // ต่อวินาที
+  /* เซลล์พลังงาน — ตัวจำกัดการวาง ต้องเลือกจังหวะและตำแหน่งเอง
+     ฝั่งเราต้องโตตามเวฟด้วย ไม่งั้นศัตรูที่โตแบบยกกำลังสองจะแซงจนเล่นต่อไม่ได้ */
+  const CELL_MAX = 6, CELL_COST = 1;
+  const cellRegen = (w) => 0.50 + 0.11 * w;              // เซลล์ต่อวินาที
+  const unitHp    = (w) => 4 + Math.floor((w - 1) / 4);  // แกร่งขึ้นทุกสี่เวฟ
   const LEASH = 26;                                       // ออกไล่ไกลจากจุดที่วางได้แค่นี้
   const pctX = (x) => (x / W * 100) + '%';
   const pctY = (y) => (y / H * 100) + '%';
@@ -3641,7 +3775,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
   function spawnFoe(){
     const w = S.wave;
     const r = Math.random();
-    const shield = w >= 4 && r < 0.14;
+    const shield = w >= 4 && r < 0.11;
     const big    = !shield && w >= 3 && r < 0.14 + 0.16 + w*0.008;
     const fast   = !shield && !big && w >= 2 && Math.random() < 0.26;
     const a = S.arc + (Math.random()-0.5) * S.spread;
@@ -3654,7 +3788,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     fLayer.appendChild(el);
     const spd = (shield ? 6.5 : big ? 8 : fast ? 16.5 : 11.5) + w*0.95;
     S.foes.push({ el, x, y, big: big || shield,
-                  hp: shield ? 6 : big ? 3 : 1, r: (big || shield) ? BIG_R : FOE_R, spd,
+                  hp: shield ? 5 : big ? 3 : 1, r: (big || shield) ? BIG_R : FOE_R, spd,
                   dmg: shield ? 2 : big ? 2 : 1 });
     S.left--;
   }
@@ -3677,7 +3811,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
     el.innerHTML = UNIT;
     el.style.left = pctX(x); el.style.top = pctY(y);
     uLayer.appendChild(el);
-    S.units.push({ el, x, y, hx:x, hy:y, hp:3, t:0 });
+    S.units.push({ el, x, y, hx:x, hy:y, hp:unitHp(S.wave), t:0 });
     paintCells();
     if (navigator.vibrate) { try { navigator.vibrate(6); } catch(e){} }
   }
@@ -3700,7 +3834,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
   function nextWave(){
     S.wave++;
-    S.left = 3 + Math.round(S.wave * S.wave * 0.75) + S.wave * 2;  // เวฟหลัง ๆ มาเยอะขึ้นชัดเจน
+    S.left = 3 + Math.round(S.wave * S.wave * 0.55) + S.wave * 2;  // เวฟหลัง ๆ มาเยอะขึ้นชัดเจน
     S.every = Math.max(150, 840 - S.wave * 56);
     S.arc = Math.random() * Math.PI * 2;                           // ทิศหลักของเวฟนี้
     S.spread = Math.min(Math.PI*2, 0.9 + S.wave * 0.16);           // เวฟหลัง ๆ กระจายรอบทิศ
@@ -3714,7 +3848,9 @@ if (owner) { closeGate(); } else { openGate('register'); }
     S.warnTO = setTimeout(() => field.classList.remove('warn'), S.wave === 1 ? 3200 : 2400);
     S.score += 120 + S.wave * 30;
     waveTag.textContent = 'WAVE ' + S.wave;
-    waveBig.textContent = 'WAVE ' + S.wave;
+    /* เวฟที่ Baymax แข็งขึ้น ต้องบอกให้รู้ ไม่งั้นเหมือนศัตรูโตอยู่ฝ่ายเดียว */
+    const lvUp = S.wave > 1 && unitHp(S.wave) > unitHp(S.wave - 1);
+    waveBig.textContent = lvUp ? 'WAVE ' + S.wave + ' · Baymax แกร่งขึ้น!' : 'WAVE ' + S.wave;
     waveBig.classList.remove('show'); void waveBig.offsetWidth; waveBig.classList.add('show');
     elWave.textContent = S.wave;
   }
@@ -3803,7 +3939,7 @@ if (owner) { closeGate(); } else { openGate('register'); }
 
     if (S.left <= 0 && !S.foes.length) nextWave();
 
-    S.cells = Math.min(CELL_MAX, S.cells + CELL_REGEN * dt);
+    S.cells = Math.min(CELL_MAX, S.cells + cellRegen(S.wave) * dt);
     paintCells();
     S.score += 3*dt;
     elScore.textContent = Math.round(S.score);
