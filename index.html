@@ -744,6 +744,29 @@
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     background:radial-gradient(120% 90% at 50% 0%,#FFFFFF,#E4EDF4)}
   .wstage svg{width:min(100%,235px);height:auto;overflow:visible}
+
+  /* ============ หุ่นสามมิติ ============ */
+  .bot3d{display:block;width:100%;height:100%;touch-action:none;cursor:grab;
+    -webkit-user-select:none;user-select:none;position:relative;z-index:1}
+  .bot3d:active{cursor:grabbing}
+  /* เงาที่พื้นเกาะอยู่กับกรอบหุ่น ไม่ใช่กับเวที เวทีถูกยืดแค่ไหนเงาก็ยังอยู่ใต้เท้า */
+  .bot3dw{position:relative;display:block}
+  .bot3dw::before{content:'';position:absolute;left:50%;bottom:7%;width:52%;height:8%;z-index:0;
+    transform:translateX(-50%);border-radius:50%;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(67,88,110,.34),rgba(67,88,110,.12) 55%,transparent 78%);
+    animation:botFloorPulse 5.2s ease-in-out infinite}
+  @keyframes botFloorPulse{0%,100%{transform:translateX(-50%) scale(1)}
+    45%{transform:translateX(-50%) scale(.92);opacity:.85}}
+  /* เวทีไหนมีตัวสามมิติแล้ว ให้ซ่อนภาพแบนของเวทีนั้นไป */
+  .lstage.is3d .lbot,.wstage.is3d > svg{display:none}
+  /* หุ่นแบนถูกซ่อนไปแล้ว ความสูงเวทีเลยต้องมาจากกรอบหุ่นเอง */
+  .lstage.is3d .bot3dw{width:min(100%,300px);height:min(46vh,320px)}
+  /* เวทีนี้ถูกยืดตามความสูงของแผงเลือกของ ต้องจัดกลางเองไม่งั้นหุ่นไปกองอยู่ขอบ */
+  .wstage.is3d{position:relative;align-content:center;justify-content:center}
+  .wstage.is3d .bot3dw{width:min(100%,260px);height:min(40vh,270px)}
+  .lstage.is3d::after{content:'ลากเพื่อหมุนดู';position:absolute;left:50%;bottom:10px;transform:translateX(-50%);
+    font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
+    opacity:.55;pointer-events:none}
   .wstage .torso{animation:breathe 3.6s ease-in-out infinite;transform-origin:50px 108px}
   .wstage .head{transform-origin:50px 33px;animation:wNod 6s ease-in-out infinite}
 
@@ -4852,6 +4875,434 @@ const WEAR = (function(){
   return { L, LISTS, SHELLS, OUTFITS, HATS, FACES, ITEMS, RARITY, RARE_TH, CAT_TH, STORY, SETS, SLOTS,
            apply, preview, pick, key, has, grant, owned, lockedPool, rareOf, isSecret, countOf,
            setOwned, setWorn, wearSet };
+})();
+
+/* =========================================================
+   6.5 · Baymax สามมิติ — เรนเดอร์เองด้วย WebGL ล้วน ไม่ต้องพึ่งไลบรารีข้างนอก
+   ตัวเขาประกอบจากทรงกลมกับแคปซูลล้วน ๆ อยู่แล้ว เลยปั้นเป็นโมเดลจริงได้ตรง ๆ
+   ถ้าเครื่องไหนเปิด WebGL ไม่ได้ ก็ถอยกลับไปใช้ภาพ SVG แบนเหมือนเดิม
+   ========================================================= */
+const BOT3D = (function(){
+
+  /* ---------- เมทริกซ์ ---------- */
+  function ident(){ return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]); }
+  function mul(a, b){
+    const o = new Float32Array(16);
+    for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++){
+      let s = 0;
+      for (let k = 0; k < 4; k++) s += a[k*4+r] * b[c*4+k];
+      o[c*4+r] = s;
+    }
+    return o;
+  }
+  function persp(fovy, asp, n, f){
+    const t = 1 / Math.tan(fovy/2), o = new Float32Array(16);
+    o[0] = t/asp; o[5] = t; o[10] = (f+n)/(n-f); o[11] = -1; o[14] = 2*f*n/(n-f);
+    return o;
+  }
+  function lookAt(e, c, up){
+    const z = norm3([e[0]-c[0], e[1]-c[1], e[2]-c[2]]);
+    const x = norm3(cross(up, z)), y = cross(z, x);
+    return new Float32Array([
+      x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+      -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
+  }
+  const cross = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+  function norm3(v){ const l = Math.hypot(v[0],v[1],v[2]) || 1; return [v[0]/l, v[1]/l, v[2]/l]; }
+  /* ย้าย → หมุน Z → หมุน Y → หมุน X → ย่อขยาย (พอสำหรับชิ้นส่วนหุ่น) */
+  function compose(p, r, s){
+    const cx = Math.cos(r[0]), sx = Math.sin(r[0]);
+    const cy = Math.cos(r[1]), sy = Math.sin(r[1]);
+    const cz = Math.cos(r[2]), sz = Math.sin(r[2]);
+    const m = ident();
+    const m00 = cy*cz + sy*sx*sz, m01 = -cy*sz + sy*sx*cz, m02 = sy*cx;
+    const m10 = cx*sz,            m11 = cx*cz,             m12 = -sx;
+    const m20 = -sy*cz + cy*sx*sz, m21 = sy*sz + cy*sx*cz, m22 = cy*cx;
+    m[0]=m00*s[0]; m[1]=m10*s[0]; m[2]=m20*s[0];
+    m[4]=m01*s[1]; m[5]=m11*s[1]; m[6]=m21*s[1];
+    m[8]=m02*s[2]; m[9]=m12*s[2]; m[10]=m22*s[2];
+    m[12]=p[0]; m[13]=p[1]; m[14]=p[2];
+    return m;
+  }
+  /* เส้นตั้งฉากต้องใช้ inverse-transpose เพราะย่อขยายไม่เท่ากันทุกแกน */
+  function normalMat(m){
+    const a=m[0],b=m[1],c=m[2], d=m[4],e=m[5],f=m[6], g=m[8],h=m[9],i=m[10];
+    const A=e*i-f*h, B=f*g-d*i, C=d*h-e*g;
+    const det = a*A + b*B + c*C || 1e-6;
+    const id = 1/det;
+    return new Float32Array([
+      A*id, B*id, C*id,
+      (c*h-b*i)*id, (a*i-c*g)*id, (b*g-a*h)*id,
+      (b*f-c*e)*id, (c*d-a*f)*id, (a*e-b*d)*id ]);
+  }
+
+  /* ---------- รูปทรง ---------- */
+  function build(pos, nor, idx){ return { pos:new Float32Array(pos), nor:new Float32Array(nor), idx:new Uint16Array(idx) }; }
+  function grid(rings, su, pos, nor, idx){
+    const base = pos.length/3 - rings.length*(su+1);
+    for (let j = 0; j < rings.length-1; j++) for (let i = 0; i < su; i++){
+      const a = base + j*(su+1) + i, b = a + su + 1;
+      idx.push(a, b, a+1, b, b+1, a+1);
+    }
+  }
+  function sphereMesh(su, sv){
+    const pos=[], nor=[], idx=[], rings=[];
+    for (let j = 0; j <= sv; j++){
+      const phi = j/sv*Math.PI, sp = Math.sin(phi), cp = Math.cos(phi);
+      rings.push(1);
+      for (let i = 0; i <= su; i++){
+        const th = i/su*Math.PI*2;
+        const x = sp*Math.cos(th), y = cp, z = sp*Math.sin(th);
+        pos.push(x,y,z); nor.push(x,y,z);
+      }
+    }
+    grid(rings, su, pos, nor, idx);
+    return build(pos, nor, idx);
+  }
+  /* แคปซูลวางตามแกน Y ส่วนทรงกระบอกยาว 2h ปลายเป็นครึ่งทรงกลมรัศมี r */
+  function capsuleMesh(r, h, su, sv){
+    const pos=[], nor=[], idx=[], rings=[];
+    const put = (phi, off) => {
+      const sp = Math.sin(phi), cp = Math.cos(phi);
+      rings.push(1);
+      for (let i = 0; i <= su; i++){
+        const th = i/su*Math.PI*2, ct = Math.cos(th), st = Math.sin(th);
+        pos.push(sp*r*ct, cp*r + off, sp*r*st);
+        nor.push(sp*ct, cp, sp*st);
+      }
+    };
+    for (let j = 0; j <= sv; j++) put(j/sv*Math.PI/2, h);
+    for (let j = 0; j <= sv; j++) put(Math.PI/2 + j/sv*Math.PI/2, -h);
+    grid(rings, su, pos, nor, idx);
+    return build(pos, nor, idx);
+  }
+  function torusMesh(R, r, su, sv){
+    const pos=[], nor=[], idx=[], rings=[];
+    for (let j = 0; j <= sv; j++){
+      const v = j/sv*Math.PI*2, cv = Math.cos(v), sv2 = Math.sin(v);
+      rings.push(1);
+      for (let i = 0; i <= su; i++){
+        const u = i/su*Math.PI*2, cu = Math.cos(u), su2 = Math.sin(u);
+        pos.push((R + r*cv)*cu, r*sv2, (R + r*cv)*su2);
+        nor.push(cv*cu, sv2, cv*su2);
+      }
+    }
+    grid(rings, su, pos, nor, idx);
+    return build(pos, nor, idx);
+  }
+  /* กรวยฐานอยู่ที่ y=0 ปลายแหลมชี้ขึ้น */
+  function coneMesh(su){
+    const pos=[], nor=[], idx=[], rings=[];
+    for (let j = 0; j <= 1; j++){
+      const t = j, rad = 1 - t;
+      rings.push(1);
+      for (let i = 0; i <= su; i++){
+        const th = i/su*Math.PI*2, ct = Math.cos(th), st = Math.sin(th);
+        pos.push(rad*ct, t, rad*st);
+        nor.push(ct*0.78, 0.62, st*0.78);
+      }
+    }
+    grid(rings, su, pos, nor, idx);
+    // ปิดก้น
+    const c = pos.length/3;
+    pos.push(0,0,0); nor.push(0,-1,0);
+    for (let i = 0; i <= su; i++){
+      const th = i/su*Math.PI*2;
+      pos.push(Math.cos(th), 0, Math.sin(th)); nor.push(0,-1,0);
+    }
+    for (let i = 0; i < su; i++) idx.push(c, c+1+i+1, c+1+i);
+    return build(pos, nor, idx);
+  }
+
+  const MESH = {
+    sphere: () => sphereMesh(26, 18),
+    capsule:() => capsuleMesh(1, 1, 22, 9),
+    torus:  () => torusMesh(1, 0.16, 26, 12),
+    cone:   () => coneMesh(18)
+  };
+
+  /* ---------- เชดเดอร์ ---------- */
+  const VS = [
+    'attribute vec3 aPos; attribute vec3 aNor;',
+    'uniform mat4 uMVP, uModel; uniform mat3 uNor;',
+    'varying vec3 vN, vP;',
+    'void main(){ vN = uNor * aNor; vP = (uModel * vec4(aPos,1.0)).xyz;',
+    '  gl_Position = uMVP * vec4(aPos,1.0); }'
+  ].join('\n');
+  const FS = [
+    'precision mediump float;',
+    'varying vec3 vN, vP;',
+    'uniform vec3 uCol, uEye; uniform float uGloss;',
+    'void main(){',
+    '  vec3 N = normalize(vN);',
+    '  vec3 L = normalize(vec3(-0.42, 0.86, 0.72));',
+    '  vec3 V = normalize(uEye - vP);',
+    '  float d = pow(dot(N,L)*0.5+0.5, 1.45);',            // half-lambert นุ่ม ๆ แบบของเล่น
+    '  float rim = pow(1.0 - max(dot(N,V),0.0), 2.8);',
+    '  float spec = pow(max(dot(N, normalize(L+V)), 0.0), 46.0) * uGloss;',
+    '  vec3 c = uCol * (0.32 + 0.82*d);',
+    '  c += uCol * max(-N.y, 0.0) * 0.12;',                 // แสงสะท้อนจากพื้น
+    '  c += vec3(0.62,0.70,0.82) * rim * 0.30;',
+    '  c += vec3(spec);',
+    '  gl_FragColor = vec4(c, 1.0);',
+    '}'
+  ].join('\n');
+
+  function hex(h){
+    const s = (h || '#FFFFFF').replace('#','');
+    const n = parseInt(s.length === 3 ? s.split('').map((x)=>x+x).join('') : s, 16);
+    // sRGB → linear คร่าว ๆ ให้ไล่แสงดูเป็นธรรมชาติ
+    const f = (v) => Math.pow(v/255, 2.2);
+    return [f((n>>16)&255), f((n>>8)&255), f(n&255)];
+  }
+
+  /* ---------- ประกอบร่าง ---------- */
+  const INK = '#2B3A47';
+  function colorOf(svg, fallback){
+    const all = String(svg || '').match(/#[0-9A-Fa-f]{6}/g);
+    if (!all) return fallback;
+    const c = all.find((h) => { const u = h.toUpperCase(); return u !== '#2B3A47' && u !== '#161A20' && u !== '#FDFEFF'; });
+    return c || all[0] || fallback;
+  }
+
+  function parts(look){
+    const shell = WEAR.pick(WEAR.SHELLS, look.shell).c;
+    const fit   = WEAR.pick(WEAR.OUTFITS, look.outfit);
+    const hat   = WEAR.pick(WEAR.HATS,  look.hat);
+    const face  = WEAR.pick(WEAR.FACES, look.face);
+    const item  = WEAR.pick(WEAR.ITEMS, look.item);
+    const P = [];
+    const add = (mesh, pos, scale, color, o) => P.push({
+      mesh, pos, scale, color, rot: (o && o.rot) || [0,0,0],
+      gloss: (o && o.gloss != null) ? o.gloss : 0.22 });
+
+    /* ลำตัว หัว แขน ขา (เงาที่พื้นทำด้วย CSS ข้างหลัง canvas จะได้ฟุ้งนุ่มกว่า) */
+    add('sphere',  [0, 0, 0],        [1.00, 1.14, 0.93], shell);
+    add('capsule', [0, 1.36, 0.03],  [0.355, 0.30, 0.355], shell, { rot:[0, 0, Math.PI/2] });
+    add('sphere',  [0, -0.12, 0.86], [0.21, 0.15, 0.10], shell === '#FDFEFF' ? '#E7EEF6' : shell, { gloss:0.06 });
+    [-1, 1].forEach((s) => {
+      add('capsule', [s*0.96, 0.12, 0.02], [0.275, 0.33, 0.275], shell, { rot:[0, 0, s*0.28] });
+      add('sphere',  [s*1.17, -0.48, 0.03], [0.285, 0.265, 0.275], shell);
+      add('capsule', [s*0.40, -1.26, 0],   [0.295, 0.22, 0.295], shell);
+      add('sphere',  [s*0.40, -1.62, 0.05], [0.305, 0.245, 0.345], shell);
+    });
+
+    /* หน้า — ตาสองเม็ดกับขีดกลาง ต้องโผล่พ้นผิวหัว ไม่งั้นจมหายไปข้างใน */
+    add('sphere',  [-0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55 });
+    add('sphere',  [ 0.235, 1.36, 0.30], [0.093, 0.093, 0.115], INK, { gloss:0.55 });
+    add('capsule', [0, 1.36, 0.325],     [0.038, 0.115, 0.075], INK, { rot:[0, 0, Math.PI/2], gloss:0.45 });
+
+    /* ชุด — คลุมทับลำตัวจากอกลงไป เหลือไหล่กับคอเป็นสีเปลือกไว้ */
+    if (fit.id !== 'none'){
+      const c = colorOf(fit.svg, '#FFFFFF');
+      add('sphere', [0, -0.20, 0],   [1.025, 1.00, 0.955], c, { gloss:0.16 });
+      add('torus',  [0, 0.72, 0.02], [0.46, 0.055, 0.44],  c, { gloss:0.3 });
+    }
+
+    /* หมวก */
+    if (hat.id !== 'none'){
+      const c = colorOf(hat.svg, '#F0575F');
+      if (hat.id === 'party'){
+        add('cone', [0, 1.60, 0.02], [0.27, 0.54, 0.27], c, { gloss:0.3 });
+      } else if (hat.id === 'crown'){
+        for (let k = 0; k < 5; k++){
+          const a = -0.9 + k*0.45;
+          add('cone', [Math.sin(a)*0.32, 1.58, Math.cos(a)*0.24 + 0.02], [0.078, 0.25, 0.078], c, { gloss:0.45 });
+        }
+        add('torus', [0, 1.58, 0.02], [0.33, 0.055, 0.26], c, { gloss:0.45 });
+      } else {
+        /* โดมต้องอยู่สูงและถอยไปหลังนิดหนึ่ง ไม่งั้นมันกลืนหน้าเขาไปหมด */
+        add('sphere', [0, 1.54, -0.03], [0.40, 0.30, 0.39], c, { gloss:0.34 });
+        if (hat.id === 'shcap' || hat.id === 'cap')
+          add('sphere', [0, 1.45, 0.34], [0.30, 0.045, 0.28], c, { gloss:0.3 });
+        if (hat.id === 'helmet')
+          add('sphere', [0, 1.57, -0.03], [0.115, 0.30, 0.395], '#F5F7FA', { gloss:0.5 });
+      }
+    }
+
+    /* ของบนใบหน้า */
+    if (face.id !== 'none'){
+      const c = colorOf(face.svg, INK);
+      const low = /mask/.test(face.id);
+      add('capsule', [0, low ? 1.21 : 1.36, low ? 0.24 : 0.31],
+          [low ? 0.17 : 0.115, 0.245, low ? 0.16 : 0.10], c,
+          { rot:[0, 0, Math.PI/2], gloss:low ? 0.15 : 0.55 });
+    }
+
+    /* ของประดับ */
+    if (item.id !== 'none'){
+      const c = colorOf(item.svg, '#FFDE8A');
+      if (item.id === 'cape'){
+        add('sphere', [0, -0.12, -0.72], [1.02, 1.24, 0.30], c, { gloss:0.12 });
+      } else if (item.id === 'wings'){
+        [-1,1].forEach((s) => add('sphere', [s*0.95, 0.34, -0.60], [0.62, 0.80, 0.14], c, { rot:[0, 0, s*0.4], gloss:0.2 }));
+      } else if (item.id === 'core'){
+        add('sphere', [0, 0.28, 0.90], [0.19, 0.19, 0.14], c, { gloss:0.9 });
+      } else if (item.id === 'chain'){
+        add('torus', [0, 0.74, 0.10], [0.44, 0.05, 0.40], c, { gloss:0.85 });
+      } else {
+        add('torus', [0, 0.78, 0.08], [0.42, 0.05, 0.38], c, { gloss:0.6 });
+      }
+    }
+    return P;
+  }
+
+  /* ---------- ตัวเรนเดอร์ ---------- */
+  function mount(canvas){
+    let gl;
+    try {
+      gl = canvas.getContext('webgl', { antialias:true, alpha:true, premultipliedAlpha:false })
+        || canvas.getContext('experimental-webgl');
+    } catch(e){ gl = null; }
+    if (!gl) return null;
+
+    function sh(type, src){
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+    }
+    const vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS);
+    if (!vs || !fs) return null;
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+    gl.useProgram(prog);
+
+    const A = { pos: gl.getAttribLocation(prog,'aPos'), nor: gl.getAttribLocation(prog,'aNor') };
+    const U = {};
+    ['uMVP','uModel','uNor','uCol','uEye','uGloss'].forEach((k) => U[k] = gl.getUniformLocation(prog, k));
+    gl.enableVertexAttribArray(A.pos); gl.enableVertexAttribArray(A.nor);
+
+    const bufs = {};
+    Object.keys(MESH).forEach((k) => {
+      const m = MESH[k]();
+      const p = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, p); gl.bufferData(gl.ARRAY_BUFFER, m.pos, gl.STATIC_DRAW);
+      const n = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, n); gl.bufferData(gl.ARRAY_BUFFER, m.nor, gl.STATIC_DRAW);
+      const i = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, i); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, m.idx, gl.STATIC_DRAW);
+      bufs[k] = { p, n, i, count:m.idx.length };
+    });
+
+    gl.enable(gl.DEPTH_TEST);
+    gl.clearColor(0, 0, 0, 0);
+
+    const FOV = 0.52, MID = -0.08;
+    let list = parts(WEAR.L);
+    /* ปกติให้แกว่งซ้ายขวาอยู่แถวหน้าตรง จะได้เห็นหน้าเขาตลอด
+       พอผู้ใช้ลากเมื่อไหร่ ถือว่าอยากส่องเอง เลิกแกว่งเองแล้วปล่อยให้หมุนอิสระ */
+    let yaw = 0, pitch = 0.06, vyaw = 0, drag = null, freeSpin = false, t0 = 0;
+    let w = 0, h = 0, raf = 0, live = false;
+
+    function resize(){
+      const r = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const nw = Math.max(1, Math.round(r.width * dpr)), nh = Math.max(1, Math.round(r.height * dpr));
+      if (nw !== w || nh !== h){ w = nw; h = nh; canvas.width = w; canvas.height = h; }
+    }
+
+    function frame(t){
+      raf = 0;
+      if (!live) return;
+      resize();
+      if (!w || !h) { raf = requestAnimationFrame(frame); return; }
+      gl.viewport(0, 0, w, h);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+      if (!t0) t0 = t;
+      if (!drag && !freeSpin) yaw = Math.sin((t - t0)/2600) * 0.46;
+      else { yaw += vyaw; vyaw *= 0.94; }
+      const bob = Math.sin(t/1100) * 0.035;
+      const breath = 1 + Math.sin(t/1450) * 0.012;
+
+      /* ถอยกล้องตามสัดส่วนกรอบ ตัวเขาจะได้อยู่ครบเฟรมทุกจอ
+         หมุนรอบตัวแล้วแขนกางออกด้านข้าง เลยเผื่อความกว้างไว้เท่าความสูง */
+      const asp = w/h;
+      const span = 4.5;
+      const dist = Math.max(span, span/asp) / 2 / Math.tan(FOV/2);
+      const eye = [0, MID + 0.10, dist];
+      const proj = persp(FOV, asp, 0.1, 60);
+      const view = lookAt(eye, [0, MID, 0], [0,1,0]);
+      const root = mul(compose([0, bob, 0], [pitch, yaw, 0], [1, 1, 1]),
+                       compose([0, 0, 0], [0, 0, 0], [breath, 2 - breath, breath]));
+      const vp = mul(proj, view);
+
+      gl.uniform3fv(U.uEye, eye);
+      for (const part of list){
+        const b = bufs[part.mesh];
+        const model = mul(root, compose(part.pos, part.rot, part.scale));
+        gl.bindBuffer(gl.ARRAY_BUFFER, b.p); gl.vertexAttribPointer(A.pos, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, b.n); gl.vertexAttribPointer(A.nor, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, b.i);
+        gl.uniformMatrix4fv(U.uMVP, false, mul(vp, model));
+        gl.uniformMatrix4fv(U.uModel, false, model);
+        gl.uniformMatrix3fv(U.uNor, false, normalMat(model));
+        gl.uniform3fv(U.uCol, hex(part.color));
+        gl.uniform1f(U.uGloss, part.gloss);
+        gl.drawElements(gl.TRIANGLES, b.count, gl.UNSIGNED_SHORT, 0);
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    function kick(){ if (live && !raf) raf = requestAnimationFrame(frame); }
+
+    /* ลากเพื่อหมุนดูรอบตัว */
+    canvas.addEventListener('pointerdown', (e) => {
+      drag = { x:e.clientX, y:e.clientY };
+      freeSpin = true; vyaw = 0;
+      canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      drag.x = e.clientX; drag.y = e.clientY;
+      vyaw = dx * 0.0009;
+      yaw += dx * 0.008;
+      pitch = Math.max(-0.5, Math.min(0.5, pitch + dy * 0.005));
+    });
+    const drop = () => { drag = null; };
+    canvas.addEventListener('pointerup', drop);
+    canvas.addEventListener('pointercancel', drop);
+    canvas.addEventListener('pointerleave', drop);
+
+    document.addEventListener('baymax:look', () => { list = parts(WEAR.L); kick(); });
+
+    return {
+      set(on){ if (on === live) return; live = on; if (on) kick(); else if (raf){ cancelAnimationFrame(raf); raf = 0; } }
+    };
+  }
+
+  return { mount };
+})();
+
+/* ติดตั้งหุ่นสามมิติในหน้าแรกกับหน้าแต่งตัว */
+(function(){
+  const spots = [
+    { host:document.querySelector('.lstage'), flat:document.querySelector('.lstage .lbot'), tab:'manual' },
+    { host:document.querySelector('.wstage'), flat:document.querySelector('.wstage svg'),   tab:'wear'   }
+  ].filter((s) => s.host && s.flat);
+  if (!spots.length) return;
+
+  const made = [];
+  spots.forEach((s) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'bot3dw';
+    const cv = document.createElement('canvas');
+    cv.className = 'bot3d';
+    cv.setAttribute('aria-hidden','true');
+    wrap.appendChild(cv);
+    s.host.insertBefore(wrap, s.flat);
+    const inst = BOT3D.mount(cv);
+    if (!inst){ wrap.remove(); return; }
+    s.host.classList.add('is3d');
+    made.push({ ...s, inst });
+  });
+  if (!made.length) return;
+  document.body.classList.add('has3d');
+
+  function sync(tab){
+    made.forEach((m) => m.inst.set(m.tab === tab));
+  }
+  document.addEventListener('baymax:view', (e) => sync(e.detail.tab));
+  document.addEventListener('visibilitychange', () => sync(document.hidden ? '' : (document.body.classList.contains('tab-wear') ? 'wear' : document.body.classList.contains('tab-manual') ? 'manual' : '')));
+  sync(document.body.classList.contains('tab-wear') ? 'wear' : 'manual');
 })();
 
 /* หน้าตู้เสื้อผ้า */
