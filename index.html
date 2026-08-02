@@ -4678,9 +4678,9 @@ const WEAR = (function(){
       '<path d="M33.5 40.5q16.5 9 33 0" fill="none" stroke="#BCCCE4" stroke-width="9" stroke-linecap="round"/>' +
       '<path d="M36 44h4M60 44h4" stroke="#9DAFCC" stroke-width="1.8" stroke-linecap="round"/>' },
     { id:'gloves', name:'ถุงมือยาง', arms:true, vb:'13 60 74 46', svg:
-      '<circle cx="22" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
-      '<circle cx="78" cy="94" r="8" fill="#F8D3DE" stroke="#2B3A47" stroke-width="1.9"/>' +
-      '<path d="M15.5 89.5q6.5 3 13 0M71.5 89.5q6.5 3 13 0" fill="none" stroke="#E6A8BE" stroke-width="2.2" stroke-linecap="round"/>' },
+      '<circle cx="22" cy="94" r="8" fill="#A6C8EC" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<circle cx="78" cy="94" r="8" fill="#A6C8EC" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M15.5 89.5q6.5 3 13 0M71.5 89.5q6.5 3 13 0" fill="none" stroke="#8FB2DC" stroke-width="2.2" stroke-linecap="round"/>' },
     { id:'cloudwing', name:'ปีกเมฆนุ่ม', back:true, svg:
       '<g fill="#FDFEFF" stroke="#A9CCEA" stroke-width="1.8" stroke-linejoin="round">' +
       '<path d="M40 44c-8-6-19-4-24 4 6 0 9 2.4 11 6 4-2.6 9-6 13-10z"/>' +
@@ -4712,9 +4712,9 @@ const WEAR = (function(){
       '<circle cx="67.6" cy="59.4" r="1.6" fill="#2B3A47"/>' +
       '<path d="M71.5 71q4.6-2.6 8.4.6-3.2 3.2-8.4-.6z" fill="#E0AE5E"/>' },
     { id:'vacuum', name:'เครื่องดูดฝุ่นไร้สาย', arms:true, vb:'16 58 74 48', svg:
-      '<path d="M77 56c2.6 0 4 1.6 4 4v22c0 2.4-1.4 4-4 4s-4-1.6-4-4V60c0-2.4 1.4-4 4-4z" fill="#8FD6E8" stroke="#2B3A47" stroke-width="1.9"/>' +
-      '<path d="M75.4 86h3.2v14h-3.2z" fill="#C6D3E0" stroke="#2B3A47" stroke-width="1.7"/>' +
-      '<path d="M66 100h22l2.4 6H63.6z" fill="#5FB6D6" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
+      '<path d="M77 56c2.6 0 4 1.6 4 4v22c0 2.4-1.4 4-4 4s-4-1.6-4-4V60c0-2.4 1.4-4 4-4z" fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.9"/>' +
+      '<path d="M75.4 86h3.2v14h-3.2z" fill="#D3DEE9" stroke="#2B3A47" stroke-width="1.7"/>' +
+      '<path d="M66 100h22l2.4 6H63.6z" fill="#7BA6D8" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
       '<circle cx="77" cy="63.5" r="2.6" fill="#FDFEFF" stroke="#2B3A47" stroke-width="1.4"/>' +
       '<path d="M67.5 103.4h19" stroke="#2B3A47" stroke-width="1.5" opacity=".5"/>' }
   ];
@@ -5596,9 +5596,9 @@ const BOT3D = (function(){
       } else if (item.id === 'gloves'){
         /* ครอบทับมือทั้งสองข้าง ติดแท็กกลุ่มแขนเลยขยับตามแขนไปด้วย */
         [-1, 1].forEach((sgn) => {
-          add('sphere', [sgn*1.17, -0.48, 0.03], [0.315, 0.295, 0.305], '#F8D3DE',
+          add('sphere', [sgn*1.17, -0.48, 0.03], [0.315, 0.295, 0.305], '#A6C8EC',
               { grp: sgn < 0 ? 'armL' : 'armR', gloss:0.4 });
-          add('torus',  [sgn*1.10, -0.24, 0.02], [0.30, 0.30, 0.30], '#E6A8BE',
+          add('torus',  [sgn*1.10, -0.24, 0.02], [0.30, 0.30, 0.30], '#7FA6D4',
               { rot:[0, 0, sgn*0.28], grp: sgn < 0 ? 'armL' : 'armR', gloss:0.35 });
         });
       } else if (item.id === 'honey'){
@@ -5661,16 +5661,16 @@ const BOT3D = (function(){
          ด้ามเอนไปข้างหน้า (rot X -0.30) หัวดูดเลยไปอยู่หน้าปลายเท้า ตอนกวาดเข้าในจะได้ไม่ชนเท้า */
       /* แคปซูลของที่นี่ยาวรวม = 2 เท่าของ scale y และฝาหัวท้ายยืดตาม scale y ด้วย
          ด้ามที่ผอมแต่ยาวเลยงอกปลายแหลมเป็นหนามออกมา ท่อจึงใช้กล่อง ส่วนด้ามจับคุม scale y ให้ใกล้รัศมี */
-      add('capsule', [1.19, -0.34, 0.11], [0.082, 0.10, 0.082], '#39424E', { grp:'prop', gloss:0.4 });
-      add('torus',   [1.19, -0.55, 0.11], [0.108, 0.30, 0.108], '#2B3A47', { grp:'prop', gloss:0.35 });
-      add('sphere',  [1.21, -0.78, 0.19], [0.195, 0.255, 0.175], '#8FD6E8', { grp:'prop', gloss:0.5 });
+      add('capsule', [1.19, -0.34, 0.11], [0.082, 0.10, 0.082], '#5A6B7D', { grp:'prop', gloss:0.4 });
+      add('torus',   [1.19, -0.55, 0.11], [0.108, 0.30, 0.108], '#4A5666', { grp:'prop', gloss:0.35 });
+      add('sphere',  [1.21, -0.78, 0.19], [0.195, 0.255, 0.175], '#9CC4E8', { grp:'prop', gloss:0.5 });
       add('sphere',  [1.19, -0.74, 0.33], [0.085, 0.09, 0.05], '#FDFEFF', { grp:'prop', gloss:0.75 });
-      add('box',     [1.26, -1.22, 0.31], [0.055, 0.42, 0.055], '#C6D3E0',
+      add('box',     [1.26, -1.22, 0.31], [0.055, 0.42, 0.055], '#DCE6F0',
           { rot:[-0.30, 0, 0], grp:'prop', gloss:0.5 });
-      add('sphere',  [1.28, -1.68, 0.47], [0.09, 0.09, 0.085], '#C6D3E0', { grp:'prop', gloss:0.4 });
+      add('sphere',  [1.28, -1.68, 0.47], [0.09, 0.09, 0.085], '#DCE6F0', { grp:'prop', gloss:0.4 });
       /* หัวดูดใช้กล่อง ไม่ใช่ทรงกลมแบน เพราะทรงกลมแบนอ่านเป็นวงรีทุกที ไม่เหมือนหัวดูดสี่เหลี่ยม */
-      add('box',     [1.30, -1.75, 0.52], [0.33, 0.075, 0.21], '#5FB6D6', { grp:'prop', gloss:0.4 });
-      add('box',     [1.30, -1.835, 0.52], [0.30, 0.026, 0.185], '#39424E', { grp:'prop', gloss:0.2 });
+      add('box',     [1.30, -1.75, 0.52], [0.33, 0.075, 0.21], '#6E97CC', { grp:'prop', gloss:0.4 });
+      add('box',     [1.30, -1.835, 0.52], [0.30, 0.026, 0.185], '#5A6B7D', { grp:'prop', gloss:0.2 });
     }
 
     P.anim = prop.id;
