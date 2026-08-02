@@ -4579,10 +4579,17 @@ const WEAR = (function(){
     { id:'pastel',  name:'ขาวไล่สีฟ้าสาง', c:'#FDFEFF',
       grad:['#F7CEE2', '#D8E9FA', '#FDFEFF'],
       sw:'linear-gradient(0deg,#F7CEE2,#D8E9FA 50%,#FDFEFF)',
-      svg:'<defs><linearGradient id="shGrad" x1="0" y1="1" x2="0.18" y2="0">' +
+      svg:'<defs><linearGradient id="shGradP" x1="0" y1="1" x2="0.18" y2="0">' +
           '<stop offset="0" stop-color="#F7CEE2"/><stop offset="0.5" stop-color="#D8E9FA"/>' +
           '<stop offset="1" stop-color="#FDFEFF"/></linearGradient></defs>' +
-          '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="url(#shGrad)" stroke="#2B3A47" stroke-width="2.6"/>' },
+          '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="url(#shGradP)" stroke="#2B3A47" stroke-width="2.6"/>' },
+    { id:'lager',   name:'ทองฟองเบียร์',  c:'#F2C97A',
+      grad:['#E3A63A', '#F4CE78', '#FDF4E2'],
+      sw:'linear-gradient(0deg,#E3A63A,#F4CE78 50%,#FDF4E2)',
+      svg:'<defs><linearGradient id="shGradL" x1="0" y1="1" x2="0.12" y2="0">' +
+          '<stop offset="0" stop-color="#E3A63A"/><stop offset="0.5" stop-color="#F4CE78"/>' +
+          '<stop offset="1" stop-color="#FDF4E2"/></linearGradient></defs>' +
+          '<path d="M50 34c19 0 30 14 30 36 0 25-12 38-30 38s-30-13-30-38c0-22 11-36 30-36z" fill="url(#shGradL)" stroke="#2B3A47" stroke-width="2.6"/>' },
     { id:'sky',     name:'ฟ้าสะอาด',     c:'#CFE4F7' }
   ];
 
@@ -4636,6 +4643,11 @@ const WEAR = (function(){
       '<ellipse cx="45.4" cy="5" rx="3.6" ry="2.7" fill="#F2A9BE" stroke="#2B3A47" stroke-width="1.5" transform="rotate(-20 45.4 5)"/>' +
       '<ellipse cx="54.6" cy="5" rx="3.6" ry="2.7" fill="#F2A9BE" stroke="#2B3A47" stroke-width="1.5" transform="rotate(20 54.6 5)"/>' +
       '<circle cx="50" cy="5.6" r="2.3" fill="#F7C2D2" stroke="#2B3A47" stroke-width="1.5"/>' },
+    { id:'bottlecap', name:'ฝาจีบขวดเบียร์', svg:
+      '<path d="M50 3.5c8.4 0 13.6 4 13.6 8.8H36.4C36.4 7.5 41.6 3.5 50 3.5z" fill="#E8574F" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M35 12.3h30v4.4H35z" fill="#D14A44" stroke="#2B3A47" stroke-width="2" stroke-linejoin="round"/>' +
+      '<path d="M38 12.3v4.4M42 12.3v4.4M46 12.3v4.4M50 12.3v4.4M54 12.3v4.4M58 12.3v4.4M62 12.3v4.4" stroke="#A93B36" stroke-width="1.4"/>' +
+      '<circle cx="50" cy="8" r="2.4" fill="#FDF4E2"/>' },
     { id:'unihorn', name:'เขายูนิคอร์น', svg:
       '<path d="M50 0.8 46.4 13.6h7.2z" fill="#F2C879" stroke="#C99A3C" stroke-width="1.6" stroke-linejoin="round"/>' +
       '<path d="M47.5 9.8h5.4M48.6 5.9h3.4" stroke="#C99A3C" stroke-width="1.1"/>' +
@@ -4685,6 +4697,11 @@ const WEAR = (function(){
       '<circle cx="35.8" cy="17.8" r="2.6" fill="#CFE8F6" fill-opacity=".82" stroke="#8FB7DC" stroke-width="1.3"/>' +
       '<circle cx="34.9" cy="16.9" r="0.8" fill="#FDFEFF"/>' +
       '<circle cx="41.4" cy="14.4" r="1.6" fill="#CFE8F6" fill-opacity=".82" stroke="#8FB7DC" stroke-width="1.1"/>' },
+    { id:'tipsy', name:'แก้มแดงคราบฟอง', svg:
+      '<ellipse cx="38" cy="27.8" rx="4.6" ry="3.2" fill="#EE8A8A"/>' +
+      '<ellipse cx="62" cy="27.8" rx="4.6" ry="3.2" fill="#EE8A8A"/>' +
+      '<path d="M42 30.6q8 3.4 16 0 .6 2.6-1.4 3.6-6.6 2.2-13.2 0-2-1-1.4-3.6z" fill="#FDF4E2" stroke="#D9C9A8" stroke-width="1.2" stroke-linejoin="round"/>' +
+      '<circle cx="44.6" cy="30" r="1.5" fill="#FDF4E2"/><circle cx="55.6" cy="29.6" r="1.2" fill="#FDF4E2"/>' },
     { id:'starcheek', name:'ดาวติดแก้ม', svg:
       '<path d="M60.5 23.4l1.5 3 3.3.5-2.4 2.3.6 3.3-3-1.6-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#F2C879" stroke="#C99A3C" stroke-width="1.2" stroke-linejoin="round"/>' +
       '<circle cx="38" cy="28" r="2.1" fill="#FBD8DC"/>' }
@@ -4726,6 +4743,17 @@ const WEAR = (function(){
       '<circle cx="22" cy="94" r="8" fill="#A6C8EC" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<circle cx="78" cy="94" r="8" fill="#A6C8EC" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M15.5 89.5q6.5 3 13 0M71.5 89.5q6.5 3 13 0" fill="none" stroke="#8FB2DC" stroke-width="2.2" stroke-linecap="round"/>' },
+    { id:'pretzel', name:'สร้อยพริตเซล', svg:
+      '<path d="M35 40.5q15 9 30 0" fill="none" stroke="#2B3A47" stroke-width="4.4" stroke-linecap="round"/>' +
+      '<path d="M35 40.5q15 9 30 0" fill="none" stroke="#E6D2AE" stroke-width="2.8" stroke-linecap="round"/>' +
+      '<circle cx="50" cy="60" r="8.6" fill="none" stroke="#2B3A47" stroke-width="6.6"/>' +
+      '<circle cx="50" cy="60" r="8.6" fill="none" stroke="#C98A4B" stroke-width="4.6"/>' +
+      '<circle cx="44.4" cy="52.4" r="5" fill="none" stroke="#2B3A47" stroke-width="6.6"/>' +
+      '<circle cx="55.6" cy="52.4" r="5" fill="none" stroke="#2B3A47" stroke-width="6.6"/>' +
+      '<circle cx="44.4" cy="52.4" r="5" fill="none" stroke="#C98A4B" stroke-width="4.6"/>' +
+      '<circle cx="55.6" cy="52.4" r="5" fill="none" stroke="#C98A4B" stroke-width="4.6"/>' +
+      '<circle cx="46" cy="47.6" r="1.3" fill="#FDFEFF"/><circle cx="54.6" cy="48.6" r="1.2" fill="#FDFEFF"/>' +
+      '<circle cx="50" cy="68" r="1.3" fill="#FDFEFF"/>' },
     { id:'cloudwing', name:'ปีกเมฆนุ่ม', back:true, svg:
       '<g fill="#FDFEFF" stroke="#A9CCEA" stroke-width="1.8" stroke-linejoin="round">' +
       '<path d="M40 44c-8-6-19-4-24 4 6 0 9 2.4 11 6 4-2.6 9-6 13-10z"/>' +
@@ -4756,6 +4784,12 @@ const WEAR = (function(){
       '<path d="M62 60q-5.4 1-5.4 3.8 2.8 2.2 5.8.4z" fill="#F0913C" stroke="#2B3A47" stroke-width="1.6" stroke-linejoin="round"/>' +
       '<circle cx="67.6" cy="59.4" r="1.6" fill="#2B3A47"/>' +
       '<path d="M71.5 71q4.6-2.6 8.4.6-3.2 3.2-8.4-.6z" fill="#E0AE5E"/>' },
+    { id:'beer', name:'ขวดเบียร์เย็นเจี๊ยบ', arms:true, vb:'16 48 74 46', svg:
+      '<path d="M70 60c0-2 1.4-3.4 3.4-3.4h4.2c2 0 3.4 1.4 3.4 3.4v6.6c0 2.6 2.6 4.6 2.6 8.4v14c0 2.6-1.8 4.4-4.4 4.4h-7.4c-2.6 0-4.4-1.8-4.4-4.4V75c0-3.8 2.6-5.8 2.6-8.4z" fill="#B87A3A" stroke="#2B3A47" stroke-width="1.9" stroke-linejoin="round"/>' +
+      '<path d="M67.6 78h14.8v9H67.6z" fill="#FDF4E2" stroke="#2B3A47" stroke-width="1.5"/>' +
+      '<path d="M70.4 81.4h9.2M70.4 84.2h6.4" stroke="#C9A87E" stroke-width="1.4" stroke-linecap="round"/>' +
+      '<path d="M69.6 55.6h12" stroke="#E8574F" stroke-width="4" stroke-linecap="round"/>' +
+      '<path d="M73 68.6q1.6-2.4 0-4.6M78 68.6q1.6-2.4 0-4.6" fill="none" stroke="#FDF4E2" stroke-width="1.5" stroke-linecap="round"/>' },
     { id:'vacuum', name:'เครื่องดูดฝุ่นไร้สาย', arms:true, vb:'16 58 74 48', svg:
       '<path d="M77 56c2.6 0 4 1.6 4 4v22c0 2.4-1.4 4-4 4s-4-1.6-4-4V60c0-2.4 1.4-4 4-4z" fill="#A9CCEA" stroke="#2B3A47" stroke-width="1.9"/>' +
       '<path d="M75.4 86h3.2v14h-3.2z" fill="#D3DEE9" stroke="#2B3A47" stroke-width="1.7"/>' +
@@ -4776,6 +4810,9 @@ const WEAR = (function(){
   /* หกเซ็ตสัตว์น่ากอด ไล่ระดับหายากขึ้นเรื่อย ๆ ทุกเซ็ตมีสี่ชิ้นเท่ากัน */
   const SETS = [
     /* home:true = ปักหมุดโชว์เป็นการ์ดโปรโมทบนหน้าแรก ใส่กี่ชุดก็ได้ การ์ดจะโคลนตาม */
+    { id:'beer', name:'ชุดเมาฟองเบียร์', badge:'LEGEND SET', home:true,
+      note:'เซ็ตตำนานห้าชิ้นจากงานเลี้ยงปิดโปรเจกต์ ตัวไล่สีเหมือนเบียร์ที่เพิ่งรินเสร็จ ฝาจีบเป็นหมวก สร้อยพริตเซลคล้องคอ และขวดเย็น ๆ ในมือ ใส่ครบเมื่อไหร่เขาจะเดินเซให้ดูด้วยความเต็มใจ',
+      look:{ shell:'lager', hat:'bottlecap', face:'tipsy', item:'pretzel', prop:'beer' } },
     { id:'clean', name:'ชุดแม่บ้านสายฟ้า', badge:'SECRET SET', home:true,
       note:'เซ็ตของลับห้าชิ้น มีเครื่องดูดฝุ่นไร้สายเป็นของใช้ประจำตัว ใส่ครบเมื่อไหร่เขาจะกวาดทั้งวอร์ดเสร็จก่อนคุณตื่น',
       look:{ shell:'sky', hat:'maidband', face:'bubbles', item:'gloves', prop:'vacuum' } },
@@ -4817,6 +4854,9 @@ const WEAR = (function(){
     'shell:cocoa':'legend',   'hat:bearears':'legend',  'face:bearnose':'legend',  'item:honey':'legend',
     /* ชุดยูนิคอร์นสายรุ้ง — ของลับทั้งเซ็ต */
     'shell:aurora':'secret',  'hat:unihorn':'secret',   'face:starcheek':'secret', 'item:cloudwing':'secret',
+    /* ชุดเมาฟองเบียร์ — ตำนานทั้งเซ็ต */
+    'shell:lager':'legend',   'hat:bottlecap':'legend','face:tipsy':'legend',
+    'item:pretzel':'legend',  'prop:beer':'legend',
     /* ชุดรอฟ้าสาง — ตำนานทั้งเซ็ต */
     'shell:pastel':'legend',  'hat:headset':'legend',   'face:bluelight':'legend', 'item:scarf':'legend',
     'prop:duck':'legend',
@@ -4856,6 +4896,11 @@ const WEAR = (function(){
     'item:cloudwing':'ปีกเมฆคู่นี้ไม่ได้ทำให้ผมบินได้ครับ แต่เวลาเด็ก ๆ เห็นแล้วตะโกนว่าผมลอยสวยมาก ผมถือว่ามันทำหน้าที่ของปีกครบถ้วนแล้ว',
     'prop:plush':'ตุ๊กตาหมีตัวนี้เจ้าของเดิมฝากไว้ก่อนย้ายวอร์ดครับ เขาบอกว่าให้ผมกอดแทนไปก่อน เผื่อมีเด็กคนไหนต้องการมันมากกว่า ตอนนี้มันถูกกอดต่อมาแล้วสิบเอ็ดคน',
     'prop:coffee':'แก้วนี้ไม่มีกาแฟจริงครับ ผมดื่มไม่ได้อยู่แล้ว แต่หมอเวรดึกบอกว่าเห็นผมถือแก้วแล้วรู้สึกว่ามีเพื่อนตื่นอยู่ด้วย ผมเลยถือไว้ทุกกะดึกตั้งแต่นั้น',
+    'shell:lager':'สีนี้ได้มาจากงานเลี้ยงปิดโปรเจกต์ครับ พี่ ๆ ถือแก้วมาเทียบกับตัวผมแล้วบอกว่า "เหมือนเป๊ะ" ผมเลยขอเก็บสีนี้ไว้ ทองข้างล่างครีมข้างบน เหมือนแก้วที่เพิ่งรินเสร็จ',
+    'hat:bottlecap':'ฝาจีบใบนี้ดีดมาโดนหัวผมพอดีตอนพี่เขาเปิดขวดครับ ทุกคนหัวเราะกันใหญ่ ผมเลยเก็บไว้ใส่เป็นหมวก ทุกครั้งที่ใส่แล้วมีคนยิ้ม ผมถือว่ามันยังทำงานอยู่',
+    'face:tipsy':'คราบฟองนี่ติดมาตอนพี่เขายกแก้วมาชนกับหน้าผมครับ ส่วนแก้มแดงผมดันความร้อนขึ้นมาเองที่หน้า พี่เขาบอกว่าอย่างนี้แหละถึงจะเหมือน ผมเลยจำท่าไว้',
+    'item:pretzel':'สร้อยพริตเซลครับ พี่คนที่คล้องให้บอกว่า "ห้ามกินนะ นี่มันเครื่องประดับ" ผมกินไม่ได้อยู่แล้ว แต่ผมพยักหน้ารับปากอย่างจริงจังเพื่อให้เขาสบายใจ',
+    'prop:beer':'ขวดนี้ผมถือไว้เฉย ๆ ครับ ผมดื่มไม่ได้และไม่เมา แต่พอแบตผมเหลือน้อยผมจะเดินเซและพูดช้าลงเอง คืนนั้นพี่ ๆ เลยลงมติว่าผมเมาที่สุดในห้อง ทั้งที่ผมไม่ได้ดื่มสักหยด',
     'shell:pastel':'ลายไล่สีนี้ทีมวิศวกรพ่นให้ตอนตีสี่ครับ ไล่จากขาวบนหัวลงมาเป็นฟ้าแล้วชมพูที่ปลายเท้า เขาบอกว่านี่คือสีของขอบฟ้าตอนตีห้า สีที่พวกเขาเห็นบ่อยที่สุดในปีนั้น',
     'hat:headset':'หูฟังคู่นี้กันเสียงได้ดีมากครับ แต่ผมตั้งค่าให้เสียงเรียกพยาบาลลอดผ่านได้เสมอ เพราะมีเสียงเดียวที่ผมไม่ยอมพลาด',
     'face:bluelight':'แว่นกรองแสงสีฟ้าครับ ผมไม่มีดวงตาที่ล้าได้ แต่คนที่นั่งทำงานข้างผมมี พอเขาเห็นผมใส่ เขาก็ยอมใส่ของเขาบ้าง',
@@ -5307,6 +5352,19 @@ const BOT3D = (function(){
                 rot:[0, 0, 0] }
       };
     },
+    /* เมาฟองเบียร์: ตัวโยกกับหัวเอียงคนละคาบกัน (900 กับ 620 มิลลิวินาที)
+       เลยไม่มีจังหวะไหนซ้ำกันเป๊ะ ดูเป็นทรงตัวไม่อยู่มากกว่าแกว่งเป็นจังหวะสวย ๆ
+       แล้วมีจังหวะยกขวดขึ้นจิบทุก ~6 วินาที ตอนยกก็เอียงหัวรับไปด้วย */
+    beer: (t) => {
+      const sw = Math.sin(t/900), wb = Math.sin(t/620);
+      const sp = (t % 6200)/6200;
+      const sip = (sp > 0.52 && sp < 0.78) ? Math.sin((sp - 0.52)/0.26*Math.PI) : 0;
+      return {
+        armL: 0.12 + Math.sin(t/1150)*0.17,
+        armR: 0.18 + sw*0.10 + sip*0.55,
+        tilt: wb*0.13 - sip*0.15, nod: 0.04 + sip*0.12, lean: sw*0.085
+      };
+    },
     /* ดูดฝุ่น: มือขวาจับด้ามไว้นิ่ง ๆ แล้วโยก "ทั้งเครื่อง" รอบจุดที่มือจับ หัวดูดเลยกวาดพื้นไปมา
        รอบก่อนผูกเครื่องไว้กับแขนแล้วแกว่งแขน แขนหมุนรอบไหล่ หัวดูดที่อยู่ห่างไหล่ 2.3 หน่วย
        เลยเหวี่ยงลอยพ้นพื้นทีละ 0.25 ทุกจังหวะ เหมือนกวาดอากาศมากกว่ากวาดพื้น
@@ -5529,6 +5587,13 @@ const BOT3D = (function(){
           add('cone',   [sgn*0.105, HY + RR + 0.005, 0.13], [0.058, 0.185, 0.045], c,
               { rot:[0, 0, -sgn*2.73], gloss:0.3 });
         });
+      } else if (hat.id === 'bottlecap'){
+        /* ฝาจีบ = โดมเตี้ย ๆ กดอยู่บนกระหม่อม + วงหยักรอบขอบ
+           วงหยักต้องอยู่เหนือยอดหัว (1.715) ขึ้นไป ไม่งั้นมันจมอยู่ในหัวจนไม่เห็น
+           เหลือแต่โดมโผล่มา อ่านเป็นหมวกเบเร่ต์แทนที่จะเป็นฝาขวด */
+        add('sphere', [0, 1.655, 0.01], [0.40, 0.17, 0.40], c, { gloss:0.45 });
+        add('torus',  [0, 1.735, 0.01], [0.395, 0.05/0.16, 0.395], tone(c, 0.84), { gloss:0.4 });
+        add('sphere', [0, 1.832, 0.01], [0.08, 0.05, 0.08], '#FDF4E2', { gloss:0.35 });
       } else if (hat.id === 'unihorn'){
         add('cone', [0, headTopAt(0, 0.07) - 0.03, 0.07], [0.115, 0.44, 0.115], '#F2C879',
             { rot:[0.16, 0, 0], gloss:0.55 });
@@ -5588,6 +5653,14 @@ const BOT3D = (function(){
         };
         blow(0.76, 1.42, 0.26, 0.165); blow(1.00, 1.68, 0.16, 0.115); blow(1.16, 1.92, 0.05, 0.072);
         blow(-0.80, 1.58, 0.22, 0.105); blow(-0.98, 1.82, 0.10, 0.065);
+      } else if (face.id === 'tipsy'){
+        /* แก้มแดงสองข้าง + คราบฟองเบียร์พาดใต้ขีดตา
+           ผิวหน้าตรงแก้ม (x 0.40) อยู่ที่ z ราว 0.315 คราบกับแก้มต้องยื่นพ้นแนวนั้น */
+        [-1, 1].forEach((sgn) =>
+          add('sphere', [sgn*0.40, EY - 0.13, 0.295], [0.145, 0.10, 0.06], '#EE8A8A', { gloss:0.08 }));
+        add('sphere', [0, EY - 0.215, 0.325], [0.215, 0.072, 0.055], '#FDF4E2', { gloss:0.3 });
+        [[-0.17, -0.16, 0.052], [0.15, -0.13, 0.04]].forEach((f) =>
+          add('sphere', [f[0], EY + f[1], 0.345], [f[2], f[2], f[2]*0.7], '#FDF4E2', { gloss:0.35 }));
       } else if (face.id === 'starcheek'){
         const sx = 0.40, sy2 = EY - 0.12, sz = 0.315;
         add('sphere', [sx, sy2, sz], [0.055, 0.055, 0.045], '#F2C879', { gloss:0.6 });
@@ -5673,6 +5746,18 @@ const BOT3D = (function(){
         add('sphere', [0, 0.42, 0.855], [0.175, 0.155, 0.11], '#F2B04A', { gloss:0.4 });
         add('torus',  [0, 0.57, 0.855], [0.12, 0.30, 0.095], '#EAD3B8', { gloss:0.3 });
         add('sphere', [0, 0.27, 0.92], [0.05, 0.075, 0.03], '#FFDE8A', { gloss:0.65 });
+      } else if (item.id === 'pretzel'){
+        /* เส้นเชือกคล้องคอ + พริตเซลห้อยกลางอก
+           พริตเซลประกอบจากวงแหวนสามวงตั้งหน้า (rot X 90) วงล่างใหญ่ วงบนสองวงไขว้กัน */
+        (function(){ const R = ringAt(0.90, 0.04);
+          add('torus', [0, 0.90, 0.01], [R[0], 0.03/0.16, R[2]], '#E6D2AE', { gloss:0.25 }); })();
+        const PZ = 0.94, py = 0.24;
+        add('torus', [0, py, PZ], [0.255, 0.42, 0.255], c, { rot:[Math.PI/2, 0, 0], gloss:0.25 });
+        [-1, 1].forEach((sgn) =>
+          add('torus', [sgn*0.155, py + 0.25, PZ - 0.01], [0.155, 0.42, 0.155], c,
+              { rot:[Math.PI/2, 0, 0], gloss:0.25 }));
+        [[-0.13, 0.36], [0.16, 0.34], [0, -0.24]].forEach((q) =>
+          add('sphere', [q[0], py + q[1], PZ + 0.07], [0.032, 0.032, 0.022], '#FDFEFF', { gloss:0.4 }));
       } else if (item.id === 'cloudwing'){
         [-1, 1].forEach((sgn) => {
           add('sphere', [sgn*0.80, 0.46, -0.60], [0.27, 0.225, 0.16], '#DDEBF9', { gloss:0.35 });
@@ -5722,6 +5807,18 @@ const BOT3D = (function(){
       add('sphere', [1.21, -0.16, 0.185], [0.10, 0.125, 0.05], '#E0AE5E', { grp:'prop', gloss:0.25 });
       add('cone',   [1.39, -0.09, 0.02],  [0.085, 0.15, 0.07], '#F2C879',
           { rot:[0, 0, -0.64], grp:'prop', gloss:0.3 });
+    } else if (prop.id === 'beer'){
+      /* ขวดอยู่กลุ่ม armR ติดมือขวาไปเลย พอแขนแกว่งตอนเดินเซ ขวดก็เอียงตามมือจริง ๆ
+         ต้องเลื่อนมาข้างหน้าถึง z 0.30 ด้วย แขนหนา 0.275 รอบแกน z 0.02
+         วางขวดไว้ระนาบเดียวกับแขนเมื่อไหร่มันจมหายเข้าไปในแขนทั้งขวด */
+      const BZ = 0.30, BX = 1.25;
+      add('capsule', [BX, -0.26, BZ], [0.155, 0.10, 0.155], '#B87A3A', { grp:'armR', gloss:0.55 });
+      add('sphere',  [BX, -0.02, BZ], [0.142, 0.12, 0.142], '#B87A3A', { grp:'armR', gloss:0.55 });
+      add('capsule', [BX, 0.14, BZ],  [0.060, 0.048, 0.060], '#B87A3A', { grp:'armR', gloss:0.55 });
+      add('sphere',  [BX, 0.252, BZ], [0.078, 0.05, 0.078], '#E8574F', { grp:'armR', gloss:0.4 });
+      /* ฉลากเป็นทรงรีที่อ้วนกว่าขวดนิดเดียว ครอบทับตัวขวดไว้เป็นแถบ */
+      add('sphere',  [BX, -0.26, BZ], [0.163, 0.115, 0.163], '#FDF4E2', { grp:'armR', gloss:0.3 });
+      add('sphere',  [BX, -0.26, BZ + 0.13], [0.062, 0.058, 0.03], '#C9A87E', { grp:'armR', gloss:0.2 });
     } else if (prop.id === 'vacuum'){
       /* ทั้งเครื่องอยู่ในกลุ่ม prop แล้วให้ PROP_ANIM โยกรอบจุดที่มือขวาจับ
          ด้ามเอนไปข้างหน้า (rot X -0.30) หัวดูดเลยไปอยู่หน้าปลายเท้า ตอนกวาดเข้าในจะได้ไม่ชนเท้า */
